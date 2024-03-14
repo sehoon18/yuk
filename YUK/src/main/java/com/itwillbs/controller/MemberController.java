@@ -17,11 +17,28 @@ public class MemberController {
 	@Inject
 	MemberService memberService;
 	
-	// 메인 페이지
+	
+	
+	
+	
+	// --------------------------------- test --------------------------------------
 //	@GetMapping("/main")
 //	public String main() {
 //		System.out.println("MemberController main()");
 //		return "member/main";
 //	}
-
+//
+//	@PostMapping("/loginPro")
+//	public String loginPro(MemberDTO memberDTO, HttpSession session) {
+//		System.out.println("MemberController loginPro()");
+//		System.out.println(memberDTO);
+//		memberDTO = memberService.userCheck(memberDTO);
+//		
+//		if(memberDTO != null) {
+//			return "redirect:/member/main";
+//		} else {
+//			return "redirect:/member/login";
+//		}
+//		
+//	}
 }
