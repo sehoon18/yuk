@@ -89,14 +89,12 @@
 		    <version>2.15.2</version>
 		</dependency>
 
-		<dependencies>
 		    <!-- 기타 의존성 -->
 		    <dependency>
 		        <groupId>org.springframework</groupId>
 		        <artifactId>spring-webmvc</artifactId>
 		        <version>${org.springframework-version}</version>
 		    </dependency>
-		</dependencies>
 
 				
 		<!-- AspectJ -->
