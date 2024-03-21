@@ -5,5 +5,21 @@
   
 <mapper namespace="com.itwillbs.mappers.boundMapper">
 
+<select id="getInBoundBoardList" resultType="com.itwillbs.domain.BoundDTO">
+select i.*, p.*, o.*
+from INBOUND i join PERFORMANCE p
+on i.per_cd = p.per_cd
+join ORDERS o
+on i.ord_cd = o.ord_cd
+</select>
+
+<select id="getInBoundBoardCount" resultType="java.lang.Integer">
+select count(i.ib_cd)
+from INBOUND i join PERFORMANCE p
+on i.per_cd = p.per_cd
+join ORDERS o
+on i.ord_cd = o.ord_cd
+</select>
+
 
 </mapper>
