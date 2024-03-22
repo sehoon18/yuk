@@ -61,6 +61,9 @@
                 입고 관리
             </div>
             <div class="searchArea">
+<!-- 검색 기능 미구현 -->
+<!-- 입고 코드 선택 팝업 미구현 -->
+<!-- 디비내용 안 담아와짐 수정할 거임 -->
             	<form action="${pageContext.request.contextPath}/bound/inBound" method="get">
             	입고 코드
             	<input type="text" class="search1" name="search1">
@@ -83,6 +86,7 @@
                             <th>생산실적 코드</th>
                             <th>품명</th>
                             <th>수량</th>
+                            <th>보관창고명</th>
                             <th>진행상황</th>
                             <th>입고일자</th>
                             <th>담당자</th>
@@ -103,14 +107,20 @@
     		<c:when test="${boundDTO.per_cd eq null }">${boundDTO.ord_vol}</c:when>
     		</c:choose>
     		</td>
-			<td>${boundDTO.ib_info_status}</td>
+    		<td>${boundDTO.wh_name}</td>
+			<td>
+			<c:choose>
+			<c:when test="${boundDTO.ib_info_status eq 0}">미입고</c:when>
+			<c:when test="${boundDTO.ib_info_status eq 1}">입고완료</c:when>
+			</c:choose>
+			</td>
     		<td><fmt:formatDate value="${boundDTO.ib_date}" pattern="yyyy-MM-dd"/></td>
     		<td>${boundDTO.user_id}</td>
     		<td>
     		<c:choose>
     		<c:when test="${boundDTO.ib_info_status eq 0 }">
     		<form action="${pageContext.request.contextPath}/bound/inBoundPro" method="post">
-    		<input type="hidden" name="ib_info_status" value="${boundDTO.ib_info_status}">
+    		<input type="hidden" name="ib_cd" value="${boundDTO.ib_cd}">
 			<input type=submit class="btn icon icon-left btn-danger" value="입고처리">
 			</form>
             </c:when>
@@ -188,6 +198,17 @@
                  }
             });    
     });
+    
+    //입고처리 버튼 확인창(true / false)
+//     var reply = confirm("입고 처리하시겠습니까?<br>처리 후 수정 불가합니다.");
+//     $(function(){
+//     	$('.btn icon icon-left btn-danger').submit(function(){
+//     		document.write(reply);
+// 			if(reply.val() == true){
+				
+// 			}
+//     	});
+// 	});
     	
     </script>
     

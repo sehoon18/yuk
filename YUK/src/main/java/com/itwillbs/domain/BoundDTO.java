@@ -19,7 +19,15 @@ public class BoundDTO {
 	private String pro_cd;
 	private int actual_completion_amount;
 	private int per_good;
+	private String wh_name;
 	
+	
+	public String getWh_name() {
+		return wh_name;
+	}
+	public void setWh_name(String wh_name) {
+		this.wh_name = wh_name;
+	}
 	public int getActual_completion_amount() {
 		return actual_completion_amount;
 	}

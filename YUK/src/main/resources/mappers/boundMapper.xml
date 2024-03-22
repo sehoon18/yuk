@@ -6,20 +6,66 @@
 <mapper namespace="com.itwillbs.mappers.boundMapper">
 
 <select id="getInBoundBoardList" resultType="com.itwillbs.domain.BoundDTO">
-select i.*, p.*, o.*
-from INBOUND i join PERFORMANCE p
-on i.per_cd = p.per_cd
-join ORDERS o
-on i.ord_cd = o.ord_cd
+	select i.*, pe.*, o.*, w.*, pr.*
+	from INBOUND i
+	join PERFORMANCE pe
+	on i.per_cd = pe.per_cd
+	join ORDERS o
+	on i.ord_cd = o.ord_cd
+	join PRODUCT pr
+	on pr.pro_cd = o.pro_cd
+	join WAREHOUSE w
+	on w.wh_cd = pr.wh_cd
 </select>
 
 <select id="getInBoundBoardCount" resultType="java.lang.Integer">
-select count(i.ib_cd)
-from INBOUND i join PERFORMANCE p
-on i.per_cd = p.per_cd
-join ORDERS o
-on i.ord_cd = o.ord_cd
+	select count(i.ib_cd)
+	from INBOUND i
+	join PERFORMANCE pe
+	on i.per_cd = pe.per_cd
+	join ORDERS o
+	on i.ord_cd = o.ord_cd
+	join PRODUCT pr
+	on pr.pro_cd = o.pro_cd
+	join WAREHOUSE w
+	on w.wh_cd = pr.wh_cd
 </select>
+
+<update id="inBoundPro">
+	update INBOUND
+	set ib_info_status = 1
+	where ib_cd = #{ib_cd}
+</update>
+
+<select id="getOutBoundBoardList" resultType="com.itwillbs.domain.BoundDTO">
+	select o.*, c.*, pr.*, w.*
+	from OUTBOUND o
+	join CONTRACT c
+	on o.con_cd = c.con_cd
+	join PRODUCT pr
+	on pr.pro_cd = c.pro_cd
+	join WAREHOUSE w
+	on w.wh_cd = pr.wh_cd
+</select>
+
+<select id="getOutBoundBoardCount" resultType="java.lang.Integer">
+	select count(o.ob_cd)
+	from OUTBOUND o
+	join CONTRACT c
+	on o.con_cd = c.con_cd
+	join PRODUCT pr
+	on pr.pro_cd = c.pro_cd
+	join WAREHOUSE w
+	on w.wh_cd = pr.wh_cd
+</select>
+
+<update id="outBoundPro">
+	update OUTBOUND
+	set con_info_status = 1
+	where ob_cd = #{ob_cd}
+</update>
+
+
 
 
 </mapper>
