@@ -17,5 +17,6 @@ public class MemberDTO {
 		this.pass = pass;
 	}
 	
+	
 
 }

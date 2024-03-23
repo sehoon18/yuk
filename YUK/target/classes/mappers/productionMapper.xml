@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.itwillbs.mappers.productionMapper">
+
+<insert id="insertLine">
+insert into LINE(LINE_CD, USER_ID, LINE_STATUS, LINE_NAME, LINE_DATE)
+values(#{lineCode}, #{name}, #{lineStatus}, #{lineName}, #{update})
+</insert>
+
+<select id="getLineList" resultType="com.itwillbs.domain.ProductionDTO">
+	select LINE_CD "lineCode", USER_ID "name", LINE_STATUS "lineStatus", LINE_NAME "lineName", LINE_DATE "update"
+	from LINE
+	order by LINE_CD desc
+</select>
+
+<select id="getLineCode" resultType="com.itwillbs.domain.ProductionDTO">
+	select LINE_CD "lineCode"
+	from LINE
+	where LINE_CD = #{lineCode}
+</select>
+
+<!-- <select id="getContractList" resultType="com.itwillbs.domain.ProductionDTO"> -->
+<!-- 	select CON_CD "contractCode", CLI_CD "clientName", PRO_CD "productCode", CON_VOL "conVol", CON_DATE "conDate", CON_DUE_DATE "contractDueDate", CON_INFO_STATUS "conInfoStatus", PAYMENET_DATE "paymentDate" -->
+<!-- 	from CONTRACT -->
+<!-- 	order by CON_CD desc -->
+<!-- </select> -->
+
+<select id="getConProList" resultType="com.itwillbs.domain.ProductionDTO">
+	SELECT c.CON_CD "contractCode", p.PRO_CD "productCode", p.PRO_NAME "productName", c.CON_VOL "contractVol", c.CON_DUE_DATE "contractDueDate"
+	FROM CONTRACT c join PRODUCT p
+	order by CON_CD desc
+</select>
+
+<insert id="insertInstruction">
+	insert into INSTRUCTION
+	values(#{instructionCode}, #{name}, #{lineCode}, #{contractCode}, #{insVol}, #{instructionDate}, 0)
+</insert>
+
+</mapper>

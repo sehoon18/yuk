@@ -53,11 +53,9 @@ public class MemberController {
 		return "member/main";
 	}
 	
-	@GetMapping("/test")
-	public String test() {
-		System.out.println("MemberController main()");
-		return "member/test";
-	}
+
+
+		
 	
 	// --------------------------------- test --------------------------------------
 //	@GetMapping("/main")
