@@ -13,18 +13,20 @@ import com.itwillbs.service.MemberService;
 
 @Controller
 @RequestMapping("/member/*")
+
 public class MemberController {
 	@Inject
 	MemberService memberService;
+
 	
-	// ·Î±×ÀÎ
+	// ë¡œê·¸ì¸ í˜ì´ì§€
 	@GetMapping("/memberLogin")
 	public String memberLogin() {
 		System.out.println("MemberController memberLogin()");
 		return "member/memberLogin";
 	}
 	
-	// ·Î±×ÀÎPRO
+	// ë¡œê·¸ì¸ ê¸°ëŠ¥
 	@PostMapping("/memberLoginPro")
 	public String loginPro(MemberDTO memberDTO, HttpSession session) {
 		System.out.println("MemberController memberLoginPro()");
@@ -39,23 +41,36 @@ public class MemberController {
 		return "redirect:/member/main";
 	}
 	
-	// È¸¿ø°¡ÀÔ
+	// íšŒì›ê°€ì…
 	@GetMapping("/memberInsert")
 	public String memberInsert() {
 		System.out.println("MemberController memberInsert()");
 		return "member/memberInsert";
 	}
 	
-	// ¸ŞÀÎÆäÀÌÁö
+	// ë©”ì¸ í˜ì´ì§€
 	@GetMapping("/main")
 	public String main() {
 		System.out.println("MemberController main()");
 		return "member/main";
 	}
 	
-
-
-		
+	@GetMapping("/test")
+	public String test() {
+		System.out.println("MemberController main()");
+		return "member/test";
+	}
+	@GetMapping("/order")
+	public String order() {
+		System.out.println("MemberController order()");
+		return "member/order";
+	}
+	@GetMapping("/contract")
+	public String contract() {
+		System.out.println("MemberController contract()");
+		return "member/contract";
+	}
+	
 	
 	// --------------------------------- test --------------------------------------
 //	@GetMapping("/main")
