@@ -70,7 +70,11 @@ public class MemberController {
 		System.out.println("MemberController contract()");
 		return "member/contract";
 	}
-	
+	@GetMapping("/memberList")
+	public String memberList() {
+		System.out.println("MemberController memberList()");
+		return "member/memberList";
+	}
 	
 	// --------------------------------- test --------------------------------------
 //	@GetMapping("/main")

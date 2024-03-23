@@ -22,12 +22,11 @@
                 <div class="card-body">
                     <div class="text-center mb-5">
                         <img src="${pageContext.request.contextPath}/resources/assets/images/favicon.svg" height="48" class='mb-4'>
-                        <h3>Sign In</h3>
-                        <p>Please sign in to continue to Voler.</p>
+                        <h3>로그인</h3>
                     </div>
                     <form action="${pageContext.request.contextPath}/member/memberLoginPro" method="post">
                         <div class="form-group position-relative has-icon-left">
-                            <label for="username">Username</label>
+                            <label for="username">아이디</label>
                             <div class="position-relative">
                                 <input type="text" class="form-control" id="username">
                                 <div class="form-control-icon">
@@ -37,10 +36,7 @@
                         </div>
                         <div class="form-group position-relative has-icon-left">
                             <div class="clearfix">
-                                <label for="password">Password</label>
-                                <a href="auth-forgot-password.html" class='float-right'>
-                                    <small>Forgot password?</small>
-                                </a>
+                                <label for="password">비밀번호</label>
                             </div>
                             <div class="position-relative">
                                 <input type="text" class="form-control" id="password">
@@ -50,30 +46,10 @@
                             </div>
                         </div>
 
-                        <div class='form-check clearfix my-4'>
-                            <div class="checkbox float-left">
-                                <input type="checkbox" id="checkbox1" class='form-check-input' >
-                                <label for="checkbox1">Remember me</label>
-                            </div>
-                            <div class="float-right">
-                                <a href="auth-register.html">Don't have an account?</a>
-                            </div>
-                        </div>
                         <div class="clearfix">
-                            <button class="btn btn-primary float-right">Submit</button>
+                            <button class="btn btn-primary">로그인</button>
                         </div>
                     </form>
-                    <div class="divider">
-                        <div class="divider-text">OR</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <button class="btn btn-block mb-2 btn-primary"><i data-feather="facebook"></i> Facebook</button>
-                        </div>
-                        <div class="col-sm-6">
-                            <button class="btn btn-block mb-2 btn-secondary"><i data-feather="github"></i> Github</button>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
