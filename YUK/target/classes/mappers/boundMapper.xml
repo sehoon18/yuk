@@ -61,7 +61,7 @@
 
 <update id="outBoundPro">
 	update OUTBOUND
-	set con_info_status = 1
+	set ob_info_status = 1
 	where ob_cd = #{ob_cd}
 </update>
 

@@ -27,9 +27,9 @@ public class BoundDAO {
 		return sqlSession.selectOne(namespace + ".getInBoundBoardCount", pageDTO);
 	}//getInBoundBoardCount()
 
-	public void inBoundPro(BoundDTO boundDTO) {
+	public void inBoundPro(int ib_cd) {
 		System.out.println("BoundDAO inBoundPro()");
-		sqlSession.update(namespace + ".inBoundPro", boundDTO);
+		sqlSession.update(namespace + ".inBoundPro", ib_cd);
 	}//inBoundPro()
 	
 	public List<BoundDTO> getOutBoundBoardList(PageDTO pageDTO) {
@@ -42,9 +42,9 @@ public class BoundDAO {
 		return sqlSession.selectOne(namespace + ".getOutBoundBoardCount", pageDTO);
 	}//getOutBoundBoardCount()
 	
-	public void outBoundPro(BoundDTO boundDTO) {
+	public void outBoundPro(int ob_cd) {
 		System.out.println("BoundDAO outBoundPro()");
-		sqlSession.update(namespace + ".outBoundPro", boundDTO);
+		sqlSession.update(namespace + ".outBoundPro", ob_cd);
 	}//outBoundPro()
 
 }

@@ -95,9 +95,9 @@
                     <tbody>
         <c:forEach var="boundDTO" items="${inBoundBoardList }">
     	<tr>
-   			<td>${boundDTO.ob_cd}</td>
+   			<td id="ob">${boundDTO.ob_cd}</td>
     		<td>${boundDTO.con_cd}</td>
-    		<%-- con_cd에 링크 경로 수주서 onclick="location.href='${pageContext.request.contextPath}/폴더/파일?con_cd=${DTO파일.con_cd }'" --%>
+    		<%-- con_cd에 링크 경로 수주서 onClick="location.href='${pageContext.request.contextPath}/폴더/파일?con_cd=${DTO파일.con_cd }'" --%>
     		<td>${boundDTO.pro_name}</td>
     		<td>${boundDTO.ob_vol}</td>
     		<td>${boundDTO.wh_name}</td>
@@ -110,10 +110,10 @@
     		<td>
     		<c:choose>
     		<c:when test="${boundDTO.ob_info_status eq 0 }">
-    		<form action="${pageContext.request.contextPath}/bound/outBoundPro" method="post">
-    		<input type="hidden" name="ob_cd" value="${boundDTO.ob_cd}">
-			<input type=submit class="btn icon icon-left btn-danger" value="출고처리">
-			</form>
+<%--     		<form action="${pageContext.request.contextPath}/bound/outBoundPro" method="post"> --%>
+<%--     		<input type="hidden" name="ob_cd" value="${boundDTO.ob_cd}"> --%>
+			<input type=button class="btn icon icon-left btn-danger" value="출고처리">
+<!-- 			</form> -->
             </c:when>
     		<c:when test="${boundDTO.ob_info_status eq 1 }">
             <input type=button class="btn icon icon-left btn-success" value="출고완료">
@@ -190,16 +190,15 @@
             });    
     });
     
-    //출고처리 버튼 확인창(true / false)
-//     var reply = confirm("출고 처리하시겠습니까?<br>처리 후 수정 불가합니다.");
-//     $(function(){
-//     	$('.btn icon icon-left btn-danger').submit(function(){
-//     		document.write(reply);
-// 			if(reply.val() == true){
-				
-// 			}
-//     	});
-// 	});
+    //출고처리 버튼 확인창
+    let ob = document.getElementById('ob')
+    $(function(){
+    	$('.btn icon icon-left btn-danger').click(function(){
+    		if(confirm("출고 처리하시겠습니까?<br>처리 후 수정 불가합니다.")){
+    			location.href='${pageContext.request.contextPath}/bound/outBoundPro?ob_cd='+ob
+    		};
+		});
+    });
     	
     </script>
     

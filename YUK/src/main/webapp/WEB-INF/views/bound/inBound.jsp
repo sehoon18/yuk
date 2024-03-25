@@ -96,9 +96,9 @@
                     <tbody>
         <c:forEach var="boundDTO" items="${inBoundBoardList }">
     	<tr>
-   			<td>${boundDTO.ib_cd}</td>
+   			<td id="ib">${boundDTO.ib_cd}</td>
     		<td>${boundDTO.ord_cd}</td>
-    		<%-- ord_cd에 링크 경로 발주서 onclick="location.href='${pageContext.request.contextPath}/폴더/파일?ord_cd=${DTO파일.ord_cd }'" --%>
+    		<%-- ord_cd에 링크 경로 발주서 onClick="location.href='${pageContext.request.contextPath}/폴더/파일?ord_cd=${DTO파일.ord_cd }'" --%>
     	    <td>${boundDTO.per_cd}</td>
     		<td>${boundDTO.pro_name}</td>
     		<td>
@@ -119,10 +119,10 @@
     		<td>
     		<c:choose>
     		<c:when test="${boundDTO.ib_info_status eq 0 }">
-    		<form action="${pageContext.request.contextPath}/bound/inBoundPro" method="post">
-    		<input type="hidden" name="ib_cd" value="${boundDTO.ib_cd}">
-			<input type=submit class="btn icon icon-left btn-danger" value="입고처리">
-			</form>
+<%--     		<form action="${pageContext.request.contextPath}/bound/inBoundPro" method="post"> --%>
+<%--     		<input type="hidden" name="ib_cd" value="${boundDTO.ib_cd}"> --%>
+			<input type=button class="btn icon icon-left btn-danger" value="입고처리">
+<!-- 			</form> -->
             </c:when>
     		<c:when test="${boundDTO.ib_info_status eq 1 }">
             <input type=button class="btn icon icon-left btn-success" value="입고완료">
@@ -199,16 +199,15 @@
             });    
     });
     
-    //입고처리 버튼 확인창(true / false)
-//     var reply = confirm("입고 처리하시겠습니까?<br>처리 후 수정 불가합니다.");
-//     $(function(){
-//     	$('.btn icon icon-left btn-danger').submit(function(){
-//     		document.write(reply);
-// 			if(reply.val() == true){
-				
-// 			}
-//     	});
-// 	});
+    //입고처리 버튼 확인창
+    let ib = document.getElementById('ib')
+    $(function(){
+    	$('.btn icon icon-left btn-danger').click(function(){
+    		if(confirm("입고 처리하시겠습니까?<br>처리 후 수정 불가합니다.")){
+    			location.href='${pageContext.request.contextPath}/bound/inBoundPro?ib_cd='+ib
+    		};
+		});
+    });
     	
     </script>
     
