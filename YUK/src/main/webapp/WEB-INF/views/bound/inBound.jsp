@@ -153,13 +153,6 @@
     	</c:forEach>
                     </tbody>
                 </table>
-                            
-                            </div>
-                            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                                <p class='my-2'>ㅇㅅㅇ
-                            </div>
-                        </div>
-                </div>
 <!-- 페이징 시작 -->
 	<div id="page_control">
 	<c:if test="${pageDTO.startPage > pageDTO.pageBlock}">
@@ -175,6 +168,102 @@
 	</c:if>
 	</div>
 <!-- 페이징 끝 -->
+                            </div>
+                            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                <p class='my-2'>
+                <div class="searchArea">
+            		<form action="${pageContext.request.contextPath}/bound/inBound" method="get">
+            		자재입고 코드
+            		<input type="text" class="search1" name="search1">
+            		품명
+            		<input type="text" class="search2" name="search2">
+            		자재입고 일자
+            		<input type="text" id="startDate" class="search3" name="search3" placeholder="기간을 선택하세요">
+            		&nbsp; ~ &nbsp;
+            		<input type="text" id="endDate" class="search4" name="search4" placeholder="기간을 선택하세요">
+            		<input type="submit" value="조회" class="btn btn-primary">
+            		</form>
+            	</div>
+                    <table class='table table-striped' id="table1">
+                    <thead>
+                        <tr>
+                            <th>자재입고 코드</th>
+                            <th>발주 코드</th>
+                            <th>품목구분</th>
+                            <th>자재품명</th>
+                            <th>수량</th>
+                            <th>보관창고명</th>
+                            <th>진행상황</th>
+                            <th>입고일자</th>
+                            <th>담당자</th>
+                            <th>입고처리</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+        <c:forEach var="boundDTO" items="${inBoundBoardList }">
+    	<tr>
+   			<td id="ib">${boundDTO.mib_cd}</td>
+    		<td>${boundDTO.ord_cd}</td>
+<%--     		ord_cd에 링크 경로 발주서 onClick="location.href='${pageContext.request.contextPath}/폴더/파일?ord_cd=${DTO파일.ord_cd }'" --%>
+    	    <td>
+    	    <c:if test="${boundDTO.pro_type == 1}">식자재</c:if>
+    	    <c:if test="${boundDTO.pro_type == 2}">포장자재</c:if>
+    	    </td>
+    		<td>${boundDTO.pro_name}</td>
+    		<td>
+<%--     		<c:choose> --%>
+<%--     		<c:when test="${boundDTO.ord_cd eq null && boundDTO.per_good eq 0 }">${boundDTO.actual_completion_amount}</c:when> --%>
+<%--     		<c:when test="${boundDTO.per_cd eq null}">${boundDTO.ord_vol}</c:when> --%>
+<%--     		</c:choose> --%>
+			${boundDTO.ord_vol}
+    		</td>
+    		<td>${boundDTO.wh_name}</td>
+			<td>
+			<c:if test="${boundDTO.mib_info_status == 0}">미입고</c:if>
+			<c:if test="${boundDTO.mib_info_status == 1}">입고완료</c:if>
+			</td>
+    		<td>
+    		<c:if test="${empty boundDTO.mib_date}">미입고</c:if>
+    		<c:if test="${!empty boundDTO.mib_date}">
+    		<fmt:formatDate value="${boundDTO.mib_date}" pattern="yyyy-MM-dd"/></c:if>
+    		</td>
+    		<td>${boundDTO.user_id}</td>
+    		<td>
+    		<c:choose>
+    		<c:when test="${boundDTO.mib_info_status == 0 }">
+<%--     		<form action="${pageContext.request.contextPath}/bound/inBoundPro" method="post"> --%>
+<%--     		<input type="hidden" name="ib_cd" value="${boundDTO.ib_cd}"> --%>
+			<input type=button class="btn icon icon-left btn-danger" value="입고처리">
+<!-- 			</form> -->
+            </c:when>
+    		<c:when test="${boundDTO.mib_info_status == 1 }">
+            <input type=button class="btn icon icon-left btn-success" value="입고완료">
+    		</c:when>
+            </c:choose>
+    		</td>
+    	</tr>
+    	</c:forEach>
+                    </tbody>
+                </table>
+<!-- 페이징 시작 -->
+	<div id="page_control">
+	<c:if test="${pageDTO.startPage > pageDTO.pageBlock}">
+	<a href="${pageContext.request.contextPath}/bound/inBound?pageNum=${pageDTO.startPage - pageDTO.pageBlock}&search=${pageDTO.search}">[이전]</a>
+	</c:if>
+
+	<c:forEach var="i" begin="${pageDTO.startPage}" end="${pageDTO.endPage}" step="1">
+		<a href="${pageContext.request.contextPath}/bound/inBound?pageNum=${i}&search=${pageDTO.search}">${i}</a>
+	</c:forEach>
+
+	<c:if test="${pageDTO.pageCount > pageDTO.endPage}">
+		<a href="${pageContext.request.contextPath}/bound/inBound?pageNum=${pageDTO.startPage + pageDTO.pageBlock}&search=${pageDTO.search}">[다음]</a>
+	</c:if>
+	</div>
+<!-- 페이징 끝 -->
+                            </div>
+                            </div>
+                        </div>
+                </div>
             </div>
         </div>
     </section>
