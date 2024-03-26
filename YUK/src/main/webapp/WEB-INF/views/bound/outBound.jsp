@@ -54,6 +54,7 @@
 </head>
 
 <body>
+<jsp:include page="../inc/sidebar.jsp" />
 
     <section class="section">
         <div class="card">
@@ -191,14 +192,14 @@
     });
     
     //출고처리 버튼 확인창
-    let ob = document.getElementById('ob')
-    $(function(){
-    	$('.btn icon icon-left btn-danger').click(function(){
-    		if(confirm("출고 처리하시겠습니까?<br>처리 후 수정 불가합니다.")){
-    			location.href='${pageContext.request.contextPath}/bound/outBoundPro?ob_cd='+ob
-    		};
-		});
-    });
+//     let ob = document.getElementById('ob')
+//     $(function(){
+//     	$('.btn icon icon-left btn-danger').click(function(){
+//     		if(confirm("출고 처리하시겠습니까?<br>처리 후 수정 불가합니다.")){
+//     			location.href='${pageContext.request.contextPath}/bound/outBoundPro?ob_cd='+ob
+//     		};
+// 		});
+//     });
     	
     </script>
     
