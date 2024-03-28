@@ -1,12 +1,17 @@
 package com.itwillbs.controller;
 
+import java.util.List;
+
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.itwillbs.domain.MemberDTO;
 import com.itwillbs.service.MemberService;
@@ -28,17 +33,26 @@ public class MemberController {
 	
 	// 로그인 기능
 	@PostMapping("/memberLoginPro")
-	public String loginPro(MemberDTO memberDTO, HttpSession session) {
+	public String loginPro(MemberDTO memberDTO, HttpSession session, RedirectAttributes redirectAttributes) {
 		System.out.println("MemberController memberLoginPro()");
-//		memberDTO = memberService.userCheck(memberDTO);
+     	memberDTO = memberService.userCheck(memberDTO);
+     	
+		if(memberDTO != null) {
+			session.setAttribute("name", memberDTO.getName());
+			session.setAttribute("permission", memberDTO.getPermission());
+			return "redirect:/member/main";
+		} else {
+			redirectAttributes.addFlashAttribute("message", "아이디/비밀번호가 일치하지 않습니다.");
+			return "redirect:/member/memberLogin";
+		}
 		
-//		if(memberDTO != null) {
-//			return "redirect:/member/main";
-//		} else {
-//			return "redirect:/member/login";
-//		}
-		
-		return "redirect:/member/main";
+	}
+	
+	@PostMapping("/logout")
+	public String logout(HttpSession session) {
+		System.out.println("logout");
+		session.invalidate();
+		return "member/memberLogin";
 	}
 	
 	// 회원가입
@@ -71,29 +85,24 @@ public class MemberController {
 		return "member/contract";
 	}
 	@GetMapping("/memberList")
-	public String memberList() {
+	public String memberList(Model model , HttpServletRequest request) {
 		System.out.println("MemberController memberList()");
+		
+		MemberDTO memberDTO = new MemberDTO();
+		String id = request.getParameter("id");
+		memberDTO.setId(id);
+		String name = request.getParameter("name");
+		memberDTO.setName(name);
+		
+		List<MemberDTO> memberList;
+		if(id == null && name == null) {
+			memberList = memberService.getMemberList(memberDTO);
+		}else {
+			memberList = memberService.searchMemberList(memberDTO);
+		}
+		
+		model.addAttribute("memberList" , memberList);
 		return "member/memberList";
 	}
 	
-	// --------------------------------- test --------------------------------------
-//	@GetMapping("/main")
-//	public String main() {
-//		System.out.println("MemberController main()");
-//		return "member/main";
-//	}
-//
-//	@PostMapping("/loginPro")
-//	public String loginPro(MemberDTO memberDTO, HttpSession session) {
-//		System.out.println("MemberController loginPro()");
-//		System.out.println(memberDTO);
-//		memberDTO = memberService.userCheck(memberDTO);
-//		
-//		if(memberDTO != null) {
-//			return "redirect:/member/main";
-//		} else {
-//			return "redirect:/member/login";
-//		}
-//		
-//	}
 }

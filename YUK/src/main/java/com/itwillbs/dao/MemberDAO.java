@@ -1,5 +1,7 @@
 package com.itwillbs.dao;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
@@ -17,4 +19,13 @@ public class MemberDAO {
 	public MemberDTO userCheck(MemberDTO memberDTO) {
 		return sqlSession.selectOne(namespace + ".userCheck", memberDTO);
 	}
+
+	public List<MemberDTO> getMemberList(MemberDTO memberDTO) {
+		return sqlSession.selectList(namespace + ".getMemberList",memberDTO);
+	}
+
+	public List<MemberDTO> searchMemberList(MemberDTO memberDTO) {
+		return sqlSession.selectList(namespace + ".searchMemberList",memberDTO);
+	}
+
 }

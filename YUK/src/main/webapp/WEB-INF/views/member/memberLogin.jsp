@@ -28,7 +28,7 @@
                         <div class="form-group position-relative has-icon-left">
                             <label for="username">아이디</label>
                             <div class="position-relative">
-                                <input type="text" class="form-control" id="username">
+                                <input type="text" class="form-control" id="username" name="id">
                                 <div class="form-control-icon">
                                     <i data-feather="user"></i>
                                 </div>
@@ -39,7 +39,7 @@
                                 <label for="password">비밀번호</label>
                             </div>
                             <div class="position-relative">
-                                <input type="text" class="form-control" id="password">
+                                <input type="text" class="form-control" id="password" name="pass">
                                 <div class="form-control-icon">
                                     <i data-feather="lock"></i>
                                 </div>
@@ -47,7 +47,7 @@
                         </div>
 
                         <div class="clearfix">
-                            <button class="btn btn-primary">로그인</button>
+                            <button class="btn btn-primary" type="submit">로그인</button>
                         </div>
                     </form>
                 </div>
@@ -59,7 +59,14 @@
     </div>
     <script src="${pageContext.request.contextPath}/resources/assets/js/feather-icons/feather.min.js"></script>
     <script src="${pageContext.request.contextPath}/resources/assets/js/app.js"></script>
-    
     <script src="${pageContext.request.contextPath}/resources/assets/js/main.js"></script>
+ <script>
+     var message = '${message}';
+    
+    if (message) {
+        alert(message);
+    }
+</script>
+    
 </body>
 </html>

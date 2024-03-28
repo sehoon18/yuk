@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
         <div id="sidebar" class='active'>
             <div class="sidebar-wrapper active">
@@ -8,14 +9,37 @@
     </div>
     
 <!--    	관리자 아이콘	 -->
-                                
-                            <div style="margin-left:80px; margin-top:15px;">
-                            <img src="${pageContext.request.contextPath}/resources/assets/images/user.png" style="width:60px; height:60px;">
-                            </div> 
-                          <div style="margin-left:75px; margin-top:15px;">  
-                          <h4><b>관리자</b></h4>
-                          </div>
-                                <a class="dropdown-item" href="#"><i data-feather="log-out"></i> <b>로그아웃</b></a>
+     <div style="text-align: center; margin-top:20px;">
+        <img src="${pageContext.request.contextPath}/resources/assets/images/user.png" style="width:60px; height:60px;">
+     </div> 
+     <div style="text-align: center; margin-top:20px;">  
+     <h4><b>${sessionScope.name}</b></h4>
+     </div>
+     <div style="text-align: center;">
+     <c:if test="${sessionScope.permission == 0}">
+     <b>권한 : 관리자 </b>
+     </c:if>
+     <c:if test="${sessionScope.permission == 1}">
+     <b>권한 : 품목/거래처/소요량 </b>
+     </c:if>
+     <c:if test="${sessionScope.permission == 2}">
+     <b>권한 : 입고/출고/재고/창고 </b>
+     </c:if>
+     <c:if test="${sessionScope.permission == 3}">
+     <b>권한 : 수주/발주 </b>
+     </c:if>
+     <c:if test="${sessionScope.permission == 4}">
+     <b>권한 : 작업/실적/라인 </b>
+     </c:if>
+     
+     </div>
+  	 <form action="${pageContext.request.contextPath}/member/logout" method="post">
+     <div class="dropdown-item">
+     <button type="submit" style="border: none; outline:none; background: none; padding: 0; margin: 0; cursor: pointer; width: 100%;">
+     <i data-feather="log-out"></i> <b>로그아웃</b>
+     </button>
+     </div>
+     </form>
                           
     <div class="sidebar-menu">
         <ul class="menu">
@@ -45,7 +69,7 @@
                         </li>
                         
                         <li>
-                            <a href="${pageContext.request.contextPath}/required/requiredMain">소요량 관리</a>
+                            <a href="${pageContext.request.contextPath}/product/requiredMain">소요량 관리</a>
                         </li>
                         
                     </ul>
@@ -60,15 +84,15 @@
                     <ul class="submenu">
                         
                         <li>
-                            <a href="${pageContext.request.contextPath}/production/line">라인 관리</a>
+                            <a href="">라인 관리</a>
                         </li>
                         
                         <li>
-                            <a href="${pageContext.request.contextPath}/production/instruction">작업 지시 관리</a>
+                            <a href="">작업 지시 관리</a>
                         </li>
                         
                         <li>
-                            <a href="${pageContext.request.contextPath}/production/performance">생산 실적 관리</a>
+                            <a href="">생산 실적 관리</a>
                         </li>
                         
                     </ul>
@@ -119,13 +143,15 @@
                     </ul>
                     
                 </li>
-
+			<c:if test="${sessionScope.permission == 0}">
              <li>
                     <a href="${pageContext.request.contextPath}/member/memberList" class='sidebar-link'>
                      <i data-feather="user"></i> 
                         <span>사용자 리스트</span>
                         </a>
+                        
             </li>
+            </c:if>
         </ul>
        
  

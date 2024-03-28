@@ -5,8 +5,8 @@
 <html>
 <head>
     <meta charset="UTF-8">
-<!--     <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
-<!--     <title>YOGIYUK</title> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YOGIYUK</title>
 
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/bootstrap.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/vendors/chartjs/Chart.min.css">
@@ -21,25 +21,26 @@
     <div style="margin-left: 20px;">
     <h1><b>품목 관리</b></h1>
   	<br>
-  	
+  <form action="${pageContext.request.contextPath}/product/productMain">
   <div class="col-lg-2 col-3" style="display: flex; align-items: center; white-space: nowrap;">
 <!--   	flex: 0 1 auto; 속성은 사원번호 텍스트가 필요한 만큼의 공간만 차지 -->
   <div style="flex: 0 1 auto; margin-right: 10px;"><b>품목코드</b></div>
-  <input type="text" id="first-name" class="form-control" name="fname" style="flex: 1 1 auto; width: auto; background-color: white;" placeholder="품목코드를 선택하세요" onclick="productPopUp();" readonly>
+  <input type="text" id="productCode" class="form-control" name="productCode" style="flex: 1 1 auto; width: auto; background-color: white;" placeholder="품목코드를 선택하세요" onclick="productPopUp();" readonly>
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>품명</b> &nbsp;&nbsp;
-  <input type="text" id="first-name" class="form-control" name="fname" style="flex: 1 1 auto; width: auto;" placeholder="품명을 입력하세요">
+  <input type="text" id="productName" class="form-control" name="productName" style="flex: 1 1 auto; width: auto;" placeholder="품명을 입력하세요">
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
    <b>품목구분</b>
    &nbsp;&nbsp;
-  <select class="form-select" id="basicSelect" style="width: 100px;">
-	<option>포장자재</option>
-	<option>식자재</option>
-	<option>완제품</option>
+  <select class="form-select" id="basicSelect" name="productType" style="width: 100px;">
+	<option value="100">전체</option>
+	<option value="0">완제품</option>
+	<option value="1">식자재</option>
+	<option value="2">포장자재</option>
    </select>
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <button class="btn btn-primary btn-sm" type="submit">조회</button>
 </div>
-
+</form>
 <div style="text-align: right; margin-right:30px;">
 <button class="btn btn-primary btn-sm" type="submit">등록</button>
 <button class="btn btn-primary btn-sm" type="submit">수정</button>
@@ -51,15 +52,13 @@
     
 
     
-<!--     Bordered table start -->
 <div class="row" id="table-bordered" style="margin-right: 20px;">
   <div class="col-12">
     <div class="card">
       <div class="card-header">
-        <h4 class="card-title">품목 목록 총 50건</h4>
+        <h4 class="card-title">품목 목록 <b>총 ${productList.size()}건</b></h4>
       </div>
       <div class="card-content">
-        <!-- table bordered -->
         <div class="table-responsive">
           <table class="table table-bordered mb-0">
             <thead>
@@ -68,17 +67,34 @@
                 <th>품명</th>
                 <th>품목구분</th>
                 <th>원산지</th>
+                <th>단가</th>
                 <th>비고</th>
               </tr>
             </thead>
             <tbody>
+            <c:forEach var="productDTO" items="${productList}">
               <tr>
-                <td class="text-bold-500">Michael Right</td>
-                <td>$15/hr</td>
-                <td class="text-bold-500">UI/UX</td>
-                <td>Remote</td>
-                <td>Austin,Taxes</td>
+                <td>${productDTO.productCode}</td>
+                <td>${productDTO.productName}</td>
+                <c:if test="${productDTO.productType == 0 }">
+                <td>완제품</td>
+                </c:if>
+                <c:if test="${productDTO.productType == 1 }">
+                <td>식자재</td>
+                </c:if>
+                <c:if test="${productDTO.productType == 2 }">
+                <td>포장자재</td>
+                </c:if>
+                <td>${productDTO.productOrigin}</td>
+                <td>${productDTO.productPrice}</td>
+                <c:if test="${productDTO.note == null}">
+                <td></td>
+                </c:if>
+                <c:if test="${productDTO.note != null}">
+                <td>${productDTO.Note}</td>
+                </c:if>
               </tr>
+              </c:forEach>
             </tbody>
           </table>
         </div>
@@ -86,7 +102,6 @@
     </div>
   </div>
 </div>
-<!-- Bordered table end -->
     
 </div>    
 
@@ -138,11 +153,18 @@
 	<script>
 	
 	function productPopUp(){
-		window.open("${pageContext.request.contextPath}/product/productPopUp", "" , "width=800px, height=700px , left=100px; , top=100px;");
+		window.open("${pageContext.request.contextPath}/product/productPopUp", "" , "width=1000px, height=700px , left=100px; , top=100px;");
 	}
-	
 	</script>
-    
+	
+	<script>
+    function receive(productCode,productName) {
+        // 팝업에서 전달된 productCode를 id=productCode인 메인 페이지의 입력 필드에 넣음
+        // 팝업에서 전달된 productName를 id=productName인 메인 페이지의 입력 필드에 넣음
+        document.getElementById("productCode").value = productCode;
+        document.getElementById("productName").value = productName;
+    };
+</script>
     
 </body>
 </html>
