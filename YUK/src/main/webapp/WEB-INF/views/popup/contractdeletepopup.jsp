@@ -21,80 +21,77 @@
             <div class="col-12" >
                 <div class="card" style="box-shadow: none;">
 		  			<div class="card-header" style="margin-top: 30px;">
-                        <h3 class="card-title">발주 상세 (수정/삭제)</h3>
+                        <h3 class="card-title">수주 상세(수정/삭제/취소)</h3>
                     <hr>
                     </div>
                     <div class="card-content">
                       <form class="form">
                         <div class="card-body">
                                 <div class="row">
-                                <div class="col-md-1 col-2">	
-                                        <div class="form-group">
-                                            <label for="first-name-column">발주코드</label>
-                                            <input type="text" id="instructionCode" class="form-control" placeholder="PRO_CD" name="instructionCode">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-1 col-2">	
+                                
+                                    <div class="col-md-14 col-2">	
                                         <div class="form-group">
                                             <label for="first-name-column">품목코드</label>
                                             <input type="text" id="instructionCode" class="form-control" placeholder="PRO_CD" name="instructionCode">
                                         </div>
                                     </div>
-                                    <div class="col-md-1 col-2">
+                                    <div class="col-md-14 col-2">
                                         <div class="form-group">
                                             <label for="last-name-column">품목이름</label>
                                             <input type="text" id="contractCode" class="form-control" onclick="openPopup()" placeholder="PRO_NAME" name="lname-column">
                                         </div>
                                     </div>
-                                    <div class="col-md-1 col-2">
+                                    <div class="col-md-14 col-2">
                                         <div class="form-group">
                                             <label for="city-column">거래처코드</label>
                                             <input type="text" id="productCode" class="form-control" placeholder="CLI_CD" name="productCode">
                                         </div>
                                     </div>
-                                   <div class="col-md-1 col-2">
+                                   <div class="col-md-14 col-2">
                                         <div class="form-group">
                                             <label for="country-floating">거래처명</label>
                                             <input type="text" id="insVol" class="form-control" name="insVol" placeholder="CLI_NAME" onclick="openPopup()">
                                         </div>
                                     </div>
-                                    <div class="col-md-1 col-2">
+                                    <div class="col-md-14 col-2">
                                         <div class="form-group">
-                                            <label for="company-column">발주량</label>
+                                            <label for="company-column">수주량</label>
                                             <input type="text" id="productName" class="form-control" name="productName" placeholder="ORD_VOL">
                                         </div>
                                     </div>
-                                   <div class="col-md-1 col-2">
+                                   <div class="col-md-14 col-2">
                                         <div class="form-group">
                                             <label for="email-id-column">단가</label>
                                             <input type="text" id="lineCode" class="form-control" name="email-id-column" onclick="openLinePopup()" placeholder="PAYMENT_DATE">
                                         </div>
                                     </div>
-                                    <div class="col-md-1 col-2">
+                                    <div class="col-md-14 col-2">
                                         <div class="form-group">
                                             <label for="company-column">담당자</label>
                                             <input type="text" id="productName" class="form-control" name="productName" placeholder="ORD_VOL">
                                         </div>
                                     </div>
-                                    <div class="col-md-1 col-2">
+                                    <div class="col-md-14 col-2">
                                         <div class="form-group">
-                                            <label for="email-id-column">발주일자</label>
+                                            <label for="email-id-column">수주일자</label>
                                             <input type="DATE" id="contractDate" class="form-control" name="contractDate" placeholder="2024-00-00">
                                         </div>
                                     </div>
-                                   <div class="col-md-1 col-2">
+                                   <div class="col-md-14 col-2">
                                         <div class="form-group">
                                             <label for="email-id-column">납품일자</label>
                                             <input type="DATE" id="contractDate" class="form-control" name="contractDate" placeholder="2024-00-00">
                                         </div>
                                     </div>
-                                    <div class="col-md-1 col-2">
+                                    
+                                    <div class="col-md-14 col-2">
                                         <div class="form-group">
                                             <label for="email-id-column">결제일자</label>
                                             <input type="DATE" id="instructionDate" class="form-control" name="instructionDate" placeholder="2024-00-00">
                                         </div>
                                     </div>
-
+                                    
+									
                                 </div>
                                 </div>
                             
@@ -151,8 +148,7 @@
 							<div class="col-12 d-flex justify-content-end">
 							    <button type="submit" class="btn btn-primary mr-1 mb-1">수정</button>
 							    <button type="button" class="btn btn-primary mr-1 mb-1">삭제</button>
-							    <button type="button" class="btn btn-primary mr-1 mb-1">reset</button>
-<!-- 							    <button type="reset" class="btn btn-light-secondary mr-1 mb-1">Reset</button> -->
+							    <button type="reset" class="btn btn-light-secondary mr-1 mb-1">Reset</button>
 							</div>
 						</form>
                         </div>
@@ -168,7 +164,7 @@
 	<script>
 	  // 인풋 창을 클릭하면 팝업을 엽니다.
 	  function openPopup() {
-	    var popup = window.open("${pageContext.request.contextPath}/popup/contractpop", "popup", "width=800,height=600");
+	    var popup = window.open("${pageContext.request.contextPath}/popup/contractpop", "popup", "width=800,height=100");
 	    
 	    if (popup === null || typeof(popup) === 'undefined') {
 	      alert('팝업이 차단되었습니다. 팝업 차단을 해제하고 다시 시도해주세요.');
