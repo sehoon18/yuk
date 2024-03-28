@@ -13,7 +13,11 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/app.css">
     <link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/assets/images/favicon.svg" type="image/x-icon">
-    
+<style>
+ .color:hover {
+ 	background-color: lightgray;
+ }
+</style>    
 </head>
 <body>
     
@@ -21,20 +25,22 @@
     <h1><b>창고 관리</b></h1>
   	<hr>
   	
+  	<form action="${pageContext.request.contextPath}/warehouse/warehouse">
   <div class="col-lg-2 col-3" style="display: flex; align-items: center; white-space: nowrap;">
 <!--   	flex: 0 1 auto; 속성은 사원번호 텍스트가 필요한 만큼의 공간만 차지 -->
   <div style="flex: 0 1 auto; margin-right: 10px;"><b>창고코드</b></div>
-  <input type="text" id="first-name" class="form-control" name="fname" style="flex: 1 1 auto; width: auto;">
+  <input type="text" id="warehouseCode" class="form-control" name="warehouseCode" style="flex: 1 1 auto; width: auto;">
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>창고명</b> &nbsp;&nbsp;
-  <input type="text" id="first-name" class="form-control" name="fname" style="flex: 1 1 auto; width: auto;">
+  <input type="text" id="warehouseName" class="form-control" name="warehouseName" style="flex: 1 1 auto; width: auto;">
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
    <div style="flex: 0 1 auto; margin-right: 10px;"><b>품목코드</b></div>
-  <input type="text" id="first-name" class="form-control" name="fname" style="flex: 1 1 auto; width: auto;">
+  <input type="text" id="productCode" class="form-control" name="productCode" style="flex: 1 1 auto; width: auto;">
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>지역</b> &nbsp;&nbsp;
-  <input type="text" id="first-name" class="form-control" name="fname" style="flex: 1 1 auto; width: auto;">
+  <input type="text" id="warehouseLocal" class="form-control" name="warehouseLocal" style="flex: 1 1 auto; width: auto;">
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <button class="btn btn-primary btn-sm" type="submit">조회</button>
 </div>
+</form>
 <hr>
 
 
@@ -64,68 +70,19 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td class="text-bold-500">Michael Right</td>
-                <td>$15/hr</td>
-                <td class="text-bold-500">UI/UX</td>
-                <td>Remote</td>
-                <td>Austin,Taxes</td>
-                <td>Remote</td>
-                <td>Austin,Taxes</td>
-                <td>Remote</td>
-                <td>Austin,Taxes</td>
+            <c:forEach var="warehouseDTO" items="${warehouseList }">
+              <tr class="color" onclick="send('${warehouseDTO.warehouseCode}','${warehouseDTO.warehouseName}','${warehouseDTO.productCode}','${warehouseDTO.warehouseLocal}')">
+                <td>${warehouseDTO.warehouseCode }</td>
+                <td>${warehouseDTO.warehouseName }</td>
+                <td>${warehouseDTO.productCode }</td>
+                <td>${warehouseDTO.productName }</td>
+                <td></td>
+                <td>${warehouseDTO.warehouseMvol }</td>
+                <td>${warehouseDTO.warehouseLocal }</td>
+                <td>${warehouseDTO.warehouseArea }</td>
+                <td>${warehouseDTO.warehouseTelNumber }</td>
               </tr>
-              
-              <tr>
-                <td class="text-bold-500">Michael Right</td>
-                <td>$15/hr</td>
-                <td class="text-bold-500">UI/UX</td>
-                <td>Remote</td>
-                <td>Austin,Taxes</td>
-                <td>Remote</td>
-                <td>Austin,Taxes</td>
-                <td>Remote</td>
-                <td>Austin,Taxes</td>
-              </tr>
-              
-              <tr>
-                <td class="text-bold-500">Michael Right</td>
-                <td>$15/hr</td>
-                <td class="text-bold-500">UI/UX</td>
-                <td>Remote</td>
-                <td>Austin,Taxes</td>
-                <td>Remote</td>
-                <td>Austin,Taxes</td>
-                <td>Remote</td>
-                <td>Austin,Taxes</td>
-              </tr>
-              
-              <tr>
-                <td class="text-bold-500">Michael Right</td>
-                <td>$15/hr</td>
-                <td class="text-bold-500">UI/UX</td>
-                <td>Remote</td>
-                <td>Austin,Taxes</td>
-                <td>Remote</td>
-                <td>Austin,Taxes</td>
-                <td>Remote</td>
-                <td>Austin,Taxes</td>
-              </tr>
-              
-              <tr>
-                <td class="text-bold-500">Michael Right</td>
-                <td>$15/hr</td>
-                <td class="text-bold-500">UI/UX</td>
-                <td>Remote</td>
-                <td>Austin,Taxes</td>
-                <td>Remote</td>
-                <td>Austin,Taxes</td>
-                <td>Remote</td>
-                <td>Austin,Taxes</td>
-              </tr>
-              
-
-  
+  			</c:forEach>
             </tbody>
           </table>
         </div>
@@ -160,7 +117,16 @@
     <script src="${pageContext.request.contextPath}/resources/assets/vendors/apexcharts/apexcharts.min.js"></script>
     <script src="${pageContext.request.contextPath}/resources/assets/js/pages/dashboard.js"></script>
     <script src="${pageContext.request.contextPath}/resources/assets/js/main.js"></script>
-    
+ 
+ <script>
+ 	function send(warehouseCode, warehouseName, productCode, warehouseLocal){
+ 		window.opener.document.getElementById("warehouseCode").value=warehouseCode;
+ 		window.opener.document.getElementById("warehouseName").value=warehouseName;
+ 		window.opener.document.getElementById("productCode").value=productCode;
+ 		window.opener.document.getElementById("warehouseLocal").value=warehouseLocal;
+ 		window.close();
+ 	}
+ </script>   
     
 </body>
 </html>

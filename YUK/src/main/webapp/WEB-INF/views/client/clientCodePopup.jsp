@@ -13,23 +13,28 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/app.css">
     <link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/assets/images/favicon.svg" type="image/x-icon">
-    
+<style>
+.color:hover {
+	background-color: lightgray;
+}
+</style>    
 </head>
 <body>
     
     <div style="margin-left: 20px; margin-top: 30px;">
     <h1><b>거래처 관리</b></h1>
   	<hr>
-  	
+  	<form action="${pageContext.request.contextPath}/client/clientCodePopup">
   <div class="col-lg-2 col-3" style="display: flex; align-items: center; white-space: nowrap;">
 <!--   	flex: 0 1 auto; 속성은 사원번호 텍스트가 필요한 만큼의 공간만 차지 -->
   <div style="flex: 0 1 auto; margin-right: 10px;"><b>거래처코드</b></div>
-  <input type="text" id="first-name" class="form-control" name="fname" style="flex: 1 1 auto; width: auto; background-color: white;">
+  <input type="text" id="clientCode" class="form-control" name="clientCode" style="flex: 1 1 auto; width: auto; background-color: white;" placeholder="거래처코드를 입력하세요.">
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>거래처명</b> &nbsp;&nbsp;
-  <input type="text" id="first-name" class="form-control" name="fname" style="flex: 1 1 auto; width: auto;">
+  <input type="text" id="clientName" class="form-control" name="clientName" style="flex: 1 1 auto; width: auto;" placeholder="거래처명을 입력하세요.">
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <button class="btn btn-primary btn-sm" type="submit">조회</button>
 </div>
+</form>
 <hr>
     
 
@@ -58,63 +63,18 @@
               </tr>
             </thead>
             <tbody>
-              <tr onclick="clientDetailPopup()">
-                <td class="text-bold-500">Michael Right</td>
-                <td>$15/hr</td>
-                <td class="text-bold-500">UI/UX</td>
-                <td>Remote</td>
-                <td>Austin,Taxes</td>
-                <td>Remote</td>
-                <td>Austin,Taxes</td>
-                <td>Remote</td> 
+             <c:forEach var="clientDTO" items="${clientList }">
+              <tr class="color" onclick="send('${clientDTO.clientCode }','${clientDTO.clientName }')">
+                <td>${clientDTO.clientCode }</td>
+                <td>${clientDTO.clientName }</td>
+                <td>${clientDTO.clientType }</td>
+                <td>${clientDTO.businessNumber }</td>
+                <td>${clientDTO.clientCEO }</td>
+                <td>${clientDTO.clientBasicAddress }</td>
+                <td>${clientDTO.clientTelNumber }</td>
+                <td>${clientDTO.clientEmail }</td>   
               </tr>
-              
-              
-              <tr onclick="clientDetailPopup()">
-                <td class="text-bold-500">Michael Right</td>
-                <td>$15/hr</td>
-                <td class="text-bold-500">UI/UX</td>
-                <td>Remote</td>
-                <td>Austin,Taxes</td>
-                <td>Remote</td>
-                <td>Austin,Taxes</td>
-                <td>Remote</td> 
-              </tr>
-              
-              <tr onclick="clientDetailPopup()">
-                <td class="text-bold-500">Michael Right</td>
-                <td>$15/hr</td>
-                <td class="text-bold-500">UI/UX</td>
-                <td>Remote</td>
-                <td>Austin,Taxes</td>
-                <td>Remote</td>
-                <td>Austin,Taxes</td>
-                <td>Remote</td> 
-              </tr>
-              
-              <tr onclick="clientDetailPopup()">
-                <td class="text-bold-500">Michael Right</td>
-                <td>$15/hr</td>
-                <td class="text-bold-500">UI/UX</td>
-                <td>Remote</td>
-                <td>Austin,Taxes</td>
-                <td>Remote</td>
-                <td>Austin,Taxes</td>
-                <td>Remote</td> 
-              </tr>
-              
-              <tr onclick="clientDetailPopup()">
-                <td class="text-bold-500">Michael Right</td>
-                <td>$15/hr</td>
-                <td class="text-bold-500">UI/UX</td>
-                <td>Remote</td>
-                <td>Austin,Taxes</td>
-                <td>Remote</td>
-                <td>Austin,Taxes</td>
-                <td>Remote</td> 
-              </tr>
-              
-
+              </c:forEach>
             </tbody>
           </table>
         </div>
@@ -149,6 +109,16 @@
     <script src="${pageContext.request.contextPath}/resources/assets/vendors/apexcharts/apexcharts.min.js"></script>
     <script src="${pageContext.request.contextPath}/resources/assets/js/pages/dashboard.js"></script>
     <script src="${pageContext.request.contextPath}/resources/assets/js/main.js"></script>
+    
+    <script>
+    function send(clientCode, clientName){
+    	
+    	window.opener.document.getElementById("clientCode").value=clientCode;
+    	window.opener.document.getElementById("clientName").value=clientName;
+    	window.close();
+    	
+    }
+    </script>
     
 </body>
 </html>
