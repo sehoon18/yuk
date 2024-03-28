@@ -17,22 +17,17 @@
     <link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/assets/images/favicon.svg" type="image/x-icon">
     
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<style>
-	tbody tr:hover {
-    	background-color:#e4e8ff;
-	}
-	</style>
 </head>
 <body>
     <div id="app">
-    
+        
 	<jsp:include page="../inc/sidebar.jsp" />
-            
+	
 <div class="main-content container-fluid">
     <div class="page-title">
         <div class="row">
             <div class="col-12 col-md-6 order-md-1 order-last">
-                <h3>작업지시</h3>
+                <h3>실적 관리</h3>
 <!--                 <p class="text-subtitle text-muted">We use 'simple-datatables' made by @fiduswriter. You can check the full documentation <a href="https://github.com/fiduswriter/Simple-DataTables/wiki">here</a>.</p> -->
             </div>
             <div class="col-12 col-md-6 order-md-2 order-first">
@@ -47,48 +42,40 @@
     </div>
     <section class="section">
         <div class="card">
-            <div class="card-header" style="text-align: right;">
-		<button onclick="openPopup()" class="btn icon btn-info" >
-		<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
-		</button>
-            </div>
-			
+            <div class="card-header">
+			    <button type="button" onclick="addTableRow()" class='btn btn-primary' id="addrow">추가</button>
+			    <button type="submit" class='btn btn-success' id="submitrow" disabled>저장</button>            
+			</div>
             <div class="card-body">
                 <table class='table .table-bordered' id="table1">
                     <thead>
                         <tr>
+                            <th>생산실적코드</th>
                             <th>작업지시코드</th>
                             <th>라인코드</th>
                             <th>품목코드</th>
-                            <th>품목명</th>
+                            <th>품명</th>
                             <th>지시수량</th>
-                            <th>지시일자</th>
-                            <th>작업상태</th>
-                            <th>작업상태</th>
+                            <th>실적수량</th>
+                            <th>불량사유</th>
+                            <th>등록일</th>
+                            <th>담당자</th>
                         </tr>
                     </thead>
                     <tbody>
-			            <c:forEach var="productionDTO" items="${instructionList }">
-						<tr onclick="openDetailpop('${productionDTO.instructionCode}')">
-                            <td>${productionDTO.instructionCode }</td>
-                            <td>${productionDTO.lineCode }</td>
-                            <td>${productionDTO.productCode }</td>
-                            <td>${productionDTO.productName }</td>
-                            <td>${productionDTO.insVol }</td>
-                            <td>${productionDTO.instructionDate }</td>
-                            <td>
-                            <c:if test="${productionDTO.instractionStatus == 0 }">
-                                <span class="badge bg-success">Waiting</span>                            
-                            </c:if>
-                            <c:if test="${productionDTO.lineStatus == 1 }">
-                            	<span class="badge bg-danger">active</span>
-                            </c:if>
-                            <c:if test="${productionDTO.lineStatus == 2 }">
-                            	<span class="badge bg-light">Maintenance</span>
-                            </c:if>
-                            </td>
-                            <td>${productionDTO.instructionDate }</td>
-                        </tr>
+                    	<c:forEach var="productionDTO" items="${performanceList }">
+							<tr>
+	                            <td>${productionDTO.perCode }</td>
+	                            <td>${productionDTO.instructionCode }</td>
+	                            <td>${productionDTO.lineCode }</td>
+	                            <td>${productionDTO.productCode }</td>
+	                            <td>${productionDTO.productName }</td>
+	                            <td>${productionDTO.insVol }</td>
+	                            <td>${productionDTO.perACA }</td>
+	                            <td>${productionDTO.perNote }</td>
+	                            <td>${productionDTO.perDate }</td>
+	                            <td>${productionDTO.name }</td>
+	                        </tr>
                         </c:forEach>
 	                    </tbody>
                 </table>
@@ -117,34 +104,60 @@
 <script src="${pageContext.request.contextPath}/resources/assets/js/vendors.js"></script>
 
     <script src="${pageContext.request.contextPath}/resources/assets/js/main.js"></script>
-    <script>
-	    var popupWidth = 900;
-	    var popupHeight = 600;
-	
-	    var popupX = (window.screen.width / 2) - (popupWidth / 2);
-	    var popupY= (window.screen.height / 2) - (popupHeight / 2) - 100;
-	    
-	    function openPopup() {
-	      var popup = window.open("${pageContext.request.contextPath}/production/inspop", "팝업", 'status=no, height=' + popupHeight  + ', width=' + popupWidth  + ', left='+ popupX + ', top='+ popupY);
-	      
-	      if (popup === null || typeof(popup) === 'undefined') {
-	      }
-	    }
-    </script>
     
-    <script>
-	    var popupWidth = 900;
-	    var popupHeight = 600;
-	
-	    var popupX = (window.screen.width / 2) - (popupWidth / 2);
-	    var popupY= (window.screen.height / 2) - (popupHeight / 2) - 100;
-	    
-	    function openDetailpop(instructionCode) {
-	      var popup = window.open("${pageContext.request.contextPath}/production/insDetailpop?instructionCode="+ instructionCode, "팝업", 'status=no, height=' + popupHeight  + ', width=' + popupWidth  + ', left='+ popupX + ', top='+ popupY);
-	      
-	      if (popup === null || typeof(popup) === 'undefined') {
-	      }
-	    }
-    </script>
+	<script> // 행 추가 기능
+    function addTableRow() {
+        const table = document.getElementById("table1").getElementsByTagName('tbody')[0];
+        const newRow = table.insertRow(0);
+        const rowId = table.rows.length; // 행 ID로 사용될 값
+        
+        // 각 열에 대한 셀과 입력 필드 생성
+        const fields = ['perCode', 'instructionCode', 'lineCode', 'productCode', 'productName', 'insVol', 'perACA', 'perNote', 'perDate', 'name'];
+        const exampleData = ['', '', '', '', '','','','','',''];
+
+        fields.forEach((field, index) => {
+            const cell = newRow.insertCell(index);
+            let input;
+
+            // 인풋 타입 변경
+            if(field === 'perDate'){
+                input = document.createElement("input");
+                input.type = "date";
+                input.className = "form-control";
+            }   else {
+                input = document.createElement("input");
+                input.type = "text";
+                input.className = "form-control";
+            }
+
+            input.name = field;
+            input.value = exampleData[index];
+            cell.appendChild(input);
+        });
+
+        // '추가' 버튼을 '취소' 버튼으로 변경하면서 id값도 변경
+        const addButton = document.querySelector('.btn-primary');
+        addButton.textContent = '취소';
+        addButton.id = 'cancelrow';
+        addButton.onclick = function() { cancelAddition(newRow); };
+
+        // 저장 버튼 활성화
+        document.getElementById('submitrow').disabled = false;
+    }
+
+    function cancelAddition(row) {
+        // 추가된 행 삭제
+        row.remove();
+
+        // 버튼을 다시 '추가'로 변경하면서 id값도 원래대로 변경
+        const addButton = document.querySelector('#cancelrow');
+        addButton.textContent = '추가';
+        addButton.id = 'addrow';
+        addButton.onclick = addTableRow;
+
+        // 저장 버튼 비활성화
+        document.getElementById('submitrow').disabled = true;
+    }
+	</script>
 </body>
 </html>

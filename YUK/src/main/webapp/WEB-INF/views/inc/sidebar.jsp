@@ -60,15 +60,15 @@
                     <ul class="submenu">
                         
                         <li>
-                            <a href="">라인 관리</a>
+                            <a href="${pageContext.request.contextPath}/production/line">라인 관리</a>
                         </li>
                         
                         <li>
-                            <a href="">작업 지시 관리</a>
+                            <a href="${pageContext.request.contextPath}/production/instruction">작업 지시 관리</a>
                         </li>
                         
                         <li>
-                            <a href="">생산 실적 관리</a>
+                            <a href="${pageContext.request.contextPath}/production/performance">생산 실적 관리</a>
                         </li>
                         
                     </ul>

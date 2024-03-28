@@ -27,13 +27,48 @@ public class ProductionDAO {
 		return sqlSession.selectOne(namespace + ".getLineCode", lineCode);
 	}
 
-	public List<ProductionDTO> getConProList() {
-		return sqlSession.selectList(namespace + ".getConProList");
+	public void switchLineStatus(ProductionDTO productionDTO) {
+		sqlSession.update(namespace + ".switchLineStatus", productionDTO);
 	}
-
+	
 	public void insertInstruction(ProductionDTO productionDTO) {
 		sqlSession.insert(namespace + ".insertInstruction", productionDTO);
 	}
+
+	public List<ProductionDTO> getInstructionList() {
+		return sqlSession.selectList(namespace + ".getInstructionList");
+	}
+
+	public List<ProductionDTO> getPerformanceList() {
+		return sqlSession.selectList(namespace + ".getPerformanceList");
+	}
+
+	public List<ProductionDTO> getProductList() {
+		return sqlSession.selectList(namespace + ".getProductList");
+	}
+
+	public void updateLine(ProductionDTO productionDTO) {
+		sqlSession.update(namespace + ".updateLine", productionDTO);
+	}
+
+	public void deleteLine(ProductionDTO productionDTO) {
+		sqlSession.delete(namespace + ".deleteLine", productionDTO);
+	}
+
+	public ProductionDTO getInstruction(ProductionDTO productionDTO) {
+		return sqlSession.selectOne(namespace + ".getInstruction", productionDTO);
+	}
+
+	public void updateInstruction(ProductionDTO productionDTO) {
+		sqlSession.update(namespace + ".updateInstruction", productionDTO);
+	}
+
+	public void deleteInstruction(ProductionDTO productionDTO) {
+		sqlSession.delete(namespace + ".deleteInstruction", productionDTO);
+	}
+
+
+
 	
 	
 }

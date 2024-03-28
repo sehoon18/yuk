@@ -1,30 +1,41 @@
 package com.itwillbs.domain;
 
+import java.util.List;
+
 public class ProductionDTO {
 	
-	// ¶óÀÎ ¸â¹öº¯¼ö
+	// LINE
 	private String lineCode;
 	private String lineName;
 	private String update;
 	private String name;
 	private int lineStatus;
 	
-	// ÀÛ¾÷Áö½Ã ¸â¹ö º¯¼ö
-	private String instructionCode;	// ÀÛ¾÷Áö½ÃÄÚµå
-	private int insVol;				// Áö½Ã¼ö·®
-	private String instructionDate;	// ÀÛ¾÷Áö½ÃÀÏ
-	private int instractionStatus;	// ÀÛ¾÷»óÅÂ
+	// instruction 
+	private String instructionCode;	// ï¿½Û¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½
+	private int insVol;				// ï¿½ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½
+	private String instructionDate;	// ï¿½Û¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private int instractionStatus;	// ï¿½Û¾ï¿½ï¿½ï¿½ï¿½ï¿½
 
-	private String contractCode;	// ¼öÁÖÄÚµå
-	private int contractVol;		// ¼öÁÖ·®
-	private String contractDueDate;	// ¼öÁÖÀÏ
-	private String contractDate;	// ¼öÁÖ ³³±âÀÏ
-	private int conInfoStatus;		// ¼öÁÖ »óÅÂ
-	private String paymentDate;		// °áÁ¦ÀÏ
+	// contract
+	private String contractCode;	// ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½
+	private int contractVol;		// ï¿½ï¿½ï¿½Ö·ï¿½
+	private String contractDueDate;	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private String contractDate;	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private int conInfoStatus;		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	private String paymentDate;		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-	private String productName;		// Ç°¸ñÀÌ¸§
-	private String productCode;		// Ç°¸ñÄÚµå
+	// product
+	private String productName;		// Ç°ï¿½ï¿½ï¿½Ì¸ï¿½
+	private String productCode;		// Ç°ï¿½ï¿½ï¿½Úµï¿½
+	private int productVol;
 	
+	// performance
+	private String perCode;
+	private int perVol;
+	private String perDate;
+	private String perNote;
+	private int perACA;				// ì‹¤ì ìˆ˜ëŸ‰
 	
 	@Override
 	public String toString() {
@@ -37,7 +48,7 @@ public class ProductionDTO {
 				+ "]";
 	}
 	
-	// ¶óÀÎ°ü¸® getter/setter
+	// ï¿½ï¿½ï¿½Î°ï¿½ï¿½ï¿½ getter/setter
 	public String getLineCode() {
 		return lineCode;
 	}
@@ -70,7 +81,7 @@ public class ProductionDTO {
 	}
 	
 	
-	// ÀÛ¾÷Áö½Ã getter/setter
+	// ï¿½Û¾ï¿½ï¿½ï¿½ï¿½ï¿½ getter/setter
 	public String getInstructionCode() {
 		return instructionCode;
 	}
@@ -131,6 +142,13 @@ public class ProductionDTO {
 	public void setProductCode(String productCode) {
 		this.productCode = productCode;
 	}
+	public int getProductVol() {
+		return productVol;
+	}
+	public void setProductVol(int productVol) {
+		this.productVol = productVol;
+	}
+
 	public int getInstractionStatus() {
 		return instractionStatus;
 	}
@@ -142,6 +160,52 @@ public class ProductionDTO {
 	}
 	public void setContractVol(int contractVol) {
 		this.contractVol = contractVol;
+	}
+
+	// performance g/s
+	public String getPerCode() {
+		return perCode;
+	}
+
+	public void setPerCode(String perCode) {
+		this.perCode = perCode;
+	}
+
+	public int getPerVol() {
+		return perVol;
+	}
+
+	public void setPerVol(int perVol) {
+		this.perVol = perVol;
+	}
+
+	public String getPerDate() {
+		return perDate;
+	}
+
+	public void setPerDate(String perDate) {
+		this.perDate = perDate;
+	}
+
+	public String getPerNote() {
+		return perNote;
+	}
+
+	public void setPerNote(String perNote) {
+		this.perNote = perNote;
+	}
+
+	public int getPerACA() {
+		return perACA;
+	}
+
+	public void setPerACA(int perACA) {
+		this.perACA = perACA;
+	}
+
+	public List<ProductionDTO> getInstruction(ProductionDTO productionDTO) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

@@ -18,13 +18,13 @@ public class PopupController {
 	@Inject
 	private ProductionService productionService;
 
-	@GetMapping("/contractpop")
+	@GetMapping("/productpop")
 	public String contractpop(ProductionDTO productionDTO, Model model) {
 		
-		List<ProductionDTO> getConProList = productionService.getConProList();
-		model.addAttribute("getConProList", getConProList);
+		List<ProductionDTO> productList = productionService.getProductList();
+		model.addAttribute("productList", productList);
 		
-		return "popup/contractpop";
+		return "popup/productpop";
 	}
 	
 	@GetMapping("/linepop")

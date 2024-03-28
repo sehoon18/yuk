@@ -22,21 +22,69 @@ values(#{lineCode}, #{name}, #{lineStatus}, #{lineName}, #{update})
 	where LINE_CD = #{lineCode}
 </select>
 
-<!-- <select id="getContractList" resultType="com.itwillbs.domain.ProductionDTO"> -->
-<!-- 	select CON_CD "contractCode", CLI_CD "clientName", PRO_CD "productCode", CON_VOL "conVol", CON_DATE "conDate", CON_DUE_DATE "contractDueDate", CON_INFO_STATUS "conInfoStatus", PAYMENET_DATE "paymentDate" -->
-<!-- 	from CONTRACT -->
-<!-- 	order by CON_CD desc -->
-<!-- </select> -->
-
-<select id="getConProList" resultType="com.itwillbs.domain.ProductionDTO">
-	SELECT c.CON_CD "contractCode", p.PRO_CD "productCode", p.PRO_NAME "productName", c.CON_VOL "contractVol", c.CON_DUE_DATE "contractDueDate"
-	FROM CONTRACT c join PRODUCT p
-	order by CON_CD desc
-</select>
+<update id="switchLineStatus">
+	update LINE
+	SET LINE_STATUS = 1
+	where LINE_CD = #{lineCode}
+</update>
 
 <insert id="insertInstruction">
 	insert into INSTRUCTION
-	values(#{instructionCode}, #{name}, #{lineCode}, #{contractCode}, #{insVol}, #{instructionDate}, 0)
+	values(#{instructionCode}, #{name}, #{lineCode}, #{insVol}, #{instructionDate}, 0, #{productCode})
 </insert>
+
+<!-- INSTRUCTION 작업지시 -->
+<select id="getInstructionList" resultType="com.itwillbs.domain.ProductionDTO">
+	SELECT i.INS_CD "instructionCode", i.LINE_CD "lineCode", i.INS_VOL "insVol", i.INS_DATE "instructionDate", i.INS_STATUS "instractionStatus", i.PRO_CD "productCode", p.PRO_NAME as "productName"
+	from INSTRUCTION i join PRODUCT p
+	ON i.PRO_CD = p.PRO_CD
+	order by INS_CD desc
+</select>
+
+<!-- PERFORMANCE 생산실적 -->
+<select id="getPerformanceList" resultType="com.itwillbs.domain.ProductionDTO">
+	SELECT per.PER_CD "perCode", per.INS_CD "instructionCode", ins.LINE_CD "lineCode", ins.INS_VOL "insVol", per.ACTUAL_COMPLETION_AMOUNT "perACA", per.PER_NOTE "perNote", per.PER_DATE "perDate", ins.USER_ID "name"
+	FROM PERFORMANCE per JOIN INSTRUCTION ins
+	on per.INS_CD = ins.INS_CD
+	order by PER_CD desc
+</select>
+
+<select id="getProductList" resultType="com.itwillbs.domain.ProductionDTO">
+	select PRO_CD "productCode", PRO_NAME "productName", PRO_VOL "productVol"
+	from PRODUCT
+	order by PRO_CD desc
+</select>
+
+<update id="updateLine">
+	update LINE
+	SET LINE_NAME = #{lineName}, LINE_STATUS = #{lineStatus}
+	where LINE_CD = #{lineCode}
+</update>
+
+<delete id="deleteLine">
+	delete
+	from LINE
+	WHERE LINE_CD = #{lineCode}
+</delete>
+
+<select id="getInstruction" resultType="com.itwillbs.domain.ProductionDTO">
+	select i.INS_CD "instructionCode", i.LINE_CD "lineCode", i.INS_VOL "insVol", i.INS_DATE "instructionDate", i.INS_STATUS "instractionStatus", i.PRO_CD "productCode", p.PRO_NAME as "productName"
+	from INSTRUCTION i join PRODUCT p
+	ON i.PRO_CD = p.PRO_CD
+	WHERE i.INS_CD = #{instructionCode}
+</select>
+
+<update id="updateInstruction">
+	update INSTRUCTION
+	SET PRO_CD = #{productCode}, LINE_CD = #{lineCode}, INS_VOL = #{insVol}, INS_DATE = #{instructionDate}
+	where INS_CD = #{instructionCode}
+</update>
+
+<delete id="deleteInstruction">
+	delete
+	from INSTRUCTION
+	where INS_CD = #{instructionCode}
+</delete>
+
 
 </mapper>

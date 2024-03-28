@@ -28,12 +28,44 @@ public class ProductionService {
 		return productionDAO.getLineCode(lineCode);
 	}
 
-	public List<ProductionDTO> getConProList() {
-		return productionDAO.getConProList();
-	}
-
 	public void insertInstruction(ProductionDTO productionDTO) {
+		// 라인 상태 변경
+		productionDAO.switchLineStatus(productionDTO);
+		// 작업 지시 insert
 		productionDAO.insertInstruction(productionDTO);
 	}
+
+	public List<ProductionDTO> getInstructionList() {
+		return productionDAO.getInstructionList();
+	}
+
+	public List<ProductionDTO> getPerformanceList() {
+		return productionDAO.getPerformanceList();
+	}
+
+	public List<ProductionDTO> getProductList() {
+		return productionDAO.getProductList();
+	}
+
+	public void updateLine(ProductionDTO productionDTO) {
+		productionDAO.updateLine(productionDTO);
+	}
+
+	public void deleteLine(ProductionDTO productionDTO) {
+		productionDAO.deleteLine(productionDTO);
+	}
+
+	public ProductionDTO getInstruction(ProductionDTO productionDTO) {
+		return productionDAO.getInstruction(productionDTO);
+	}
+
+	public void updateInstruction(ProductionDTO productionDTO) {
+		productionDAO.updateInstruction(productionDTO);
+	}
+
+	public void deleteInstruction(ProductionDTO productionDTO) {
+		productionDAO.deleteInstruction(productionDTO);
+	}
+
 
 }

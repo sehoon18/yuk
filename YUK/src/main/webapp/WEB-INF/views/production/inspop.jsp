@@ -25,9 +25,7 @@
                     <hr>
                     </div>
                     <div class="card-content">
-                      <form class="form" action="${pageContext.request.contextPath}/production/insertInstruction" method="get">
-                      <!--                             ------------------------------------------- -->
-                      
+                      <form class="form" id="insForm" action="${pageContext.request.contextPath}/production/insertInstruction" method="post">
                         <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-4 col-12">
@@ -38,52 +36,29 @@
                                     </div>
                                     <div class="col-md-4 col-12">
                                         <div class="form-group">
-                                            <label for="email-id-column">지시일자</label>
-                                            <input type="DATE" id="instructionDate" class="form-control" name="instructionDate" placeholder="2024-00-00">
-                                        </div>
-                                    </div>
-						</div></div>
-						
-                        <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-4 col-12">
-                                        <div class="form-group">
-                                            <label for="last-name-column">수주코드</label>
-                                            <input type="text" id="contractCode" class="form-control" onclick="openPopup()" placeholder="CON" name="lname-column">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 col-12">
-                                        <div class="form-group">
                                             <label for="country-floating">수량</label>
                                             <input type="text" id="insVol" class="form-control" name="insVol" placeholder="0">
                                         </div>
                                     </div>
                                     <div class="col-md-4 col-12">
                                         <div class="form-group">
-                                            <label for="email-id-column">납기일자</label>
-                                            <input type="DATE" id="contractDate" class="form-control" name="contractDate" placeholder="2024-00-00">
+                                            <label for="email-id-column">지시일자</label>
+                                            <input type="DATE" id="instructionDate" class="form-control" name="instructionDate" placeholder="2024-00-00">
                                         </div>
                                     </div>
 						</div></div>
-						
                         <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-4 col-12">
                                         <div class="form-group">
-                                            <label for="company-column">품명</label>
-                                            <input type="text" id="productName" class="form-control" name="productName" placeholder="Name">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 col-12">
-                                        <div class="form-group">
                                             <label for="city-column">품목코드</label>
-                                            <input type="text" id="productCode" class="form-control" placeholder="PRO" name="productCode">
+                                            <input type="text" id="productCode" class="form-control" onclick="openProductPopup()" placeholder="PRO" name="productCode">
                                         </div>
                                     </div>
                                     <div class="col-md-4 col-12">
                                         <div class="form-group">
                                             <label for="email-id-column">라인코드</label>
-                                            <input type="text" id="lineCode" class="form-control" name="email-id-column" onclick="openLinePopup()" placeholder="Line">
+                                            <input type="text" id="lineCode" class="form-control" name="lineCode" onclick="openLinePopup()" placeholder="Line">
                                         </div>
                                     </div>
 						</div></div>
@@ -140,7 +115,7 @@
 
 
 							<div class="col-12 d-flex justify-content-end">
-							    <button type="submit" class="btn btn-primary mr-1 mb-1">Submit</button>
+							    <button type="submit" class="btn btn-primary mr-1 mb-1" onclick="submitForm()">Submit</button>
 							    <button type="reset" class="btn btn-light-secondary mr-1 mb-1">Reset</button>
 							</div>
 						</form>
@@ -154,10 +129,36 @@
     <script src="${pageContext.request.contextPath}/resources/assets/js/app.js"></script>
     
     <script src="${pageContext.request.contextPath}/resources/assets/js/main.js"></script>
+    
+	<script>
+// 	  // 인풋 창을 클릭하면 팝업을 엽니다.
+// 	  function openPopup() {
+// 	    var popup = window.open("${pageContext.request.contextPath}/popup/contractpop", "popup", "width=800,height=600");
+	    
+// 	    if (popup === null || typeof(popup) === 'undefined') {
+// 	      alert('팝업이 차단되었습니다. 팝업 차단을 해제하고 다시 시도해주세요.');
+// 	    } else {
+// 	      // 팝업에서 선택한 값을 가져와서 인풋 필드에 설정합니다.
+// 	      $(popup.document).on('click', '.popup-option', function() {
+// 	        var selectedValue = $(this).text();
+// 	        var selectedValue1 = $(this).text();
+// 	        var selectedValue2 = $(this).text();
+// 	        var selectedValue3 = $(this).text();
+	        
+// 	        $('#contractCode').val(selectedValue);
+// 	        $('#productCode').val(selectedValue1);
+// 	        $('#productName').val(selectedValue2);
+// 	        $('#contractDate').val(selectedValue3);
+// 	        popup.close();
+// 	      });
+// 	    }
+// 	  }
+	</script>
+	
 	<script>
 	  // 인풋 창을 클릭하면 팝업을 엽니다.
-	  function openPopup() {
-	    var popup = window.open("${pageContext.request.contextPath}/popup/contractpop", "popup", "width=800,height=600");
+	  function openProductPopup() {
+	    var popup = window.open("${pageContext.request.contextPath}/popup/productpop", "popup", "width=800,height=600");
 	    
 	    if (popup === null || typeof(popup) === 'undefined') {
 	      alert('팝업이 차단되었습니다. 팝업 차단을 해제하고 다시 시도해주세요.');
@@ -165,14 +166,7 @@
 	      // 팝업에서 선택한 값을 가져와서 인풋 필드에 설정합니다.
 	      $(popup.document).on('click', '.popup-option', function() {
 	        var selectedValue = $(this).text();
-	        var selectedValue1 = $(this).text();
-	        var selectedValue2 = $(this).text();
-	        var selectedValue3 = $(this).text();
-	        
-	        $('#contractCode').val(selectedValue);
-	        $('#productCode').val(selectedValue1);
-	        $('#productName').val(selectedValue2);
-	        $('#contractDate').val(selectedValue3);
+	        $('#productCode').val(selectedValue);
 	        popup.close();
 	      });
 	    }
@@ -202,21 +196,25 @@
 	</script>
 	
 	
-<script>
-//   // 팝업 창의 폼 제출 이벤트 핸들러
-//   document.getElementById('popupForm').addEventListener('submit', function(event) {
-//     event.preventDefault(); // 기본 제출 동작 방지
-
-//     // 팝업 창에서 입력한 데이터 가져오기
-//     var inputData = document.getElementById('popupInput').value;
-
-//     // 부모 창으로 데이터 전달
-//     window.opener.postMessage(inputData, '*');
-
-//     // 팝업 창 닫기
-//     window.close();
-//   });
-</script>
+	<script>
+	function submitForm() {
+	    $.ajax({
+	        url: "${pageContext.request.contextPath}/production/insertInstruction", // 실제 요청 URL로 변경해야 함
+	        type: "post", // 메소드 타입
+	        data: $("#insForm").serialize(), // 폼 데이터 직렬화
+	        success: function(response) {
+	            // 데이터베이스 저장 성공 후
+	            alert("저장 성공!");
+	            window.opener.location.reload(); // 부모 창 새로고침
+	            window.close(); // 팝업 창 닫기
+	        },
+	        error: function(xhr, status, error) {
+	            alert("저장 실패: " + error);
+	        }
+	    });
+	    return false; // 기본 폼 제출 동작 방지
+	}
+	</script>
 	
 	
 </body>

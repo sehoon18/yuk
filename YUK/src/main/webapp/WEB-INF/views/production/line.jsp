@@ -16,397 +16,26 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/app.css">
     <link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/assets/images/favicon.svg" type="image/x-icon">
     
+	<!-- Required meta tags -->
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+	<!-- sweetalert2 -->
+	<script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>    
+	
+	<!-- 	jquery -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<style>
+		tbody tr:hover {
+		    background-color:#e4e8ff;
+		}
+	</style>
 </head>
 <body>
     <div id="app">
-        <div id="sidebar" class='active'>
-            <div class="sidebar-wrapper active">
-    <div class="sidebar-header">
-        <img src="${pageContext.request.contextPath}/resources/assets/images/logo.svg" alt="" srcset="">
-    </div>
-    <div class="sidebar-menu">
-        <ul class="menu">
-            
-            
-                <li class='sidebar-title'>Main Menu</li>
-            
-            
-            
-                <li class="sidebar-item  ">
-                    <a href="index.html" class='sidebar-link'>
-                        <i data-feather="home" width="20"></i> 
-                        <span>Dashboard</span>
-                    </a>
-                    
-                </li>
+    
+	<jsp:include page="../inc/sidebar.jsp" />
 
-            
-            
-            
-                <li class="sidebar-item  has-sub">
-                    <a href="#" class='sidebar-link'>
-                        <i data-feather="triangle" width="20"></i> 
-                        <span>Components</span>
-                    </a>
-                    
-                    <ul class="submenu ">
-                        
-                        <li>
-                            <a href="component-alert.html">Alert</a>
-                        </li>
-                        
-                        <li>
-                            <a href="component-badge.html">Badge</a>
-                        </li>
-                        
-                        <li>
-                            <a href="component-breadcrumb.html">Breadcrumb</a>
-                        </li>
-                        
-                        <li>
-                            <a href="component-buttons.html">Buttons</a>
-                        </li>
-                        
-                        <li>
-                            <a href="component-card.html">Card</a>
-                        </li>
-                        
-                        <li>
-                            <a href="component-carousel.html">Carousel</a>
-                        </li>
-                        
-                        <li>
-                            <a href="component-dropdowns.html">Dropdowns</a>
-                        </li>
-                        
-                        <li>
-                            <a href="component-list-group.html">List Group</a>
-                        </li>
-                        
-                        <li>
-                            <a href="component-modal.html">Modal</a>
-                        </li>
-                        
-                        <li>
-                            <a href="component-navs.html">Navs</a>
-                        </li>
-                        
-                        <li>
-                            <a href="component-pagination.html">Pagination</a>
-                        </li>
-                        
-                        <li>
-                            <a href="component-progress.html">Progress</a>
-                        </li>
-                        
-                        <li>
-                            <a href="component-spinners.html">Spinners</a>
-                        </li>
-                        
-                        <li>
-                            <a href="component-tooltips.html">Tooltips</a>
-                        </li>
-                        
-                    </ul>
-                    
-                </li>
-
-            
-            
-            
-                <li class="sidebar-item  has-sub">
-                    <a href="#" class='sidebar-link'>
-                        <i data-feather="briefcase" width="20"></i> 
-                        <span>Extra Components</span>
-                    </a>
-                    
-                    <ul class="submenu ">
-                        
-                        <li>
-                            <a href="component-extra-avatar.html">Avatar</a>
-                        </li>
-                        
-                        <li>
-                            <a href="component-extra-divider.html">Divider</a>
-                        </li>
-                        
-                    </ul>
-                    
-                </li>
-
-            
-            
-            
-                <li class='sidebar-title'>Forms &amp; Tables</li>
-            
-            
-            
-                <li class="sidebar-item  has-sub">
-                    <a href="#" class='sidebar-link'>
-                        <i data-feather="file-text" width="20"></i> 
-                        <span>Form Elements</span>
-                    </a>
-                    
-                    <ul class="submenu ">
-                        
-                        <li>
-                            <a href="form-element-input.html">Input</a>
-                        </li>
-                        
-                        <li>
-                            <a href="form-element-input-group.html">Input Group</a>
-                        </li>
-                        
-                        <li>
-                            <a href="form-element-select.html">Select</a>
-                        </li>
-                        
-                        <li>
-                            <a href="form-element-radio.html">Radio</a>
-                        </li>
-                        
-                        <li>
-                            <a href="form-element-checkbox.html">Checkbox</a>
-                        </li>
-                        
-                        <li>
-                            <a href="form-element-textarea.html">Textarea</a>
-                        </li>
-                        
-                    </ul>
-                    
-                </li>
-
-            
-            
-            
-                <li class="sidebar-item  ">
-                    <a href="form-layout.html" class='sidebar-link'>
-                        <i data-feather="layout" width="20"></i> 
-                        <span>Form Layout</span>
-                    </a>
-                    
-                </li>
-
-            
-            
-            
-                <li class="sidebar-item  ">
-                    <a href="form-editor.html" class='sidebar-link'>
-                        <i data-feather="layers" width="20"></i> 
-                        <span>Form Editor</span>
-                    </a>
-                    
-                </li>
-
-            
-            
-            
-                <li class="sidebar-item  ">
-                    <a href="table.html" class='sidebar-link'>
-                        <i data-feather="grid" width="20"></i> 
-                        <span>Table</span>
-                    </a>
-                    
-                </li>
-
-            
-            
-            
-                <li class="sidebar-item active ">
-                    <a href="table-datatable.html" class='sidebar-link'>
-                        <i data-feather="file-plus" width="20"></i> 
-                        <span>Datatable</span>
-                    </a>
-                    
-                </li>
-
-            
-            
-            
-                <li class='sidebar-title'>Extra UI</li>
-            
-            
-            
-                <li class="sidebar-item  has-sub">
-                    <a href="#" class='sidebar-link'>
-                        <i data-feather="user" width="20"></i> 
-                        <span>Widgets</span>
-                    </a>
-                    
-                    <ul class="submenu ">
-                        
-                        <li>
-                            <a href="ui-chatbox.html">Chatbox</a>
-                        </li>
-                        
-                        <li>
-                            <a href="ui-pricing.html">Pricing</a>
-                        </li>
-                        
-                        <li>
-                            <a href="ui-todolist.html">To-do List</a>
-                        </li>
-                        
-                    </ul>
-                    
-                </li>
-
-            
-            
-            
-                <li class="sidebar-item  has-sub">
-                    <a href="#" class='sidebar-link'>
-                        <i data-feather="trending-up" width="20"></i> 
-                        <span>Charts</span>
-                    </a>
-                    
-                    <ul class="submenu ">
-                        
-                        <li>
-                            <a href="ui-chart-chartjs.html">ChartJS</a>
-                        </li>
-                        
-                        <li>
-                            <a href="ui-chart-apexchart.html">Apexchart</a>
-                        </li>
-                        
-                    </ul>
-                    
-                </li>
-
-            
-            
-            
-                <li class='sidebar-title'>Pages</li>
-            
-            
-            
-                <li class="sidebar-item  has-sub">
-                    <a href="#" class='sidebar-link'>
-                        <i data-feather="user" width="20"></i> 
-                        <span>Authentication</span>
-                    </a>
-                    
-                    <ul class="submenu ">
-                        
-                        <li>
-                            <a href="auth-login.html">Login</a>
-                        </li>
-                        
-                        <li>
-                            <a href="auth-register.html">Register</a>
-                        </li>
-                        
-                        <li>
-                            <a href="auth-forgot-password.html">Forgot Password</a>
-                        </li>
-                        
-                    </ul>
-                    
-                </li>
-
-            
-            
-            
-                <li class="sidebar-item  has-sub">
-                    <a href="#" class='sidebar-link'>
-                        <i data-feather="alert-circle" width="20"></i> 
-                        <span>Errors</span>
-                    </a>
-                    
-                    <ul class="submenu ">
-                        
-                        <li>
-                            <a href="error-403.html">403</a>
-                        </li>
-                        
-                        <li>
-                            <a href="error-404.html">404</a>
-                        </li>
-                        
-                        <li>
-                            <a href="error-500.html">500</a>
-                        </li>
-                        
-                    </ul>
-                    
-                </li>
-
-            
-            
-         
-        </ul>
-    </div>
-    <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
-</div>
-        </div>
-        <div id="main">
-            <nav class="navbar navbar-header navbar-expand navbar-light">
-                <a class="sidebar-toggler" href="#"><span class="navbar-toggler-icon"></span></a>
-                <button class="btn navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav d-flex align-items-center navbar-light ml-auto">
-                        <li class="dropdown nav-icon">
-                            <a href="#" data-toggle="dropdown" class="nav-link  dropdown-toggle nav-link-lg nav-link-user">
-                                <div class="d-lg-inline-block">
-                                    <i data-feather="bell"></i>
-                                </div>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right dropdown-menu-large">
-                                <h6 class='py-2 px-4'>Notifications</h6>
-                                <ul class="list-group rounded-none">
-                                    <li class="list-group-item border-0 align-items-start">
-                                        <div class="avatar bg-success mr-3">
-                                            <span class="avatar-content"><i data-feather="shopping-cart"></i></span>
-                                        </div>
-                                        <div>
-                                            <h6 class='text-bold'>New Order</h6>
-                                            <p class='text-xs'>
-                                                An order made by Ahmad Saugi for product Samsung Galaxy S69
-                                            </p>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="dropdown nav-icon mr-2">
-                            <a href="#" data-toggle="dropdown" class="nav-link  dropdown-toggle nav-link-lg nav-link-user">
-                                <div class="d-lg-inline-block">
-                                    <i data-feather="mail"></i>
-                                </div>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="#"><i data-feather="user"></i> Account</a>
-                                <a class="dropdown-item active" href="#"><i data-feather="mail"></i> Messages</a>
-                                <a class="dropdown-item" href="#"><i data-feather="settings"></i> Settings</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#"><i data-feather="log-out"></i> Logout</a>
-                            </div>
-                        </li>
-                        <li class="dropdown">
-                            <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-                                <div class="avatar mr-1">
-                                    <img src="${pageContext.request.contextPath}/resources/assets/images/avatar/avatar-s-1.png" alt="" srcset="">
-                                </div>
-                                <div class="d-none d-md-block d-lg-inline-block">Hi, Saugi</div>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="#"><i data-feather="user"></i> Account</a>
-                                <a class="dropdown-item active" href="#"><i data-feather="mail"></i> Messages</a>
-                                <a class="dropdown-item" href="#"><i data-feather="settings"></i> Settings</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#"><i data-feather="log-out"></i> Logout</a>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-            
 <div class="main-content container-fluid">
     <div class="page-title">
         <div class="row">
@@ -425,12 +54,14 @@
     </div>
     <section class="section">
         <div class="card">
-            <div class="card-header">
-            </div>
             <div class="card-body">
 			<form id="dataForm" class="insertLine" action="${pageContext.request.contextPath}/production/linePro" method="post">
-			    <button type="button" onclick="addTableRow()" class='btn btn-primary' id="addrow">추가</button>
-			    <button type="submit" class='btn btn-success' id="submitrow" disabled>저장</button>
+            <div class="card-header" style="text-align: right;">
+			    <button type="button" onclick="addTableRow()" class='btn btn-primary' id="addrow">➕ 추가</button>
+			    <button type="button" onclick="modTableRow()" class='btn btn-primary' id="modify">↪️ 수정</button>
+			    <button type="button" onclick="delTableRow()" class='btn btn-primary' id="delete">⚠️ 삭제</button>
+			    <button type="submit" class='btn btn-primary' id="submitrow" disabled>💾 저장</button>
+            </div>
 			    <table class='table .table-bordered' id="table1">
 			        <thead>
 			            <tr>
@@ -450,13 +81,13 @@
                             <td>${productionDTO.name }</td>
                             <td>
                             <c:if test="${productionDTO.lineStatus == 0 }">
-                                <span class="badge bg-success">Waiting</span>                            
+							<font color="BLUE">대기</font>
                             </c:if>
                             <c:if test="${productionDTO.lineStatus == 1 }">
-                            	<span class="badge bg-danger">active</span>
+							<font color="red">가동</font>
                             </c:if>
                             <c:if test="${productionDTO.lineStatus == 2 }">
-                            	<span class="badge bg-light">Maintenance</span>
+							<font color="gray">정비</font>
                             </c:if>
                             </td>
                         </tr>
@@ -481,7 +112,6 @@
                 </div>
             </footer>
         </div>
-    </div>
     <script src="${pageContext.request.contextPath}/resources/assets/js/feather-icons/feather.min.js"></script>
     <script src="${pageContext.request.contextPath}/resources/assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
     <script src="${pageContext.request.contextPath}/resources/assets/js/app.js"></script>
@@ -490,8 +120,8 @@
 <script src="${pageContext.request.contextPath}/resources/assets/js/vendors.js"></script>
 
     <script src="${pageContext.request.contextPath}/resources/assets/js/main.js"></script>
-    
-    <script type="text/javascript">
+	
+    <script>
     function addTableRow() {
         const table = document.getElementById("table1").getElementsByTagName('tbody')[0];
         const newRow = table.insertRow(0);
@@ -499,7 +129,7 @@
         
         // 각 열에 대한 셀과 입력 필드 생성
         const fields = ['lineCode', 'lineName', 'update', 'name', 'lineStatus'];
-        const exampleData = ['L', '', '', '', '0'];
+        const exampleData = ['LineCode', '', '', '', '0'];
 
         fields.forEach((field, index) => {
             const cell = newRow.insertCell(index);
@@ -509,7 +139,7 @@
             if (field === 'lineStatus') {
                 input = document.createElement("select");
                 input.className = "form-select";
-                const options = ["Waiting", "Active", "Maintenance"];
+                const options = ["대기", "가동", "정비"];
                 options.forEach((option, index) => {
                     const optionElement = document.createElement("option");
                     optionElement.value = index;
@@ -520,6 +150,7 @@
                 input = document.createElement("input");
                 input.type = "date";
                 input.className = "form-control";
+                
             }   else {
                 input = document.createElement("input");
                 input.type = "text";
@@ -533,12 +164,13 @@
 
         // '추가' 버튼을 '취소' 버튼으로 변경하면서 id값도 변경
         const addButton = document.querySelector('.btn-primary');
-        addButton.textContent = '취소';
+        addButton.textContent = '✖️ 취소';
         addButton.id = 'cancelrow';
         addButton.onclick = function() { cancelAddition(newRow); };
 
-        // 저장 버튼 활성화
-        document.getElementById('submitrow').disabled = false;
+        document.getElementById('submitrow').disabled = false; // 저장 버튼 활성화
+        document.getElementById('modify').disabled = true; // 수정 버튼 비활성화
+        document.getElementById('delete').disabled = true; // 삭제 버튼 비활성화
     }
 
     function cancelAddition(row) {
@@ -547,36 +179,325 @@
 
         // 버튼을 다시 '추가'로 변경하면서 id값도 원래대로 변경
         const addButton = document.querySelector('#cancelrow');
-        addButton.textContent = '추가';
+        addButton.textContent = '➕ 추가';
         addButton.id = 'addrow';
         addButton.onclick = addTableRow;
 
-        // 저장 버튼 비활성화
-        document.getElementById('submitrow').disabled = true;
+        document.getElementById('submitrow').disabled = true; // 저장 버튼 비활성화
+        document.getElementById('modify').disabled = false; // 수정 버튼 활성화
+        document.getElementById('delete').disabled = false; // 삭제 버튼 활성화
     }
     </script>
+    
+<script>
+    let isEditMode = false;
+    let selectedRow = null;
+    let originalHTML = {}; // 원래 셀의 HTML을 저장할 객체
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const table = document.getElementById('table1');
+        const tbody = table.querySelector('tbody'); // 찾은 테이블 내의 tbody 요소를 찾음
+        tbody.addEventListener('click', function(e) {
+            if (isEditMode) {
+                let target = e.target;
+                while (target != table && target.tagName !== 'TR') {
+                    target = target.parentNode;
+                }
+                if (target.tagName === 'TR') {
+                    // 현재 행이 이미 선택되어 수정 모드인 경우, 아무런 동작도 수행하지 않음
+                    if (selectedRow === target) {
+                        return; // 함수 실행을 여기서 중단
+                    }
+
+                    // 다른 행이 선택되어 있는 경우, 이전 행을 원래 상태로 되돌림
+                    if (selectedRow && selectedRow !== target) {
+                        revertRow(selectedRow); // 이전에 선택된 행을 원래 상태로 되돌림
+                    }
+                    selectedRow = target; // 새로 선택된 행을 현재 선택된 행으로 설정
+                    makeRowEditable(selectedRow); // 선택된 행을 수정 가능한 상태로 만듦
+                }
+            }
+        });
+    });
+
+    function modTableRow() {
+        isEditMode = true;
+        // 수정 버튼을 취소 버튼으로 변경
+        const modifyButton = document.getElementById('modify');
+        modifyButton.textContent = '↩️ 취소';
+        modifyButton.onclick = canMod; // 클릭 이벤트를 canMod 함수로 변경
+
+        Swal.fire({
+        	  title: "수정할 행을 선택해주세요.",
+        	  width: 600,
+        	  padding: "3em",
+        	  color: "#00ff0000",
+        	  background: "#fff",
+        	  backdrop: `
+        	    rgba(ff,ff,ff,0)
+        	    left top
+        	    no-repeat
+        	  `
+        	});
+
+        document.getElementById('addrow').disabled = true; // 추가 버튼 비활성화
+        document.getElementById('delete').disabled = true;// 추가 버튼 비활성화
+        
+        // 저장 버튼 활성화 및 이벤트 리스너 추가
+        const submitButton = document.getElementById('submitrow');
+        submitButton.disabled = false; // 저장 버튼 활성화
+        submitButton.onclick = function(event) {
+            event.preventDefault(); // 기본 폼 전송 취소
+
+            // 폼 객체를 가져옵니다.
+            var form = document.getElementById('dataForm'); // 폼의 ID
+
+            // 폼의 action 속성을 새로운 주소로 변경합니다.
+            form.action = '${pageContext.request.contextPath}/production/lineUpdatePro'; // 새로운 주소로 변경
+
+            // 폼을 수동으로 전송합니다.
+            form.submit();
+        };
+    }
+
+    function canMod() {
+        isEditMode = false;
+        if (selectedRow) {
+            revertRow(selectedRow); // 선택된 행을 원래 상태로 되돌림
+        }
+        selectedRow = null;
+        
+        // 취소 버튼을 다시 수정 버튼으로 변경
+        const modifyButton = document.getElementById('modify');
+        modifyButton.textContent = '↪️ 수정';
+        modifyButton.onclick = modTableRow; // 클릭 이벤트를 다시 modTableRow 함수로 변경
+        
+        
+        document.getElementById('addrow').disabled = false; // 추가 버튼을 다시 활성화
+        document.getElementById('delete').disabled = false; // 삭제 버튼 다시 활성화
+        document.getElementById('submitrow').disabled = true; // 저장 버튼 비활성화
+    }
+
+    function revertRow(row) {
+        Object.keys(originalHTML).forEach((index) => {
+            const cell = row.cells[index];
+            cell.innerHTML = originalHTML[index]; // 원본 HTML로 복원
+        });
+        originalHTML = {}; // 사용 후 객체 초기화
+    }
+
+    function makeRowEditable(row) {
+        isDelMode = false;
+        originalHTML = {}; // 현재 행에 대한 원본 HTML 저장을 위해 객체 초기화
+        const cellIndex = [0, 1, 4]; // 수정할 열 인덱스 (2열과 5열)
+        cellIndex.forEach((index) => {
+            const cell = row.cells[index];
+            originalHTML[index] = cell.innerHTML; // 수정 전 원본 HTML을 저장
+            const originalText = cell.textContent.trim();
+            
+            // 1열(인덱스 0)의 경우, 숨겨진 입력 필드를 생성
+	       if (index === 0) {
+	            const input = document.createElement('input');
+	            input.type = 'hidden'; // 입력 필드 타입을 hidden으로 설정
+	            input.name = 'lineCode'; // 요구사항에 맞게 이름 설정
+	            input.value = originalText; // 예를 들어, 행의 고유 ID 값
+// 	            cell.innerHTML = ''; // 셀 내용을 비우고
+	            cell.appendChild(input); // 숨겨진 입력 필드 추가
+	        }
+            // 2열(인덱스 1)의 경우, 텍스트 입력 필드를 생성
+			else if (index === 1) {
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.name = 'lineName';
+                input.className = 'form-control';
+                input.value = originalText;
+                cell.innerHTML = '';
+                cell.appendChild(input);
+            }
+            // 5열(인덱스 4)의 경우, 선택 목록을 생성
+			else if (index === 4) {
+                const select = document.createElement('select');
+                select.name = 'lineStatus';
+                select.className = 'form-select';
+                
+                // 예시로 추가하는 선택지. 실제 요구사항에 맞게 수정해야 함
+                const options = ["대기", "가동", "정비"];
+                options.forEach((optionText, optionIndex) => { // optionIndex를 추가하여 인덱스 값을 사용
+                    const option = document.createElement('option');
+                    option.value = optionIndex; // optionIndex를 value로 사용
+                    option.textContent = optionText;
+                    if (optionText === originalText) {
+                        option.selected = true;
+                    }
+                    select.appendChild(option);
+                });
+                
+                cell.innerHTML = '';
+                cell.appendChild(select);
+            }
+        });
+    }
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const table = document.getElementById('table1');
+    const tbody = table.querySelector('tbody');
+    tbody.addEventListener('click', function(e) {
+        if (isDelMode) {
+            let target = e.target;
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // 삭제 승인 후 행의 첫 번째 열 값 가져오기
+                    while (target != table && target.tagName !== 'TR') {
+                        target = target.parentNode;
+                    }
+                    if (target.tagName === 'TR') {
+                        const firstColumnValue = target.cells[0].textContent || target.cells[0].innerText; // 첫 번째 열 값
+                        
+                        // 서버로 첫 번째 열 값을 POST 요청으로 전송
+                        fetch('${pageContext.request.contextPath}/production/lineDeletePro', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ lineCode: firstColumnValue }) // 서버에 전송할 데이터
+                        })
+                        .then(response => {
+                            if(response.ok) {
+                                tbody.removeChild(target); // 서버에서 성공적으로 처리되면 행 삭제
+                                Swal.fire(
+                                    "Deleted!",
+                                    "Your file has been deleted.",
+                                    "success"
+                                );
+                                isDelMode = true; // 삭제 모드 비활성화
+                            } else {
+                                // 서버 처리 실패 시
+                                Swal.fire(
+                                    "Error!",
+                                    "There was an issue deleting your file.",
+                                    "error"
+                                );
+                            }
+                        })
+                        .catch((error) => {
+                            console.error('Error:', error);
+                        });
+                    }
+                }
+            });
+        }
+    });
+});
+
+function delTableRow() {
+    isEditMode = false;
+    isDelMode = true;
+    
+    Swal.fire({
+  	  title: "삭제할 행을 선택해주세요.",
+  	  width: 600,
+  	  padding: "3em",
+  	  color: "#00ff0000",
+  	  background: "#fff",
+  	  backdrop: `
+  	    rgba(ff,ff,ff,0)
+  	    left top
+  	    no-repeat
+  	  `
+  	});
+    
+    document.getElementById('addrow').disabled = true; // 추가 버튼을 다시 활성화
+    document.getElementById('modify').disabled = true; // 삭제 버튼 다시 활성화
+    
+ 	// 수정 버튼을 취소 버튼으로 변경
+    const modifyButton = document.getElementById('delete');
+    modifyButton.textContent = '✖️ 취소';
+    modifyButton.onclick = canMod2; // 클릭 이벤트를 canMod 함수로 변경
+    
+}
+function canMod2() {
+    isDelMode = false;
+    
+    // 취소 버튼을 다시 수정 버튼으로 변경
+    const modifyButton = document.getElementById('delete');
+    modifyButton.textContent = '⚠️ 삭제';
+    modifyButton.onclick = delTableRow; // 클릭 이벤트를 canMod 함수로 변경
+    
+    document.getElementById('addrow').disabled = false; // 추가 버튼을 다시 활성화
+    document.getElementById('modify').disabled = false; // 삭제 버튼 다시 활성화
+}
+</script>
+
+<script>
+// 추가 - 빈칸이 있을 때 알림
+document.addEventListener('DOMContentLoaded', function() {
+    var form = document.getElementById('dataForm');
+
+    if (form) { // 폼이 존재하는지 확인
+        form.addEventListener('submit', function(e) {
+            // 모든 'form-control' 클래스를 가진 입력 필드 검사
+            var inputFields = document.querySelectorAll('.form-control');
+            var isEmptyFieldPresent = Array.from(inputFields).some(function(input) {
+                return input.value.trim() === ''; // 비어있는 입력 필드가 있는지 확인
+            });
+
+            if (isEmptyFieldPresent) { // 하나라도 비어있는 입력 필드가 있으면
+                Swal.fire({
+                	  title: "빈칸을 채워주세요.",
+                	  width: 600,
+                	  padding: "3em",
+                	  color: "#00ff0000",
+                	  background: "#fff",
+                	  backdrop: `
+                	    rgba(ff,ff,ff,0)
+                	    left top
+                	    no-repeat
+                	  `
+                	});
+                e.preventDefault(); // 폼 제출 중단
+            }
+        });
+    }
+});
+</script>
+    
 	<script>
+// 		라인코드 중복검사
 // 	    $(function() {
-// 	        $('.insertLine').submit(function(e){
-//     			// 기본 submit 이벤트를 방지
-//     			e.preventDefault();
+// 	        $('#dataForm').submit(function(e){
+//     			e.preventDefault(); // 기본 submit 이벤트를 방지
+    			
 // 	            $.ajax({
 // 	                type: 'GET',
 // 	                url: '${pageContext.request.contextPath}/production/lineNameCheck',
-// 	                data: {'lineCode' : $('.lineCode').val()},
+// 	                data: {'lineCode' : $('input[name="lineCode"]').val()},
 // 	                dataType: 'html',
 // 	                success: function(result) {
 // 	                    if(result == "lcdup") {
-// 	                        result = "라인코드 중복";
-// 	                        $('.card-header').html(result);
+// 	                    	alert("라인코드 중복");
 // 	                    } else if (result == "lcok") {
 // 	                    	alert("추가 완료");
+// 	                        submitFormDirectly();
 // 	                    } else{
 // 	                    	alert("에러발생");
 // 	                    }
 // 	                }
 // 	            });
 // 	        });
+// 	        // 폼을 직접 제출하는 함수
+// 	        function submitFormDirectly() {
+// 	            // 이벤트 핸들러를 우회하여 폼 제출
+// 	            document.getElementById('dataForm').submit();
+// 	        }
 // 	    });
 	</script>
 </body>
