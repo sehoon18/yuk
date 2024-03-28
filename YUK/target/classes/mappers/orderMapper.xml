@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+
+<mapper namespace="com.itwillbs.mappers.orderMapper">
+
+<insert id="insertOrder">
+insert into ORDERS(ORD_CD, CLI_ID, USER_ID, PRO_CD, ORD_VOL, ORD_DATE, ORD_DUE_DATE, ORD_INFO_STATUS, PAYMENT_DATE)
+values(#{ORD_CD}, #{CLI_ID}, #{USER_ID}, #{PRO_CD},#{ORD_VOL}, #{ORD_DATE}, #{ORD_DUE_DATE}, #{ORD_INFO_STATUS},#{PAYMENT_DATE})
+</insert>
+
+<insert id="insertContract">
+insert into CONTRACT(ORD_CD, CLI_ID, USER_ID, PRO_CD, ORD_VOL, ORD_DATE, ORD_DUE_DATE, ORD_INFO_STATUS, PAYMENT_DATE)
+values(#{ORD_CD}, #{CLI_ID}, #{USER_ID}, #{PRO_CD},#{ORD_VOL}, #{ORD_DATE}, #{ORD_DUE_DATE}, #{ORD_INFO_STATUS},#{PAYMENT_DATE})
+</insert>
+
+<select id="getOrderList" resultType="com.itwillbs.domain.OrdercontractDTO">
+
+select o.*, c.*, p.*
+	from ORDERS o
+	join PRODUCT p
+	on o.pro_cd = p.pro_cd
+	join CLIENT c
+	on c.cli_cd = o.cli_cd
+</select>
+ 
+<select id="getContractList" resultType="com.itwillbs.domain.OrdercontractDTO">
+
+select c.*, cl.*, p.*
+	from CONTRACT c
+	join PRODUCT p
+	on c.pro_cd = p.pro_cd
+	join CLIENT cl
+	on c.cli_cd = cl.cli_cd
+</select>
+<delete id="deleteOrder">
+			delete from ORDERS
+			where ord_cd = #{ord_cd}
+</delete>
+<delete id="deleteContract">
+			delete from Contract
+			where con_cd = #{con_cd}
+</delete>
+
+</mapper>

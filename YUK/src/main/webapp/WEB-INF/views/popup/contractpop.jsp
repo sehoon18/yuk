@@ -24,7 +24,7 @@
                             
 <!-- 품목 소요량 테이블 -->
 		  <div class="card-header" style="margin-top: 30px;">
-	        <h3 class="card-title" style="text-align: left;">수주목록</h3>
+	        <h3 class="card-title" style="text-align: left;">수주품목리스트</h3>
 	      <hr>
 	      </div>
 		<div class="card-body">
@@ -35,21 +35,21 @@
 	            <table class="table">
 	              <thead>
 	                <tr>
-	                  <th>수주코드</th>
+	                  <th>품목이름</th>
 	                  <th>품목코드</th>
-	                  <th>품명</th>
-	                  <th>수주량</th>
-	                  <th>수주일자</th>
+	                  <th>거래처코드</th>
+	                  <th>거래처명</th>
+	                  <th>단가</th>
 	                </tr>
 	              </thead>
 	              <tbody>
-					<c:forEach var="productionDTO" items="${getConProList }">
+					<c:forEach var="OrdercontractDTO" items="${ContractList }">
 					<tr>
-						<td>${productionDTO.contractCode }</td>
-						<td>${productionDTO.productCode }</td>
-						<td>${productionDTO.productName }</td>
-						<td>${productionDTO.contractVol }</td>
-						<td>${productionDTO.contractDueDate }</td>
+						<td>${OrdercontractDTO.pro_name }</td>
+						<td>${OrdercontractDTO.pro_cd }</td>
+						<td>${OrdercontractDTO.cli_cd }</td>
+						<td>${OrdercontractDTO.cli_name }</td>
+						<td>${OrdercontractDTO.pro_price }</td>
 					</tr>
 					</c:forEach>
 	              </tbody>
@@ -78,11 +78,13 @@
 		  var selectedValue = selectedRow.find('td:eq(0)').text(); // 첫 번째 열의 값을 가져오는 경우
 		  var selectedValue1 = selectedRow.find('td:eq(1)').text(); // 두 번째 열의 값을 가져오는 경우
 		  var selectedValue2 = selectedRow.find('td:eq(2)').text(); // 세 번째 열의 값을 가져오는 경우
-		  var selectedValue3 = selectedRow.find('td:eq(4)').text(); // 네 번째 열의 값을 가져오는 경우
-		  window.opener.document.getElementById('contractCode').value = selectedValue;
-		  window.opener.document.getElementById('productCode').value = selectedValue1;
-		  window.opener.document.getElementById('productName').value = selectedValue2;
-		  window.opener.document.getElementById('contractDate').value = selectedValue3;
+		  var selectedValue3 = selectedRow.find('td:eq(4)').text();
+		  var selectedValue4 = selectedRow.find('td:eq(3)').text();// 5 번째 열의 값을 가져오는 경우
+		  window.opener.document.getElementById('pro_name').value = selectedValue;
+		  window.opener.document.getElementById('pro_cd').value = selectedValue1;
+		  window.opener.document.getElementById('cli_cd').value = selectedValue2;
+		  window.opener.document.getElementById('pro_price').value = selectedValue3;
+		  window.opener.document.getElementById('cli_name').value = selectedValue4;
 		  window.close();
 		});
 	</script>
