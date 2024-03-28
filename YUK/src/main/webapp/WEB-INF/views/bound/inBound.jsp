@@ -49,42 +49,56 @@
     margin-right: 20px;
     }
     
+    #page_control{
+    text-align: center;
+    }
+    
     </style>
     
 </head>
 
 <body>
+<jsp:include page="../inc/sidebar.jsp" />
 
+<div class="main-content container-fluid">
     <section class="section">
         <div class="card">
-            <div class="card-header">
-                입고 관리
-            </div>
-            <div class="searchArea">
-<!-- 검색 기능 미구현 -->
-<!-- 입고 코드 선택 팝업 미구현 -->
-<!-- 디비내용 안 담아와짐 수정할 거임 -->
-            	<form action="${pageContext.request.contextPath}/bound/inBound" method="get">
-            	입고 코드
-            	<input type="text" class="search1" name="search1">
-            	품명
-            	<input type="text" class="search2" name="search2">
-            	입고 일자
-            	<input type="text" id="startDate" class="search3" name="search3" placeholder="기간을 선택하세요">
-            	&nbsp; ~ &nbsp;
-            	<input type="text" id="endDate" class="search4" name="search4" placeholder="기간을 선택하세요">
-            	<input type="submit" value="조회" class="btn btn-primary">
-            	</form>
-            </div>
-            
             <div class="card-body">
-                <table class='table table-striped' id="table1">
+                <div class="row">
+                        <h2 class="card-title">입고 관리</h2>
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
+                                    aria-selected="true">자재 입고관리</a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile"
+                                    aria-selected="false">제품 입고관리</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                <p class='my-2'>
+                <div class="searchArea">
+            		<form action="${pageContext.request.contextPath}/bound/inBound" method="get">
+            		자재입고 코드
+            		<input type="text" class="search1" name="search1">
+            		품명
+            		<input type="text" class="search2" name="search2">
+            		자재입고 일자
+            		<input type="text" id="startDate" class="search3" name="search3" placeholder="기간을 선택하세요">
+            		&nbsp; ~ &nbsp;
+            		<input type="text" id="endDate" class="search4" name="search4" placeholder="기간을 선택하세요">
+            		<input type="submit" value="조회" class="btn btn-primary">
+            		</form>
+            	</div>
+                    <table class='table table-striped' id="table1">
                     <thead>
                         <tr>
-                            <th>입고 코드</th>
+                            <th>자재입고 코드</th>
                             <th>발주 코드</th>
-                            <th>생산실적 코드</th>
-                            <th>품명</th>
+                            <th>품목구분</th>
+                            <th>자재품명</th>
                             <th>수량</th>
                             <th>보관창고명</th>
                             <th>진행상황</th>
@@ -96,35 +110,41 @@
                     <tbody>
         <c:forEach var="boundDTO" items="${inBoundBoardList }">
     	<tr>
-   			<td>${boundDTO.ib_cd}</td>
+   			<td id="ib">${boundDTO.mib_cd}</td>
     		<td>${boundDTO.ord_cd}</td>
-    		<%-- ord_cd에 링크 경로 발주서 onclick="location.href='${pageContext.request.contextPath}/폴더/파일?ord_cd=${DTO파일.ord_cd }'" --%>
-    	    <td>${boundDTO.per_cd}</td>
+<%--     		ord_cd에 링크 경로 발주서 onClick="location.href='${pageContext.request.contextPath}/폴더/파일?ord_cd=${DTO파일.ord_cd }'" --%>
+    	    <td>
+    	    <c:if test="${boundDTO.pro_type == 1}">식자재</c:if>
+    	    <c:if test="${boundDTO.pro_type == 2}">포장자재</c:if>
+    	    </td>
     		<td>${boundDTO.pro_name}</td>
     		<td>
-    		<c:choose>
-    		<c:when test="${boundDTO.ord_cd eq null && boundDTO.per_good eq 0 }">${boundDTO.actual_completion_amount}</c:when>
-    		<c:when test="${boundDTO.per_cd eq null }">${boundDTO.ord_vol}</c:when>
-    		</c:choose>
+<%--     		<c:choose> --%>
+<%--     		<c:when test="${boundDTO.ord_cd eq null && boundDTO.per_good eq 0 }">${boundDTO.actual_completion_amount}</c:when> --%>
+<%--     		<c:when test="${boundDTO.per_cd eq null}">${boundDTO.ord_vol}</c:when> --%>
+<%--     		</c:choose> --%>
+			${boundDTO.ord_vol}
     		</td>
     		<td>${boundDTO.wh_name}</td>
 			<td>
-			<c:choose>
-			<c:when test="${boundDTO.ib_info_status eq 0}">미입고</c:when>
-			<c:when test="${boundDTO.ib_info_status eq 1}">입고완료</c:when>
-			</c:choose>
+			<c:if test="${boundDTO.mib_info_status == 0}">미입고</c:if>
+			<c:if test="${boundDTO.mib_info_status == 1}">입고완료</c:if>
 			</td>
-    		<td><fmt:formatDate value="${boundDTO.ib_date}" pattern="yyyy-MM-dd"/></td>
+    		<td>
+    		<c:if test="${empty boundDTO.mib_date}">미입고</c:if>
+    		<c:if test="${!empty boundDTO.mib_date}">
+    		<fmt:formatDate value="${boundDTO.mib_date}" pattern="yyyy-MM-dd"/></c:if>
+    		</td>
     		<td>${boundDTO.user_id}</td>
     		<td>
     		<c:choose>
-    		<c:when test="${boundDTO.ib_info_status eq 0 }">
-    		<form action="${pageContext.request.contextPath}/bound/inBoundPro" method="post">
-    		<input type="hidden" name="ib_cd" value="${boundDTO.ib_cd}">
-			<input type=submit class="btn icon icon-left btn-danger" value="입고처리">
-			</form>
+    		<c:when test="${boundDTO.mib_info_status == 0 }">
+<%--     		<form action="${pageContext.request.contextPath}/bound/inBoundPro" method="post"> --%>
+<%--     		<input type="hidden" name="ib_cd" value="${boundDTO.ib_cd}"> --%>
+			<input type=button class="btn icon icon-left btn-danger" value="입고처리">
+<!-- 			</form> -->
             </c:when>
-    		<c:when test="${boundDTO.ib_info_status eq 1 }">
+    		<c:when test="${boundDTO.mib_info_status == 1 }">
             <input type=button class="btn icon icon-left btn-success" value="입고완료">
     		</c:when>
             </c:choose>
@@ -133,22 +153,120 @@
     	</c:forEach>
                     </tbody>
                 </table>
+<!-- 페이징 시작 -->
+	<div id="page_control">
+	<c:if test="${pageDTO.startPage > pageDTO.pageBlock}">
+	<a href="${pageContext.request.contextPath}/bound/inBound?pageNum=${pageDTO.startPage - pageDTO.pageBlock}&search=${pageDTO.search}">[이전]</a>
+	</c:if>
+
+	<c:forEach var="i" begin="${pageDTO.startPage}" end="${pageDTO.endPage}" step="1">
+		<a href="${pageContext.request.contextPath}/bound/inBound?pageNum=${i}&search=${pageDTO.search}">${i}</a>
+	</c:forEach>
+
+	<c:if test="${pageDTO.pageCount > pageDTO.endPage}">
+		<a href="${pageContext.request.contextPath}/bound/inBound?pageNum=${pageDTO.startPage + pageDTO.pageBlock}&search=${pageDTO.search}">[다음]</a>
+	</c:if>
+	</div>
+<!-- 페이징 끝 -->
+                            </div>
+                            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                <p class='my-2'>
+                <div class="searchArea">
+            		<form action="${pageContext.request.contextPath}/bound/inBound" method="get">
+            		자재입고 코드
+            		<input type="text" class="search1" name="search1">
+            		품명
+            		<input type="text" class="search2" name="search2">
+            		자재입고 일자
+            		<input type="text" id="startDate" class="search3" name="search3" placeholder="기간을 선택하세요">
+            		&nbsp; ~ &nbsp;
+            		<input type="text" id="endDate" class="search4" name="search4" placeholder="기간을 선택하세요">
+            		<input type="submit" value="조회" class="btn btn-primary">
+            		</form>
+            	</div>
+                    <table class='table table-striped' id="table1">
+                    <thead>
+                        <tr>
+                            <th>자재입고 코드</th>
+                            <th>발주 코드</th>
+                            <th>품목구분</th>
+                            <th>자재품명</th>
+                            <th>수량</th>
+                            <th>보관창고명</th>
+                            <th>진행상황</th>
+                            <th>입고일자</th>
+                            <th>담당자</th>
+                            <th>입고처리</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+        <c:forEach var="boundDTO" items="${inBoundBoardList }">
+    	<tr>
+   			<td id="ib">${boundDTO.mib_cd}</td>
+    		<td>${boundDTO.ord_cd}</td>
+<%--     		ord_cd에 링크 경로 발주서 onClick="location.href='${pageContext.request.contextPath}/폴더/파일?ord_cd=${DTO파일.ord_cd }'" --%>
+    	    <td>
+    	    <c:if test="${boundDTO.pro_type == 1}">식자재</c:if>
+    	    <c:if test="${boundDTO.pro_type == 2}">포장자재</c:if>
+    	    </td>
+    		<td>${boundDTO.pro_name}</td>
+    		<td>
+<%--     		<c:choose> --%>
+<%--     		<c:when test="${boundDTO.ord_cd eq null && boundDTO.per_good eq 0 }">${boundDTO.actual_completion_amount}</c:when> --%>
+<%--     		<c:when test="${boundDTO.per_cd eq null}">${boundDTO.ord_vol}</c:when> --%>
+<%--     		</c:choose> --%>
+			${boundDTO.ord_vol}
+    		</td>
+    		<td>${boundDTO.wh_name}</td>
+			<td>
+			<c:if test="${boundDTO.mib_info_status == 0}">미입고</c:if>
+			<c:if test="${boundDTO.mib_info_status == 1}">입고완료</c:if>
+			</td>
+    		<td>
+    		<c:if test="${empty boundDTO.mib_date}">미입고</c:if>
+    		<c:if test="${!empty boundDTO.mib_date}">
+    		<fmt:formatDate value="${boundDTO.mib_date}" pattern="yyyy-MM-dd"/></c:if>
+    		</td>
+    		<td>${boundDTO.user_id}</td>
+    		<td>
+    		<c:choose>
+    		<c:when test="${boundDTO.mib_info_status == 0 }">
+<%--     		<form action="${pageContext.request.contextPath}/bound/inBoundPro" method="post"> --%>
+<%--     		<input type="hidden" name="ib_cd" value="${boundDTO.ib_cd}"> --%>
+			<input type=button class="btn icon icon-left btn-danger" value="입고처리">
+<!-- 			</form> -->
+            </c:when>
+    		<c:when test="${boundDTO.mib_info_status == 1 }">
+            <input type=button class="btn icon icon-left btn-success" value="입고완료">
+    		</c:when>
+            </c:choose>
+    		</td>
+    	</tr>
+    	</c:forEach>
+                    </tbody>
+                </table>
+<!-- 페이징 시작 -->
+	<div id="page_control">
+	<c:if test="${pageDTO.startPage > pageDTO.pageBlock}">
+	<a href="${pageContext.request.contextPath}/bound/inBound?pageNum=${pageDTO.startPage - pageDTO.pageBlock}&search=${pageDTO.search}">[이전]</a>
+	</c:if>
+
+	<c:forEach var="i" begin="${pageDTO.startPage}" end="${pageDTO.endPage}" step="1">
+		<a href="${pageContext.request.contextPath}/bound/inBound?pageNum=${i}&search=${pageDTO.search}">${i}</a>
+	</c:forEach>
+
+	<c:if test="${pageDTO.pageCount > pageDTO.endPage}">
+		<a href="${pageContext.request.contextPath}/bound/inBound?pageNum=${pageDTO.startPage + pageDTO.pageBlock}&search=${pageDTO.search}">[다음]</a>
+	</c:if>
+	</div>
+<!-- 페이징 끝 -->
+                            </div>
+                            </div>
+                        </div>
+                </div>
             </div>
         </div>
     </section>
-    
-<div id="page_control">
-<c:if test="${pageDTO.startPage > pageDTO.pageBlock}">
-	<a href="${pageContext.request.contextPath}/bound/inBound?pageNum=${pageDTO.startPage - pageDTO.pageBlock}&search=${pageDTO.search}">[이전]</a>
-</c:if>
-
-<c:forEach var="i" begin="${pageDTO.startPage}" end="${pageDTO.endPage}" step="1">
-	<a href="${pageContext.request.contextPath}/bound/inBound?pageNum=${i}&search=${pageDTO.search}">${i}</a>
-</c:forEach>
-
-<c:if test="${pageDTO.pageCount > pageDTO.endPage}">
-	<a href="${pageContext.request.contextPath}/bound/inBound?pageNum=${pageDTO.startPage + pageDTO.pageBlock}&search=${pageDTO.search}">[다음]</a>
-</c:if>
 </div>
 
 
@@ -196,20 +314,19 @@
                      // 시작일(startDate)의 선택할 수 있는 최대 날짜(maxDate)를 선택한 시작일로 지정
                      $("#startDate").datepicker( "option", "maxDate", selectedDate );
                  }
-            });    
+            });
     });
     
-    //입고처리 버튼 확인창(true / false)
-//     var reply = confirm("입고 처리하시겠습니까?<br>처리 후 수정 불가합니다.");
-//     $(function(){
-//     	$('.btn icon icon-left btn-danger').submit(function(){
-//     		document.write(reply);
-// 			if(reply.val() == true){
-				
-// 			}
-//     	});
-// 	});
-    	
+    //입고처리 버튼 확인창
+//     let ib = document.getElementById('ib')
+//     function ib(){
+//     	if(confirm("입고 처리하시겠습니까?\n처리 후 복구 불가합니다.")){
+//     		location.href='${pageContext.request.contextPath}/bound/outBound
+//     		}
+//     	}
+//     		location.href='${pageContext.request.contextPath}/bound/inBoundPro?ib_cd='+ib
+//     	}else{
+//     		return false;
     </script>
     
 </body>

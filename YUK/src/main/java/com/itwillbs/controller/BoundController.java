@@ -79,10 +79,12 @@ public class BoundController {
 	
 	} //inBound()
 	
-	@PostMapping("/inBoundPro")
-	public String inBoundPro(BoundDTO boundDTO) {
+	@GetMapping("/inBoundPro")
+	public String inBoundPro(HttpServletRequest request) {
 		System.out.println("BoundController inBoundPro()");
-		boundService.inBoundPro(boundDTO);
+		//ib_cd : inBoundPro?ib_cd=
+		int ib_cd =  Integer.parseInt(request.getParameter("ib_cd"));
+		boundService.inBoundPro(ib_cd);
 		
 		return "redirect:/bound/inBound";
 	}//inBoundPro()
@@ -143,10 +145,12 @@ public class BoundController {
 	
 	} //outBound()
 	
-	@PostMapping("/outBoundPro")
-	public String outBoundPro(BoundDTO boundDTO) {
+	@GetMapping("/outBoundPro")
+	public String outBoundPro(HttpServletRequest request) {
 		System.out.println("BoundController outBoundPro()");
-		boundService.outBoundPro(boundDTO);
+		//ob_cd : outBoundPro?ob_cd=
+		int ob_cd =  Integer.parseInt(request.getParameter("ob_cd"));
+		boundService.outBoundPro(ob_cd);
 		
 		return "redirect:/bound/outBound";
 	}//outBoundPro()

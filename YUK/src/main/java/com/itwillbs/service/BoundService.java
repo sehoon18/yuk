@@ -42,10 +42,10 @@ public class BoundService {
 		return boundDAO.getInBoundBoardCount(pageDTO);
 	}//getInBoundBoardCount()
 
-	public void inBoundPro(BoundDTO boundDTO) {
+	public void inBoundPro(int ib_cd) {
 		System.out.println("BoundService inBoundPro()");
 		
-		boundDAO.inBoundPro(boundDTO);
+		boundDAO.inBoundPro(ib_cd);
 	}//inBoundPro()
 	
 	public List<BoundDTO> getOutBoundBoardList(PageDTO pageDTO) {
@@ -74,10 +74,10 @@ public class BoundService {
 		return boundDAO.getOutBoundBoardCount(pageDTO);
 	}//getOutBoundBoardCount()
 	
-	public void outBoundPro(BoundDTO boundDTO) {
+	public void outBoundPro(int ob_cd) {
 		System.out.println("BoundService outBoundPro()");
 		
-		boundDAO.outBoundPro(boundDTO);
+		boundDAO.outBoundPro(ob_cd);
 	}//outBoundPro()
 	
 }

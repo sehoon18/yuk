@@ -6,12 +6,10 @@
 <mapper namespace="com.itwillbs.mappers.boundMapper">
 
 <select id="getInBoundBoardList" resultType="com.itwillbs.domain.BoundDTO">
-	select i.*, pe.*, o.*, w.*, pr.*
-	from INBOUND i
-	join PERFORMANCE pe
-	on i.per_cd = pe.per_cd
+	select m.*, o.*, w.*, pr.*
+	from MINBOUND m
 	join ORDERS o
-	on i.ord_cd = o.ord_cd
+	on m.ord_cd = o.ord_cd
 	join PRODUCT pr
 	on pr.pro_cd = o.pro_cd
 	join WAREHOUSE w
@@ -19,12 +17,20 @@
 </select>
 
 <select id="getInBoundBoardCount" resultType="java.lang.Integer">
-	select count(i.ib_cd)
-	from INBOUND i
-	join PERFORMANCE pe
-	on i.per_cd = pe.per_cd
+<!-- 	select count(i.ib_cd) -->
+<!-- 	from INBOUND i -->
+<!-- 	join PERFORMANCE pe -->
+<!-- 	on i.per_cd = pe.per_cd -->
+<!-- 	join ORDERS o -->
+<!-- 	on i.ord_cd = o.ord_cd -->
+<!-- 	join PRODUCT pr -->
+<!-- 	on pr.pro_cd = o.pro_cd -->
+<!-- 	join WAREHOUSE w -->
+<!-- 	on w.wh_cd = pr.wh_cd -->
+	select count(m.mib_cd)
+	from MINBOUND m
 	join ORDERS o
-	on i.ord_cd = o.ord_cd
+	on m.ord_cd = o.ord_cd
 	join PRODUCT pr
 	on pr.pro_cd = o.pro_cd
 	join WAREHOUSE w
@@ -32,9 +38,9 @@
 </select>
 
 <update id="inBoundPro">
-	update INBOUND
-	set ib_info_status = 1
-	where ib_cd = #{ib_cd}
+	update MINBOUND
+	set mib_info_status = 1
+	where mib_cd = #{mib_cd}
 </update>
 
 <select id="getOutBoundBoardList" resultType="com.itwillbs.domain.BoundDTO">
@@ -61,7 +67,7 @@
 
 <update id="outBoundPro">
 	update OUTBOUND
-	set con_info_status = 1
+	set ob_info_status = 1
 	where ob_cd = #{ob_cd}
 </update>
 
