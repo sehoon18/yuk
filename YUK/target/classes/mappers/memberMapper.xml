@@ -5,11 +5,29 @@
   
 <mapper namespace="com.itwillbs.mappers.memberMapper">
 <select id="userCheck" resultType="com.itwillbs.domain.MemberDTO">
-select id
-from member
-where id = #{id} and pass = #{pass}
+select USER_ID "id" , USER_PASS "pass" , USER_NAME "name" , USER_PERM "permission"
+from USER
+where USER_ID = #{id} and USER_PASS = #{pass}
 </select>
 
+<select id="getMemberList" resultType="com.itwillbs.domain.MemberDTO">
+select USER_ID "id", USER_NAME "name", USER_PASS "pass", USER_PHONE "phone", USER_PERM "permission"
+from USER 
+order by USER_ID
+</select>
 
+<select id="searchMemberList" resultType="com.itwillbs.domain.MemberDTO">
+select USER_ID "id", USER_NAME "name", USER_PASS "pass", USER_PHONE "phone", USER_PERM "permission"
+from USER 
+<where>
+<if test="id != null">
+USER_ID like concat('%',#{id},'%')
+</if>
+<if test="name != null">
+and USER_NAME like concat('%',#{name},'%')
+</if>
+</where>
+order by USER_ID
+</select>
 
 </mapper>

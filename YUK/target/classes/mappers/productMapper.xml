@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.itwillbs.mappers.productMapper">
+
+<select id="getProductList" resultType="com.itwillbs.domain.ProductDTO">
+select  PRO_CD "productCode", PRO_NAME "productName", PRO_TYPE "productType", PRO_ORIGIN "productOrigin", PRO_PRICE "productPrice"   
+from PRODUCT
+order by PRO_CD desc
+</select>
+
+<select id="getSearchProductList" resultType="com.itwillbs.domain.ProductDTO">
+select  PRO_CD "productCode", PRO_NAME "productName", PRO_TYPE "productType", PRO_ORIGIN "productOrigin", PRO_PRICE "productPrice"   
+from PRODUCT
+<where>
+<if test="productCode != null">
+PRO_CD like concat('%',#{productCode},'%')
+</if>
+<if test="productName != null">
+and PRO_NAME like concat('%',#{productName},'%')
+</if>
+<if test="productType != 100">
+and PRO_TYPE = #{productType}
+</if>
+</where>
+order by PRO_CD desc
+</select>
+
+<select id="getRequiredList" resultType="com.itwillbs.domain.ProductDTO">
+select r.REQ_CD "requiredCode",p1.PRO_CD "productCode",p1.PRO_NAME "productName",r.MP_CD "materialProductCode",p2.PRO_NAME "productPName",p2.PRO_TYPE "productType",r.REQ_VOL "requiredVol"
+from PRODUCT p1 join REQUIRED r 
+on p1.PRO_CD = r.PP_CD 
+join PRODUCT p2
+on r.MP_CD = p2.PRO_CD
+order by REQ_CD desc
+</select>
+
+<select id="getSearchRequiredList" resultType="com.itwillbs.domain.ProductDTO">
+select r.REQ_CD "requiredCode",p1.PRO_CD "productCode",p1.PRO_NAME "productName",r.MP_CD "materialProductCode",p2.PRO_NAME "productPName",p2.PRO_TYPE "productType",r.REQ_VOL "requiredVol"
+from PRODUCT p1 join REQUIRED r
+on p1.PRO_CD = r.PP_CD 
+join PRODUCT p2 
+on r.MP_CD = p2.PRO_CD 
+<where>
+<if test="requiredCode != null">
+r.REQ_CD like concat('%', #{requiredCode}, '%')
+</if>
+<if test="productName != null">
+and p1.PRO_NAME like concat('%', #{productName}, '%')
+</if>
+<if test="productType != 100">
+and p2.PRO_TYPE = #{productType}
+</if>
+</where>	
+order by REQ_CD desc
+</select>
+
+
+</mapper>
