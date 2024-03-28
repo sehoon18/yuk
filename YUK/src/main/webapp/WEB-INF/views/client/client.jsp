@@ -13,7 +13,11 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/app.css">
     <link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/assets/images/favicon.svg" type="image/x-icon">
-    
+<style>
+.color:hover {
+	background-color: lightgray;
+}
+</style>    
 </head>
 <body>
     
@@ -23,15 +27,18 @@
     <h1><b>거래처 관리</b></h1>
   	<br>
   	
+  	<form action="${pageContext.request.contextPath}/client/client" >
   <div class="col-lg-2 col-3" style="display: flex; align-items: center; white-space: nowrap;">
 <!--   	flex: 0 1 auto; 속성은 사원번호 텍스트가 필요한 만큼의 공간만 차지 -->
   <div style="flex: 0 1 auto; margin-right: 10px;"><b>거래처코드</b></div>
-  <input type="text" id="first-name" class="form-control" name="fname" style="flex: 1 1 auto; width: auto; background-color: white;" onclick="clientCodePopup()" readonly placeholder="거래처코드를 선택하세요.">
+  <input type="text" id="clientCode" class="form-control" name="clientCode" style="flex: 1 1 auto; width: auto; background-color: white;" onclick="clientCodePopup()" readonly placeholder="거래처코드를 선택하세요.">
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>거래처명</b> &nbsp;&nbsp;
-  <input type="text" id="first-name" class="form-control" name="fname" style="flex: 1 1 auto; width: auto;">
+  <input type="text" id="clientName" class="form-control" name="clientName" style="flex: 1 1 auto; width: auto;" placeholder="거래처명을 입력하세요.">
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <button class="btn btn-primary btn-sm" type="submit">조회</button>
 </div>
+</form>
+
 <div style="text-align: right; margin-right:30px;">
 <button class="btn btn-primary btn-sm" type="button" onclick="clientAddPopup()">등록</button>
 </div>
@@ -63,115 +70,22 @@
               </tr>
             </thead>
             <tbody>
-              <tr onclick="clientDetailPopup()">
-                <td class="text-bold-500">Michael Right</td>
-                <td>$15/hr</td>
-                <td class="text-bold-500">UI/UX</td>
-                <td>Remote</td>
-                <td>Austin,Taxes</td>
-                <td>Remote</td>
-                <td>Austin,Taxes</td>
-                <td>Remote</td> 
+            <c:forEach var="clientDTO" items="${clientList }">
+              <tr class="color" onclick="clientDetailPopup()">
+                <td>${clientDTO.clientCode }</td>
+                <td>${clientDTO.clientName }</td>
+                <td>${clientDTO.clientType }</td>
+                <td>${clientDTO.businessNumber }</td>
+                <td>${clientDTO.clientCEO }</td>
+                <td>${clientDTO.clientBasicAddress }</td>
+                <td>${clientDTO.clientTelNumber }</td>
+                <td>${clientDTO.clientEmail }</td>
+            
+                 
               </tr>
+              </c:forEach>
               
-              <tr onclick="clientDetailPopup()">
-                <td class="text-bold-500">Michael Right</td>
-                <td>$15/hr</td>
-                <td class="text-bold-500">UI/UX</td>
-                <td>Remote</td>
-                <td>Austin,Taxes</td>
-                <td>Remote</td>
-                <td>Austin,Taxes</td>
-                <td>Remote</td> 
-              </tr>
-              
-              <tr onclick="clientDetailPopup()">
-                <td class="text-bold-500">Michael Right</td>
-                <td>$15/hr</td>
-                <td class="text-bold-500">UI/UX</td>
-                <td>Remote</td>
-                <td>Austin,Taxes</td>
-                <td>Remote</td>
-                <td>Austin,Taxes</td>
-                <td>Remote</td> 
-              </tr>
-              
-              <tr onclick="clientDetailPopup()">
-                <td class="text-bold-500">Michael Right</td>
-                <td>$15/hr</td>
-                <td class="text-bold-500">UI/UX</td>
-                <td>Remote</td>
-                <td>Austin,Taxes</td>
-                <td>Remote</td>
-                <td>Austin,Taxes</td>
-                <td>Remote</td> 
-              </tr>
-              
-              <tr onclick="clientDetailPopup()">
-                <td class="text-bold-500">Michael Right</td>
-                <td>$15/hr</td>
-                <td class="text-bold-500">UI/UX</td>
-                <td>Remote</td>
-                <td>Austin,Taxes</td>
-                <td>Remote</td>
-                <td>Austin,Taxes</td>
-                <td>Remote</td> 
-              </tr>
-              
-              <tr onclick="clientDetailPopup()">
-                <td class="text-bold-500">Michael Right</td>
-                <td>$15/hr</td>
-                <td class="text-bold-500">UI/UX</td>
-                <td>Remote</td>
-                <td>Austin,Taxes</td>
-                <td>Remote</td>
-                <td>Austin,Taxes</td>
-                <td>Remote</td> 
-              </tr>
-              
-              <tr onclick="clientDetailPopup()">
-                <td class="text-bold-500">Michael Right</td>
-                <td>$15/hr</td>
-                <td class="text-bold-500">UI/UX</td>
-                <td>Remote</td>
-                <td>Austin,Taxes</td>
-                <td>Remote</td>
-                <td>Austin,Taxes</td>
-                <td>Remote</td> 
-              </tr>
-              
-              <tr onclick="clientDetailPopup()">
-                <td class="text-bold-500">Michael Right</td>
-                <td>$15/hr</td>
-                <td class="text-bold-500">UI/UX</td>
-                <td>Remote</td>
-                <td>Austin,Taxes</td>
-                <td>Remote</td>
-                <td>Austin,Taxes</td>
-                <td>Remote</td> 
-              </tr>
-              
-              <tr onclick="clientDetailPopup()">
-                <td class="text-bold-500">Michael Right</td>
-                <td>$15/hr</td>
-                <td class="text-bold-500">UI/UX</td>
-                <td>Remote</td>
-                <td>Austin,Taxes</td>
-                <td>Remote</td>
-                <td>Austin,Taxes</td>
-                <td>Remote</td> 
-              </tr>
-              
-              <tr onclick="clientDetailPopup()">
-                <td class="text-bold-500">Michael Right</td>
-                <td>$15/hr</td>
-                <td class="text-bold-500">UI/UX</td>
-                <td>Remote</td>
-                <td>Austin,Taxes</td>
-                <td>Remote</td>
-                <td>Austin,Taxes</td>
-                <td>Remote</td> 
-              </tr>
+             
             </tbody>
           </table>
         </div>
@@ -235,6 +149,15 @@
     <script>
     function clientCodePopup(){window.open("${pageContext.request.contextPath}/client/clientCodePopup","","width=1300, height=700, left=100, top=50");}
     </script>
+    
+    <script>
+    function receive(clientCode, clientName){
+    	document.getElementById("clientCode").value=clientCode;
+    	document.getElementById("clientName").value=clientName;
+    		}
+    
+    </script>
+    
     
 </body>
 </html>

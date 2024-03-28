@@ -13,7 +13,11 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/app.css">
     <link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/assets/images/favicon.svg" type="image/x-icon">
-    
+ <style>
+.color:hover {
+	background-color: lightgray;
+}
+</style>   
 </head>
 <body>
     
@@ -22,18 +26,20 @@
     <h1><b>재고 관리</b></h1>
   	<hr>
   	
+  	<form action="${pageContext.request.contextPath}/warehouse/stock">
   <div class="col-lg-2 col-3" style="display: flex; align-items: center; white-space: nowrap;">
 <!--   	flex: 0 1 auto; 속성은 사원번호 텍스트가 필요한 만큼의 공간만 차지 -->
   <div style="flex: 0 1 auto; margin-right: 10px;"><b>품목코드</b></div>
-  <input type="text" id="first-name" class="form-control" name="fname" style="flex: 1 1 auto; width: auto;">
+  <input type="text" id="productCode" class="form-control" name="productCode" style="flex: 1 1 auto; width: auto; background-color: white;" onclick="stockCodePopup()" readonly placeholder="품목코드를 선택하세요.">
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>품명</b> &nbsp;&nbsp;
-  <input type="text" id="first-name" class="form-control" name="fname" style="flex: 1 1 auto; width: auto;">
+  <input type="text" id="productName" class="form-control" name="productName" style="flex: 1 1 auto; width: auto;" placeholder="품명을 입력하세요.">
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>창고명</b> &nbsp;&nbsp;
-  <input type="text" id="first-name" class="form-control" name="fname" style="flex: 1 1 auto; width: auto;">
+  <input type="text" id="warehouseName" class="form-control" name="warehouseName" style="flex: 1 1 auto; width: auto;" placeholder="창고명을 입력하세요.">
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <button class="btn btn-primary btn-sm" type="submit">조회</button>
 </div>
+</form>
 <hr>
     
 
@@ -61,56 +67,17 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td class="text-bold-500">Michael Right</td>
-                <td>$15/hr</td>
-                <td class="text-bold-500">UI/UX</td>
-                <td>Remote</td>
-                <td>Austin,Taxes</td>
-                <td>Remote</td>
-                <td>Austin,Taxes</td>
+              <c:forEach var="warehouseDTO" items="${stockList }">
+              <tr class="color" onclick="send('${warehouseDTO.productCode}','${warehouseDTO.productName}','${warehouseDTO.warehouseName }')">
+                <td>${warehouseDTO.productCode } </td>
+                <td>${warehouseDTO.productName } </td>
+                <td>${warehouseDTO.warehouseCode } </td>
+                <td>${warehouseDTO.warehouseName } </td>
+                <td>${warehouseDTO.warehouseArea } </td>
+                <td>${warehouseDTO.productVol} </td>
+                <td> </td>
               </tr>
-              
-              <tr>
-                <td class="text-bold-500">Michael Right</td>
-                <td>$15/hr</td>
-                <td class="text-bold-500">UI/UX</td>
-                <td>Remote</td>
-                <td>Austin,Taxes</td>
-                <td>Remote</td>
-                <td>Austin,Taxes</td>
-              </tr>
-             
-              
-              <tr>
-                <td class="text-bold-500">Michael Right</td>
-                <td>$15/hr</td>
-                <td class="text-bold-500">UI/UX</td>
-                <td>Remote</td>
-                <td>Austin,Taxes</td>
-                <td>Remote</td>
-                <td>Austin,Taxes</td>
-              </tr>
-              
-              <tr>
-                <td class="text-bold-500">Michael Right</td>
-                <td>$15/hr</td>
-                <td class="text-bold-500">UI/UX</td>
-                <td>Remote</td>
-                <td>Austin,Taxes</td>
-                <td>Remote</td>
-                <td>Austin,Taxes</td>
-              </tr>
-              
-              <tr>
-                <td class="text-bold-500">Michael Right</td>
-                <td>$15/hr</td>
-                <td class="text-bold-500">UI/UX</td>
-                <td>Remote</td>
-                <td>Austin,Taxes</td>
-                <td>Remote</td>
-                <td>Austin,Taxes</td>
-              </tr>
+              </c:forEach>
               
             </tbody>
           </table>
@@ -149,6 +116,15 @@
     
     <script>
     function productCodePopup(){window.open("${pageContext.request.contextPath}/member/productCodePopup","","width=400, height=300, left=100, top=50");}
+    </script>
+    
+    <script>
+    function send(productCode, productName, warehouseName){
+    	window.opener.document.getElementById("productCode").value=productCode;
+    	window.opener.document.getElementById("productName").value=productName;
+    	window.opener.document.getElementById("warehouseName").value=warehouseName;
+    	window.close();
+    }
     </script>
     
 </body>

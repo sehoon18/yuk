@@ -41,7 +41,7 @@
                                 
                                 <div class="col-md-6 col-12">
                                         <div class="form-group">
-                                            <label for="first-name-column">거래처유형&nbsp;&nbsp;</label>
+                                            <label for="first-name-column">거래처유형*&nbsp;&nbsp;</label>
 
                             <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
                             <label class="form-check-label" for="flexRadioDefault1">납품처</label>
@@ -56,25 +56,25 @@
                                 
                                     <div class="col-md-6 col-12">
                                         <div class="form-group">
-                                            <label for="first-name-column">거래처명</label>
+                                            <label for="first-name-column">거래처명*</label>
                                             <input type="text" id="instructionCode" class="form-control" placeholder="" name="instructionCode">
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-12">
                                         <div class="form-group">
-                                            <label for="last-name-column">사업자번호</label>
+                                            <label for="last-name-column">사업자번호*</label>
                                             <input type="text" id="contractCode" class="form-control" placeholder="" name="lname-column">
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-12">
                                         <div class="form-group">
-                                            <label for="city-column">대표자명</label>
+                                            <label for="city-column">대표자명*</label>
                                             <input type="text" id="productCode" class="form-control" placeholder="" name="productCode">
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-12">
                                         <div class="form-group">
-                                            <label for="country-floating">거래처 전화번호</label>
+                                            <label for="country-floating">거래처 전화번호*</label>
                                             <input type="text" id="insVol" class="form-control" name="" placeholder="">
                                         </div>
                                     </div>
@@ -86,25 +86,25 @@
                                     </div>
                                     <div class="col-md-6 col-12">
                                         <div class="form-group">
-                                            <label for="email-id-column">업태</label>
+                                            <label for="email-id-column">업태*</label>
                                             <input type="text" id="lineCode" class="form-control" name="email-id-column" placeholder="">
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-12">
                                         <div class="form-group">
-                                            <label for="email-id-column">종목</label>
+                                            <label for="email-id-column">종목*</label>
                                             <input type="text" id="lineCode" class="form-control" name="email-id-column"  placeholder="">
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-12">
                                         <div class="form-group">
                                             <label for="email-id-column">주소</label>
-                                            <input type="text" id="lineCode" class="form-control" name="email-id-column" placeholder="">
+                                            <input type="text" id="clientAddress" class="form-control" name="email-id-column" placeholder="" onclick="sample5_execDaumPostcode()">
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-12">
                                         <div class="form-group">
-                                            <label for="email-id-column">이메일</label>
+                                            <label for="email-id-column">이메일*</label>
                                             <input type="text" id="lineCode" class="form-control" name="email-id-column" placeholder="">
                                         </div>
                                     </div>
@@ -168,5 +168,26 @@
 	    }
 	  }
 	</script>
+	
+	
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+
+function sample5_execDaumPostcode() {
+ new daum.Postcode({
+     oncomplete: function(data) {
+         var addr = data.address; // 최종 주소 변수
+
+         // 주소 정보를 해당 필드에 넣는다.
+         document.getElementById("clientAddress").value = addr;
+      
+     }
+ }).open();
+}
+</script>
+
+<script>
+
+</script>	
 </body>
 </html>
