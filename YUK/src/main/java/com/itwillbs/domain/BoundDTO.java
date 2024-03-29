@@ -25,8 +25,15 @@ public class BoundDTO {
 	private String wh_name;
 	private String pro_name;
 	private int pro_type;
+	private String ins_cd;
 	
 	
+	public String getIns_cd() {
+		return ins_cd;
+	}
+	public void setIns_cd(String ins_cd) {
+		this.ins_cd = ins_cd;
+	}
 	public int getPro_type() {
 		return pro_type;
 	}

@@ -6,7 +6,35 @@
 <mapper namespace="com.itwillbs.mappers.boundMapper">
 
 <select id="getInBoundBoardList" resultType="com.itwillbs.domain.BoundDTO">
-	select m.*, o.*, w.*, pr.*
+select * from MINBOUND;
+<!-- 	select m.mib_cd, o.ord_cd, pr.pro_type, pr.pro_name, -->
+<!-- 	w.wh_name, m.mib_info_status, m.mib_date, m.user_id -->
+<!-- 	from MINBOUND m -->
+<!-- 	join ORDERS o -->
+<!-- 	on m.ord_cd = o.ord_cd -->
+<!-- 	join PRODUCT pr -->
+<!-- 	on pr.pro_cd = o.pro_cd -->
+<!-- 	join WAREHOUSE w -->
+<!-- 	on w.wh_cd = pr.wh_cd -->
+</select>
+
+<select id="getInBoundBoardList2" resultType="com.itwillbs.domain.BoundDTO">
+select * from PINBOUND;
+<!-- 	select p.pib_cd, pe.*, pr.pro_name, w.wh_name, -->
+<!-- 	p.pib_info_status, p.pib_date, p.user_id, i.pro_cd -->
+<!-- 	from PINBOUND p -->
+<!-- 	join PERFORMANCE pe -->
+<!-- 	on p.per_cd = pe.per_cd -->
+<!-- 	join INSTRUCTION i -->
+<!-- 	on pe.ins_cd = i.ins_cd -->
+<!-- 	join PRODUCT pr -->
+<!-- 	on pr.pro_cd = i.pro_cd -->
+<!-- 	join WAREHOUSE w -->
+<!-- 	on w.wh_cd = pr.wh_cd -->
+</select>
+
+<select id="getInBoundBoardCount" resultType="java.lang.Integer">
+	select count(m.mib_cd)
 	from MINBOUND m
 	join ORDERS o
 	on m.ord_cd = o.ord_cd
@@ -16,23 +44,15 @@
 	on w.wh_cd = pr.wh_cd
 </select>
 
-<select id="getInBoundBoardCount" resultType="java.lang.Integer">
-<!-- 	select count(i.ib_cd) -->
-<!-- 	from INBOUND i -->
-<!-- 	join PERFORMANCE pe -->
-<!-- 	on i.per_cd = pe.per_cd -->
-<!-- 	join ORDERS o -->
-<!-- 	on i.ord_cd = o.ord_cd -->
-<!-- 	join PRODUCT pr -->
-<!-- 	on pr.pro_cd = o.pro_cd -->
-<!-- 	join WAREHOUSE w -->
-<!-- 	on w.wh_cd = pr.wh_cd -->
-	select count(m.mib_cd)
-	from MINBOUND m
-	join ORDERS o
-	on m.ord_cd = o.ord_cd
+<select id="getInBoundBoardCount2" resultType="java.lang.Integer">
+	select count(p.pib_cd)
+	from PINBOUND p
+	join PERFORMANCE pe
+	on p.per_cd = pe.per_cd
+	join INSTRUCTION i
+	on pe.ins_cd = i.ins_cd
 	join PRODUCT pr
-	on pr.pro_cd = o.pro_cd
+	on pr.pro_cd = i.pro_cd
 	join WAREHOUSE w
 	on w.wh_cd = pr.wh_cd
 </select>
@@ -52,6 +72,16 @@
 	on pr.pro_cd = c.pro_cd
 	join WAREHOUSE w
 	on w.wh_cd = pr.wh_cd
+	<where>
+	<if test="search1 != null">o.ob_cd like CONCAT('%',#{search1},'%')</if>
+	<if test="search2 != null">and pr.pro_name like CONCAT('%',#{search2},'%')</if>
+	<if test="search3 != '' and search4 != '' and search3 != null and search4 != null">
+								and o.ob_date between #{search3} and #{search4}</if>
+	<if test="search3 == '' and search4 != ''" >and o.ob_date &lt;= #{search4}</if>
+	<if test="search3 != '' and search4 == ''" >and o.ob_date &gt;= #{search3}</if>
+	</where>
+	order by ob_cd desc
+	
 </select>
 
 <select id="getOutBoundBoardCount" resultType="java.lang.Integer">
@@ -63,6 +93,14 @@
 	on pr.pro_cd = c.pro_cd
 	join WAREHOUSE w
 	on w.wh_cd = pr.wh_cd
+	<where>
+	<if test="search1 != null">o.ob_cd like CONCAT('%',#{search1},'%')</if>
+	<if test="search2 != null">and pr.pro_name like CONCAT('%',#{search2},'%')</if>
+	<if test="search3 != '' and search4 != '' and search3 != null and search4 != null">
+								and o.ob_date between #{search3} and #{search4}</if>
+	<if test="search3 == '' and search4 != ''" >and o.ob_date &lt;= #{search4}</if>
+	<if test="search3 != '' and search4 == ''" >and o.ob_date &gt;= #{search3}</if>
+	</where>
 </select>
 
 <update id="outBoundPro">
