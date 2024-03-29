@@ -200,6 +200,7 @@
     	Swal.fire({
       	title: "출고처리 완료",
       	icon: "success"
+      	location.replace('${pageContext.request.contextPath}/bound/outBoundPro?ob_cd="+ob123"'); 
     	});
   		}
 	});
