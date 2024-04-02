@@ -21,7 +21,7 @@
             <div class="col-12" >
                 <div class="card" style="box-shadow: none;">
 		  			<div class="card-header" style="margin-top: 30px;">
-                        <h3 class="card-title">작업지시서 등록</h3>
+                        <h3 class="card-title">생산실적 등록</h3>
                     <hr>
                     </div>
                     <div class="card-content">
@@ -31,7 +31,7 @@
                                     <div class="col-md-4 col-12">
                                         <div class="form-group">
                                             <label for="first-name-column">작업지시코드</label>
-                                            <input type="text" id="instructionCode" class="form-control" placeholder="INS" name="instructionCode">
+                                            <input type="text" id="instructionCode" class="form-control" value="${productionDTO.instructionCode }" name="instructionCode" disabled>
                                         </div>
                                     </div>
                                     <div class="col-md-4 col-12">
@@ -197,25 +197,29 @@
 	
 	
 	<script>
-	function submitForm() {
-	    $.ajax({
-	        url: "${pageContext.request.contextPath}/production/insertInstruction", // 실제 요청 URL로 변경해야 함
-	        type: "post", // 메소드 타입
-	        data: $("#insForm").serialize(), // 폼 데이터 직렬화
-	        success: function(response) {
-	            // 데이터베이스 저장 성공 후
-	            alert("저장 성공!");
-	            window.opener.location.reload(); // 부모 창 새로고침
-	            window.close(); // 팝업 창 닫기
-	        },
-	        error: function(xhr, status, error) {
-	            alert("저장 실패: " + error);
-	        }
+	$(document).ready(function() {
+	    // 폼의 'submit' 이벤트에 대한 이벤트 리스너 등록
+	    $("#insForm").submit(function(event) {
+	        // 기본 폼 제출 동작을 방지
+	        event.preventDefault();
+	
+	        // AJAX 요청
+	        $.ajax({
+	            url: "${pageContext.request.contextPath}/production/insertInstruction", // 실제 요청 URL로 변경해야 함
+	            type: "post", // 메소드 타입
+	            data: $(this).serialize(), // 현재 폼 데이터 직렬화
+	            success: function(response) {
+	                // 데이터베이스 저장 성공 후
+	                alert("저장 성공!");
+	                window.opener.location.reload(); // 부모 창 새로고침
+	                window.close(); // 팝업 창 닫기
+	            },
+	            error: function(xhr, status, error) {
+	                alert("저장 실패: " + error);
+	            }
+	        });
 	    });
-	    return false; // 기본 폼 제출 동작 방지
-	}
+	});
 	</script>
-	
-	
 </body>
 </html>

@@ -30,9 +30,31 @@ public class ProductionController {
 		return "production/test";
 	}
 	
+	// 라인 페이지
 	@GetMapping("/line")
 	public String line(ProductionDTO productionDTO, Model model, HttpServletRequest request) {
 		System.out.println("ProductionController line()");
+		
+		// lineCode 생성
+		Integer lineLastNum = productionService.getLineLastNum();
+		System.out.println(lineLastNum);
+
+		String lineCode;
+		if (lineLastNum == null) {
+		    lineCode = "L001";
+		} else {
+		    int nextNum = lineLastNum + 1;
+		    if (nextNum < 10) {
+		    	lineCode = String.format("L00%d", nextNum);
+		    } else if (nextNum < 100) {
+		    	lineCode = String.format("L0%d", nextNum);
+		    } else {
+		    	lineCode = String.format("L%d", nextNum);
+		    }
+		}
+		
+		productionDTO.setLineCode(lineCode);
+		model.addAttribute("productionDTO", productionDTO);
 		
 		List<ProductionDTO> lineList = productionService.getLineList();
 		model.addAttribute("lineList", lineList);
@@ -45,22 +67,8 @@ public class ProductionController {
 		System.out.println("ProductionController linePro()");
 		System.out.println(productionDTO);
 		
-		String lineCode = null;
-		int lineNum = 0;
-		boolean isUnique = false;
-
-		while (!isUnique) {
-		    lineNum++;
-		    String newLineCode = "L" + lineNum;
-		    if (productionService.getLineCode(newLineCode) == null) {
-		        lineCode = newLineCode;
-		        isUnique = true;
-		    }
-		}
-		
 //		String id = (String)session.getAttribute("id");
 		
-		productionDTO.setLineCode(lineCode);
 		productionDTO.setName("hong123");		
 		productionService.insertLine(productionDTO);
 		
@@ -87,17 +95,19 @@ public class ProductionController {
 		return "redirect:/production/line";
 	}
 	
+	// 생산실적 페이지
 	@GetMapping("/performance")
-	public String perfomance(Model model) {
+	public String performance(Model model, ProductionDTO productionDTO) {
 		System.out.println("ProductionController performance()");
 		
-		List<ProductionDTO> performanceList = productionService.getPerformanceList();
-		model.addAttribute("performanceList", performanceList);
+		List<ProductionDTO> compInsList = productionService.getCompInstructionList(productionDTO);
+		model.addAttribute("compInsList", compInsList);
 		
 		
 		return "production/performance";
 	}
 
+	// 작업지시 페이지
 	@GetMapping("/instruction")
 	public String instruction(Model model, ProductionDTO productionDTO) {
 		System.out.println("ProductionController instruction()");
@@ -108,22 +118,48 @@ public class ProductionController {
 		return "production/instruction";
 	}
 
+	// 작업지시 등록
 	@PostMapping("/insertInstruction")
 	public String insertInstruction(ProductionDTO productionDTO) {
 		System.out.println("ProductionController insertInstruction()");
 		
+		System.out.println(productionDTO);
 		productionDTO.setName("hong123");
 		productionService.insertInstruction(productionDTO);
 		
 		return "production/instruction";
 	}
 	
+	// 작업지시 등록 팝업
 	@GetMapping("/inspop")
-	public String inspop() {
+	public String inspop(ProductionDTO productionDTO, Model model) {
 		System.out.println("ProductionController inspop()");
+		
+		// instructionCode 생성
+		Integer insLastNum = productionService.getInsLastNum();
+		
+		String instructionCode;
+		if (insLastNum == null) {
+		    instructionCode = "INS001";
+		} else {
+		    int nextNum = insLastNum + 1;
+		    if (nextNum < 10) {
+		        instructionCode = String.format("INS00%d", nextNum);
+		    } else if (nextNum < 100) {
+		        instructionCode = String.format("INS0%d", nextNum);
+		    } else {
+		        instructionCode = String.format("INS%d", nextNum);
+		    }
+		}
+		productionDTO.setInstructionCode(instructionCode);
+		model.addAttribute("productionDTO", productionDTO);
+		
+//		List<ProductionDTO> reqList = productionService.getReqList();
+		
 		return "production/inspop";
 	}
 	
+	// 작업지시 상세
 	@GetMapping("/insDetailpop")
 	public String insDetailpop(Model model, ProductionDTO productionDTO) {
 		System.out.println("ProductionController insDetailpop()");
@@ -134,7 +170,7 @@ public class ProductionController {
 		return "production/insDetailpop";
 	}
 	
-	
+	// 작업지시 수정
 	@PostMapping("/updateInstruction")
 	public String updateInstruction(ProductionDTO productionDTO) {
 		System.out.println("ProductionController updateInstruction()");
@@ -146,6 +182,7 @@ public class ProductionController {
 		
 		productionDTO.setInstructionDate(Stoday);
 		productionService.updateInstruction(productionDTO);
+		
 		System.out.println(productionDTO);
 
 		return "redirect:/production/insDetailpop?instructionCode=" + productionDTO.getInstructionCode();
@@ -161,4 +198,38 @@ public class ProductionController {
 		
 		return "redirect:/production/instruction";
 	}
+	
+	// 작업지시 완료 버튼 기능
+	@PostMapping("/updateInsStatus")
+	public String updateInsStatus(ProductionDTO productionDTO) {
+		System.out.println("ProductionController updateInsStatus()");
+		
+		productionService.updateInsStatus(productionDTO);
+		
+		return "redirect:/production/instruction";
+	}
+	
+	
+	// 실적등록
+	@GetMapping("/perpop")
+	public String perpop(Model model, ProductionDTO productionDTO) {
+		System.out.println("ProductionController perpop()");
+		
+		// 작업상태 2(완료)인 작업지시 가져오기
+		List<ProductionDTO> compInsList = productionService.getCompInstructionList(productionDTO);
+		model.addAttribute("compInsList", compInsList);
+		
+		return "production/perpop";
+	}
+	
+	// 실적등록
+	@PostMapping("/insertPer")
+	public String insertPer(ProductionDTO productionDTO) {
+		System.out.println("ProductionController updateInsStatus()");
+		
+		productionService.insertPer(productionDTO);
+		
+		return "redirect:/production/performance";
+	}
+	
 }

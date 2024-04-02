@@ -12,8 +12,16 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/app.css">
     <link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/assets/images/favicon.svg" type="image/x-icon">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     
+	<!-- Required meta tags -->
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+	<!-- sweetalert2 -->
+	<script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>      
+
+	<!-- jquery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 <section id="multiple-column-form" >
@@ -27,8 +35,13 @@
     <h3 class="card-title">${productionDTO.instructionCode }</h3>
     <div>
         <button type="submit" id="updateIns" class="btn btn-primary mr-1 mb-1" onclick="updateIns()" disabled>💾 저장</button>
+        <c:if test="${productionDTO.instractionStatus == 0 }">
         <button type="button" id="modifyIns" class="btn btn-primary mr-1 mb-1" onclick="modifyIns()">↪️ 수정</button>
-        <button type="button" id="deleteIns" class="btn btn-primary mr-1 mb-1" onclick="deleteIns('${productionDTO.instructionCode}')">⚠️ 삭제</button>
+        </c:if>
+        <c:if test="${productionDTO.instractionStatus == 2 }">
+        <button type="button" id="modifyIns" class="btn btn-primary mr-1 mb-1" onclick="modifyIns()" disabled>↪️ 수정</button>
+        </c:if>
+        <button type="button" id="deleteIns" class="btn btn-primary mr-1 mb-1" data-instruction-code="${productionDTO.instructionCode}">⚠️ 삭제</button>
     </div>
 </div>
                     <hr>
@@ -39,7 +52,7 @@
                                     <div class="col-md-4 col-12">
                                         <div class="form-group">
                                             <label for="city-column">품목코드</label>
-                                            <input type="text" id="productCode" class="form-control" name="productCode" value="${productionDTO.productCode }" disabled>
+                                            <input type="text" id="productCode" class="form-control" name="productCode" onclick="openProductPopup()" value="${productionDTO.productCode }" disabled>
                                         </div>
                                     </div>
                                     <div class="col-md-4 col-12">
@@ -66,7 +79,7 @@
                                     <div class="col-md-4 col-12">
                                         <div class="form-group">
                                             <label for="email-id-column">라인코드</label>
-                                            <input type="text" id="lineCode" class="form-control" name="lineCode" value="${productionDTO.lineCode }" disabled>
+                                            <input type="text" id="lineCode" class="form-control" name="lineCode" onclick="openLinePopup()" value="${productionDTO.lineCode }" disabled>
                                         </div>
                                     </div>
 						</div></div>
@@ -173,23 +186,123 @@
 	    }
 	</script>
 
+<script>
+    $(document).ready(function() {
+        // 클릭 이벤트 핸들러 내부에서 deleteIns 함수를 호출합니다.
+        $('#deleteIns').click(function() {
+            var instructionCode = $(this).data('instructionCode'); // instructionCode 값을 얻습니다.
+            
+            // SweetAlert로 삭제 확인 요청
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // 사용자가 확인을 눌렀을 경우, deleteIns 함수에 instructionCode 값을 전달하여 호출합니다.
+                    deleteIns(instructionCode);
+                    
+                    // SweetAlert로 삭제 성공 메시지 표시
+//                     Swal.fire({
+//                         title: "Deleted!",
+//                         text: "Your file has been deleted.",
+//                         icon: "success"
+//                     });
+                }
+            });
+        });
+    });
+
+    // deleteIns 함수를 클릭 이벤트 핸들러 외부에 정의합니다.
+    function deleteIns(instructionCode) {
+        event.preventDefault();
+        $.ajax({
+            url: "${pageContext.request.contextPath}/production/deleteInstruction", // 실제 요청 URL로 변경해야 함
+            type: "post", // 메소드 타입
+            data:  { instructionCode: instructionCode }, // 서버로 전송할 데이터
+            success: function(response) {
+                // 데이터베이스 저장 성공 후
+                window.opener.location.reload(); // 부모 창 새로고침
+                window.close(); // 팝업 창 닫기
+            },
+            error: function(xhr, status, error) {
+                alert("삭제 실패: " + error);
+            }
+        });
+    }
+</script>
+
 	<script>
-// 	function deleteIns(instructionCode) {
-// 		$.ajax({
-// 	        url: "${pageContext.request.contextPath}/production/deleteInstruction", // 실제 요청 URL로 변경해야 함
-// 	        type: "post", // 메소드 타입
-// 	        data:  { instructionCode: instructionCode }, // 서버로 전송할 데이터
-// 	        success: function(response) {
-// 	            // 데이터베이스 저장 성공 후
-// 	            alert("삭제 성공!");
-// 	            window.opener.location.reload(); // 부모 창 새로고침
-// 	            window.close(); // 팝업 창 닫기
-// 	        },
-// 	        error: function(xhr, status, error) {
-// 	            alert("삭제 실패: " + error);
-// 	        }
-// 	    });
-// 	}
+	  // 인풋 창을 클릭하면 팝업을 엽니다.
+	  function openProductPopup() {
+	    var popup = window.open("${pageContext.request.contextPath}/popup/productpop", "popup", "width=800,height=600");
+	    
+	    if (popup === null || typeof(popup) === 'undefined') {
+	      alert('팝업이 차단되었습니다. 팝업 차단을 해제하고 다시 시도해주세요.');
+	    } else {
+	      // 팝업에서 선택한 값을 가져와서 인풋 필드에 설정합니다.
+	      $(popup.document).on('click', '.popup-option', function() {
+	        var selectedValue = $(this).text();
+	        $('#productCode').val(selectedValue);
+	        popup.close();
+	      });
+	    }
+	  }
+	</script>
+	
+	<script>
+	// 빈칸이 있을 때 알림
+	document.addEventListener('DOMContentLoaded', function() {
+	    var form = document.getElementById('insForm');
+	
+	    if (form) { // 폼이 존재하는지 확인
+	        form.addEventListener('submit', function(e) {
+	            // 모든 'form-control' 클래스를 가진 입력 필드 검사
+	            var inputFields = document.querySelectorAll('.form-control');
+	            var isEmptyFieldPresent = Array.from(inputFields).some(function(input) {
+	                return input.value.trim() === ''; // 비어있는 입력 필드가 있는지 확인
+	            });
+	
+	            if (isEmptyFieldPresent) { // 하나라도 비어있는 입력 필드가 있으면
+	                Swal.fire({
+	                	  title: "빈칸을 채워주세요.",
+	                	  width: 600,
+	                	  padding: "3em",
+	                	  color: "#00ff0000",
+	                	  background: "#fff",
+	                	  backdrop: `
+	                	    rgba(ff,ff,ff,0)
+	                	    left top
+	                	    no-repeat
+	                	  `
+	                	});
+	                e.preventDefault(); // 폼 제출 중단
+	            }
+	        });
+	    }
+	});
+	</script>
+	
+	<script>
+	  // 인풋 창을 클릭하면 팝업을 엽니다.
+	  function openLinePopup() {
+	    var popup = window.open("${pageContext.request.contextPath}/popup/linepop", "popup", "width=800,height=600");
+	    
+	    if (popup === null || typeof(popup) === 'undefined') {
+	      alert('팝업이 차단되었습니다. 팝업 차단을 해제하고 다시 시도해주세요.');
+	    } else {
+	      // 팝업에서 선택한 값을 가져와서 인풋 필드에 설정합니다.
+	      $(popup.document).on('click', '.popup-option', function() {
+	        var selectedValue = $(this).text();
+	        $('#lineCode').val(selectedValue);
+	        popup.close();
+	      });
+	    }
+	  }
 	</script>
 </body>
 </html>

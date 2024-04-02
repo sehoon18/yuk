@@ -116,7 +116,7 @@
     <script src="${pageContext.request.contextPath}/resources/assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
     <script src="${pageContext.request.contextPath}/resources/assets/js/app.js"></script>
     
-<script src="${pageContext.request.contextPath}/resources/assets/vendors/simple-datatables/simple-datatables.js"></script>
+<%-- <script src="${pageContext.request.contextPath}/resources/assets/vendors/simple-datatables/simple-datatables.js"></script> --%>
 <script src="${pageContext.request.contextPath}/resources/assets/js/vendors.js"></script>
 
     <script src="${pageContext.request.contextPath}/resources/assets/js/main.js"></script>
@@ -129,7 +129,7 @@
         
         // 각 열에 대한 셀과 입력 필드 생성
         const fields = ['lineCode', 'lineName', 'update', 'name', 'lineStatus'];
-        const exampleData = ['LineCode', '', '', '', '0'];
+        const exampleData = ['${productionDTO.lineCode}', '', '', '', '0'];
 
         fields.forEach((field, index) => {
             const cell = newRow.insertCell(index);
@@ -295,15 +295,14 @@
             originalHTML[index] = cell.innerHTML; // 수정 전 원본 HTML을 저장
             const originalText = cell.textContent.trim();
             
-            // 1열(인덱스 0)의 경우, 숨겨진 입력 필드를 생성
+            // 1열(인덱스 0)의 경우, 텍스트 입력 필드를 생성
 	       if (index === 0) {
 	            const input = document.createElement('input');
 	            input.type = 'hidden'; // 입력 필드 타입을 hidden으로 설정
 	            input.name = 'lineCode'; // 요구사항에 맞게 이름 설정
 	            input.value = originalText; // 예를 들어, 행의 고유 ID 값
-// 	            cell.innerHTML = ''; // 셀 내용을 비우고
 	            cell.appendChild(input); // 숨겨진 입력 필드 추가
-	        }
+	       }
             // 2열(인덱스 1)의 경우, 텍스트 입력 필드를 생성
 			else if (index === 1) {
                 const input = document.createElement('input');

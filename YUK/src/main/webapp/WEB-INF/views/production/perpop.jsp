@@ -1,76 +1,44 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>    
+
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Datatable - Voler Admin Dashboard</title>
-    
+<meta charset="UTF-8">
+<title>요기육</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/bootstrap.css">
     
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/vendors/simple-datatables/style.css">
-
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/app.css">
     <link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/assets/images/favicon.svg" type="image/x-icon">
-    
-	<!-- Required meta tags -->
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-
-	<!-- sweetalert2 -->
-	<script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>    
-	
-	<!-- 	jquery -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+   	<style>
 		tbody tr:hover {
 		    background-color:#e4e8ff;
 		}
 	</style>
 </head>
 <body>
-    <div id="app">
-        
-	<jsp:include page="../inc/sidebar.jsp" />
-	
-<div class="main-content container-fluid">
-    <div class="page-title">
-        <div class="row">
-            <div class="col-12 col-md-6 order-md-1 order-last">
-                <h3>실적 관리</h3>
-<!--                 <p class="text-subtitle text-muted">We use 'simple-datatables' made by @fiduswriter. You can check the full documentation <a href="https://github.com/fiduswriter/Simple-DataTables/wiki">here</a>.</p> -->
-            </div>
-            <div class="col-12 col-md-6 order-md-2 order-first">
-                <nav aria-label="breadcrumb" class='breadcrumb-header'>
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Datatable</li>
-                    </ol>
-                </nav>
-            </div>
-        </div>
-    </div>
-    <section class="section">
-        <div class="card">
-            <div class="card-body">
-            <div class="card-header" style="text-align: right;">
-<!-- 			    <button type="button" onclick="openPopup()" class='btn btn-primary' id="addrow">등록</button> -->
-			</div>
+<section id="multiple-column-form" >
+        <div class="row match-height" >
+            <div class="col-12" >
+                <div class="card" style="box-shadow: none;">
+		  			<div class="card-header" style="margin-top: 30px;">
+                <h2>생산실적 등록</h2><br><br>
+                        <h3 class="card-title">작업지시 목록</h3>
+                    <hr>
+
 	          <!-- Table with outer spacing -->
-			<div class="card-header" style="">
-			<h3 class="card-title">작업지시 목록</h3>
 	          <div class="table-responsive">
 	            <table class="table" id="table1">
 	              <thead>
 	                <tr>
-	                  <th style="width: 180px;">작업지시 코드</th>
-	                  <th style="width: 180px;">품목코드</th>
-	                  <th >품목명</th>
-	                  <th style="width: 150px;">지시수량</th>
-	                  <th style="width: 180px;">지시날짜</th>
+	                  <th>작업지시 코드</th>
+	                  <th>품목코드</th>
+	                  <th>품목명</th>
+	                  <th>지시수량</th>
+	                  <th>지시날짜</th>
 	                </tr>
 	              </thead>
 	              <tbody>
@@ -86,26 +54,27 @@
 	              </tbody>
 	            </table>
 	          </div>
-			</div>
-<!-- 	          --- -->
-	          <div class="card-content">
-	          <form id="dataForm" action="${pageContext.request.contextPath}/production/insertPer" method="post">
+
+                    </div>
+                    <div class="card-content">
+	          <form action="${pageContext.request.contextPath}/production/insertPer" method="post">
 
 <!-- 품목 소요량 테이블 -->
 		  <div class="card-header" style="margin-top: 20px;">
 	        <h3 class="card-title" style="text-align: left;">실적입력</h3>
+	      <hr>
 <!-- 	      실적입력창 테이블 -->
 	          <!-- Table with outer spacing -->
 	          <div class="table-responsive">
 	            <table class="table" id="table2">
 	              <thead>
 	                <tr>
-	                  <th style="width: 180px;">작업지시 코드</th>
-	                  <th style="width: 180px;">품목코드</th>
-	                  <th style="width: 200px;">품명</th>
-	                  <th style="width: 150px;">지시수량</th>
+	                  <th>작업지시 코드</th>
+	                  <th>품목코드</th>
+	                  <th>품명</th>
+	                  <th style="width: 130px;">지시수량</th>
 	                  <th style="width: 130px;">실적수량</th>
-	                  <th style="width: 130px;">양불구분</th>
+	                  <th>양불구분</th>
 	                  <th>비고</th>
 	                </tr>
 	              </thead>
@@ -123,8 +92,6 @@
 					<td><input type="text" name="perNote" class="form-control" placeholder="불량사유, 기타 정보"></td>
 	              </tr>
 	              </tbody>
-	              <tfoot>
-	              </tfoot>
 	            </table>
 	          </div>
 	      </div>
@@ -138,31 +105,14 @@
 							</div>
 							</form>
                         </div>
-<!-- 	          --- -->
-            </div>
-        </div>
-
-    </section>
-</div>
-
-            <footer>
-                <div class="footer clearfix mb-0 text-muted">
-                    <div class="float-left">
-                        <p>2020 &copy; Voler</p>
-                    </div>
-                    <div class="float-right">
-                        <p>Crafted with <span class='text-danger'><i data-feather="heart"></i></span> by <a href="http://ahmadsaugi.com">Ahmad Saugi</a></p>
                     </div>
                 </div>
-            </footer>
-        </div>
+            </div>
+    </section>
     <script src="${pageContext.request.contextPath}/resources/assets/js/feather-icons/feather.min.js"></script>
     <script src="${pageContext.request.contextPath}/resources/assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
     <script src="${pageContext.request.contextPath}/resources/assets/js/app.js"></script>
     
-<%-- <script src="${pageContext.request.contextPath}/resources/assets/vendors/simple-datatables/simple-datatables.js"></script> --%>
-<script src="${pageContext.request.contextPath}/resources/assets/js/vendors.js"></script>
-
     <script src="${pageContext.request.contextPath}/resources/assets/js/main.js"></script>
     
 	<script>
@@ -201,8 +151,8 @@
 	      contentType: "application/json",
 	      cache: false,  // 캐싱 방지
 	      success: function(response) {
-// 	        console.log(response); // 응답 데이터 로깅
-	        $("#table2 tfoot").empty(); // 기존 테이블 내용 초기화
+	        console.log(response); // 응답 데이터 로깅
+	        $("#table2 tbody").empty(); // 기존 테이블 내용 초기화
 	
 	        // 서버로부터 받은 데이터로 테이블 바디를 채웁니다.
 	        $.each(response, function(i, item) {
@@ -216,7 +166,7 @@
 	            "<td>" + item.perNote + "</td>" +
 	            "</tr>";
 	
-	          $("#table2 tfoot").append(newRow);
+	          $("#table2 tbody").append(newRow);
 	        });
 	      },
 	      error: function(xhr, status, error) {
@@ -227,38 +177,7 @@
 	  });
 	});
 	</script>
-	
-	<script>
-	// 빈칸이 있을 때 알림
-	document.addEventListener('DOMContentLoaded', function() {
-	    var form = document.getElementById('dataForm');
-	
-	    if (form) { // 폼이 존재하는지 확인
-	        form.addEventListener('submit', function(e) {
-	            // 모든 'form-control' 클래스를 가진 입력 필드 검사
-	            var inputFields = document.querySelectorAll('.form-control');
-	            var isEmptyFieldPresent = Array.from(inputFields).some(function(input) {
-	                return input.value.trim() === ''; // 비어있는 입력 필드가 있는지 확인
-	            });
-	
-	            if (isEmptyFieldPresent) { // 하나라도 비어있는 입력 필드가 있으면
-	                Swal.fire({
-	                	  title: "빈칸을 채워주세요.",
-	                	  width: 600,
-	                	  padding: "3em",
-	                	  color: "#00ff0000",
-	                	  background: "#fff",
-	                	  backdrop: `
-	                	    rgba(ff,ff,ff,0)
-	                	    left top
-	                	    no-repeat
-	                	  `
-	                	});
-	                e.preventDefault(); // 폼 제출 중단
-	            }
-	        });
-	    }
-	});
-	</script>
+
+
 </body>
 </html>

@@ -67,8 +67,44 @@ public class ProductionDAO {
 		sqlSession.delete(namespace + ".deleteInstruction", productionDTO);
 	}
 
+	public void switchLineStatus0(ProductionDTO productionDTO) {
+		sqlSession.update(namespace + ".switchLineStatus0", productionDTO);
+	}
 
+	public void updateInsStatus(ProductionDTO productionDTO) {
+		sqlSession.update(namespace + ".updateInsStatus", productionDTO);
+	}
 
-	
-	
+	public Integer getInsLastNum() {
+		return sqlSession.selectOne(namespace + ".getInsLNum");
+	}
+
+	public Integer setLineLastCode() {
+		return sqlSession.selectOne(namespace + ".setLineLastCode");
+	}
+
+	public List<ProductionDTO> getCompInstructionList(ProductionDTO productionDTO) {
+		return sqlSession.selectList(namespace + ".getCompInstructionList", productionDTO);
+	}
+
+	public void insertPer(ProductionDTO productionDTO) {
+		sqlSession.insert(namespace + ".insertPer", productionDTO);
+	}
+
+	public Integer getPerLastNum() {
+		return sqlSession.selectOne(namespace + ".getPerLastNum");
+	}
+
+	public List<ProductionDTO> getPerList(ProductionDTO productionDTO) {
+		return sqlSession.selectList(namespace + ".getPerList", productionDTO);
+	}
+
+	public ProductionDTO getPerformance(ProductionDTO productionDTO) {
+		return sqlSession.selectOne(namespace + ".getPerformance", productionDTO);
+	}
+
+	public Integer getLineLastNum() {
+		return sqlSession.selectOne(namespace + ".getLineLastNum");
+	}
+
 }

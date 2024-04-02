@@ -1,7 +1,5 @@
 package com.itwillbs.domain;
 
-import java.util.List;
-
 public class ProductionDTO {
 	
 	// LINE
@@ -34,8 +32,9 @@ public class ProductionDTO {
 	private String perCode;
 	private int perVol;
 	private String perDate;
-	private String perNote;
+	private String perNote;			// 불량사유
 	private int perACA;				// 실적수량
+	private int perGood;			// 양불구분
 	
 	@Override
 	public String toString() {
@@ -45,7 +44,8 @@ public class ProductionDTO {
 				+ ", contractCode=" + contractCode + ", contractVol=" + contractVol + ", contractDueDate="
 				+ contractDueDate + ", contractDate=" + contractDate + ", conInfoStatus=" + conInfoStatus
 				+ ", paymentDate=" + paymentDate + ", productName=" + productName + ", productCode=" + productCode
-				+ "]";
+				+ ", productVol=" + productVol + ", perCode=" + perCode + ", perVol=" + perVol + ", perDate=" + perDate
+				+ ", perNote=" + perNote + ", perACA=" + perACA + ", perGood=" + perGood + "]";
 	}
 	
 	// ���ΰ��� getter/setter
@@ -203,9 +203,12 @@ public class ProductionDTO {
 		this.perACA = perACA;
 	}
 
-	public List<ProductionDTO> getInstruction(ProductionDTO productionDTO) {
-		// TODO Auto-generated method stub
-		return null;
+	public int getPerGood() {
+		return perGood;
+	}
+
+	public void setPerGood(int perGood) {
+		this.perGood = perGood;
 	}
 	
 }

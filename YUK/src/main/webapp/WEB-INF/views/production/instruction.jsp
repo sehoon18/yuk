@@ -16,10 +16,18 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/app.css">
     <link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/assets/images/favicon.svg" type="image/x-icon">
     
+	<!-- Required meta tags -->
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+	<!-- sweetalert2 -->
+	<script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>    
+    
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	
 	<style>
 	tbody tr:hover {
-    	background-color:#e4e8ff;
+	   	background-color:#e4e8ff;
 	}
 	</style>
 </head>
@@ -47,13 +55,12 @@
     </div>
     <section class="section">
         <div class="card">
-            <div class="card-header" style="text-align: right;">
-		<button onclick="openPopup()" class="btn icon btn-info" >
-		<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
-		</button>
-            </div>
-			
             <div class="card-body">
+            <div class="card-header" style="text-align: right;">
+				<button onclick="openPopup()" class="btn btn-info" >
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg> 추가
+				</button>
+            </div>
                 <table class='table .table-bordered' id="table1">
                     <thead>
                         <tr>
@@ -64,7 +71,7 @@
                             <th>지시수량</th>
                             <th>지시일자</th>
                             <th>작업상태</th>
-                            <th>작업상태</th>
+                            <th>상태변경</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -78,16 +85,24 @@
                             <td>${productionDTO.instructionDate }</td>
                             <td>
                             <c:if test="${productionDTO.instractionStatus == 0 }">
-                                <span class="badge bg-success">Waiting</span>                            
+                                작업대기                            
                             </c:if>
-                            <c:if test="${productionDTO.lineStatus == 1 }">
-                            	<span class="badge bg-danger">active</span>
+                            <c:if test="${productionDTO.instractionStatus == 1 }">
+                            	작업중
                             </c:if>
-                            <c:if test="${productionDTO.lineStatus == 2 }">
-                            	<span class="badge bg-light">Maintenance</span>
+                            <c:if test="${productionDTO.instractionStatus == 2 }">
+                            	작업완료
                             </c:if>
                             </td>
-                            <td>${productionDTO.instructionDate }</td>
+							<c:if test="${productionDTO.instractionStatus == 0 }">
+                            <td><button class="btn icon icon-left btn-success" onclick="statusSwitch(event, '${productionDTO.instructionCode}')"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>완료</button></td>
+                            </c:if>
+							<c:if test="${productionDTO.instractionStatus == 1 }">
+                            <td><button class="btn icon icon-left btn-success" onclick="statusSwitch(event, '${productionDTO.instructionCode}')"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>완료</button></td>
+                            </c:if>
+							<c:if test="${productionDTO.instractionStatus == 2 }">
+                            <td><button class="btn icon icon-left btn-success" onclick="statusSwitch(event, '${productionDTO.instructionCode}')" disabled><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>완료</button></td>
+							</c:if>
                         </tr>
                         </c:forEach>
 	                    </tbody>
@@ -146,5 +161,43 @@
 	      }
 	    }
     </script>
+    
+<script>
+function statusSwitch(event, instructionCode) {
+    // 이벤트 버블링을 막음
+    event.stopPropagation();
+    
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // AJAX 호출
+            $.ajax({
+                url: "${pageContext.request.contextPath}/production/updateInsStatus",
+                type: "post",
+                data: { instructionCode: instructionCode },
+                success: function(response) {
+                    // 성공 시, 변경 완료 메시지 알림 후 페이지 새로고침
+                    Swal.fire("변경완료", "Your file has been deleted.", "success")
+                    .then(() => {
+                        location.reload(); // 페이지 새로고침
+                    });
+                },
+                error: function(xhr, status, error) {
+                    alert("변경 실패: " + error);
+                }
+            });
+        }
+    });
+}
+</script>
+
+
 </body>
 </html>

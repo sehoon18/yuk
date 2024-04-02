@@ -28,6 +28,12 @@ values(#{lineCode}, #{name}, #{lineStatus}, #{lineName}, #{update})
 	where LINE_CD = #{lineCode}
 </update>
 
+<update id="switchLineStatus0">
+	update LINE
+	SET LINE_STATUS = 0
+	where LINE_CD = #{lineCode}
+</update>
+
 <insert id="insertInstruction">
 	insert into INSTRUCTION
 	values(#{instructionCode}, #{name}, #{lineCode}, #{insVol}, #{instructionDate}, 0, #{productCode})
@@ -43,15 +49,18 @@ values(#{lineCode}, #{name}, #{lineStatus}, #{lineName}, #{update})
 
 <!-- PERFORMANCE 생산실적 -->
 <select id="getPerformanceList" resultType="com.itwillbs.domain.ProductionDTO">
-	SELECT per.PER_CD "perCode", per.INS_CD "instructionCode", ins.LINE_CD "lineCode", ins.INS_VOL "insVol", per.ACTUAL_COMPLETION_AMOUNT "perACA", per.PER_NOTE "perNote", per.PER_DATE "perDate", ins.USER_ID "name"
-	FROM PERFORMANCE per JOIN INSTRUCTION ins
+	SELECT per.PER_CD "perCode", per.INS_CD "instructionCode", ins.LINE_CD "lineCode", ins.PRO_CD "productCode", pro.PRO_NAME "productName", ins.INS_VOL "insVol", per.ACTUAL_COMPLETION_AMOUNT "perACA", per.PER_NOTE "perNote", per.PER_DATE "perDate", ins.USER_ID "name"
+	FROM PERFORMANCE per LEFT JOIN INSTRUCTION ins
 	on per.INS_CD = ins.INS_CD
+	LEFT JOIN PRODUCT pro
+	ON pro.PRO_CD = ins.PRO_CD
 	order by PER_CD desc
 </select>
 
 <select id="getProductList" resultType="com.itwillbs.domain.ProductionDTO">
 	select PRO_CD "productCode", PRO_NAME "productName", PRO_VOL "productVol"
 	from PRODUCT
+	where PRO_TYPE = 1
 	order by PRO_CD desc
 </select>
 
@@ -86,5 +95,66 @@ values(#{lineCode}, #{name}, #{lineStatus}, #{lineName}, #{update})
 	where INS_CD = #{instructionCode}
 </delete>
 
+<update id="updateInsStatus">
+	update INSTRUCTION
+	SET INS_STATUS = 2
+	where INS_CD = #{instructionCode}
+</update>
 
+<select id="getInsLNum" resultType="java.lang.Integer">
+	SELECT REGEXP_REPLACE(INS_CD, '[^0-9]', '') AS numbers_only
+	FROM INSTRUCTION
+	ORDER BY numbers_only DESC
+	LIMIT 1
+</select>
+
+<select id="setLineLastCode" resultType="java.lang.Integer">
+	SELECT REGEXP_REPLACE(LINE_CD, '[^0-9]', '') AS numbers_only
+	FROM LINE
+	ORDER BY numbers_only DESC
+	LIMIT 1
+</select>
+
+<select id="getCompInstructionList" resultType="com.itwillbs.domain.ProductionDTO">
+	SELECT i.INS_CD "instructionCode", i.INS_VOL "insVol", i.INS_DATE "instructionDate", i.PRO_CD "productCode", p.PRO_NAME as "productName"
+	from INSTRUCTION i join PRODUCT p
+	ON i.PRO_CD = p.PRO_CD
+	where INS_STATUS = 2
+	order by INS_CD desc
+</select>
+
+<insert id="insertPer">
+	insert into PERFORMANCE
+	values(#{perCode}, #{instructionCode}, #{perGood}, #{perNote}, #{perDate}, #{perACA})
+</insert>
+
+<select id="getPerLastNum" resultType="java.lang.Integer">
+	SELECT REGEXP_REPLACE(PER_CD, '[^0-9]', '') AS numbers_only
+	FROM PERFORMANCE
+	ORDER BY numbers_only DESC
+	LIMIT 1
+</select>
+
+<select id="getPerList" resultType="com.itwillbs.domain.ProductionDTO">
+	SELECT p.PER_GOOD "perGood", p.PER_NOTE "perNote", p.ACTUAL_COMPLETION_AMOUNT "perACA", i.INS_CD "instructionCode", i.INS_VOL "insVol", i.PRO_CD "productCode", pro.PRO_NAME "productName"
+	from PERFORMANCE p left join INSTRUCTION i
+	ON p.INS_CD = i.INS_CD
+	left join PRODUCT pro
+	on i.PRO_CD = pro.PRO_CD
+	where p.INS_CD = #{instructionCode}
+</select>
+
+<select id="getPerformance" resultType="com.itwillbs.domain.ProductionDTO">
+	select PER_CD "perCode", INS_CD "instructionCode", PER_GOOD "perGood", PER_NOTE "perNote", ACTUAL_COMPLETION_AMOUNT "perACA", PER_DATE "perDate"
+	from PERFORMANCE
+	where INS_CD = #{instructionCode}
+	LIMIT 1
+</select>
+
+<select id="getLineLastNum" resultType="java.lang.Integer">
+	SELECT REGEXP_REPLACE(LINE_CD, '[^0-9]', '') AS numbers_only
+	FROM LINE
+	ORDER BY numbers_only DESC
+	LIMIT 1
+</select>
 </mapper>
