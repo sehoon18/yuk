@@ -53,9 +53,9 @@ public class BoundDAO {
 		return sqlSession.selectOne(namespace + ".getOutBoundBoardCount", pageDTO);
 	}//getOutBoundBoardCount()
 	
-	public void outBoundPro(int ob_cd) {
+	public void outBoundPro(BoundDTO boundDTO) {
 		System.out.println("BoundDAO outBoundPro()");
-		sqlSession.update(namespace + ".outBoundPro", ob_cd);
+		sqlSession.update(namespace + ".outBoundPro", boundDTO);
 	}//outBoundPro()
 
 }

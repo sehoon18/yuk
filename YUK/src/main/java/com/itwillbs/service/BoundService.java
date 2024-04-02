@@ -74,10 +74,10 @@ public class BoundService {
 		return boundDAO.getOutBoundBoardCount(pageDTO);
 	}//getOutBoundBoardCount()
 	
-	public void outBoundPro(int ob_cd) {
+	public void outBoundPro(BoundDTO boundDTO) {
 		System.out.println("BoundService outBoundPro()");
 		
-		boundDAO.outBoundPro(ob_cd);
+		boundDAO.outBoundPro(boundDTO);
 	}//outBoundPro()
 	
 }

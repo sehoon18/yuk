@@ -80,7 +80,7 @@
             		<h2 class="card-title">출고 관리</h2>
             		
             <div class="searchArea">
-            	<form action="${pageContext.request.contextPath}/bound/outBound" method="get">
+            	<form action="${pageContext.request.contextPath}/bound/outBound" method="post">
             	출고 코드
             	<input type="text" class="search1" name="search1">
             	품명
@@ -92,7 +92,7 @@
             	<input type="submit" value="조회" class="btn btn-primary">
             	</form>
             </div>
-                <table class='table table-striped' id="table1">
+                <table class='table table-striped' id="obTable">
                     <thead>
                         <tr>
                             <th>출고 코드</th>
@@ -109,7 +109,7 @@
                     <tbody>
         <c:forEach var="boundDTO" items="${outBoundBoardList}">
     	<tr>
-   			<td id="ob123">${boundDTO.ob_cd}</td>
+   			<td>${boundDTO.ob_cd}</td>
     		<td>${boundDTO.con_cd}</td>
     		<%-- con_cd에 링크 경로 수주서 onClick="location.href='${pageContext.request.contextPath}/폴더/파일?con_cd=${DTO파일.con_cd }'" --%>
     		<td>${boundDTO.pro_name}</td>
@@ -128,13 +128,10 @@
     		<td>
     		<c:choose>
     		<c:when test="${boundDTO.ob_info_status == 0 }">
-<%--     		<form action="${pageContext.request.contextPath}/bound/outBoundPro" method="post"> --%>
-<%--     		<input type="hidden" name="ob_cd" value="${boundDTO.ob_cd}"> --%>
-			<input type=button class="btn icon icon-left btn-danger" onclick="ob()" value="출고처리">
-<!-- 			</form> -->
+			<button type=button class="btn icon icon-left btn-danger" id="obButton" onclick="ob()">출고처리</button>
             </c:when>
     		<c:when test="${boundDTO.ob_info_status == 1 }">
-            <input type=button class="btn icon icon-left btn-success" value="출고완료">
+            <button type=button class="btn icon icon-left btn-success">출고완료</button>
     		</c:when>
             </c:choose>
     		</td>
@@ -175,37 +172,44 @@
     
     <script type="text/javascript">
     
-	//처리 버튼 Swal css(쿼리 기능 없음)
-	const ob123 = document.getElementById('ob123');
+	//출고처리 버튼
+	function ob() {
+  	var rowData = $('#obButton').closest('tr').find('td:first').text();
 	
-	function ob(){
-    	Swal.fire({
-  		title: "출고처리",
-  		text: "출고 처리하시겠습니까? 처리 후 복구 불가합니다.",
-  		icon: "warning",
-  		showCancelButton: true,
-  		confirmButtonColor: "#3085d6",
-  		cancelButtonColor: "#d33",
-  		confirmButtonText: "출고처리",
-  		cancelButtonText: "취소"
-		}).then((result) => {
-  		if (result.isConfirmed) {
-//   		location.href='${pageContext.request.contextPath}/bound/outBoundPro?ob_cd='+ob123
-// 		$.ajax({
-//       		contentType: "application/json",
-//       		type:'POST',
-//       		data: JSON.stringify(ob123), //item.ob123
-//       		url:'${pageContext.request.contextPath}/bound/outBoundPro?ob_cd='+ob123
-//       	});
-    	Swal.fire({
-      	title: "출고처리 완료",
-      	icon: "success"
-      	location.replace('${pageContext.request.contextPath}/bound/outBoundPro?ob_cd="+ob123"'); 
-    	});
-  		}
-	});
-	};
-    
+	Swal.fire({
+			title: "출고처리",
+			text: "출고 처리하시겠습니까? 처리 후 복구 불가합니다.",
+			icon: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#3085d6",
+			cancelButtonColor: "#d33",
+			confirmButtonText: "출고처리",
+			cancelButtonText: "취소"
+	}).then((result) => {
+    if (result.isConfirmed) {
+      $.ajax({
+    	url: '${pageContext.request.contextPath}/bound/outBoundPro',
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({ ob_cd: rowData }),
+        success: function(response) {
+        	Swal.fire({
+					title: "출고처리 완료!",
+					icon: "success" 
+			})
+        },
+        error: function(xhr, status, error) {
+        	Swal.fire({
+   				title: "출고처리 에러!",
+   				icon: "error"
+   			})
+        }
+      });
+    }
+  });
+};
+
+
     //검색 달력
     $(document).ready(function () {
             $.datepicker.setDefaults($.datepicker.regional['ko']); 
@@ -245,16 +249,6 @@
                  }
             });    
     });
-    
-    //출고처리 버튼 확인창(망함)
-//     let ob = document.getElementById('ob')
-//     $(function(){
-//     	$('.btn icon icon-left btn-danger').click(function(){
-//     		if(confirm("출고 처리하시겠습니까?<br>처리 후 수정 불가합니다.")){
-//     			location.href='${pageContext.request.contextPath}/bound/outBoundPro?ob_cd='+ob123
-//     		};
-// 		});
-//     });
     	
     </script>
     

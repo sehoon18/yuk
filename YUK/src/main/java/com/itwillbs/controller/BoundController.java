@@ -4,11 +4,13 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.itwillbs.domain.BoundDTO;
@@ -160,12 +162,11 @@ public class BoundController {
 	} //outBound()
 	
 	@PostMapping("/outBoundPro")
-	public String outBoundPro(HttpServletRequest request) {
+	public String outBoundPro(@RequestBody BoundDTO boundDTO, HttpSession session) {
 		System.out.println("BoundController outBoundPro()");
-		//ob_cd : outBoundPro?ob_cd=
-		int ob_cd =  Integer.parseInt(request.getParameter("ob_cd"));
-		boundService.outBoundPro(ob_cd);
+		System.out.println(boundDTO);
 		
+		boundService.outBoundPro(boundDTO);
 		return "redirect:/bound/outBound";
 	}//outBoundPro()
 
