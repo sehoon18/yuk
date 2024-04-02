@@ -4,11 +4,13 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.itwillbs.domain.BoundDTO;
@@ -26,8 +28,12 @@ public class BoundController {
 	@GetMapping("/inBound")
 	public String inBound(HttpServletRequest request, PageDTO pageDTO, Model model) {
 		System.out.println("BoundController inBound()");
+		
 		//검색어 가져오기
-		String search = request.getParameter("search");
+		String search1 = request.getParameter("search1");
+		String search2 = request.getParameter("search2");
+		String search3 = request.getParameter("search3");
+		String search4 = request.getParameter("search4");
 		
 		// 한화면에 보여줄 글개수 설정
 		int pageSize = 10;
@@ -44,7 +50,10 @@ public class BoundController {
 		pageDTO.setPageNum(pageNum);
 		pageDTO.setCurrentPage(currentPage);
 		//검색어 추가
-		pageDTO.setSearch(search);
+		pageDTO.setSearch1(search1);
+		pageDTO.setSearch2(search2);
+		pageDTO.setSearch3(search3);
+		pageDTO.setSearch4(search4);
 		
 		List<BoundDTO> inBoundBoardList = boundService.getInBoundBoardList(pageDTO);
 		
@@ -92,8 +101,12 @@ public class BoundController {
 	@GetMapping("/outBound")
 	public String outBound(HttpServletRequest request, PageDTO pageDTO, Model model) {
 		System.out.println("BoundController outBound()");
+		
 		//검색어 가져오기
-		String search = request.getParameter("search");
+		String search1 = request.getParameter("search1");
+		String search2 = request.getParameter("search2");
+		String search3 = request.getParameter("search3");
+		String search4 = request.getParameter("search4");
 		
 		// 한화면에 보여줄 글개수 설정
 		int pageSize = 10;
@@ -110,7 +123,10 @@ public class BoundController {
 		pageDTO.setPageNum(pageNum);
 		pageDTO.setCurrentPage(currentPage);
 		//검색어 추가
-		pageDTO.setSearch(search);
+		pageDTO.setSearch1(search1);
+		pageDTO.setSearch2(search2);
+		pageDTO.setSearch3(search3);
+		pageDTO.setSearch4(search4);
 		
 		List<BoundDTO> outBoundBoardList = boundService.getOutBoundBoardList(pageDTO);
 		
@@ -145,13 +161,12 @@ public class BoundController {
 	
 	} //outBound()
 	
-	@GetMapping("/outBoundPro")
-	public String outBoundPro(HttpServletRequest request) {
+	@PostMapping("/outBoundPro")
+	public String outBoundPro(@RequestBody BoundDTO boundDTO, HttpSession session) {
 		System.out.println("BoundController outBoundPro()");
-		//ob_cd : outBoundPro?ob_cd=
-		int ob_cd =  Integer.parseInt(request.getParameter("ob_cd"));
-		boundService.outBoundPro(ob_cd);
+		System.out.println(boundDTO);
 		
+		boundService.outBoundPro(boundDTO);
 		return "redirect:/bound/outBound";
 	}//outBoundPro()
 

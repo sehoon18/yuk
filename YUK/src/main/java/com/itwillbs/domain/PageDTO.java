@@ -16,15 +16,46 @@ public class PageDTO {
 	private int pageCount;
 	
 	//검색어 추가
-	private String search;
+	private String search1;
+	private String search2;
+	private String search3;
+	private String search4;
 	
-	public String getSearch() {
-		return search;
-	}
-	public void setSearch(String search) {
-		this.search = search;
-	}
+	//탭 유지 값 추가(작업 중)
+	private String pibpib;
 	
+	
+	
+	public String getPibpib() {
+		return pibpib;
+	}
+	public void setPibpib(String pibpib) {
+		this.pibpib = pibpib;
+	}
+	public String getSearch3() {
+		return search3;
+	}
+	public void setSearch3(String search3) {
+		this.search3 = search3;
+	}
+	public String getSearch4() {
+		return search4;
+	}
+	public void setSearch4(String search4) {
+		this.search4 = search4;
+	}
+	public String getSearch2() {
+		return search2;
+	}
+	public void setSearch2(String search2) {
+		this.search2 = search2;
+	}
+	public String getSearch1() {
+		return search1;
+	}
+	public void setSearch1(String search1) {
+		this.search1 = search1;
+	}
 	
 	public int getPageSize() {
 		return pageSize;

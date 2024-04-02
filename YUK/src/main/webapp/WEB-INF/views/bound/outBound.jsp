@@ -15,6 +15,10 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/app.css">
     <link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/assets/images/favicon.svg" type="image/x-icon">
     
+<!--     처리 버튼 Swal css  -->
+	<link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+    
 <!--     DatePicker를 위한 css -->
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />  
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
@@ -49,6 +53,18 @@
     margin-right: 20px;
     }
     
+    #page_control{
+    text-align: center;
+    }
+    
+    h2{
+    font-weight: bold !important;
+    }
+    
+    th{
+    font-size: 15px !important;
+    }
+    
     </style>
     
 </head>
@@ -56,16 +72,15 @@
 <body>
 <jsp:include page="../inc/sidebar.jsp" />
 
+<div class="main-content container-fluid">
     <section class="section">
         <div class="card">
-            <div class="card-header">
-                출고 관리
-            </div>
+            <div class="card-body">
+            	<div class="row">
+            		<h2 class="card-title">출고 관리</h2>
+            		
             <div class="searchArea">
-<!-- 검색 기능 미구현 -->
-<!-- 입고 코드 선택 팝업 미구현 -->
-<!-- 디비내용 안 담아와짐 수정할 거임 -->
-            	<form action="${pageContext.request.contextPath}/bound/inBound" method="get">
+            	<form action="${pageContext.request.contextPath}/bound/outBound" method="post">
             	출고 코드
             	<input type="text" class="search1" name="search1">
             	품명
@@ -77,9 +92,7 @@
             	<input type="submit" value="조회" class="btn btn-primary">
             	</form>
             </div>
-            
-            <div class="card-body">
-                <table class='table table-striped' id="table1">
+                <table class='table table-striped' id="obTable">
                     <thead>
                         <tr>
                             <th>출고 코드</th>
@@ -94,30 +107,31 @@
                         </tr>
                     </thead>
                     <tbody>
-        <c:forEach var="boundDTO" items="${inBoundBoardList }">
+        <c:forEach var="boundDTO" items="${outBoundBoardList}">
     	<tr>
-   			<td id="ob">${boundDTO.ob_cd}</td>
+   			<td>${boundDTO.ob_cd}</td>
     		<td>${boundDTO.con_cd}</td>
     		<%-- con_cd에 링크 경로 수주서 onClick="location.href='${pageContext.request.contextPath}/폴더/파일?con_cd=${DTO파일.con_cd }'" --%>
     		<td>${boundDTO.pro_name}</td>
-    		<td>${boundDTO.ob_vol}</td>
+    		<td>${boundDTO.con_vol}</td>
     		<td>${boundDTO.wh_name}</td>
-			<c:choose>
-			<c:when test="${boundDTO.ob_info_status eq 0}">미출고</c:when>
-			<c:when test="${boundDTO.ob_info_status eq 1}">출고완료</c:when>
-			</c:choose>
-    		<td><fmt:formatDate value="${boundDTO.ob_date}" pattern="yyyy-MM-dd"/></td>
+			<td>
+			<c:if test="${boundDTO.ob_info_status == 0}">미출고</c:if>
+			<c:if test="${boundDTO.ob_info_status == 1}">출고완료</c:if>
+			</td>
+    		<td>
+    		<c:if test="${empty boundDTO.ob_date}">대기</c:if>
+    		<c:if test="${!empty boundDTO.ob_date}">
+    		<fmt:formatDate value="${boundDTO.ob_date}" pattern="yyyy-MM-dd"/></c:if>
+    		</td>
     		<td>${boundDTO.user_id}</td>
     		<td>
     		<c:choose>
-    		<c:when test="${boundDTO.ob_info_status eq 0 }">
-<%--     		<form action="${pageContext.request.contextPath}/bound/outBoundPro" method="post"> --%>
-<%--     		<input type="hidden" name="ob_cd" value="${boundDTO.ob_cd}"> --%>
-			<input type=button class="btn icon icon-left btn-danger" value="출고처리">
-<!-- 			</form> -->
+    		<c:when test="${boundDTO.ob_info_status == 0 }">
+			<button type=button class="btn icon icon-left btn-danger" id="obButton" onclick="ob()">출고처리</button>
             </c:when>
-    		<c:when test="${boundDTO.ob_info_status eq 1 }">
-            <input type=button class="btn icon icon-left btn-success" value="출고완료">
+    		<c:when test="${boundDTO.ob_info_status == 1 }">
+            <button type=button class="btn icon icon-left btn-success">출고완료</button>
     		</c:when>
             </c:choose>
     		</td>
@@ -125,25 +139,31 @@
     	</c:forEach>
                     </tbody>
                 </table>
+                
+    <!-- 페이징 시작 -->
+	<div id="page_control">
+	<c:if test="${pageDTO.startPage > pageDTO.pageBlock}">
+		<a href="${pageContext.request.contextPath}/bound/outBound?pageNum=${pageDTO.startPage - pageDTO.pageBlock}
+		&search1=${pageDTO.search1}&search2=${pageDTO.search2}&search3=${pageDTO.search3}&search4=${pageDTO.search4}">[이전]</a>
+	</c:if>
+
+	<c:forEach var="i" begin="${pageDTO.startPage}" end="${pageDTO.endPage}" step="1">
+		<a href="${pageContext.request.contextPath}/bound/outBound?pageNum=${i}
+		&search1=${pageDTO.search1}&search2=${pageDTO.search2}&search3=${pageDTO.search3}&search4=${pageDTO.search4}">${i}</a>
+	</c:forEach>
+
+	<c:if test="${pageDTO.pageCount > pageDTO.endPage}">
+		<a href="${pageContext.request.contextPath}/bound/outBound?pageNum=${pageDTO.startPage + pageDTO.pageBlock}
+		&search1=${pageDTO.search1}&search2=${pageDTO.search2}&search3=${pageDTO.search3}&search4=${pageDTO.search4}">[다음]</a>
+	</c:if>
+	</div>
+<!-- 페이징 끝 -->
             </div>
         </div>
+        </div>
     </section>
-    
-<div id="page_control">
-<c:if test="${pageDTO.startPage > pageDTO.pageBlock}">
-	<a href="${pageContext.request.contextPath}/bound/outBound?pageNum=${pageDTO.startPage - pageDTO.pageBlock}&search=${pageDTO.search}">[이전]</a>
-</c:if>
-
-<c:forEach var="i" begin="${pageDTO.startPage}" end="${pageDTO.endPage}" step="1">
-	<a href="${pageContext.request.contextPath}/bound/outBound?pageNum=${i}&search=${pageDTO.search}">${i}</a>
-</c:forEach>
-
-<c:if test="${pageDTO.pageCount > pageDTO.endPage}">
-	<a href="${pageContext.request.contextPath}/bound/outBound?pageNum=${pageDTO.startPage + pageDTO.pageBlock}&search=${pageDTO.search}">[다음]</a>
-</c:if>
-</div>
-
-
+    </div>
+<!-- asdf -->
     <script src="${pageContext.request.contextPath}/resources/assets/js/feather-icons/feather.min.js"></script>
     <script src="${pageContext.request.contextPath}/resources/assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
     <script src="${pageContext.request.contextPath}/resources/assets/js/app.js"></script>
@@ -151,6 +171,45 @@
     <script src="${pageContext.request.contextPath}/resources/assets/js/main.js"></script>
     
     <script type="text/javascript">
+    
+	//출고처리 버튼
+	function ob() {
+  	var rowData = $('#obButton').closest('tr').find('td:first').text();
+	
+	Swal.fire({
+			title: "출고처리",
+			text: "출고 처리하시겠습니까? 처리 후 복구 불가합니다.",
+			icon: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#3085d6",
+			cancelButtonColor: "#d33",
+			confirmButtonText: "출고처리",
+			cancelButtonText: "취소"
+	}).then((result) => {
+    if (result.isConfirmed) {
+      $.ajax({
+    	url: '${pageContext.request.contextPath}/bound/outBoundPro',
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({ ob_cd: rowData }),
+        success: function(response) {
+        	Swal.fire({
+					title: "출고처리 완료!",
+					icon: "success" 
+			})
+        },
+        error: function(xhr, status, error) {
+        	Swal.fire({
+   				title: "출고처리 에러!",
+   				icon: "error"
+   			})
+        }
+      });
+    }
+  });
+};
+
+
     //검색 달력
     $(document).ready(function () {
             $.datepicker.setDefaults($.datepicker.regional['ko']); 
@@ -190,16 +249,6 @@
                  }
             });    
     });
-    
-    //출고처리 버튼 확인창
-//     let ob = document.getElementById('ob')
-//     $(function(){
-//     	$('.btn icon icon-left btn-danger').click(function(){
-//     		if(confirm("출고 처리하시겠습니까?<br>처리 후 수정 불가합니다.")){
-//     			location.href='${pageContext.request.contextPath}/bound/outBoundPro?ob_cd='+ob
-//     		};
-// 		});
-//     });
     	
     </script>
     

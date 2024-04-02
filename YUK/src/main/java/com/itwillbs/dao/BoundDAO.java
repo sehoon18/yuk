@@ -15,16 +15,27 @@ public class BoundDAO {
 	@Inject
 	SqlSession sqlSession;
 	
+	
 	private static final String namespace = "com.itwillbs.mappers.boundMapper";
 
 	public List<BoundDTO> getInBoundBoardList(PageDTO pageDTO) {
+		BoundDTO boundDTO = new BoundDTO();
 		System.out.println("BoundDAO getInBoundBoardList()");
-		return sqlSession.selectList(namespace + ".getInBoundBoardList", pageDTO);
+		if(boundDTO.getPro_type() == 0) {
+			return sqlSession.selectList(namespace + ".getInBoundBoardList2", pageDTO);
+		}else {
+			return sqlSession.selectList(namespace + ".getInBoundBoardList", pageDTO);
+		}
 	}//getInBoundBoardList()
 	
 	public int getInBoundBoardCount(PageDTO pageDTO) {
+		BoundDTO boundDTO = new BoundDTO();
 		System.out.println("BoundDAO getInBoundBoardCount()");
-		return sqlSession.selectOne(namespace + ".getInBoundBoardCount", pageDTO);
+		if(boundDTO.getPro_type() == 0) {
+			return sqlSession.selectOne(namespace + ".getInBoundBoardCount2", pageDTO);
+		}else {
+			return sqlSession.selectOne(namespace + ".getInBoundBoardCount", pageDTO);
+		}
 	}//getInBoundBoardCount()
 
 	public void inBoundPro(int ib_cd) {
@@ -42,9 +53,9 @@ public class BoundDAO {
 		return sqlSession.selectOne(namespace + ".getOutBoundBoardCount", pageDTO);
 	}//getOutBoundBoardCount()
 	
-	public void outBoundPro(int ob_cd) {
+	public void outBoundPro(BoundDTO boundDTO) {
 		System.out.println("BoundDAO outBoundPro()");
-		sqlSession.update(namespace + ".outBoundPro", ob_cd);
+		sqlSession.update(namespace + ".outBoundPro", boundDTO);
 	}//outBoundPro()
 
 }
