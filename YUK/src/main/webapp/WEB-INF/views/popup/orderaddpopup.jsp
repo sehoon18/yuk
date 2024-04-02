@@ -81,7 +81,8 @@
 
 
 							<div class="col-12 d-flex justify-content-end">
-							    <button type="submit" class="btn btn-primary mr-1 mb-1">등록</button>
+							    <button class="btn btn-primary btn-sm" type="submit">저장</button>
+							    <input type="hidden" name="ord_cd" value="${OrdercontractDTO.ord_cd}">
 							    <button type="reset" class="btn btn-primary mr-1 mb-1">Reset</button>
 							</div>
 						</form>
@@ -113,21 +114,36 @@
 	  }
 	</script>
 	<script>
-// 	  // 인풋 창을 클릭하면 팝업을 엽니다.
-// 	  function openLinePopup() {
-// 	    var popup = window.open("${pageContext.request.contextPath}/popup/linepop", "popup", "width=800,height=600");
+	document.getElementById("submit").addEventListener("click", function(event) {
+	    event.preventDefault();
 	    
-// 	    if (popup === null || typeof(popup) === 'undefined') {
-// 	      alert('팝업이 차단되었습니다. 팝업 차단을 해제하고 다시 시도해주세요.');
-// 	    } else {
-// 	      // 팝업에서 선택한 값을 가져와서 인풋 필드에 설정합니다.
-// 	      $(popup.document).on('click', '.popup-option', function() {
-// 	        var selectedValue = $(this).text();
-// 	        $('#lineCode').val(selectedValue);
-// 	        popup.close();
-// 	      });
-// 	    }
-// 	  }
+	    if (!document.getElementById("submitrow").disabled) {
+	        // 저장할 데이터를 가져옵니다. (예: 폼 데이터)
+	        var formData = new FormData();
+	        // 예시로 폼의 id가 "myForm"이고, 폼 안의 필드 중 name이 "fieldName"인 필드를 가져옵니다.
+	        var fieldValue = document.getElementById("myForm").elements["fieldName"].value;
+	        formData.append("fieldName", fieldValue);
+
+	        // AJAX 요청을 생성합니다.
+	        var xhr = new XMLHttpRequest();
+	        xhr.open("POST", "/saveDataToDatabase", true); // 서버의 저장 엔드포인트로 변경해야 합니다.
+
+	        // 요청이 성공하거나 실패했을 때의 처리를 정의합니다.
+	        xhr.onload = function() {
+	            if (xhr.status >= 200 && xhr.status < 300) {
+	                console.log("데이터가 성공적으로 저장되었습니다.");
+	            } else {
+	                console.error("데이터 저장에 실패했습니다.");
+	            }
+	        };
+
+	        // 요청을 보냅니다.
+	        xhr.send(formData);
+	    } else {
+	        console.log("버튼이 비활성화 상태입니다.");
+	    }
+	});
+
 	</script>
 </body>
 </html>

@@ -22,44 +22,37 @@
     
 
 
-<div class="main-content container-fluid"  width="1392px"  height="1000px"; >
+<div class="main-content container-fluid" width="1392px" height="1000px">
     <div class="page-title">
-        <h3><a href = "#" ></a>발주관리 </h3><h5><a href = "#" ></a>  조회페이지</h5>
-        
+        <h3><a href="#">발주관리</a></h3>
+        <h5><a href="#">조회페이지</a></h5>
     </div>
     <div class="card">
-            <div class="card-header">
-             			
-
-<div class="col-lg-2 col-3" style="display: flex; align-items: center; white-space: nowrap;">
-<!--   	flex: 0 1 auto; 속성은 사원번호 텍스트가 필요한 만큼의 공간만 차지 -->
-  <div style="flex: 0 1 auto; margin-right: 10px;">
-  <b>발주코드</b></div>
-  <input type="text" id="first-name" class="form-control" name="fname" style="flex: 1 1 auto; width: auto;">
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-  <b>거래처명</b> &nbsp;&nbsp;
-  <input type="text" id="first-name" class="form-control" name="fname" style="flex: 1 1 auto; width: auto;">
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <b>품명</b> &nbsp;&nbsp;
-   <input type="text" id="first-name" class="form-control" name="fname" style="flex: 1 1 auto; width: auto;">
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-   
-<!--   <select class="form-select" id="basicSelect" style="width: 100px;"> -->
-<!-- 	<option>포장자재</option> -->
-<!-- 	<option>식자재</option> -->
-<!-- 	<option>완제품</option> -->
-<!--    </select> -->
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <button class="btn btn-primary btn-sm" type="submit">조회</button>
-</div>
-<div style="text-align: right; margin-right:30px;">
-<button class="btn btn-primary btn-sm" type="submit" onclick="addpopup();" />등록</button>
-<!-- <button class="btn btn-primary btn-sm" type="submit">수정</button> -->
-<!-- <button class="btn btn-primary btn-sm" type="submit">삭제</button> -->
-<!-- <button class="btn btn-primary btn-sm" type="submit">취소</button> -->
-<button class="btn btn-primary btn-sm" type="submit">저장</button>
-</div>
-            <div class="card-body">
+        <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <form action="${pageContext.request.contextPath}/ordercontract/order" method="get" style="display: flex;">
+                    <div style="margin-right: 10px;">
+                        <b>발주코드</b>
+                        <input type="text" id="first-name" class="form-control" name="ord_cd" style="width: auto;">
+                    </div>
+                    <div style="margin-right: 10px;">
+                        <b>거래처명</b>
+                        <input type="text" id="first-name" class="form-control" name="cli_name" style="width: auto;">
+                    </div>
+                    <div style="margin-right: 10px;">
+                        <b>품명</b>
+                        <input type="text" id="first-name" class="form-control" name="pro_name" style="width: auto;">
+                    </div>
+                    <button class="btn btn-primary btn-sm" type="submit" style="height:36px !important; margin-top:22px !important;" >조회</button>
+                </form>
+            </div>
+            <div>
+           
+                <button class="btn btn-primary btn-sm" type="submit" onclick="addpopup();" style="margin-top:22px !important;">등록</button>
+                <button class="btn btn-primary btn-sm" type="submit" style="margin-top:22px !important;">저장</button>
+            </div>
+        </div>
+          <div class="card-body">
                 <table class='table table-striped' id="table1">
                     <thead>
                         <tr>
@@ -112,8 +105,7 @@
                     </div>
                 </div>
             </footer>
-        </div>
-
+     
     
      <script>
 	  // 인풋 창을 클릭하면 팝업을 엽니다.

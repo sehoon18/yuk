@@ -7,14 +7,23 @@
 <mapper namespace="com.itwillbs.mappers.orderMapper">
 
 <insert id="insertOrder">
-insert into ORDERS(ORD_CD, CLI_ID, USER_ID, PRO_CD, ORD_VOL, ORD_DATE, ORD_DUE_DATE, ORD_INFO_STATUS, PAYMENT_DATE)
-values(#{ORD_CD}, #{CLI_ID}, #{USER_ID}, #{PRO_CD},#{ORD_VOL}, #{ORD_DATE}, #{ORD_DUE_DATE}, #{ORD_INFO_STATUS},#{PAYMENT_DATE})
+insert into ORDERS(ORD_CD, CLI_ID, USER_ID, PRO_CD, ORD_VOL, ORD_DATE, ORD_DUE_DATE, ORD_INFO_STATUS, ORD_PAY_DATE)
+values(#{ORD_CD}, #{CLI_ID}, #{USER_ID}, #{PRO_CD},#{ORD_VOL}, #{ORD_DATE}, #{ORD_DUE_DATE}, #{ORD_INFO_STATUS},#{ORD_PAY_DATE})
 </insert>
 
 <insert id="insertContract">
-insert into CONTRACT(ORD_CD, CLI_ID, USER_ID, PRO_CD, ORD_VOL, ORD_DATE, ORD_DUE_DATE, ORD_INFO_STATUS, PAYMENT_DATE)
-values(#{ORD_CD}, #{CLI_ID}, #{USER_ID}, #{PRO_CD},#{ORD_VOL}, #{ORD_DATE}, #{ORD_DUE_DATE}, #{ORD_INFO_STATUS},#{PAYMENT_DATE})
+insert into CONTRACT(CON_CD, CLI_ID, USER_ID, PRO_CD, CON_VOL, CON_DATE, CON_DUE_DATE, CON_INFO_STATUS, CON_PAY_DATE)
+values(#{CON_CD}, #{CLI_ID}, #{USER_ID}, #{PRO_CD},#{CON_VOL}, #{CON_DATE}, #{CON_DUE_DATE}, #{CON_INFO_STATUS},#{CON_PAY_DATE})
 </insert>
+<!-- <insert id="insertOrder"> -->
+<!-- insert into ORDERS( CLI_ID, USER_ID, PRO_CD, ORD_VOL,ORD_DUE_DATE, ORD_PAY_DATE) -->
+<!-- values( #{CLI_ID}, #{USER_ID}, #{PRO_CD},#{ORD_VOL},  #{ORD_DUE_DATE}, #{ORD_PAY_DATE}) -->
+<!-- </insert> -->
+
+<!-- <insert id="insertContract"> -->
+<!-- insert into CONTRACT( CLI_ID, USER_ID, PRO_CD, CON_VOL, CON_DUE_DATE,  CON_PAY_DATE) -->
+<!-- values( #{CLI_ID}, #{USER_ID}, #{PRO_CD},#{CON_VOL}, #{CON_DUE_DATE}, #{CON_PAY_DATE}) -->
+<!-- </insert> -->
 
 <select id="getOrderList" resultType="com.itwillbs.domain.OrdercontractDTO">
 
@@ -24,6 +33,17 @@ select o.*, c.*, p.*
 	on o.pro_cd = p.pro_cd
 	join CLIENT c
 	on c.cli_cd = o.cli_cd
+<where>
+<if test="ord_cd != '' and ord_cd != null"  >
+o.ORD_CD like concat('%', #{ord_cd}, '%')
+</if>
+<if test="pro_name != '' and pro_name != null ">
+and p.PRO_NAME like concat('%', #{pro_name}, '%')
+</if>
+<if test="cli_name != '' and cli_name != null ">
+and c.CLI_NAME like concat ('%', #{cli_name}, '%')
+</if>
+</where>	
 </select>
  
 <select id="getContractList" resultType="com.itwillbs.domain.OrdercontractDTO">
@@ -34,7 +54,58 @@ select c.*, cl.*, p.*
 	on c.pro_cd = p.pro_cd
 	join CLIENT cl
 	on c.cli_cd = cl.cli_cd
+	<where>
+<if test="con_cd != '' and con_cd != null ">
+c.CON_CD like concat('%', #{con_cd}, '%')
+</if>
+<if test="pro_name != '' and pro_name != null">
+and p.PRO_NAME like concat('%', #{pro_name}, '%')
+</if>
+<if test="cli_name != '' and cli_name != null">
+and cl.CLI_NAME like concat ('%', #{cli_name}, '%')
+</if>
+</where>
 </select>
+
+<update id="updateOrder">
+	update Order
+	SET ORD_CD = #{ord_cd}, PRO_NAME = #{pro_name},  CLIENT_CD= #{client_cd},CLIENT_NAME  = #{client_name},
+	ORD_VOL= #{ord_vol}, PRO_PRICE= #{pro_price},  USER_ID= #{user_id},ORD_DATE= #{ord_date},ORD_DUE_DATE= #{ord_due_date},ORD_PAY_DATE= #{ord_pay_date}
+	where ORD_CD = #{ord_cd}
+</update>
+
+<update id="updateContract">
+	update Contract
+	SET CON_CD = #{con_cd}, PRO_NAME = #{pro_name},  CLIENT_CD= #{client_cd},CLIENT_NAME  = #{client_name},
+	CON_VOL= #{con_vol}, PRO_PRICE= #{pro_price},  USER_ID= #{user_id},CON_DATE= #{con_date},CON_DUE_DATE= #{con_due_date},CON_PAY_DATE= #{con_pay_date}
+	where CON_CD = #{con_cd}
+</update>
+
+<select id="getSearchOrderList" resultType="com.itwillbs.domain.OrdercontractDTO">
+select o.ORD_CD "ord_cd", p.PRO_NAME "pro_name", c.CLI_NAME "cli_name", o.ORD_VOL "ord_vol",p.PRO_PRICE "pro_price",USER_ID "user_id",
+o.ORD_DATE "ord_date",o.ORD_DUE_DATE "ord_due_date",p.PRO_VOL "pro_vol",o.ORD_INFO_STATUS "ord_info_status"
+from ORDERS o join PRODUCT p
+on o.pro_cd = p.pro_cd 
+join CLIENT c 
+on c.cli_cd = o.cli_cd 
+	
+order by ORD_CD desc
+</select>
+
+
+
+<select id="getSearchContractList" resultType="com.itwillbs.domain.OrdercontractDTO">
+select c.CON_CD "con_cd",p.PRO_NAME "pro_name",cl.CLI_NAME "cli_name",c.CON_VOL "con_vol",p.PRO_PRICE "pro_price",USER_ID "user_id",
+c.CON_DATE "con_date",c.CON_DUE_DATE "con_due_date",p.PRO_VOL "pro_vol",c.CON_INFO_STATUS "con_info_status"
+from CONTRACT c
+	join PRODUCT p
+	on c.pro_cd = p.pro_cd
+	join CLIENT cl
+	on c.cli_cd = cl.cli_cd
+	
+order by CON_CD desc
+</select>
+
 <delete id="deleteOrder">
 			delete from ORDERS
 			where ord_cd = #{ord_cd}
@@ -43,5 +114,9 @@ select c.*, cl.*, p.*
 			delete from Contract
 			where con_cd = #{con_cd}
 </delete>
+
+
+
+
 
 </mapper>

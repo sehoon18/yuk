@@ -18,16 +18,19 @@ import com.itwillbs.domain.PageDTO;
 		
 		private static final String namespace = "com.itwillbs.mappers.orderMapper"; 
 		
-		public void insertOrder(OrdercontractDTO orderDTO) {
-			sqlSession.insert(namespace + ".insertOrder", orderDTO);
+		public void insertOrder(OrdercontractDTO ordercontractDTO) {
+			sqlSession.insert(namespace + ".insertOrdercontract", ordercontractDTO);
 		}
-		public List<OrdercontractDTO> getOrderList() {
+		public void insertContract(OrdercontractDTO ordercontractDTO) {
+			sqlSession.insert(namespace + ".insertOrdercontract", ordercontractDTO);
+		}
+		public List<OrdercontractDTO> getOrderList(OrdercontractDTO ordercontractDTO) {
 			System.out.println("OrdercontractDAO getOrderList()");
-			return sqlSession.selectList(namespace + ".getOrderList");
+			return sqlSession.selectList(namespace + ".getOrderList" ,ordercontractDTO);
 		}
-		public List<OrdercontractDTO> getContractList() {
+		public List<OrdercontractDTO> getContractList(OrdercontractDTO ordercontractDTO) {
 			System.out.println("OrdercontractDAO getContractList()");
-			return sqlSession.selectList(namespace + ".getContractList");
+			return sqlSession.selectList(namespace + ".getContractList", ordercontractDTO);
 		}
 		
 		

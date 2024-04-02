@@ -7,50 +7,37 @@ public class OrdercontractDTO {
 
 	private String ord_cd;
 	private String cli_cd;
-	private String user_id;
+	private String con_cd;
 	private String pro_cd;
+	private String user_id;
 	private int ord_vol;
-	private Timestamp ord_date;
-	private Timestamp ord_due_date;
-	private Timestamp con_payment_date;
-	private int ord_info_status;
-	private String ord_note;
 	private String cli_name;
 	private String pro_name;
 	private int pro_vol;
 	private int pro_price;
-	private String con_cd;
 	private int con_vol;
+	private Timestamp ord_date;
+	private Timestamp ord_due_date;
+	private Timestamp ord_payment_date;
 	private Timestamp con_date;
 	private Timestamp con_due_date;
-	private Timestamp ord_payment_date;
+	private Timestamp con_payment_date;
+	private int ord_info_status;
 	private int con_info_status;
+	
 	
 	
 	@Override
 	public String toString() {
-		return "OrdercontractDTO [ord_cd=" + ord_cd + ", cli_cd=" + cli_cd + ", user_id=" + user_id + ", pro_cd="
-				+ pro_cd + ", ord_vol=" + ord_vol + ", ord_date=" + ord_date + ", ord_due_date=" + ord_due_date
-				+ ", con_payment_date=" + con_payment_date + ", ord_info_status=" + ord_info_status + ", ord_note="
-				+ ord_note + ", cli_name=" + cli_name + ", pro_name=" + pro_name + ", pro_vol=" + pro_vol
-				+ ", pro_price=" + pro_price + ", con_cd=" + con_cd + ", con_vol=" + con_vol + ", con_date=" + con_date
-				+ ", con_due_date=" + con_due_date + ", ord_payment_date=" + ord_payment_date + ", con_info_status="
-				+ con_info_status + "]";
+		return "OrdercontractDTO [ord_cd=" + ord_cd + ", cli_cd=" + cli_cd + ", con_cd=" + con_cd + ", pro_cd=" + pro_cd
+				+ ", user_id=" + user_id + ", ord_vol=" + ord_vol + ", cli_name=" + cli_name + ", pro_name=" + pro_name
+				+ ", pro_vol=" + pro_vol + ", pro_price=" + pro_price + ", con_vol=" + con_vol + ", ord_date="
+				+ ord_date + ", ord_due_date=" + ord_due_date + ", ord_payment_date=" + ord_payment_date + ", con_date="
+				+ con_date + ", con_due_date=" + con_due_date + ", con_payment_date=" + con_payment_date
+				+ ", ord_info_status=" + ord_info_status + ", con_info_status=" + con_info_status + "]";
 	}
 	public String getOrd_cd() {
 		return ord_cd;
-	}
-	public String getPro_name() {
-		return pro_name;
-	}
-	public void setPro_name(String pro_name) {
-		this.pro_name = pro_name;
-	}
-	public String getCli_name() {
-		return cli_name;
-	}
-	public void setCli_name(String cli_name) {
-		this.cli_name = cli_name;
 	}
 	public void setOrd_cd(String ord_cd) {
 		this.ord_cd = ord_cd;
@@ -61,11 +48,11 @@ public class OrdercontractDTO {
 	public void setCli_cd(String cli_cd) {
 		this.cli_cd = cli_cd;
 	}
-	public String getUser_id() {
-		return user_id;
+	public String getCon_cd() {
+		return con_cd;
 	}
-	public void setUser_id(String user_id) {
-		this.user_id = user_id;
+	public void setCon_cd(String con_cd) {
+		this.con_cd = con_cd;
 	}
 	public String getPro_cd() {
 		return pro_cd;
@@ -73,36 +60,29 @@ public class OrdercontractDTO {
 	public void setPro_cd(String pro_cd) {
 		this.pro_cd = pro_cd;
 	}
+	public String getUser_id() {
+		return user_id;
+	}
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
+	}
 	public int getOrd_vol() {
 		return ord_vol;
 	}
 	public void setOrd_vol(int ord_vol) {
 		this.ord_vol = ord_vol;
 	}
-	public Timestamp getOrd_date() {
-		return ord_date;
+	public String getCli_name() {
+		return cli_name;
 	}
-	public void setOrd_date(Timestamp ord_date) {
-		this.ord_date = ord_date;
+	public void setCli_name(String cli_name) {
+		this.cli_name = cli_name;
 	}
-	public Timestamp getOrd_due_date() {
-		return ord_due_date;
+	public String getPro_name() {
+		return pro_name;
 	}
-	public void setOrd_due_date(Timestamp ord_due_date) {
-		this.ord_due_date = ord_due_date;
-	}
-	
-	public int getOrd_info_status() {
-		return ord_info_status;
-	}
-	public void setOrd_info_status(int ord_info_status) {
-		this.ord_info_status = ord_info_status;
-	}
-	public String getOrd_note() {
-		return ord_note;
-	}
-	public void setOrd_note(String ord_note) {
-		this.ord_note = ord_note;
+	public void setPro_name(String pro_name) {
+		this.pro_name = pro_name;
 	}
 	public int getPro_vol() {
 		return pro_vol;
@@ -116,23 +96,29 @@ public class OrdercontractDTO {
 	public void setPro_price(int pro_price) {
 		this.pro_price = pro_price;
 	}
-	public Timestamp getCon_payment_date() {
-		return con_payment_date;
-	}
-	public void setCon_payment_date(Timestamp con_payment_date) {
-		this.con_payment_date = con_payment_date;
-	}
-	public String getCon_cd() {
-		return con_cd;
-	}
-	public void setCon_cd(String con_cd) {
-		this.con_cd = con_cd;
-	}
 	public int getCon_vol() {
 		return con_vol;
 	}
 	public void setCon_vol(int con_vol) {
 		this.con_vol = con_vol;
+	}
+	public Timestamp getOrd_date() {
+		return ord_date;
+	}
+	public void setOrd_date(Timestamp ord_date) {
+		this.ord_date = ord_date;
+	}
+	public Timestamp getOrd_due_date() {
+		return ord_due_date;
+	}
+	public void setOrd_due_date(Timestamp ord_due_date) {
+		this.ord_due_date = ord_due_date;
+	}
+	public Timestamp getOrd_payment_date() {
+		return ord_payment_date;
+	}
+	public void setOrd_payment_date(Timestamp ord_payment_date) {
+		this.ord_payment_date = ord_payment_date;
 	}
 	public Timestamp getCon_date() {
 		return con_date;
@@ -146,11 +132,17 @@ public class OrdercontractDTO {
 	public void setCon_due_date(Timestamp con_due_date) {
 		this.con_due_date = con_due_date;
 	}
-	public Timestamp getOrd_payment_date() {
-		return ord_payment_date;
+	public Timestamp getCon_payment_date() {
+		return con_payment_date;
 	}
-	public void setOrd_payment_date(Timestamp ord_payment_date) {
-		this.ord_payment_date = ord_payment_date;
+	public void setCon_payment_date(Timestamp con_payment_date) {
+		this.con_payment_date = con_payment_date;
+	}
+	public int getOrd_info_status() {
+		return ord_info_status;
+	}
+	public void setOrd_info_status(int ord_info_status) {
+		this.ord_info_status = ord_info_status;
 	}
 	public int getCon_info_status() {
 		return con_info_status;
@@ -159,5 +151,5 @@ public class OrdercontractDTO {
 		this.con_info_status = con_info_status;
 	}
 	
-
+	
 }
