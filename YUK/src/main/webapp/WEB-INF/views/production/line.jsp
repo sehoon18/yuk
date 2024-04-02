@@ -65,11 +65,11 @@
 			    <table class='table .table-bordered' id="table1">
 			        <thead>
 			            <tr>
-			                <th>라인코드</th>
-			                <th>라인명</th>
-			                <th>등록일자</th>
-			                <th>등록자</th>
-			                <th>라인상태</th>
+			                <th style="width: 180px;">라인코드</th>
+			                <th style="width: 400px;">라인명</th>
+			                <th style="width: 180px;">등록일자</th>
+			                <th style="width: 180px;">등록자</th>
+			                <th style="width: 180px;">라인상태</th>
 			            </tr>
 			        </thead>
 			        <tbody>
@@ -120,16 +120,20 @@
 <script src="${pageContext.request.contextPath}/resources/assets/js/vendors.js"></script>
 
     <script src="${pageContext.request.contextPath}/resources/assets/js/main.js"></script>
+
 	
     <script>
     function addTableRow() {
         const table = document.getElementById("table1").getElementsByTagName('tbody')[0];
         const newRow = table.insertRow(0);
         const rowId = table.rows.length; // 행 ID로 사용될 값
+        var today = new Date();
+		var dateStr = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2); // 'YYYY-MM-DD' 형식으로 변환
+
         
         // 각 열에 대한 셀과 입력 필드 생성
         const fields = ['lineCode', 'lineName', 'update', 'name', 'lineStatus'];
-        const exampleData = ['${productionDTO.lineCode}', '', '', '', '0'];
+        const exampleData = ['${productionDTO.lineCode}', '', dateStr, '', '0'];
 
         fields.forEach((field, index) => {
             const cell = newRow.insertCell(index);
@@ -151,7 +155,13 @@
                 input.type = "date";
                 input.className = "form-control";
                 
-            }   else {
+            } else if(field === 'lineCode'){
+                input = document.createElement("input");
+                input.type = "text";
+                input.className = "form-control";
+                input.readOnly = true; // 입력 필드를 읽기 전용으로 설정
+            }
+            else {
                 input = document.createElement("input");
                 input.type = "text";
                 input.className = "form-control";

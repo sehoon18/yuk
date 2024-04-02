@@ -12,6 +12,15 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/app.css">
     <link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/assets/images/favicon.svg" type="image/x-icon">
+    
+	<!-- Required meta tags -->
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+	<!-- sweetalert2 -->
+	<script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>    
+	
+	<!-- 	jquery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     
 </head>
@@ -210,16 +219,50 @@
 	            data: $(this).serialize(), // 현재 폼 데이터 직렬화
 	            success: function(response) {
 	                // 데이터베이스 저장 성공 후
-	                alert("저장 성공!");
+	                alert("등록 성공!");
 	                window.opener.location.reload(); // 부모 창 새로고침
 	                window.close(); // 팝업 창 닫기
 	            },
 	            error: function(xhr, status, error) {
-	                alert("저장 실패: " + error);
+// 	                alert("등록 실패: " + error);
 	            }
 	        });
 	    });
 	});
 	</script>
+	
+	<script>
+	// 빈칸이 있을 때 알림
+	document.addEventListener('DOMContentLoaded', function() {
+	    var form = document.getElementById('insForm');
+	
+	    if (form) { // 폼이 존재하는지 확인
+	        form.addEventListener('submit', function(e) {
+	            // 모든 'form-control' 클래스를 가진 입력 필드 검사
+	            var inputFields = document.querySelectorAll('.form-control');
+	            var isEmptyFieldPresent = Array.from(inputFields).some(function(input) {
+	                return input.value.trim() === ''; // 비어있는 입력 필드가 있는지 확인
+	            });
+	
+	            if (isEmptyFieldPresent) { // 하나라도 비어있는 입력 필드가 있으면
+	                Swal.fire({
+	                	  title: "빈칸을 채워주세요.",
+	                	  width: 600,
+	                	  padding: "3em",
+	                	  color: "#00ff0000",
+	                	  background: "#fff",
+	                	  backdrop: `
+	                	    rgba(ff,ff,ff,0)
+	                	    left top
+	                	    no-repeat
+	                	  `
+	                	});
+	                e.preventDefault(); // 폼 제출 중단
+	            }
+	        });
+	    }
+	});
+	</script>
+	
 </body>
 </html>

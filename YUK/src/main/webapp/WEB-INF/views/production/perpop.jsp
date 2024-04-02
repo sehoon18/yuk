@@ -84,7 +84,7 @@
 					<td><input type="text" name="productCode" class="form-control" id="productCode" value="" readonly></td>
 					<td><input type="text" name="productName" class="form-control" id="productName" value="" readonly></td>
 					<td><input type="text" name="insVol" class="form-control" id="insVol" value="" readonly></td>
-					<td><input type="text" name="perACA" class="form-control"  placeholder=""></td>
+					<td><input type="text" name="perACA" class="form-control"  placeholder="" ></td>
 					<td><select name="perGood" class="form-select" id="basicSelect" >
 							<option value="0">양</option>
 							<option value="1">불량</option>

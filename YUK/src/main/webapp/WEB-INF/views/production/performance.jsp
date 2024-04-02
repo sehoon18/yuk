@@ -115,8 +115,8 @@
 					<td><input type="text" name="productCode" class="form-control" id="productCode" value="" readonly></td>
 					<td><input type="text" name="productName" class="form-control" id="productName" value="" readonly></td>
 					<td><input type="text" name="insVol" class="form-control" id="insVol" value="" readonly></td>
-					<td><input type="text" name="perACA" class="form-control"  placeholder=""></td>
-					<td><select name="perGood" class="form-select" id="basicSelect" >
+					<td><input type="text" name="perACA" class="form-control"  placeholder="" id="nullCheck"></td>
+					<td><select name="perGood" class="form-select" id="nullCheck" >
 							<option value="0">양</option>
 							<option value="1">불량</option>
 						</select></td>
@@ -236,7 +236,7 @@
 	    if (form) { // 폼이 존재하는지 확인
 	        form.addEventListener('submit', function(e) {
 	            // 모든 'form-control' 클래스를 가진 입력 필드 검사
-	            var inputFields = document.querySelectorAll('.form-control');
+	            var inputFields = document.querySelectorAll('#nullCheck');
 	            var isEmptyFieldPresent = Array.from(inputFields).some(function(input) {
 	                return input.value.trim() === ''; // 비어있는 입력 필드가 있는지 확인
 	            });
