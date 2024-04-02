@@ -40,50 +40,50 @@ public class PopupController {
 		return "popup/linepop";
 	}
 	@GetMapping("/orderdeletepopup")
-	public String orderdeletepopup(Model model) {	
+	public String orderdeletepopup(Model model,OrdercontractDTO ordercontractDTO) {	
 		System.out.println("PopupController orderdeletepopup()");
-		List<OrdercontractDTO> orderList = ordercontractService.getOrderList();
+		List<OrdercontractDTO> orderList = ordercontractService.getOrderList(ordercontractDTO);
 		model.addAttribute("OrderList", orderList);
 		System.out.println(orderList);
 		return "popup/orderdeletepopup";
 	}
 	@GetMapping("/orderaddpopup")
-	public String orderaddpopup(Model model) {	
+	public String orderaddpopup(Model model,OrdercontractDTO ordercontractDTO) {	
 		System.out.println("PopupController orderaddpopup()");
-		List<OrdercontractDTO> orderList = ordercontractService.getOrderList();
+		List<OrdercontractDTO> orderList = ordercontractService.getOrderList(ordercontractDTO);
 		model.addAttribute("OrdercontractList", orderList);
 		System.out.println(orderList);
 		return "popup/orderaddpopup";
 	}
 	@GetMapping("/contractaddpopup")
-	public String contractaddpopup(Model model) {	
+	public String contractaddpopup(Model model,OrdercontractDTO ordercontractDTO) {	
 		System.out.println("PopupController contractaddpopup()");
-		List<OrdercontractDTO> contractList = ordercontractService.getContractList();
+		List<OrdercontractDTO> contractList = ordercontractService.getContractList(ordercontractDTO);
 		model.addAttribute("contractList", contractList);
 		System.out.println(contractList);
 		return "popup/contractaddpopup";
 	}
 	@GetMapping("/contractdeletepopup")
-	public String contractdeletepopup(Model model) {	
+	public String contractdeletepopup(Model model,OrdercontractDTO ordercontractDTO) {	
 		System.out.println("PopupController contractdeletepopup()");
-		List<OrdercontractDTO> contractList = ordercontractService.getContractList();
+		List<OrdercontractDTO> contractList = ordercontractService.getContractList(ordercontractDTO);
 		model.addAttribute("contractList", contractList);
 		System.out.println(contractList);
 		return "popup/contractdeletepopup";
 	}
 	
 	@GetMapping("/orderpop")
-	public String orderpop(Model model) {
+	public String orderpop(Model model, OrdercontractDTO ordercontractDTO) {
 		System.out.println("PopupController orderpop()");
-		List<OrdercontractDTO> orderList = ordercontractService.getOrderList();
+		List<OrdercontractDTO> orderList = ordercontractService.getOrderList(ordercontractDTO);
 		model.addAttribute("OrderList", orderList);
 		System.out.println(orderList);
 		return "popup/orderpop";
 	}
 	@GetMapping("/contractpop")
-	public String contractpop(Model model) {
+	public String contractpop(Model model,OrdercontractDTO ordercontractDTO) {
 		System.out.println("PopupController contractpop()");
-		List<OrdercontractDTO> contractList = ordercontractService.getContractList();
+		List<OrdercontractDTO> contractList = ordercontractService.getContractList(ordercontractDTO);
 		model.addAttribute("ContractList", contractList);
 		
 		System.out.println(contractList);

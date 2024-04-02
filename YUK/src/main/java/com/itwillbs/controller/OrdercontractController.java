@@ -4,10 +4,12 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.itwillbs.domain.OrdercontractDTO;
@@ -26,17 +28,32 @@ public class OrdercontractController {
 	
 	//Ordercontract
 	@GetMapping("/order")
-	public String order(Model model) {
+	public String order(HttpServletRequest request,Model model,OrdercontractDTO ordercontractDTO ) {
 		System.out.println("MemberController order()");
-		List<OrdercontractDTO> orderList = ordercontractService.getOrderList();
+		String ord_cd = request.getParameter("ord_cd");
+		ordercontractDTO.setOrd_cd(ord_cd);
+		String cli_name = request.getParameter("cli_name");
+		ordercontractDTO.setCli_name(cli_name);
+		String pro_name = request.getParameter("pro_name");
+		ordercontractDTO.setPro_name(pro_name);
+		
+		List<OrdercontractDTO> orderList = ordercontractService.getOrderList(ordercontractDTO);
 		model.addAttribute("OrderList", orderList);
 		System.out.println(orderList);
+		
 		return "ordercontract/order";
 	}
 	@GetMapping("/contract")
-	public String contract(Model model) {
+	public String contract(HttpServletRequest request,Model model,OrdercontractDTO ordercontractDTO ) {
 		System.out.println("MemberController contract()");
-		List<OrdercontractDTO> contractList = ordercontractService.getContractList();
+		String con_cd = request.getParameter("con_cd");
+		ordercontractDTO.setCon_cd(con_cd);
+		String cli_name = request.getParameter("cli_name");
+		ordercontractDTO.setCli_name(cli_name);
+		String pro_name = request.getParameter("pro_name");
+		ordercontractDTO.setPro_name(pro_name);
+		
+		List<OrdercontractDTO> contractList = ordercontractService.getContractList(ordercontractDTO);
 		model.addAttribute("ContractList", contractList);
 		
 		System.out.println(contractList);

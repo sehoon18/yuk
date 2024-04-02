@@ -25,25 +25,25 @@
                     <hr>
                     </div>
                     <div class="card-content">
-                      <form class="form">
+                       <form action="${pageContext.request.contextPath}/ordercontract/contract" method="get" >
                         <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-15 col-1">	
                                         <div class="form-group">
                                             <label for="first-name-column">품목코드</label>
-                                            <input type="text" id="pro_cd" class="form-control" placeholder="PRO_CD" name="instructionCode">
+                                            <input type="text" id="pro_cd" class="form-control" placeholder="PRO_CD" name="pro_cd">
                                         </div>
                                     </div>
                                     <div class="col-md-15 col-1">
                                         <div class="form-group">
                                             <label for="last-name-column">품목이름</label>
-                                            <input type="text" id="pro_name" class="form-control" onclick="openPopup()" placeholder="PRO_NAME" name="lname-column">
+                                            <input type="text" id="pro_name" class="form-control" onclick="openPopup()" placeholder="PRO_NAME" name="pro_name">
                                         </div>
                                     </div>
                                     <div class="col-md-15 col-1">
                                         <div class="form-group">
                                             <label for="city-column">거래처코드</label>
-                                            <input type="text" id="cli_cd" class="form-control" placeholder="CLI_CD" name="productCode">
+                                            <input type="text" id="cli_cd" class="form-control" placeholder="CLI_CD" name="cli_cd">
                                         </div>
                                     </div>
                                    <div class="col-md-15 col-1">
@@ -80,54 +80,6 @@
                                 </div>
                                 </div>
                             
-<!-- 품목 소요량 테이블 -->
-<!-- 		  <div class="card-header" style="margin-top: 30px;"> -->
-<!-- 	        <h3 class="card-title" style="text-align: left;">소요량</h3> -->
-<!-- 	      <hr> -->
-<!-- 	      </div> -->
-<!-- 		<div class="card-body"> -->
-<!-- 	      <div class="card-content"> -->
-<!-- 	        <div class="card-body" style="padding: 5px;"> -->
-<!-- 	          Table with outer spacing -->
-<!-- 	          <div class="table-responsive"> -->
-<!-- 	            <table class="table"> -->
-<!-- 	              <thead> -->
-<!-- 	                <tr> -->
-<!-- 	                  <th>품목코드</th> -->
-<!-- 	                  <th>품명</th> -->
-<!-- 	                  <th>수량</th> -->
-<!-- 	                  <th>재고량</th> -->
-<!-- 	                </tr> -->
-<!-- 	              </thead> -->
-<!-- 					<tr> -->
-<!-- 						<td>PRO0001</td> -->
-<!-- 						<td>양념소스</td> -->
-<!-- 						<td>2</td> -->
-<!-- 						<td>30</td> -->
-<!-- 					</tr> -->
-<!-- 					<tr> -->
-<!-- 						<td>PRO0001</td> -->
-<!-- 						<td>가공육</td> -->
-<!-- 						<td>1</td> -->
-<!-- 						<td>25</td> -->
-<!-- 					</tr> -->
-<!-- 	              <tbody> -->
-<%-- <%-- 					<c:forEach var="productionDTO" items="${lineList }"> --%>
-<!-- <!-- 					<tr> --> 
-<%-- <%-- 						<td>${productionDTO.lineCode }</td> --%> 
-<%-- <%-- 						<td>${productionDTO.lineName }</td> --%> 
-<%-- <%-- 						<td>${productionDTO.update }</td> --%> 
-<%-- <%-- 						<td>${productionDTO.name }</td> --%> 
-<!-- <!-- 					</tr> --> 
-<%-- <%-- 					</c:forEach> --%> 
-<!-- 	              </tbody> -->
-<!-- 	            </table> -->
-<!-- 	          </div> -->
-<!-- 	        </div> -->
-<!-- 	      </div> -->
-<!-- 	      </div> -->
-	      
-<!--	품목 소요량 테이블 끝 -->
 
 
 							<div class="col-12 d-flex justify-content-end">
