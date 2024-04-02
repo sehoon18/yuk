@@ -37,7 +37,6 @@ public class ProductionController {
 		
 		// lineCode 생성
 		Integer lineLastNum = productionService.getLineLastNum();
-		System.out.println(lineLastNum);
 
 		String lineCode;
 		if (lineLastNum == null) {
