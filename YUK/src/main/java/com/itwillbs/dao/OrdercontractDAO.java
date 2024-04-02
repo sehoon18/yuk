@@ -32,6 +32,11 @@ import com.itwillbs.domain.PageDTO;
 			System.out.println("OrdercontractDAO getContractList()");
 			return sqlSession.selectList(namespace + ".getContractList", ordercontractDTO);
 		}
-		
+		public Integer getOrdLastNum() {
+			return sqlSession.selectOne(namespace + ".getOrdLastNum");
+		}
+		public Integer getConLastNum() {
+			return sqlSession.selectOne(namespace + ".getConLastNum");
+		}
 		
 }

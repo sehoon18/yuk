@@ -13,6 +13,11 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/app.css">
     <link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/assets/images/favicon.svg" type="image/x-icon">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- sweetalert2 -->
+	<script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>    
+    
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	
     
 </head>
 <body>
@@ -25,7 +30,7 @@
                     <hr>
                     </div>
                     <div class="card-content">
-                       <form action="${pageContext.request.contextPath}/ordercontract/contract" method="get" >
+                       <form class="form" id="conForm" action="${pageContext.request.contextPath}/ordercontract/insertContract" method="post" >
                         <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-15 col-1">	
@@ -49,31 +54,31 @@
                                    <div class="col-md-15 col-1">
                                         <div class="form-group">
                                             <label for="country-floating">거래처명</label>
-                                            <input type="text" id="cli_name" class="form-control" name="insVol" placeholder="CLI_NAME">
+                                            <input type="text" id="cli_name" class="form-control" name="cli_name" placeholder="CLI_NAME">
                                         </div>
                                     </div>
                                     <div class="col-md-15 col-1">
                                         <div class="form-group">
                                             <label for="company-column">수주량</label>
-                                            <input type="text" id="productName" class="form-control" name="productName" placeholder="CON_VOL">
+                                            <input type="text" id="con_vol" class="form-control" name="con_vol" placeholder="CON_VOL">
                                         </div>
                                     </div>
                                    <div class="col-md-15 col-1">
                                         <div class="form-group">
                                             <label for="email-id-column">단가</label>
-                                            <input type="text" id="pro_price" class="form-control" name="email-id-column" onclick="openLinePopup()" placeholder="PRO_PRICE">
+                                            <input type="text" id="pro_price" class="form-control" name="pro_price" onclick="openLinePopup()" placeholder="PRO_PRICE">
                                         </div>
                                     </div>
                                    <div class="col-md-15 col-1">
                                         <div class="form-group">
                                             <label for="email-id-column">납입일자</label>
-                                            <input type="DATE" id="contractDate" class="form-control" name="contractDate" placeholder="2024-00-00">
+                                            <input type="DATE" id="con_due_date" class="form-control" name="con_due_date" placeholder="2024-00-00">
                                         </div>
                                     </div>
                                     <div class="col-md-15 col-1">
                                         <div class="form-group">
                                             <label for="email-id-column">결제일자</label>
-                                            <input type="DATE" id="instructionDate" class="form-control" name="instructionDate" placeholder="2024-00-00">
+                                            <input type="DATE" id="con_pay_date" class="form-control" name="con_pay_date" placeholder="2024-00-00">
                                         </div>
                                     </div>
 
@@ -83,7 +88,7 @@
 
 
 							<div class="col-12 d-flex justify-content-end">
-							    <button type="submit" class="btn btn-primary mr-1 mb-1">Submit</button>
+							    <button type="submit" class="btn btn-primary mr-1 mb-1" >Submit</button>
 							    <button type="reset" class="btn btn-light-secondary mr-1 mb-1">Reset</button>
 							</div>
 						</form>
@@ -109,28 +114,76 @@
 	      // 팝업에서 선택한 값을 가져와서 인풋 필드에 설정합니다.
 	      $(popup.document).on('click', '.popup-option', function() {
 	        var selectedValue = $(this).text();
-	        $('#contractName').val(selectedValue);
+	        $('#pro_name').val(selectedValue);
 	        popup.close();
 	      });
 	    }
 	  }
 	</script>
+	
 	<script>
-// 	  // 인풋 창을 클릭하면 팝업을 엽니다.
-// 	  function openLinePopup() {
-// 	    var popup = window.open("${pageContext.request.contextPath}/popup/linepop", "popup", "width=800,height=600");
-	    
-// 	    if (popup === null || typeof(popup) === 'undefined') {
-// 	      alert('팝업이 차단되었습니다. 팝업 차단을 해제하고 다시 시도해주세요.');
-// 	    } else {
-// 	      // 팝업에서 선택한 값을 가져와서 인풋 필드에 설정합니다.
-// 	      $(popup.document).on('click', '.popup-option', function() {
-// 	        var selectedValue = $(this).text();
-// 	        $('#lineCode').val(selectedValue);
-// 	        popup.close();
-// 	      });
-// 	    }
-// 	  }
+	$(document).ready(function() {
+	    // 폼의 'submit' 이벤트에 대한 이벤트 리스너 등록
+	    $("#conForm").submit(function(event) {
+	        // 기본 폼 제출 동작을 방지
+	        event.preventDefault();
+	
+	        // AJAX 요청
+	        $.ajax({
+	            url: "${pageContext.request.contextPath}/ordercontract/insertContract", // 실제 요청 URL로 변경해야 함
+	            type: "post", // 메소드 타입
+	            data: pro_cd : $('#pro_cd').val(),
+	               pro_name : $('#pro_name').val(),
+	               cli_cd : $('#cli_cd').val(),
+	               cli_name : $('#cli_name').val(),
+	               pro_price : $('#pro_price').val(),
+	               con_due_date : $('#con_due_date').val(), // 현재 폼 데이터 직렬화
+	               con_pay_date : $('#con_pay_date').val(),
+	            success: function(response) {
+	                // 데이터베이스 저장 성공 후
+	                alert("등록 성공!");
+	                window.opener.location.reload(); // 부모 창 새로고침
+	                window.close(); // 팝업 창 닫기
+	            },
+	            error: function(xhr, status, error) {
+// 	                alert("등록 실패: " + error);
+	            }
+	        });
+	    });
+	});
+	</script>
+	
+	<script>
+	// 빈칸이 있을 때 알림
+	document.addEventListener('DOMContentLoaded', function() {
+	    var form = document.getElementById('conForm');
+	
+	    if (form) { // 폼이 존재하는지 확인
+	        form.addEventListener('submit', function(e) {
+	            // 모든 'form-control' 클래스를 가진 입력 필드 검사
+	            var inputFields = document.querySelectorAll('.form-control');
+	            var isEmptyFieldPresent = Array.from(inputFields).some(function(input) {
+	                return input.value.trim() === ''; // 비어있는 입력 필드가 있는지 확인
+	            });
+	
+	            if (isEmptyFieldPresent) { // 하나라도 비어있는 입력 필드가 있으면
+	                Swal.fire({
+	                	  title: "빈칸을 채워주세요.",
+	                	  width: 600,
+	                	  padding: "3em",
+	                	  color: "#00ff0000",
+	                	  background: "#fff",
+	                	  backdrop: `
+	                	    rgba(ff,ff,ff,0)
+	                	    left top
+	                	    no-repeat
+	                	  `
+	                	});
+	                e.preventDefault(); // 폼 제출 중단
+	            }
+	        });
+	    }
+	});
 	</script>
 </body>
 </html>
