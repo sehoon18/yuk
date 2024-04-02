@@ -58,7 +58,21 @@ values(#{lineCode}, #{name}, #{lineStatus}, #{lineName}, #{update})
 	SELECT i.INS_CD "instructionCode", i.LINE_CD "lineCode", i.INS_VOL "insVol", i.INS_DATE "instructionDate", i.INS_STATUS "instractionStatus", i.PRO_CD "productCode", p.PRO_NAME as "productName"
 	from INSTRUCTION i join PRODUCT p
 	ON i.PRO_CD = p.PRO_CD
-	order by INS_CD desc
+	<where>
+	<if test="instructionCode != '' and instructionCode != null"  >
+	i.INS_CD like concat('%', #{instructionCode}, '%')
+	</if>
+	<if test="productCode != '' and productCode != null ">
+	and i.PRO_CD like concat('%', #{productCode}, '%')
+	</if>
+	<if test="instractionStatus != '' and instractionStatus != null and instractionStatus != 4">
+	and i.INS_STATUS like concat('%', #{instractionStatus}, '%')
+	</if>
+	<if test="instractionStatus == 0">
+	and i.INS_STATUS = 0
+	</if>
+	</where>
+	order by i.INS_CD desc
 </select>
 
 <!-- PERFORMANCE 생산실적 -->

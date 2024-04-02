@@ -69,7 +69,7 @@
 					<select class="form-select" id="basicSelect" name="instractionStatus" style="width: 100px;">
 						<option value="4">전체</option>	
 						<option value="0">대기</option>
-						<option value="1">완료</option>
+						<option value="2">완료</option>
 					</select>
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<button class="btn btn-primary btn-sm" type="submit">조회</button>

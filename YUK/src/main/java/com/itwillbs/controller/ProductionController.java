@@ -123,20 +123,22 @@ public class ProductionController {
 	@GetMapping("/instruction")
 	public String instruction(HttpServletRequest request, Model model, ProductionDTO productionDTO) {
 		System.out.println("ProductionController instruction()");
-		
-//		productionDTO.setInstructionCode(request.getParameter("instructionCode"));
-//		productionDTO.setProLineName(request.getParameter("lineName"));
-//		String lineStatus = (String)request.getParameter("lineStatus");
-//		int lineStatus1 = 4;
-//		if(lineStatus == null) {
-//			lineStatus1 = 4;
-//		} else {
-//			lineStatus1 = Integer.parseInt(request.getParameter("lineStatus"));
-//		}
-//		productionDTO.setLineStatus(lineStatus1);
+		System.out.println(productionDTO);
+
+		productionDTO.setInstructionCode(request.getParameter("instructionCode"));
+		productionDTO.setProductCode(request.getParameter("productCode"));
+		String instractionStatus = (String)request.getParameter("instractionStatus");
+		int instractionStatus1 = 4;
+		if(instractionStatus == null) {
+			instractionStatus1 = 4;
+		} else {
+			instractionStatus1 = Integer.parseInt(request.getParameter("instractionStatus"));
+		}
+		productionDTO.setInstractionStatus(instractionStatus1);
 		List<ProductionDTO> instructionList = productionService.getInstructionList();
 		model.addAttribute("instructionList", instructionList);
-		
+		System.out.println(productionDTO);
+
 		return "production/instruction";
 	}
 
