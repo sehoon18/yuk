@@ -34,7 +34,7 @@ public class PopupController {
 	@GetMapping("/linepop")
 	public String linepop(ProductionDTO productionDTO, Model model) {
 		
-		List<ProductionDTO> lineList = productionService.getLineList();
+		List<ProductionDTO> lineList = productionService.getLineList(productionDTO);
 		model.addAttribute("lineList", lineList);
 		
 		return "popup/linepop";

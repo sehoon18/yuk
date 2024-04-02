@@ -57,6 +57,24 @@
         <div class="card">
             <div class="card-body">
             <div class="card-header" style="text-align: right;">
+            <form action="${pageContext.request.contextPath}/production/instruction" method="get">
+				<div class="col-lg-2 col-3" style="display: flex; align-items: center; white-space: nowrap;">
+				<div style="flex: 0 1 auto; margin-right: 10px;"><b>작업지시코드</b></div>
+					<input type="text" id="instructionCode" class="form-control" name="instructionCode" style="flex: 1 1 auto; width: auto; background-color: white;" placeholder="라인코드를 선택하세요">
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>품목코드</b> &nbsp;&nbsp;
+					<input type="text" id="lineName" class="form-control" name="productCode" style="flex: 1 1 auto; width: auto;" placeholder="라인명을 입력하세요">
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				 	<b>상태</b>
+					&nbsp;&nbsp;
+					<select class="form-select" id="basicSelect" name="instractionStatus" style="width: 100px;">
+						<option value="4">전체</option>	
+						<option value="0">대기</option>
+						<option value="1">완료</option>
+					</select>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<button class="btn btn-primary btn-sm" type="submit">조회</button>
+				</div>
+			</form>
 				<button onclick="openPopup()" class="btn btn-info" >
 					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg> 추가
 				</button>

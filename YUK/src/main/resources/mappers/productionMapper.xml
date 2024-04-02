@@ -13,6 +13,20 @@ values(#{lineCode}, #{name}, #{lineStatus}, #{lineName}, #{update})
 <select id="getLineList" resultType="com.itwillbs.domain.ProductionDTO">
 	select LINE_CD "lineCode", USER_ID "name", LINE_STATUS "lineStatus", LINE_NAME "lineName", LINE_DATE "update"
 	from LINE
+	<where>
+	<if test="lineCode != '' and lineCode != null"  >
+	LINE_CD like concat('%', #{lineCode}, '%')
+	</if>
+	<if test="lineName != '' and lineName != null ">
+	and LINE_NAME like concat('%', #{lineName}, '%')
+	</if>
+	<if test="lineStatus != '' and lineStatus != null and lineStatus != 4">
+	and LINE_STATUS like concat('%', #{lineStatus}, '%')
+	</if>
+	<if test="lineStatus == 0">
+	and LINE_STATUS = 0
+	</if>
+	</where>
 	order by LINE_CD desc
 </select>
 

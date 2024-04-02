@@ -34,7 +34,8 @@ public class ProductionController {
 	@GetMapping("/line")
 	public String line(ProductionDTO productionDTO, Model model, HttpServletRequest request) {
 		System.out.println("ProductionController line()");
-		
+		System.out.println(productionDTO);
+
 		// lineCode 생성
 		Integer lineLastNum = productionService.getLineLastNum();
 
@@ -55,9 +56,21 @@ public class ProductionController {
 		productionDTO.setLineCode(lineCode);
 		model.addAttribute("productionDTO", productionDTO);
 		
-		List<ProductionDTO> lineList = productionService.getLineList();
+		productionDTO.setLineCode(request.getParameter("lineCode"));
+		productionDTO.setLineName(request.getParameter("lineName"));
+		String lineStatus = (String)request.getParameter("lineStatus");
+		int lineStatus1 = 4;
+		if(lineStatus == null) {
+			lineStatus1 = 4;
+		} else {
+			lineStatus1 = Integer.parseInt(request.getParameter("lineStatus"));
+		}
+		productionDTO.setLineStatus(lineStatus1);
+		System.out.println(productionDTO);
+
+		List<ProductionDTO> lineList = productionService.getLineList(productionDTO);
 		model.addAttribute("lineList", lineList);
-		
+
 		return "production/line";
 	}
 	
@@ -108,9 +121,19 @@ public class ProductionController {
 
 	// 작업지시 페이지
 	@GetMapping("/instruction")
-	public String instruction(Model model, ProductionDTO productionDTO) {
+	public String instruction(HttpServletRequest request, Model model, ProductionDTO productionDTO) {
 		System.out.println("ProductionController instruction()");
 		
+//		productionDTO.setInstructionCode(request.getParameter("instructionCode"));
+//		productionDTO.setProLineName(request.getParameter("lineName"));
+//		String lineStatus = (String)request.getParameter("lineStatus");
+//		int lineStatus1 = 4;
+//		if(lineStatus == null) {
+//			lineStatus1 = 4;
+//		} else {
+//			lineStatus1 = Integer.parseInt(request.getParameter("lineStatus"));
+//		}
+//		productionDTO.setLineStatus(lineStatus1);
 		List<ProductionDTO> instructionList = productionService.getInstructionList();
 		model.addAttribute("instructionList", instructionList);
 		

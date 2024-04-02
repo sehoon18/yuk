@@ -39,8 +39,8 @@ public class ProductionService {
 		productionDAO.insertLine(productionDTO);
 	}
 
-	public List<ProductionDTO> getLineList() {
-		return productionDAO.getLineList();
+	public List<ProductionDTO> getLineList(ProductionDTO productionDTO) {
+		return productionDAO.getLineList(productionDTO);
 	}
 
 	public ProductionDTO getLineCode(String lineCode) {

@@ -19,8 +19,8 @@ public class ProductionDAO {
 		sqlSession.insert(namespace + ".insertLine", productionDTO);
 	}
 
-	public List<ProductionDTO> getLineList() {
-		return sqlSession.selectList(namespace + ".getLineList");
+	public List<ProductionDTO> getLineList(ProductionDTO productionDTO) {
+		return sqlSession.selectList(namespace + ".getLineList", productionDTO);
 	}
 
 	public ProductionDTO getLineCode(String lineCode) {

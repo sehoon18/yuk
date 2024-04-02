@@ -55,6 +55,26 @@
     <section class="section">
         <div class="card">
             <div class="card-body">
+            
+			<form action="${pageContext.request.contextPath}/production/line" method="get">
+				<div class="col-lg-2 col-3" style="display: flex; align-items: center; white-space: nowrap;">
+				<div style="flex: 0 1 auto; margin-right: 10px;"><b>라인코드</b></div>
+					<input type="text" id="lineCode" class="form-control" name="lineCode" style="flex: 1 1 auto; width: auto; background-color: white;" placeholder="라인코드를 선택하세요">
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>라인명</b> &nbsp;&nbsp;
+					<input type="text" id="lineName" class="form-control" name="lineName" style="flex: 1 1 auto; width: auto;" placeholder="라인명을 입력하세요">
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				 	<b>상태</b>
+					&nbsp;&nbsp;
+					<select class="form-select" id="basicSelect" name="lineStatus" style="width: 100px;">
+						<option value="4">전체</option>	
+						<option value="0">대기</option>
+						<option value="1">가동</option>
+						<option value="2">정비</option>
+					</select>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<button class="btn btn-primary btn-sm" type="submit">조회</button>
+				</div>
+			</form>
 			<form id="dataForm" class="insertLine" action="${pageContext.request.contextPath}/production/linePro" method="post">
             <div class="card-header" style="text-align: right;">
 			    <button type="button" onclick="addTableRow()" class='btn btn-primary' id="addrow">➕ 추가</button>
@@ -97,7 +117,6 @@
 			</form>
             </div>
         </div>
-
     </section>
 </div>
 
@@ -173,7 +192,7 @@
         });
 
         // '추가' 버튼을 '취소' 버튼으로 변경하면서 id값도 변경
-        const addButton = document.querySelector('.btn-primary');
+        const addButton = document.querySelector('#addrow');
         addButton.textContent = '✖️ 취소';
         addButton.id = 'cancelrow';
         addButton.onclick = function() { cancelAddition(newRow); };
