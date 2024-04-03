@@ -80,7 +80,7 @@
             		<h2 class="card-title">출고 관리</h2>
             		
             <div class="searchArea">
-            	<form action="${pageContext.request.contextPath}/bound/outBound" method="post">
+            	<form action="${pageContext.request.contextPath}/bound/outBound" method="get">
             	출고 코드
             	<input type="text" class="search1" name="search1">
             	품명
@@ -128,7 +128,7 @@
     		<td>
     		<c:choose>
     		<c:when test="${boundDTO.ob_info_status == 0 }">
-			<button type=button class="btn icon icon-left btn-danger" id="obButton" onclick="ob()">출고처리</button>
+			<button type=button class="btn icon icon-left btn-danger" onclick="statusSwitch(event, '${boundDTO.ob_cd}')">출고처리</button>
             </c:when>
     		<c:when test="${boundDTO.ob_info_status == 1 }">
             <button type=button class="btn icon icon-left btn-success">출고완료</button>
@@ -163,7 +163,7 @@
         </div>
     </section>
     </div>
-<!-- asdf -->
+    
     <script src="${pageContext.request.contextPath}/resources/assets/js/feather-icons/feather.min.js"></script>
     <script src="${pageContext.request.contextPath}/resources/assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
     <script src="${pageContext.request.contextPath}/resources/assets/js/app.js"></script>
@@ -173,9 +173,7 @@
     <script type="text/javascript">
     
 	//출고처리 버튼
-	function ob() {
-  	var rowData = $('#obButton').closest('tr').find('td:first').text();
-	
+  	function statusSwitch(event, ob_cd) {
 	Swal.fire({
 			title: "출고처리",
 			text: "출고 처리하시겠습니까? 처리 후 복구 불가합니다.",
@@ -190,13 +188,14 @@
       $.ajax({
     	url: '${pageContext.request.contextPath}/bound/outBoundPro',
         method: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify({ ob_cd: rowData }),
+        data: {ob_cd : ob_cd},
         success: function(response) {
         	Swal.fire({
 					title: "출고처리 완료!",
 					icon: "success" 
-			})
+			}).then(() => {
+                location.reload(); // 페이지 새로고침
+            });
         },
         error: function(xhr, status, error) {
         	Swal.fire({

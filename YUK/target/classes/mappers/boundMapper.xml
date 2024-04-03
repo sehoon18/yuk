@@ -6,7 +6,7 @@
 <mapper namespace="com.itwillbs.mappers.boundMapper">
 
 <select id="getInBoundBoardList" resultType="com.itwillbs.domain.BoundDTO">
-	select m.mib_cd, o.ord_cd, pr.pro_type, pr.pro_name,
+	select m.mib_cd, m.ord_cd, pr.pro_type, pr.pro_name, o.ord_vol,
 	w.wh_name, m.mib_info_status, m.mib_date, m.user_id
 	from MINBOUND m
 	join ORDERS o
@@ -26,16 +26,16 @@
 </select>
 
 <select id="getInBoundBoardList2" resultType="com.itwillbs.domain.BoundDTO">
-	select p.pib_cd, pe.*, pr.pro_name, w.wh_name,
-	p.pib_info_status, p.pib_date, p.user_id, i.pro_cd
+	select p.pib_cd, p.per_cd, pe.actual_completion_amount, pr.pro_name, w.wh_name,
+	p.pib_info_status, p.pib_date, p.user_id
 	from PINBOUND p
-	join PERFORMANCE pe
+	left join PERFORMANCE pe
 	on p.per_cd = pe.per_cd
-	join INSTRUCTION i
+	left join INSTRUCTION i
 	on pe.ins_cd = i.ins_cd
-	join PRODUCT pr
+	left join PRODUCT pr
 	on pr.pro_cd = i.pro_cd
-	join WAREHOUSE w
+	left join WAREHOUSE w
 	on w.wh_cd = pr.wh_cd
 	<where>
 	<if test="search1 != null">p.pib_cd like CONCAT('%',#{search1},'%')</if>
@@ -69,13 +69,13 @@
 <select id="getInBoundBoardCount2" resultType="java.lang.Integer">
 	select count(p.pib_cd)
 	from PINBOUND p
-	join PERFORMANCE pe
+	left join PERFORMANCE pe
 	on p.per_cd = pe.per_cd
-	join INSTRUCTION i
+	left join INSTRUCTION i
 	on pe.ins_cd = i.ins_cd
-	join PRODUCT pr
+	left join PRODUCT pr
 	on pr.pro_cd = i.pro_cd
-	join WAREHOUSE w
+	left join WAREHOUSE w
 	on w.wh_cd = pr.wh_cd
 	<where>
 	<if test="search1 != null">p.pib_cd like CONCAT('%',#{search1},'%')</if>
@@ -87,10 +87,18 @@
 	</where>
 </select>
 
-<update id="inBoundPro">
+<update id="inBoundPro1">
 	update MINBOUND
-	set mib_info_status = 1
+	set mib_info_status = 1,
+		mib_date = now()
 	where mib_cd = #{mib_cd}
+</update>
+
+<update id="inBoundPro2">
+	update PINBOUND
+	set pib_info_status = 1,
+		pib_date = now()
+	where pib_cd = #{pib_cd}
 </update>
 
 <select id="getOutBoundBoardList" resultType="com.itwillbs.domain.BoundDTO">
@@ -136,10 +144,9 @@
 <update id="outBoundPro">
 	update OUTBOUND
 	set ob_info_status = 1
+		ob_date = now()
 	where ob_cd = #{ob_cd}
 </update>
-
-
 
 
 </mapper>
