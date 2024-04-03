@@ -1,17 +1,21 @@
 package com.itwillbs.controller;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.google.protobuf.TimestampProto;
 import com.itwillbs.domain.OrdercontractDTO;
 import com.itwillbs.domain.ProductionDTO;
 import com.itwillbs.service.OrdercontractService;
@@ -54,13 +58,17 @@ public class OrdercontractController {
 	}
 	
 	@PostMapping("/insertContract")
-	public String insertContract(OrdercontractDTO ordercontractDTO ) {
+	public ResponseEntity<String> insertContract(@RequestBody OrdercontractDTO ordercontractDTO ) {
 		System.out.println("OrdercontractController insertContract()");
 		System.out.println(ordercontractDTO);
-//		ordercontractDTO.setName("hong123");
-		ordercontractService.insertContract(ordercontractDTO);
 		
-		return "ordercontract/contract";
+		Timestamp today = new Timestamp(System.currentTimeMillis());
+		ordercontractDTO.setCon_date(today);
+		ordercontractDTO.setUser_id("hong123");
+		ordercontractService.insertContract(ordercontractDTO);
+		System.out.println(ordercontractDTO);
+		
+		return ResponseEntity.ok().body("{\"message\": \"등록 성공!\"}");
 	}
 	
 		// 작업지시 등록 팝업

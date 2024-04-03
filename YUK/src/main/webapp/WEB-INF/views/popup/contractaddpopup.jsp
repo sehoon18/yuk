@@ -123,34 +123,35 @@
 	
 	<script>
 	$(document).ready(function() {
-	    // 폼의 'submit' 이벤트에 대한 이벤트 리스너 등록
 	    $("#conForm").submit(function(event) {
-	        // 기본 폼 제출 동작을 방지
 	        event.preventDefault();
-	
-	        // AJAX 요청
+
 	        $.ajax({
 	            url: "${pageContext.request.contextPath}/ordercontract/insertContract", // 실제 요청 URL로 변경해야 함
 	            type: "post", // 메소드 타입
-	            data: pro_cd : $('#pro_cd').val(),
-	               pro_name : $('#pro_name').val(),
-	               cli_cd : $('#cli_cd').val(),
-	               cli_name : $('#cli_name').val(),
-	               pro_price : $('#pro_price').val(),
-	               con_due_date : $('#con_due_date').val(), // 현재 폼 데이터 직렬화
-	               con_pay_date : $('#con_pay_date').val(),
+	            contentType: "application/json", // 요청 컨텐츠 타입 명시 (옵션)
+	            dataType: "json", // 응답 데이터 타입 명시 (옵션)
+	            data: JSON.stringify({ // JSON 형식으로 데이터 객체 구성
+	                pro_cd: $('#pro_cd').val(),
+	                pro_name: $('#pro_name').val(),
+	                cli_cd: $('#cli_cd').val(),
+	                cli_name: $('#cli_name').val(),
+	                pro_price: $('#pro_price').val(),
+	                con_due_date: $('#con_due_date').val(),
+	                con_pay_date: $('#con_pay_date').val()
+	            }),
 	            success: function(response) {
-	                // 데이터베이스 저장 성공 후
 	                alert("등록 성공!");
-	                window.opener.location.reload(); // 부모 창 새로고침
-	                window.close(); // 팝업 창 닫기
+	                window.opener.location.reload();
+	                window.close();
 	            },
 	            error: function(xhr, status, error) {
-// 	                alert("등록 실패: " + error);
+	                // alert("등록 실패: " + error); // 에러 처리 부분
 	            }
 	        });
 	    });
 	});
+
 	</script>
 	
 	<script>

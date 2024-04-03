@@ -12,8 +12,8 @@ values(#{ORD_CD}, #{CLI_ID}, #{USER_ID}, #{PRO_CD},#{ORD_VOL}, #{ORD_DATE}, #{OR
 </insert>
 
 <insert id="insertContract">
-insert into CONTRACT(CON_CD, CLI_ID, USER_ID, PRO_CD, CON_VOL, CON_DATE, CON_DUE_DATE, CON_INFO_STATUS, CON_PAY_DATE)
-values(#{CON_CD}, #{CLI_ID}, #{USER_ID}, #{PRO_CD},#{CON_VOL}, #{CON_DATE}, #{CON_DUE_DATE}, #{CON_INFO_STATUS},#{CON_PAY_DATE})
+insert into CONTRACT(CON_CD, CLI_CD, PRO_CD, CON_VOL, CON_DATE, CON_DUE_DATE, CON_INFO_STATUS, CON_PAY_DATE)
+values(#{con_cd}, #{cli_cd}, #{pro_cd},#{con_vol}, #{con_date}, #{con_due_date}, #{con_info_status},#{con_pay_date})
 </insert>
 <!-- <insert id="insertOrder"> -->
 <!-- insert into ORDERS( CLI_ID, USER_ID, PRO_CD, ORD_VOL,ORD_DUE_DATE, ORD_PAY_DATE) -->
@@ -115,8 +115,12 @@ order by CON_CD desc
 			where con_cd = #{con_cd}
 </delete>
 
-
-
+<select id="getConLastNum" resultType="java.lang.Integer">
+	SELECT REGEXP_REPLACE(CON_CD, '[^0-9]', '') AS numbers_only
+	FROM CONTRACT
+	ORDER BY numbers_only DESC
+	LIMIT 1
+</select>
 
 
 </mapper>
