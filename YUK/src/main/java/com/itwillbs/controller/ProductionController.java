@@ -66,7 +66,6 @@ public class ProductionController {
 			lineStatus1 = Integer.parseInt(request.getParameter("lineStatus"));
 		}
 		productionDTO.setLineStatus(lineStatus1);
-		System.out.println(productionDTO);
 
 		List<ProductionDTO> lineList = productionService.getLineList(productionDTO);
 		model.addAttribute("lineList", lineList);
@@ -109,8 +108,13 @@ public class ProductionController {
 	
 	// 생산실적 페이지
 	@GetMapping("/performance")
-	public String performance(Model model, ProductionDTO productionDTO) {
+	public String performance(HttpServletRequest request, Model model, ProductionDTO productionDTO) {
 		System.out.println("ProductionController performance()");
+		
+		productionDTO.setInstructionCode(request.getParameter("instructionCode"));
+		productionDTO.setProductCode(request.getParameter("productCode"));
+		productionDTO.setsDate(request.getParameter("sDate"));
+		productionDTO.seteDate(request.getParameter("eDate"));
 		
 		List<ProductionDTO> compInsList = productionService.getCompInstructionList(productionDTO);
 		model.addAttribute("compInsList", compInsList);
@@ -127,7 +131,11 @@ public class ProductionController {
 
 		productionDTO.setInstructionCode(request.getParameter("instructionCode"));
 		productionDTO.setProductCode(request.getParameter("productCode"));
+		productionDTO.setsDate(request.getParameter("sDate"));
+		productionDTO.seteDate(request.getParameter("eDate"));
+		
 		String instractionStatus = (String)request.getParameter("instractionStatus");
+		System.out.println(instractionStatus);
 		int instractionStatus1 = 4;
 		if(instractionStatus == null) {
 			instractionStatus1 = 4;
@@ -135,7 +143,7 @@ public class ProductionController {
 			instractionStatus1 = Integer.parseInt(request.getParameter("instractionStatus"));
 		}
 		productionDTO.setInstractionStatus(instractionStatus1);
-		List<ProductionDTO> instructionList = productionService.getInstructionList();
+		List<ProductionDTO> instructionList = productionService.getInstructionList(productionDTO);
 		model.addAttribute("instructionList", instructionList);
 		System.out.println(productionDTO);
 

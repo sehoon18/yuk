@@ -23,8 +23,11 @@
 	<!-- sweetalert2 -->
 	<script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>    
 	
-	<!-- 	jquery -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<!--     DatePicker를 위한 css -->
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />  
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
+	
 	<style>
 		tbody tr:hover {
 		    background-color:#e4e8ff;
@@ -57,7 +60,22 @@
         <div class="card">
             <div class="card-body">
             <div class="card-header" style="text-align: right;">
-<!-- 			    <button type="button" onclick="openPopup()" class='btn btn-primary' id="addrow">등록</button> -->
+			<form action="${pageContext.request.contextPath}/production/performance" method="get">
+				<div class="col-lg-2 col-3" style="display: flex; align-items: center; white-space: nowrap;">
+				<div style="flex: 0 1 auto; margin-right: 10px;"><b>작업지시코드</b></div> &nbsp;&nbsp;
+					<input type="text" class="form-control" name="instructionCode" style="flex: 1 1 auto; width: auto;" placeholder="지시코드를 입력하세요">
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<b>품목코드</b>&nbsp;&nbsp;
+					<input type="text" class="form-control" name="productCode" style="flex: 1 1 auto; width: auto; background-color: white;" placeholder="제품코드를 입력하세요">
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<b>일자</b>&nbsp;&nbsp;
+					<input type="text" id="startDate" class="form-control" name="sDate" placeholder="기간을 선택하세요" style="width: 140px;">
+            		&nbsp; ~ &nbsp;
+					<input type="text" id="endDate" class="form-control" name="eDate" placeholder="기간을 선택하세요" style="width: 140px;">
+					&nbsp;&nbsp;
+					<button class="btn btn-primary btn-sm" type="submit">조회</button>
+				</div>
+			</form>
 			</div>
 	          <!-- Table with outer spacing -->
 			<div class="card-header" style="">
@@ -105,7 +123,7 @@
 	                  <th style="width: 200px;">품명</th>
 	                  <th style="width: 150px;">지시수량</th>
 	                  <th style="width: 130px;">실적수량</th>
-	                  <th style="width: 130px;">양불구분</th>
+	                  <th style="width: 150px;">양불구분</th>
 	                  <th>비고</th>
 	                </tr>
 	              </thead>
@@ -117,8 +135,8 @@
 					<td><input type="text" name="insVol" class="form-control" id="insVol" value="" readonly></td>
 					<td><input type="text" name="perACA" class="form-control"  placeholder="" id="nullCheck"></td>
 					<td><select name="perGood" class="form-select" id="nullCheck" >
-							<option value="0">양</option>
-							<option value="1">불량</option>
+							<option value="0">양품</option>
+							<option value="1">불량품</option>
 						</select></td>
 					<td><input type="text" name="perNote" class="form-control" placeholder="불량사유, 기타 정보"></td>
 	              </tr>
@@ -206,17 +224,20 @@
 	
 	        // 서버로부터 받은 데이터로 테이블 바디를 채웁니다.
 	        $.each(response, function(i, item) {
-	          var newRow = "<tr>" +
-	            "<td>" + item.instructionCode + "</td>" +
-	            "<td>" + item.productCode + "</td>" +
-	            "<td>" + item.productName + "</td>" +
-	            "<td>" + item.insVol + "</td>" +
-	            "<td>" + item.perACA + "</td>" +
-	            "<td>" + item.perGood + "</td>" +
-	            "<td>" + item.perNote + "</td>" +
-	            "</tr>";
-	
-	          $("#table2 tfoot").append(newRow);
+	        	console.log(item); // 각 item 객체를 콘솔에 출력
+	        	console.log(item.perGood); // 각 item 객체의 perGood 속성 값을 콘솔에 출력
+	        	var perGoodStatus = item.perGood === 0 ? "양품" : "불량품";
+				var newRow = "<tr>" +
+				  "<td>" + item.instructionCode + "</td>" +
+				  "<td>" + item.productCode + "</td>" +
+				  "<td>" + item.productName + "</td>" +
+				  "<td>" + item.insVol + "</td>" +
+				  "<td>" + item.perACA + "</td>" +
+				  "<td>" + perGoodStatus + "</td>" +
+				  "<td>" + item.perNote + "</td>" +
+				  "</tr>";
+				
+				$("#table2 tfoot").append(newRow);
 	        });
 	      },
 	      error: function(xhr, status, error) {
@@ -258,6 +279,50 @@
 	            }
 	        });
 	    }
+	});
+	</script>
+
+	<script>
+	//검색 달력
+	$(document).ready(function () {
+	        $.datepicker.setDefaults($.datepicker.regional['ko']);
+	        $("#startDate").attr("placeholder", "기간을 선택하세요");
+	        $("#startDate").datepicker({
+	             changeMonth: true, 
+	             changeYear: true,
+	             nextText: '다음 달',
+	             prevText: '이전 달', 
+	             dayNames: ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'],
+	             dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'], 
+	             monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+	             monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+	             dateFormat: "yy-mm-dd",
+	             maxDate: 0,  // 선택할 수 있는 최소날짜, ( 0 : 오늘 이후 날짜 선택 불가)
+	             onClose: function( selectedDate ) {    
+	                  //시작일(startDate) datepicker가 닫힐 때
+	                  //종료일(endDate)의 선택할 수 있는 최소 날짜(minDate)를 선택한 시작일로 지정
+	                 $("#endDate").datepicker( "option", "minDate", selectedDate );
+	             }
+	        });
+	        
+	        $("#endDate").attr("placeholder", "기간을 선택하세요");
+	        $("#endDate").datepicker({
+	             changeMonth: true, 
+	             changeYear: true,
+	             nextText: '다음 달',
+	             prevText: '이전 달', 
+	             dayNames: ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'],
+	             dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'], 
+	             monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+	             monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+	             dateFormat: "yy-mm-dd",
+	             maxDate: 0, // 선택할 수 있는 최대날짜, ( 0 : 오늘 이후 날짜 선택 불가)
+	             onClose: function( selectedDate ) {    
+	                 // 종료일(endDate) datepicker가 닫힐 때
+	                 // 시작일(startDate)의 선택할 수 있는 최대 날짜(maxDate)를 선택한 시작일로 지정
+	                 $("#startDate").datepicker( "option", "maxDate", selectedDate );
+	             }
+	        });
 	});
 	</script>
 </body>

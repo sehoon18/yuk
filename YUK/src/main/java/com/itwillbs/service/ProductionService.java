@@ -71,8 +71,8 @@ public class ProductionService {
 		productionDAO.insertInstruction(productionDTO);
 	}
 
-	public List<ProductionDTO> getInstructionList() {
-		return productionDAO.getInstructionList();
+	public List<ProductionDTO> getInstructionList(ProductionDTO productionDTO) {
+		return productionDAO.getInstructionList(productionDTO);
 	}
 
 	public List<ProductionDTO> getPerformanceList() {

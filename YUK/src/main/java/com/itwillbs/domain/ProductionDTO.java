@@ -36,6 +36,10 @@ public class ProductionDTO {
 	private int perACA;				// 실적수량
 	private int perGood;			// 양불구분
 	
+	// search
+	private String sDate;
+	private String eDate;
+	
 	@Override
 	public String toString() {
 		return "ProductionDTO [lineCode=" + lineCode + ", lineName=" + lineName + ", update=" + update + ", name="
@@ -209,6 +213,22 @@ public class ProductionDTO {
 
 	public void setPerGood(int perGood) {
 		this.perGood = perGood;
+	}
+
+	public String getsDate() {
+		return sDate;
+	}
+
+	public void setsDate(String sDate) {
+		this.sDate = sDate;
+	}
+
+	public String geteDate() {
+		return eDate;
+	}
+
+	public void seteDate(String eDate) {
+		this.eDate = eDate;
 	}
 	
 }

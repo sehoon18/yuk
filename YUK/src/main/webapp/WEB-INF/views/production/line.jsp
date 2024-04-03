@@ -55,11 +55,11 @@
     <section class="section">
         <div class="card">
             <div class="card-body">
-            
+            <div class="card-header" style="padding: 27.2px 22.4px 3px 22.4px;">
 			<form action="${pageContext.request.contextPath}/production/line" method="get">
 				<div class="col-lg-2 col-3" style="display: flex; align-items: center; white-space: nowrap;">
 				<div style="flex: 0 1 auto; margin-right: 10px;"><b>라인코드</b></div>
-					<input type="text" id="lineCode" class="form-control" name="lineCode" style="flex: 1 1 auto; width: auto; background-color: white;" placeholder="라인코드를 선택하세요">
+					<input type="text" id="lineCode" class="form-control" name="lineCode" style="flex: 1 1 auto; width: auto; background-color: white;" placeholder="라인코드를 입력하세요">
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>라인명</b> &nbsp;&nbsp;
 					<input type="text" id="lineName" class="form-control" name="lineName" style="flex: 1 1 auto; width: auto;" placeholder="라인명을 입력하세요">
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -75,8 +75,9 @@
 					<button class="btn btn-primary btn-sm" type="submit">조회</button>
 				</div>
 			</form>
+			</div>
 			<form id="dataForm" class="insertLine" action="${pageContext.request.contextPath}/production/linePro" method="post">
-            <div class="card-header" style="text-align: right;">
+            <div class="card-header" style="text-align: right; padding: 3px 22.4px 22.4px 22.4px;">
 			    <button type="button" onclick="addTableRow()" class='btn btn-primary' id="addrow">➕ 추가</button>
 			    <button type="button" onclick="modTableRow()" class='btn btn-primary' id="modify">↪️ 수정</button>
 			    <button type="button" onclick="delTableRow()" class='btn btn-primary' id="delete">⚠️ 삭제</button>
@@ -89,7 +90,7 @@
 			                <th style="width: 400px;">라인명</th>
 			                <th style="width: 180px;">등록일자</th>
 			                <th style="width: 180px;">등록자</th>
-			                <th style="width: 180px;">라인상태</th>
+			                <th style="width: 150px; text">라인상태</th>
 			            </tr>
 			        </thead>
 			        <tbody>

@@ -6,11 +6,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Datatable - Voler Admin Dashboard</title>
+    <title>요기육</title>
     
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/bootstrap.css">
     
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/vendors/simple-datatables/style.css">
+<%-- <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/vendors/simple-datatables/style.css"> --%>
 
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/app.css">
@@ -22,8 +22,11 @@
 
 	<!-- sweetalert2 -->
 	<script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>    
-    
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	
+	<!--     DatePicker를 위한 css -->
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />  
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
 	
 	<style>
 	tbody tr:hover {
@@ -60,9 +63,9 @@
             <form action="${pageContext.request.contextPath}/production/instruction" method="get">
 				<div class="col-lg-2 col-3" style="display: flex; align-items: center; white-space: nowrap;">
 				<div style="flex: 0 1 auto; margin-right: 10px;"><b>작업지시코드</b></div>
-					<input type="text" id="instructionCode" class="form-control" name="instructionCode" style="flex: 1 1 auto; width: auto; background-color: white;" placeholder="라인코드를 선택하세요">
+					<input type="text" id="instructionCode" class="form-control" name="instructionCode" style="flex: 1 1 auto; width: auto; background-color: white;" placeholder="지시코드를 입력하세요">
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>품목코드</b> &nbsp;&nbsp;
-					<input type="text" id="lineName" class="form-control" name="productCode" style="flex: 1 1 auto; width: auto;" placeholder="라인명을 입력하세요">
+					<input type="text" id="lineName" class="form-control" name="productCode" style="flex: 1 1 auto; width: auto;" placeholder="품목코드를 입력하세요">
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				 	<b>상태</b>
 					&nbsp;&nbsp;
@@ -72,6 +75,11 @@
 						<option value="2">완료</option>
 					</select>
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<b>일자</b>&nbsp;&nbsp;
+					<input type="text" id="startDate" class="form-control" name="sDate" placeholder="기간을 선택하세요" style="width: 140px;">
+            		&nbsp; ~ &nbsp;
+					<input type="text" id="endDate" class="form-control" name="eDate" placeholder="기간을 선택하세요" style="width: 140px;">
+					&nbsp;&nbsp;
 					<button class="btn btn-primary btn-sm" type="submit">조회</button>
 				</div>
 			</form>
@@ -146,7 +154,7 @@
     <script src="${pageContext.request.contextPath}/resources/assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
     <script src="${pageContext.request.contextPath}/resources/assets/js/app.js"></script>
     
-<script src="${pageContext.request.contextPath}/resources/assets/vendors/simple-datatables/simple-datatables.js"></script>
+<%-- <script src="${pageContext.request.contextPath}/resources/assets/vendors/simple-datatables/simple-datatables.js"></script> --%>
 <script src="${pageContext.request.contextPath}/resources/assets/js/vendors.js"></script>
 
     <script src="${pageContext.request.contextPath}/resources/assets/js/main.js"></script>
@@ -180,42 +188,84 @@
 	    }
     </script>
     
-<script>
-function statusSwitch(event, instructionCode) {
-    // 이벤트 버블링을 막음
-    event.stopPropagation();
-    
-    Swal.fire({
-        title: "Are you sure?",
-        text: "You won't be able to revert this!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!"
-    }).then((result) => {
-        if (result.isConfirmed) {
-            // AJAX 호출
-            $.ajax({
-                url: "${pageContext.request.contextPath}/production/updateInsStatus",
-                type: "post",
-                data: { instructionCode: instructionCode },
-                success: function(response) {
-                    // 성공 시, 변경 완료 메시지 알림 후 페이지 새로고침
-                    Swal.fire("변경완료", "Your file has been deleted.", "success")
-                    .then(() => {
-                        location.reload(); // 페이지 새로고침
-                    });
-                },
-                error: function(xhr, status, error) {
-                    alert("변경 실패: " + error);
-                }
-            });
-        }
-    });
-}
-</script>
+	<script>
+	function statusSwitch(event, instructionCode) {
+	    // 이벤트 버블링을 막음
+	    event.stopPropagation();
+	    
+	    Swal.fire({
+	        title: "Are you sure?",
+	        text: "You won't be able to revert this!",
+	        icon: "warning",
+	        showCancelButton: true,
+	        confirmButtonColor: "#3085d6",
+	        cancelButtonColor: "#d33",
+	        confirmButtonText: "Yes, delete it!"
+	    }).then((result) => {
+	        if (result.isConfirmed) {
+	            // AJAX 호출
+	            $.ajax({
+	                url: "${pageContext.request.contextPath}/production/updateInsStatus",
+	                type: "post",
+	                data: { instructionCode: instructionCode },
+	                success: function(response) {
+	                    // 성공 시, 변경 완료 메시지 알림 후 페이지 새로고침
+	                    Swal.fire("변경완료", "Your file has been deleted.", "success")
+	                    .then(() => {
+	                        location.reload(); // 페이지 새로고침
+	                    });
+	                },
+	                error: function(xhr, status, error) {
+	                    alert("변경 실패: " + error);
+	                }
+	            });
+	        }
+	    });
+	}
+	</script>
 
-
+	<script>
+	//검색 달력
+	$(document).ready(function () {
+	        $.datepicker.setDefaults($.datepicker.regional['ko']);
+	        $("#startDate").attr("placeholder", "기간을 선택하세요");
+	        $("#startDate").datepicker({
+	             changeMonth: true, 
+	             changeYear: true,
+	             nextText: '다음 달',
+	             prevText: '이전 달', 
+	             dayNames: ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'],
+	             dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'], 
+	             monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+	             monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+	             dateFormat: "yy-mm-dd",
+	             maxDate: 0,  // 선택할 수 있는 최소날짜, ( 0 : 오늘 이후 날짜 선택 불가)
+	             onClose: function( selectedDate ) {    
+	                  //시작일(startDate) datepicker가 닫힐 때
+	                  //종료일(endDate)의 선택할 수 있는 최소 날짜(minDate)를 선택한 시작일로 지정
+	                 $("#endDate").datepicker( "option", "minDate", selectedDate );
+	             }
+	        });
+	        
+	        $("#endDate").attr("placeholder", "기간을 선택하세요");
+	        $("#endDate").datepicker({
+	             changeMonth: true, 
+	             changeYear: true,
+	             nextText: '다음 달',
+	             prevText: '이전 달', 
+	             dayNames: ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'],
+	             dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'], 
+	             monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+	             monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+	             dateFormat: "yy-mm-dd",
+	             maxDate: 0, // 선택할 수 있는 최대날짜, ( 0 : 오늘 이후 날짜 선택 불가)
+	             onClose: function( selectedDate ) {    
+	                 // 종료일(endDate) datepicker가 닫힐 때
+	                 // 시작일(startDate)의 선택할 수 있는 최대 날짜(maxDate)를 선택한 시작일로 지정
+	                 $("#startDate").datepicker( "option", "maxDate", selectedDate );
+	             }
+	        });
+	});
+	</script>
 </body>
 </html>

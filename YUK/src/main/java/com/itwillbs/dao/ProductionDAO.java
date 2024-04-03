@@ -35,8 +35,8 @@ public class ProductionDAO {
 		sqlSession.insert(namespace + ".insertInstruction", productionDTO);
 	}
 
-	public List<ProductionDTO> getInstructionList() {
-		return sqlSession.selectList(namespace + ".getInstructionList");
+	public List<ProductionDTO> getInstructionList(ProductionDTO productionDTO) {
+		return sqlSession.selectList(namespace + ".getInstructionList", productionDTO);
 	}
 
 	public List<ProductionDTO> getPerformanceList() {

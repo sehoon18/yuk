@@ -71,6 +71,12 @@ values(#{lineCode}, #{name}, #{lineStatus}, #{lineName}, #{update})
 	<if test="instractionStatus == 0">
 	and i.INS_STATUS = 0
 	</if>
+	<if test="sDate != '' and eDate != '' and sDate != null and eDate != null">
+	and i.INS_DATE between #{sDate} and #{eDate}</if>
+	<if test="sDate == '' and eDate != ''" >
+	and i.INS_DATE &lt;= #{eDate}</if>
+	<if test="sDate != '' and eDate == ''" >
+	and i.INS_DATE &gt;= #{sDate}</if>
 	</where>
 	order by i.INS_CD desc
 </select>
@@ -147,7 +153,21 @@ values(#{lineCode}, #{name}, #{lineStatus}, #{lineName}, #{update})
 	SELECT i.INS_CD "instructionCode", i.INS_VOL "insVol", i.INS_DATE "instructionDate", i.PRO_CD "productCode", p.PRO_NAME as "productName"
 	from INSTRUCTION i join PRODUCT p
 	ON i.PRO_CD = p.PRO_CD
-	where INS_STATUS = 2
+	<where>
+	INS_STATUS = 2
+	<if test="instructionCode != '' and instructionCode != null"  >
+	and i.INS_CD like concat('%', #{instructionCode}, '%')
+	</if>
+	<if test="productCode != '' and productCode != null ">
+	and i.PRO_CD like concat('%', #{productCode}, '%')
+	</if>
+	<if test="sDate != '' and eDate != '' and sDate != null and eDate != null">
+	and i.INS_DATE between #{sDate} and #{eDate}</if>
+	<if test="sDate == '' and eDate != ''" >
+	and i.INS_DATE &lt;= #{eDate}</if>
+	<if test="sDate != '' and eDate == ''" >
+	and i.INS_DATE &gt;= #{sDate}</if>
+	</where>
 	order by INS_CD desc
 </select>
 
