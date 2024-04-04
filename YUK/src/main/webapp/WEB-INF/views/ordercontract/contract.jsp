@@ -69,7 +69,7 @@
                             <th>총금액</th>
                             <th>수주일자</th>
                             <th>납품예정일</th>
-                            <th>담당자</th> 
+<!--                             <th>담당자</th>  -->
                             <th>상태</th>
                             <th>상세</th>
                         </tr>
@@ -86,7 +86,7 @@
      	<td >${OrdercontractDTO.pro_price*OrdercontractDTO.con_vol}</td> 
      	<td ><fmt:formatDate value="${OrdercontractDTO.con_date}" pattern="yyyy.MM.dd"/></td> 
      	<td ><fmt:formatDate value="${OrdercontractDTO.con_due_date}" pattern="yyyy.MM.dd"/></td> 
-    	<td >${OrdercontractDTO.user_id}</td>
+<%--     	<td >${OrdercontractDTO.user_id}</td> --%> 
     	<td >${OrdercontractDTO.con_info_status}</td>
 		<td ><input type="button" value="상세" onclick="popup();" /></td>
 	</tr> 
@@ -123,7 +123,7 @@
 	      // 팝업에서 선택한 값을 가져와서 인풋 필드에 설정합니다.
 	      $(popup.document).on('click', '.popup-option', function() {
 	        var selectedValue = $(this).text();
-	        $('#contractCode').val(selectedValue);
+	        $('#con_cd').val(selectedValue);
 	        popup.close();
 	      });
 	    }
@@ -140,7 +140,7 @@
 	      // 팝업에서 선택한 값을 가져와서 인풋 필드에 설정합니다.
 	      $(popup.document).on('click', '.popup-option', function() {
 	        var selectedValue = $(this).text();
-	        $('#contractCode').val(selectedValue);
+	        $('#con_cd').val(selectedValue);
 	        popup.close();
 	      });
 	    }

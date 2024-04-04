@@ -124,7 +124,7 @@
 	      // 팝업에서 선택한 값을 가져와서 인풋 필드에 설정합니다.
 	      $(popup.document).on('click', '.popup-option', function() {
 	        var selectedValue = $(this).text();
-	        $('#contractCode').val(selectedValue);
+	        $('#ord_cd').val(selectedValue);
 	        popup.close();
 	      });
 	    }
@@ -141,7 +141,7 @@
 	      // 팝업에서 선택한 값을 가져와서 인풋 필드에 설정합니다.
 	      $(popup.document).on('click', '.popup-option', function() {
 	        var selectedValue = $(this).text();
-	        $('#contractCode').val(selectedValue);
+	        $('#ord_cd').val(selectedValue);
 	        popup.close();
 	      });
 	    }
