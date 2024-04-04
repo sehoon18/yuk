@@ -7,23 +7,14 @@
 <mapper namespace="com.itwillbs.mappers.orderMapper">
 
 <insert id="insertOrder">
-insert into ORDERS(ORD_CD, CLI_ID, USER_ID, PRO_CD, ORD_VOL, ORD_DATE, ORD_DUE_DATE, ORD_INFO_STATUS, ORD_PAY_DATE)
-values(#{ORD_CD}, #{CLI_ID}, #{USER_ID}, #{PRO_CD},#{ORD_VOL}, #{ORD_DATE}, #{ORD_DUE_DATE}, #{ORD_INFO_STATUS},#{ORD_PAY_DATE})
+insert into ORDERS(ORD_CD, CLI_CD, USER_ID, PRO_CD, ORD_VOL, ORD_DATE, ORD_DUE_DATE, ORD_INFO_STATUS, ORD_PAY_DATE)
+values(#{ord_cd}, #{cli_cd}, #{user_id}, #{pro_cd},#{ord_vol}, #{ord_date}, #{ord_due_date}, #{ord_info_status},#{ord_pay_date})
 </insert>
 
 <insert id="insertContract">
 insert into CONTRACT(CON_CD, CLI_CD, PRO_CD, CON_VOL, CON_DATE, CON_DUE_DATE, CON_INFO_STATUS, CON_PAY_DATE)
 values(#{con_cd}, #{cli_cd}, #{pro_cd},#{con_vol}, #{con_date}, #{con_due_date}, #{con_info_status},#{con_pay_date})
 </insert>
-<!-- <insert id="insertOrder"> -->
-<!-- insert into ORDERS( CLI_ID, USER_ID, PRO_CD, ORD_VOL,ORD_DUE_DATE, ORD_PAY_DATE) -->
-<!-- values( #{CLI_ID}, #{USER_ID}, #{PRO_CD},#{ORD_VOL},  #{ORD_DUE_DATE}, #{ORD_PAY_DATE}) -->
-<!-- </insert> -->
-
-<!-- <insert id="insertContract"> -->
-<!-- insert into CONTRACT( CLI_ID, USER_ID, PRO_CD, CON_VOL, CON_DUE_DATE,  CON_PAY_DATE) -->
-<!-- values( #{CLI_ID}, #{USER_ID}, #{PRO_CD},#{CON_VOL}, #{CON_DUE_DATE}, #{CON_PAY_DATE}) -->
-<!-- </insert> -->
 
 <select id="getOrderList" resultType="com.itwillbs.domain.OrdercontractDTO">
 
@@ -68,16 +59,16 @@ and cl.CLI_NAME like concat ('%', #{cli_name}, '%')
 </select>
 
 <update id="updateOrder">
-	update Order
+	update ORDERS
 	SET ORD_CD = #{ord_cd}, PRO_NAME = #{pro_name},  CLIENT_CD= #{client_cd},CLIENT_NAME  = #{client_name},
 	ORD_VOL= #{ord_vol}, PRO_PRICE= #{pro_price},  USER_ID= #{user_id},ORD_DATE= #{ord_date},ORD_DUE_DATE= #{ord_due_date},ORD_PAY_DATE= #{ord_pay_date}
 	where ORD_CD = #{ord_cd}
 </update>
 
 <update id="updateContract">
-	update Contract
+	update CONTRACT
 	SET CON_CD = #{con_cd}, PRO_NAME = #{pro_name},  CLIENT_CD= #{client_cd},CLIENT_NAME  = #{client_name},
-	CON_VOL= #{con_vol}, PRO_PRICE= #{pro_price},  USER_ID= #{user_id},CON_DATE= #{con_date},CON_DUE_DATE= #{con_due_date},CON_PAY_DATE= #{con_pay_date}
+	CON_VOL= #{con_vol}, PRO_PRICE= #{pro_price}, CON_DATE= #{con_date},CON_DUE_DATE= #{con_due_date},CON_PAY_DATE= #{con_pay_date}
 	where CON_CD = #{con_cd}
 </update>
 
@@ -121,6 +112,11 @@ order by CON_CD desc
 	ORDER BY numbers_only DESC
 	LIMIT 1
 </select>
-
+<select id="getOrdLastNum" resultType="java.lang.Integer">
+	SELECT REGEXP_REPLACE(ORD_CD, '[^0-9]', '') AS numbers_only
+	FROM ORDERS
+	ORDER BY numbers_only DESC
+	LIMIT 1
+</select>
 
 </mapper>

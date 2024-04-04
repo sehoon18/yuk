@@ -28,7 +28,7 @@ import com.itwillbs.domain.ProductionDTO;
 			Integer ordLastNum = ordercontractDAO.getOrdLastNum();
 			String ord_cd;
 			if (ordLastNum == null) {
-			    ord_cd = "ORD001";
+				ord_cd = "CON001";
 			} else {
 			    int nextNum = ordLastNum + 1;
 			    if (nextNum < 10) {
@@ -39,7 +39,6 @@ import com.itwillbs.domain.ProductionDTO;
 			    	ord_cd = String.format("ORD%d", nextNum);
 			    }
 			}
-			
 			ordercontractDTO.setOrd_cd(ord_cd);
 			// 작업 지시 insert
 			ordercontractDAO.insertOrder(ordercontractDTO);

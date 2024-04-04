@@ -48,13 +48,17 @@ public class OrdercontractController {
 		return "ordercontract/order";
 	}
 	@PostMapping("/insertOrder")
-	public String insertOrder(OrdercontractDTO ordercontractDTO ) {
-		System.out.println("OrdercontractController insertOrder()");
+	public ResponseEntity<String> insertOrder(@RequestBody OrdercontractDTO ordercontractDTO ) {
+		System.out.println("OrdercontractController insertContract()");
 		System.out.println(ordercontractDTO);
-//		ordercontractDTO.setName("hong123");
-		ordercontractService.insertOrder(ordercontractDTO);
 		
-		return "ordercontract/order";
+		Timestamp today = new Timestamp(System.currentTimeMillis());
+		ordercontractDTO.setOrd_date(today);
+//		ordercontractDTO.setUser_id("hong123");
+		ordercontractService.insertOrder(ordercontractDTO);
+		System.out.println(ordercontractDTO);
+		
+		return ResponseEntity.ok().body("{\"message\": \"등록 성공!\"}");
 	}
 	
 	@PostMapping("/insertContract")
@@ -99,6 +103,33 @@ public class OrdercontractController {
 			
 			return "popup/orderaddpopup";
 		}
+//		@GetMapping("/orderdeletepopup")
+//		public String orderaddpopup(OrdercontractDTO ordercontractDTO, Model model) {
+//			System.out.println("OrdercontractController orderaddpopup()");
+//			
+//			// instructionCode 생성
+//			Integer ordLastNum = ordercontractService.getOrdLastNum();
+//			
+//			String ord_cd;
+//			if (ordLastNum == null) {
+//			    ord_cd = "ORD001";
+//			} else {
+//			    int nextNum = ordLastNum + 1;
+//			    if (nextNum < 10) {
+//			    	ord_cd = String.format("ORD00%d", nextNum);
+//			    } else if (nextNum < 100) {
+//			    	ord_cd = String.format("ORD0%d", nextNum);
+//			    } else {
+//			    	ord_cd = String.format("ORD%d", nextNum);
+//			    }
+//			}
+//			ordercontractDTO.setOrd_cd(ord_cd);
+//			model.addAttribute("ordercontractDTO", ordercontractDTO);
+//			
+////			List<ProductionDTO> reqList = productionService.getReqList();
+//			
+//			return "popup/orderaddpopup";
+//		}
 		@GetMapping("/contractaddpopup")
 		public String contractaddpopup(OrdercontractDTO ordercontractDTO, Model model) {
 			System.out.println("OrdercontractController contractaddpopup()");

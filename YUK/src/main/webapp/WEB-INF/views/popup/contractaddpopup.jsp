@@ -12,10 +12,11 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/app.css">
     <link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/assets/images/favicon.svg" type="image/x-icon">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- sweetalert2 -->
+   <!-- sweetalert2 -->
 	<script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>    
-    
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	
     
@@ -132,6 +133,7 @@
 	            contentType: "application/json", // 요청 컨텐츠 타입 명시 (옵션)
 	            dataType: "json", // 응답 데이터 타입 명시 (옵션)
 	            data: JSON.stringify({ // JSON 형식으로 데이터 객체 구성
+	            	con_vol: $('#con_vol').val(),
 	                pro_cd: $('#pro_cd').val(),
 	                pro_name: $('#pro_name').val(),
 	                cli_cd: $('#cli_cd').val(),

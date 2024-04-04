@@ -162,6 +162,14 @@ public class PopupController {
 		System.out.println(orderList);
 		return "popup/orderpop";
 	}
+	@GetMapping("/orderpop1")
+	public String orderpop1(Model model, OrdercontractDTO ordercontractDTO) {
+		System.out.println("PopupController orderpop1()");
+		List<OrdercontractDTO> orderList = ordercontractService.getOrderList(ordercontractDTO);
+		model.addAttribute("OrderList", orderList);
+		System.out.println(orderList);
+		return "popup/orderpop1";
+	}
 	@GetMapping("/contractpop")
 	public String contractpop(Model model,OrdercontractDTO ordercontractDTO) {
 		System.out.println("PopupController contractpop()");

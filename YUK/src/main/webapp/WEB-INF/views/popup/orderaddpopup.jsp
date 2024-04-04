@@ -13,13 +13,13 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/app.css">
     <link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/assets/images/favicon.svg" type="image/x-icon">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- Required meta tags -->
+    <!-- sweetalert2 -->
+	<script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>    
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-<!-- sweetalert2 -->
-	<script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>    
+     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    
+	
 </head>
 <body>
 <section id="multiple-column-form" >
@@ -31,7 +31,7 @@
                     <hr>
                     </div>
                     <div class="card-content">
-                       <form class="form" id="ordForm"action="${pageContext.request.contextPath}/ordercontract/insertOrder" method="post" >
+                       <form class="form" id="ordForm" action="${pageContext.request.contextPath}/ordercontract/insertOrder" method="post" >
                         <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-15 col-2">	
@@ -88,7 +88,7 @@
 
 							<div class="col-12 d-flex justify-content-end">
 							    <button type="submit" class="btn btn-primary mr-1 mb-1">Submit</button>
-							    <input type="hidden" name="ord_cd" value="${OrdercontractDTO.ord_cd}">
+<%-- 							    <input type="hidden" name="ord_cd" value="${OrdercontractDTO.ord_cd}"> --%>
 							    <button type="reset" class="btn btn-primary mr-1 mb-1">Reset</button>
 							</div>
 							  </div>
@@ -123,28 +123,36 @@
 	</script>
 	<script>
 	$(document).ready(function() {
-	    // 폼의 'submit' 이벤트에 대한 이벤트 리스너 등록
 	    $("#ordForm").submit(function(event) {
-	        // 기본 폼 제출 동작을 방지
 	        event.preventDefault();
-	
-	        // AJAX 요청
+
 	        $.ajax({
 	            url: "${pageContext.request.contextPath}/ordercontract/insertOrder", // 실제 요청 URL로 변경해야 함
 	            type: "post", // 메소드 타입
-	            data: $(this).serialize(), // 현재 폼 데이터 직렬화
+	            contentType: "application/json", // 요청 컨텐츠 타입 명시 (옵션)
+	            dataType: "json", // 응답 데이터 타입 명시 (옵션)
+	            data: JSON.stringify({ // JSON 형식으로 데이터 객체 구성
+	            	ord_vol: $('#ord_vol').val(),
+	                pro_cd: $('#pro_cd').val(),
+	                pro_name: $('#pro_name').val(),
+	                cli_cd: $('#cli_cd').val(),
+	                cli_name: $('#cli_name').val(),
+	                pro_price: $('#pro_price').val(),
+	                ord_due_date: $('#ord_due_date').val(),
+	                ord_pay_date: $('#ord_pay_date').val()
+	            }),
 	            success: function(response) {
-	                // 데이터베이스 저장 성공 후
 	                alert("등록 성공!");
-	                window.opener.location.reload(); // 부모 창 새로고침
-	                window.close(); // 팝업 창 닫기
+	                window.opener.location.reload();
+	                window.close();
 	            },
 	            error: function(xhr, status, error) {
-// 	                alert("등록 실패: " + error);
+	                // alert("등록 실패: " + error); // 에러 처리 부분
 	            }
 	        });
 	    });
 	});
+
 	</script>
 	
 	<script>
@@ -179,6 +187,5 @@
 	    }
 	});
 	</script>
-	
 </body>
 </html>
