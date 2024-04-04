@@ -50,12 +50,16 @@
 <div class="row" id="table-bordered" style="margin-right: 20px;">
   <div class="col-12">
     <div class="card">
-      <div class="card-header">
-        <h4 class="card-title">총 50건</h4>
+      <div class="card-header" >
+        <h4 class="card-title"><b>총 ${clientList.size() }건</b></h4>
       </div>
       <div class="card-content">
         <!-- table bordered -->
         <div class="table-responsive">
+        <div style="text-align: right; margin-right:30px;">
+<button class="btn btn-primary btn-sm" type="button" onclick="clientAddPopup()">등록</button>
+</div>
+<br>
           <table class="table table-bordered mb-0">
             <thead>
               <tr>
@@ -71,7 +75,7 @@
             </thead>
             <tbody>
             <c:forEach var="clientDTO" items="${clientList }">
-              <tr class="color" onclick="clientDetailPopup()">
+              <tr class="color" onclick="clientDetailPopup('${clientDTO.clientCode}')">
                 <td>${clientDTO.clientCode }</td>
                 <td>${clientDTO.clientName }</td>
                 <td>${clientDTO.clientType }</td>
@@ -80,8 +84,6 @@
                 <td>${clientDTO.clientBasicAddress }</td>
                 <td>${clientDTO.clientTelNumber }</td>
                 <td>${clientDTO.clientEmail }</td>
-            
-                 
               </tr>
               </c:forEach>
               
@@ -139,7 +141,11 @@
     <script src="${pageContext.request.contextPath}/resources/assets/js/main.js"></script>
     
     <script>
-    function clientDetailPopup(){window.open("${pageContext.request.contextPath}/client/clientDetailPopup","","width=750, height=600, left=400, top=80");}
+    function clientDetailPopup(clientCode) {
+        window.open("${pageContext.request.contextPath}/client/clientDetailPopup?clientCode=" + clientCode, "", "width=750, height=600, left=400, top=80");
+        window.opener.document.getElementById("clientCode").value = clientCode;
+        window.close();
+      }
     </script>
     
     <script>
@@ -154,10 +160,23 @@
     function receive(clientCode, clientName){
     	document.getElementById("clientCode").value=clientCode;
     	document.getElementById("clientName").value=clientName;
-    		}
-    
+    		}   
     </script>
     
+    <script>
+    function send(clientCode){
+    	window.opener.document.getElementById("clientCode").value=clientCode;
+    	window.opener.document.getElementById("clientName").value=clientName;
+    	window.opener.document.getElementById("clientType").value=clientType;
+    	window.opener.document.getElementById("businessNumber").value=businessNumber;
+    	window.opener.document.getElementById("clientCEO").value=clientCEO;
+    	window.opener.document.getElementById("clientBasicAddress").value=clientBasicAddress;
+    	window.opener.document.getElementById("clientTelNumber").value=clientTelNumber;
+    	window.opener.document.getElementById("clientEmail").value=clientEmail;
+    	window.close();
+    	
+    }
+    </script>
     
 </body>
 </html>

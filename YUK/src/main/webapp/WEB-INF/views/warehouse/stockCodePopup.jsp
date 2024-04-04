@@ -26,7 +26,7 @@
     <h1><b>재고 관리</b></h1>
   	<hr>
   	
-  	<form action="${pageContext.request.contextPath}/warehouse/stock">
+  	<form action="${pageContext.request.contextPath}/warehouse/stockCodePopup">
   <div class="col-lg-2 col-3" style="display: flex; align-items: center; white-space: nowrap;">
 <!--   	flex: 0 1 auto; 속성은 사원번호 텍스트가 필요한 만큼의 공간만 차지 -->
   <div style="flex: 0 1 auto; margin-right: 10px;"><b>품목코드</b></div>
@@ -37,6 +37,15 @@
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>창고명</b> &nbsp;&nbsp;
   <input type="text" id="warehouseName" class="form-control" name="warehouseName" style="flex: 1 1 auto; width: auto;" placeholder="창고명을 입력하세요.">
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+     <b>품목구분</b>
+   &nbsp;&nbsp;
+  <select class="form-select" id="basicSelect" name="productType" style="width: 100px;">
+	<option value="100">전체</option>
+	<option value="0">완제품</option>
+	<option value="1">식자재</option>
+	<option value="2">포장자재</option>
+   </select>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <button class="btn btn-primary btn-sm" type="submit">조회</button>
 </div>
 </form>
@@ -59,6 +68,7 @@
               <tr>
                 <th>품목코드</th>
                 <th>품명</th>
+                <th>품목구분</th>
                 <th>보관창고(코드)</th>
                 <th>창고명</th>
                 <th>보관구역(섹터)</th>
@@ -68,9 +78,18 @@
             </thead>
             <tbody>
               <c:forEach var="warehouseDTO" items="${stockList }">
-              <tr class="color" onclick="send('${warehouseDTO.productCode}','${warehouseDTO.productName}','${warehouseDTO.warehouseName }')">
+              <tr class="color" onclick="send('${warehouseDTO.productCode}','${warehouseDTO.productName}','${warehouseDTO.warehouseName }','${warehouseDTO.productType} }')">
                 <td>${warehouseDTO.productCode } </td>
                 <td>${warehouseDTO.productName } </td>
+                <c:if test="${warehouseDTO.productType == 0 }">
+                <td>완제품</td>
+                </c:if>
+                <c:if test="${warehouseDTO.productType == 1 }">
+                <td>식자재</td>
+                </c:if>
+                <c:if test="${warehouseDTO.productType == 2 }">
+                <td>포장자재</td>
+                </c:if>
                 <td>${warehouseDTO.warehouseCode } </td>
                 <td>${warehouseDTO.warehouseName } </td>
                 <td>${warehouseDTO.warehouseArea } </td>
@@ -119,7 +138,7 @@
     </script>
     
     <script>
-    function send(productCode, productName, warehouseName){
+    function send(productCode, productName, warehouseName, productType){
     	window.opener.document.getElementById("productCode").value=productCode;
     	window.opener.document.getElementById("productName").value=productName;
     	window.opener.document.getElementById("warehouseName").value=warehouseName;
