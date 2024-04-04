@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.itwillbs.dao.ProductionDAO;
 import com.itwillbs.domain.PageDTO;
+import com.itwillbs.domain.ProductDTO;
 import com.itwillbs.domain.ProductionDTO;
 
 @Service
@@ -220,6 +221,10 @@ public class ProductionService {
 
 	public int getProCount(PageDTO pageDTO) {
 		return productionDAO.getProCount(pageDTO);
+	}
+
+	public List<ProductDTO> getReq(ProductionDTO productionDTO) {
+		return productionDAO.getReq(productionDTO);
 	}
 
 }

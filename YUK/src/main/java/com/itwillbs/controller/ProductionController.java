@@ -301,8 +301,6 @@ public class ProductionController {
 		productionDTO.setInstructionCode(instructionCode);
 		model.addAttribute("productionDTO", productionDTO);
 		
-//		List<ProductionDTO> reqList = productionService.getReqList();
-		
 		return "production/inspop";
 	}
 	

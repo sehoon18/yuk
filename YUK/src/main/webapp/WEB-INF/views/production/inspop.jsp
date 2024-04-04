@@ -92,27 +92,7 @@
 	                  <th>재고량</th>
 	                </tr>
 	              </thead>
-					<tr>
-						<td>PRO0001</td>
-						<td>양념소스</td>
-						<td>2</td>
-						<td>30</td>
-					</tr>
-					<tr>
-						<td>PRO0001</td>
-						<td>가공육</td>
-						<td>1</td>
-						<td>25</td>
-					</tr>
 	              <tbody>
-<%-- 					<c:forEach var="productionDTO" items="${lineList }"> --%>
-<!-- 					<tr> -->
-<%-- 						<td>${productionDTO.lineCode }</td> --%>
-<%-- 						<td>${productionDTO.lineName }</td> --%>
-<%-- 						<td>${productionDTO.update }</td> --%>
-<%-- 						<td>${productionDTO.name }</td> --%>
-<!-- 					</tr> -->
-<%-- 					</c:forEach> --%>
 	              </tbody>
 	            </table>
 	          </div>
@@ -176,6 +156,7 @@
 	      $(popup.document).on('click', '.popup-option', function() {
 	        var selectedValue = $(this).text();
 	        $('#productCode').val(selectedValue);
+	        window.opener.receiveValueFromPopup(selectedValue); // 부모 창의 함수 호출
 	        popup.close();
 	      });
 	    }
@@ -197,6 +178,45 @@
 	      });
 	    }
 	  }
+	</script>
+	
+	<script>
+	  // 팝업으로부터 값을 받는 함수
+	function receiveValueFromPopup(selectedValue) {
+	    $('#productCode').val(selectedValue); // 인풋 필드에 값을 설정
+	    
+	    // AJAX 요청 실행
+	    $.ajax({
+	      url: '${pageContext.request.contextPath}/production/getReq',
+	      type: 'POST',
+	      contentType: 'application/json', // 요청의 내용 유형
+	      dataType: 'json', // 응답 데이터의 유형
+	      data: JSON.stringify({
+	        productCode: selectedValue // 서버로 보낼 데이터
+	      }),
+	      success: function(response) {
+	    	  populateTable(response); // 성공 시 처리, response는 서버로부터 받은 데이터
+	      },
+	      error: function(xhr, status, error) {
+	        console.error("Error occurred: " + error); // 에러 처리
+	      }
+	    });
+	}
+	function populateTable(data) {
+	    var tbody = $('.table tbody'); // 테이블의 tbody 선택
+	    tbody.empty(); // 기존의 행들을 모두 삭제
+	
+	    // 데이터 항목별로 반복하여 테이블 행 생성
+	    $.each(data, function(index, item) {
+	        var row = $('<tr>'); // 새 행 생성
+	        row.append($('<td>').text(item.품목코드)); // 품목코드 열
+	        row.append($('<td>').text(item.품명)); // 품명 열
+	        row.append($('<td>').text(item.수량)); // 수량 열
+	        row.append($('<td>').text(item.재고량)); // 재고량 열
+	
+	        tbody.append(row); // 생성된 행을 tbody에 추가
+	    });
+	}
 	</script>
 	
 	<script>

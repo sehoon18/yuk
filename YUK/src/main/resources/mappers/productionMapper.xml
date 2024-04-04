@@ -308,4 +308,10 @@ values(#{lineCode}, #{name}, #{lineStatus}, #{lineName}, #{update})
 	where PER_CD = #{perCode}
 </delete>
 
+<select id="getReq" resultType="com.itwillbs.domain.ProductDTO">
+	select REQ_CD "requiredCode", REQ_VOL "productName", PP_CD "perGood", MP_CD "productPName"
+	from REQUIRED
+	where PP_CD = #{productCode};
+</select>
+
 </mapper>

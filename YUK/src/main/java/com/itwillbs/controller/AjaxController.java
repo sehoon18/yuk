@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.itwillbs.domain.ProductDTO;
 import com.itwillbs.domain.ProductionDTO;
 import com.itwillbs.service.ProductionService;
 
@@ -71,5 +72,20 @@ public class AjaxController {
 	    // 단순 문자열 "success"를 JSON 형식으로 반환하는 예시
 	    return ResponseEntity.ok().body("{\"message\":\"success\"}");
 	}
+
+	// 소요량 가져오기
+	@PostMapping("/production/getReq")
+	public ResponseEntity<?> getReq(ProductionDTO productionDTO) {
+	    System.out.println("ProductionController perDeletePro()");
+	    System.out.println(productionDTO);
+	    
+	    List<ProductDTO> reqList = productionService.getReq(productionDTO);
+	    
+	    // reqList를 JSON 형태로 응답
+	    return ResponseEntity.ok().body(reqList);
+	}
+
+	
+	
 	
 }

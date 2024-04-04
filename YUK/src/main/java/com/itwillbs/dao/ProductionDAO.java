@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.itwillbs.domain.PageDTO;
+import com.itwillbs.domain.ProductDTO;
 import com.itwillbs.domain.ProductionDTO;
 
 @Repository
@@ -130,6 +131,10 @@ public class ProductionDAO {
 
 	public int getProCount(PageDTO pageDTO) {
 		return sqlSession.selectOne(namespace + ".getProCount", pageDTO);
+	}
+
+	public List<ProductDTO> getReq(ProductionDTO productionDTO) {
+		return sqlSession.selectList(namespace + ".getReq", productionDTO);
 	}
 
 }
