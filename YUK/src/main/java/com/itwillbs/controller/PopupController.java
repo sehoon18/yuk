@@ -82,7 +82,7 @@ public class PopupController {
 		} else {
 			lineStatus1 = Integer.parseInt(request.getParameter("search5"));
 		}
-		pageDTO.setSearch5(lineStatus1);
+		pageDTO.setSearch0(lineStatus1);
 
 
 		// 페이징

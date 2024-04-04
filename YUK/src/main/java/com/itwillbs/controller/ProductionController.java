@@ -67,7 +67,7 @@ public class ProductionController {
 		} else {
 			lineStatus1 = Integer.parseInt(request.getParameter("search5"));
 		}
-		pageDTO.setSearch5(lineStatus1);
+		pageDTO.setSearch0(lineStatus1);
 
 		// 페이징
 		int pageSize = 10;
@@ -226,7 +226,7 @@ public class ProductionController {
 		} else {
 			instructionStatus1 = Integer.parseInt(request.getParameter("search5"));
 		}
-		pageDTO.setSearch5(instructionStatus1);
+		pageDTO.setSearch0(instructionStatus1);
 
 		// 페이징
 		int pageSize = 10;
