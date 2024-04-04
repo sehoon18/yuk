@@ -20,6 +20,7 @@ public class PageDTO {
 	private String search2;
 	private String search3;
 	private String search4;
+	private int search5;
 	
 	//탭 유지 값 추가(작업 중)
 	private String pibpib;
@@ -55,6 +56,12 @@ public class PageDTO {
 	}
 	public void setSearch1(String search1) {
 		this.search1 = search1;
+	}
+	public int getSearch5() {
+		return search5;
+	}
+	public void setSearch5(int search5) {
+		this.search5 = search5;
 	}
 	
 	public int getPageSize() {

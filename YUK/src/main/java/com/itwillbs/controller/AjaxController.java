@@ -45,5 +45,31 @@ public class AjaxController {
 		return perList;
 	}
 	
+
+	// 실적 수정
+	@PostMapping("/production/updatePer")
+	public ResponseEntity<?> updatePer(@RequestBody ProductionDTO productionDTO) {
+	    System.out.println("ProductionController updatePer()");
+	    System.out.println(productionDTO);
+
+	    productionService.updatePer(productionDTO);
+	    
+	    // 성공 응답 보내기
+	    // 단순 문자열 "success"를 JSON 형식으로 반환하는 예시
+	    return ResponseEntity.ok().body("{\"message\":\"success\"}");
+	}
+	
+	// 실적 삭제
+	@PostMapping("/production/perDeletePro")
+	public ResponseEntity<?> perDeletePro(@RequestBody ProductionDTO productionDTO) {
+	    System.out.println("ProductionController perDeletePro()");
+	    System.out.println(productionDTO);
+
+	    productionService.deletePer(productionDTO);
+	    
+	    // 성공 응답 보내기
+	    // 단순 문자열 "success"를 JSON 형식으로 반환하는 예시
+	    return ResponseEntity.ok().body("{\"message\":\"success\"}");
+	}
 	
 }

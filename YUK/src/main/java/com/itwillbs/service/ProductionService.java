@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import com.itwillbs.dao.ProductionDAO;
+import com.itwillbs.domain.PageDTO;
 import com.itwillbs.domain.ProductionDTO;
 
 @Service
@@ -39,8 +40,15 @@ public class ProductionService {
 		productionDAO.insertLine(productionDTO);
 	}
 
-	public List<ProductionDTO> getLineList(ProductionDTO productionDTO) {
-		return productionDAO.getLineList(productionDTO);
+	public List<ProductionDTO> getLineList(PageDTO pageDTO) {
+		
+		int startRow = (pageDTO.getCurrentPage() - 1) * pageDTO.getPageSize() + 1;
+		int EndRow = startRow + pageDTO.getPageSize() - 1;
+		
+		pageDTO.setStartRow(startRow -1);
+		pageDTO.setEndRow(EndRow);
+		
+		return productionDAO.getLineList(pageDTO);
 	}
 
 	public ProductionDTO getLineCode(String lineCode) {
@@ -162,6 +170,23 @@ public class ProductionService {
 
 	public Integer getLineLastNum() {
 		return productionDAO.getLineLastNum();
+	}
+
+	public void updatePer(ProductionDTO productionDTO) {
+		productionDAO.updatePer(productionDTO);
+	}
+
+	public Integer getPerLastNum() {
+		return productionDAO.getPerLastNum();
+	}
+
+	public void deletePer(ProductionDTO productionDTO) {
+		productionDAO.deletePer(productionDTO);
+	}
+
+	// 페이징 라인 갯수
+	public int getLineCount(PageDTO pageDTO) {
+		return productionDAO.getLineCount(pageDTO);
 	}
 
 }

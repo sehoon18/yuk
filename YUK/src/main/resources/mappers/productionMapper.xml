@@ -14,20 +14,40 @@ values(#{lineCode}, #{name}, #{lineStatus}, #{lineName}, #{update})
 	select LINE_CD "lineCode", USER_ID "name", LINE_STATUS "lineStatus", LINE_NAME "lineName", LINE_DATE "update"
 	from LINE
 	<where>
-	<if test="lineCode != '' and lineCode != null"  >
-	LINE_CD like concat('%', #{lineCode}, '%')
+	<if test="search1 != '' and search1 != null"  >
+	LINE_CD like concat('%', #{search1}, '%')
 	</if>
-	<if test="lineName != '' and lineName != null ">
-	and LINE_NAME like concat('%', #{lineName}, '%')
+	<if test="search2 != '' and search2 != null ">
+	and LINE_NAME like concat('%', #{search2}, '%')
 	</if>
-	<if test="lineStatus != '' and lineStatus != null and lineStatus != 4">
-	and LINE_STATUS like concat('%', #{lineStatus}, '%')
+	<if test="search5 != '' and search5 != null and search5 != 4">
+	and LINE_STATUS like concat('%', #{search5}, '%')
 	</if>
-	<if test="lineStatus == 0">
+	<if test="search5 == 0">
 	and LINE_STATUS = 0
 	</if>
 	</where>
 	order by LINE_CD desc
+    limit #{startRow}, #{pageSize}
+</select>
+
+<select id="getLineCount" resultType="java.lang.Integer">
+	select count(*)
+	from LINE
+	<where>
+	<if test="search1 != '' and search1 != null"  >
+	LINE_CD like concat('%', #{search1}, '%')
+	</if>
+	<if test="search2 != '' and search2 != null ">
+	and LINE_NAME like concat('%', #{search2}, '%')
+	</if>
+	<if test="search5 != '' and search5 != null and search5 != 4">
+	and LINE_STATUS like concat('%', #{search5}, '%')
+	</if>
+	<if test="search5 == 0">
+	and LINE_STATUS = 0
+	</if>
+	</where>
 </select>
 
 <select id="getLineCode" resultType="com.itwillbs.domain.ProductionDTO">
@@ -184,7 +204,7 @@ values(#{lineCode}, #{name}, #{lineStatus}, #{lineName}, #{update})
 </select>
 
 <select id="getPerList" resultType="com.itwillbs.domain.ProductionDTO">
-	SELECT p.PER_GOOD "perGood", p.PER_NOTE "perNote", p.ACTUAL_COMPLETION_AMOUNT "perACA", i.INS_CD "instructionCode", i.INS_VOL "insVol", i.PRO_CD "productCode", pro.PRO_NAME "productName"
+	SELECT p.PER_CD "perCode", p.PER_GOOD "perGood", p.PER_NOTE "perNote", p.ACTUAL_COMPLETION_AMOUNT "perACA", i.INS_CD "instructionCode", i.INS_VOL "insVol", i.PRO_CD "productCode", pro.PRO_NAME "productName"
 	from PERFORMANCE p left join INSTRUCTION i
 	ON p.INS_CD = i.INS_CD
 	left join PRODUCT pro
@@ -205,4 +225,18 @@ values(#{lineCode}, #{name}, #{lineStatus}, #{lineName}, #{update})
 	ORDER BY numbers_only DESC
 	LIMIT 1
 </select>
+
+<update id="updatePer">
+	update PERFORMANCE
+	SET ACTUAL_COMPLETION_AMOUNT = #{perACA}, PER_GOOD = #{perGood}, PER_NOTE = #{perNote}
+	WHERE PER_CD = #{perCode}
+</update>
+
+<delete id="deletePer">
+	delete 
+	from PERFORMANCE
+	where PER_CD = #{perCode}
+</delete>
+
+
 </mapper>

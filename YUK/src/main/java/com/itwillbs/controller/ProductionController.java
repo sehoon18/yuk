@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.itwillbs.domain.PageDTO;
 import com.itwillbs.domain.ProductionDTO;
 import com.itwillbs.service.ProductionService;
 
@@ -32,13 +33,12 @@ public class ProductionController {
 	
 	// 라인 페이지
 	@GetMapping("/line")
-	public String line(ProductionDTO productionDTO, Model model, HttpServletRequest request) {
+	public String line(ProductionDTO productionDTO, Model model, HttpServletRequest request, PageDTO pageDTO) {
 		System.out.println("ProductionController line()");
 		System.out.println(productionDTO);
 
 		// lineCode 생성
 		Integer lineLastNum = productionService.getLineLastNum();
-
 		String lineCode;
 		if (lineLastNum == null) {
 		    lineCode = "L001";
@@ -56,19 +56,52 @@ public class ProductionController {
 		productionDTO.setLineCode(lineCode);
 		model.addAttribute("productionDTO", productionDTO);
 		
-		productionDTO.setLineCode(request.getParameter("lineCode"));
-		productionDTO.setLineName(request.getParameter("lineName"));
-		String lineStatus = (String)request.getParameter("lineStatus");
+		// 검색 기능
+		pageDTO.setSearch1(request.getParameter("search1"));
+		pageDTO.setSearch2(request.getParameter("search2"));
+		String lineStatus = (String)request.getParameter("search5");
+		System.out.println(pageDTO);
 		int lineStatus1 = 4;
 		if(lineStatus == null) {
 			lineStatus1 = 4;
 		} else {
-			lineStatus1 = Integer.parseInt(request.getParameter("lineStatus"));
+			lineStatus1 = Integer.parseInt(request.getParameter("search5"));
 		}
-		productionDTO.setLineStatus(lineStatus1);
+		pageDTO.setSearch5(lineStatus1);
 
-		List<ProductionDTO> lineList = productionService.getLineList(productionDTO);
+		// 페이징
+		int pageSize = 10;
+		String pageNum = request.getParameter("pageNum");
+		if(pageNum == null) {
+			pageNum="1";
+		}
+		
+		int currentPage = Integer.parseInt(pageNum);
+		
+		pageDTO.setPageSize(pageSize);
+		pageDTO.setPageNum(pageNum);
+		pageDTO.setCurrentPage(currentPage);
+		
+		List<ProductionDTO> lineList = productionService.getLineList(pageDTO);
+		
+		int count =  productionService.getLineCount(pageDTO);
+		int pageBlock = 10;
+		int startPage = (currentPage - 1) / pageBlock * pageBlock + 1;
+		int endPage = startPage + pageBlock -1;
+		int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);
+		
+		if(endPage > pageCount) {
+			endPage = pageCount;
+		}
+		
+		pageDTO.setCount(pageCount);
+		pageDTO.setPageBlock(pageBlock);
+		pageDTO.setStartPage(startPage);
+		pageDTO.setEndPage(endPage);
+		pageDTO.setPageCount(pageCount);
+		
 		model.addAttribute("lineList", lineList);
+		model.addAttribute("pageDTO", pageDTO);
 
 		return "production/line";
 	}
@@ -119,6 +152,25 @@ public class ProductionController {
 		List<ProductionDTO> compInsList = productionService.getCompInstructionList(productionDTO);
 		model.addAttribute("compInsList", compInsList);
 		
+		// lineCode 생성
+		Integer perLastNum = productionService.getPerLastNum();
+
+		String perCode;
+		if (perLastNum == null) {
+			perCode = "PER001";
+		} else {
+		    int nextNum = perLastNum + 1;
+		    if (nextNum < 10) {
+		    	perCode = String.format("PER00%d", nextNum);
+		    } else if (nextNum < 100) {
+		    	perCode = String.format("PER0%d", nextNum);
+		    } else {
+		    	perCode = String.format("PER%d", nextNum);
+		    }
+		}
+		
+		productionDTO.setPerCode(perCode);
+		model.addAttribute("productionDTO", productionDTO);
 		
 		return "production/performance";
 	}
@@ -242,7 +294,7 @@ public class ProductionController {
 	}
 	
 	
-	// 실적등록
+	// 실적등록 팝업 (사용안함)
 	@GetMapping("/perpop")
 	public String perpop(Model model, ProductionDTO productionDTO) {
 		System.out.println("ProductionController perpop()");
@@ -257,11 +309,12 @@ public class ProductionController {
 	// 실적등록
 	@PostMapping("/insertPer")
 	public String insertPer(ProductionDTO productionDTO) {
-		System.out.println("ProductionController updateInsStatus()");
+		System.out.println("ProductionController insertPer()");
 		
 		productionService.insertPer(productionDTO);
 		
 		return "redirect:/production/performance";
 	}
+
 	
 }

@@ -24,7 +24,27 @@
                             
 <!-- 품목 소요량 테이블 -->
 		  <div class="card-header" style="margin-top: 30px;">
-	        <h3 class="card-title" style="text-align: left;">라인목록</h3>
+	        <h2 class="card-title" style="text-align: left;">라인목록</h2>
+	        <hr>
+			<form action="${pageContext.request.contextPath}/popup/linepop" method="get">
+				<div class="col-lg-2 col-3" style="display: flex; align-items: center; white-space: nowrap;">
+				<div style="flex: 0 1 auto; margin-right: 10px;"><b>라인코드</b></div>
+					<input type="text" id="lineCode" class="form-control" name="search1" style="flex: 1 1 auto; width: auto; background-color: white;" placeholder="라인코드를 입력하세요">
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>라인명</b> &nbsp;&nbsp;
+					<input type="text" id="lineName" class="form-control" name="search2" style="flex: 1 1 auto; width: auto;" placeholder="라인명을 입력하세요">
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				 	<b>상태</b>
+					&nbsp;&nbsp;
+					<select class="form-select" id="basicSelect" name="search5" style="width: 100px;">
+						<option value="4">전체</option>	
+						<option value="0">대기</option>
+						<option value="1">가동</option>
+						<option value="2">정비</option>
+					</select>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<button class="btn btn-primary btn-sm" type="submit">조회</button>
+				</div>
+			</form>
 	      <hr>
 	      </div>
 		<div class="card-body">
@@ -67,6 +87,43 @@
 	          </div>
 	        </div>
 	      </div>
+	      
+<!-- 			페이징 시작 -->
+<nav aria-label="Page navigation example">
+    <ul class="pagination pagination-primary justify-content-end">
+        <c:if test="${pageDTO.startPage > 1}">
+            <li class="page-item">
+                <a class="page-link" href="${pageContext.request.contextPath}/popup/linepop?pageNum=${pageDTO.startPage - 1}">Previous</a>
+            </li>
+        </c:if>
+        
+        <c:if test="${pageDTO.startPage <= 1}">
+            <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+            </li>
+        </c:if>
+        
+        <c:forEach var="i" begin="${pageDTO.startPage}" end="${pageDTO.endPage}" step="1">
+            <li class="page-item ${pageDTO.currentPage == i ? 'active' : ''}">
+                <a class="page-link" href="${pageContext.request.contextPath}/popup/linepop?pageNum=${i}">${i}</a>
+            </li>
+        </c:forEach>
+        
+        <c:if test="${pageDTO.endPage < pageDTO.pageCount}">
+            <li class="page-item">
+                <a class="page-link" href="${pageContext.request.contextPath}/popup/linepop?pageNum=${pageDTO.endPage + 1}">Next</a>
+            </li>
+        </c:if>
+        
+        <c:if test="${pageDTO.endPage >= pageDTO.pageCount}">
+            <li class="page-item disabled">
+                <a class="page-link" href="#">Next</a>
+            </li>
+        </c:if>
+    </ul>
+</nav>
+<!-- 			페이징 끝 -->
+
 	      </div>
 	      
 <!--	품목 소요량 테이블 끝 -->

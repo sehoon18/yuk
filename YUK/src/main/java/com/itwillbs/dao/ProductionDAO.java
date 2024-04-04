@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.itwillbs.domain.PageDTO;
 import com.itwillbs.domain.ProductionDTO;
 
 @Repository
@@ -19,8 +20,8 @@ public class ProductionDAO {
 		sqlSession.insert(namespace + ".insertLine", productionDTO);
 	}
 
-	public List<ProductionDTO> getLineList(ProductionDTO productionDTO) {
-		return sqlSession.selectList(namespace + ".getLineList", productionDTO);
+	public List<ProductionDTO> getLineList(PageDTO pageDTO) {
+		return sqlSession.selectList(namespace + ".getLineList", pageDTO);
 	}
 
 	public ProductionDTO getLineCode(String lineCode) {
@@ -105,6 +106,18 @@ public class ProductionDAO {
 
 	public Integer getLineLastNum() {
 		return sqlSession.selectOne(namespace + ".getLineLastNum");
+	}
+
+	public void updatePer(ProductionDTO productionDTO) {
+		sqlSession.update(namespace + ".updatePer", productionDTO);
+	}
+
+	public void deletePer(ProductionDTO productionDTO) {
+		sqlSession.delete(namespace + ".deletePer", productionDTO);
+	}
+
+	public int getLineCount(PageDTO pageDTO) {
+		return sqlSession.selectOne(namespace + ".getLineCount", pageDTO);
 	}
 
 }
