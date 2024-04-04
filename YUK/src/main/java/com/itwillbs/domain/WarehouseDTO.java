@@ -11,6 +11,7 @@ public class WarehouseDTO {
 	private String productCode;          //품목코드
 	private String productName;		     //품명
 	private int prodcutVol;			     //적재량
+	private int productType;			 //품목구분
 	
 	
 	@Override
@@ -18,8 +19,9 @@ public class WarehouseDTO {
 		return "WarehouseDTO [warehouseCode=" + warehouseCode + ", warehouseName=" + warehouseName + ", warehouseArea="
 				+ warehouseArea + ", warehouseMvol=" + warehouseMvol + ", warehouseLocal=" + warehouseLocal
 				+ ", warehouseTelNumber=" + warehouseTelNumber + ", productCode=" + productCode + ", productName="
-				+ productName + ", prodcutVol=" + prodcutVol + "]";
+				+ productName + ", prodcutVol=" + prodcutVol + ", productType=" + productType + "]";
 	}
+	
 	
 	public String getWarehouseCode() {
 		return warehouseCode;
@@ -74,6 +76,12 @@ public class WarehouseDTO {
 	}
 	public void setProdcutVol(int prodcutVol) {
 		this.prodcutVol = prodcutVol;
+	}
+	public int getProductType() {
+		return productType;
+	}
+	public void setProductType(int productType) {
+		this.productType = productType;
 	}
 
 }

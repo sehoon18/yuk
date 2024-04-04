@@ -36,6 +36,18 @@ public class WarehouseController {
 		warehouseDTO.setProductName(productName);
 		String warehouseName = request.getParameter("warehouseName");
 		warehouseDTO.setWarehouseName(warehouseName);
+		String productTypeParam = request.getParameter("productType");
+		
+		int productType = 100;
+		if(productTypeParam != null && !productTypeParam.isEmpty()) {
+			try {
+				productType = Integer.parseInt(productTypeParam);
+			}catch(NumberFormatException e) {
+				e.printStackTrace();
+			}
+		}
+		warehouseDTO.setProductType(productType);
+		System.out.println(productType);
 		
 		List<WarehouseDTO> stockList;
 		
@@ -77,10 +89,22 @@ public class WarehouseController {
 			warehouseDTO.setProductName(productName);
 			String warehouseName = request.getParameter("warehouseName");
 			warehouseDTO.setWarehouseName(warehouseName);
+			String productTypeParam = request.getParameter("productType");
+			
+			int productType = 100;
+			if(productTypeParam != null && !productTypeParam.isEmpty()) {
+				try {
+					productType = Integer.parseInt(productTypeParam);
+				}catch(NumberFormatException e) {
+					e.printStackTrace();
+				}
+			}
+			warehouseDTO.setProductType(productType);
+			System.out.println(productType);
 			
 			List<WarehouseDTO> stockList;
 			
-			if(productCode == null && productName == null && warehouseName == null) {
+			if(productCode == null && productName == null && warehouseName == null && productType == 100) {
 				stockList = warehouseService.getstockList();
 			}else {
 				stockList = warehouseService.getSearchStockList(warehouseDTO);
@@ -105,14 +129,12 @@ public class WarehouseController {
 			warehouseDTO.setProductCode(warehouseCode);
 			String warehouseName = request.getParameter("warehouseName");
 			warehouseDTO.setWarehouseName(warehouseName);
-			String productCode = request.getParameter("productCode");
-			warehouseDTO.setProductCode(productCode);
 			String warehouseLocal = request.getParameter("warehouseLocal");
 			warehouseDTO.setWarehouseLocal(warehouseLocal);
 			
 			List<WarehouseDTO> warehouseList;
 			
-			if(warehouseCode == null && warehouseName == null && productCode == null && warehouseLocal == null) {
+			if(warehouseCode == null && warehouseName == null && warehouseLocal == null) {
 				warehouseList = warehouseService.getWarehouseList();
 			}else {
 				warehouseList = warehouseService.getSearchWarehouseList(warehouseDTO);
@@ -148,14 +170,12 @@ public class WarehouseController {
 		warehouseDTO.setProductCode(warehouseCode);
 		String warehouseName = request.getParameter("warehouseName");
 		warehouseDTO.setWarehouseName(warehouseName);
-		String productCode = request.getParameter("productCode");
-		warehouseDTO.setProductCode(productCode);
 		String warehouseLocal = request.getParameter("warehouseLocal");
 		warehouseDTO.setWarehouseLocal(warehouseLocal);
 		
 		List<WarehouseDTO> warehouseList;
 		
-		if(warehouseCode == null && warehouseName == null && productCode == null && warehouseLocal == null) {
+		if(warehouseCode == null && warehouseName == null && warehouseLocal == null) {
 			warehouseList = warehouseService.getWarehouseList();
 		}else {
 			warehouseList = warehouseService.getSearchWarehouseList(warehouseDTO);

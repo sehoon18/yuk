@@ -5,14 +5,16 @@
   
   <mapper namespace="com.itwillbs.mappers.warehouseMapper">
   
+  
   <insert id="insertWarehouse">
   	insert into Warehouse(WH_CD, WH_NAME, WH_AREA, WH_MVOL, WH_LOCAL, WH_TEL_NUMBER)
   	values (#{warehouseCode}, #{warehouseName}, #{warehouseArea}, #{warehouseMvol}, #{warehouseLocal}, #{warehouseTelNumber})
   </insert>
   
   <select id="getWarehouseList" resultType="map">
-  	select p.PRO_CD "productCode", p.PRO_NAME "productName", w.WH_CD "warehouseCode", w.WH_NAME "warehouseName", w.WH_AREA "warehouseArea", w.WH_MVOL "warehouseMvol", w.WH_LOCAL "warehouseLocal", w.WH_TEL_NUMBER "warehouseTelNumber"
-  	from WAREHOUSE w join PRODUCT p
+  	select sum(p.PRO_VOL) as "productVol", w.WH_CD "warehouseCode", w.WH_NAME "warehouseName", w.WH_AREA "warehouseArea", w.WH_MVOL "warehouseMvol", w.WH_LOCAL "warehouseLocal", w.WH_TEL_NUMBER "warehouseTelNumber"
+  	from WAREHOUSE w left join PRODUCT p
+  	on w.WH_CD = p.WH_CD
   	<where>
   	<if test="warehouseCode != null">
   	w.WH_CD like concat('%', #{warehouseCode},'%')
@@ -20,13 +22,11 @@
   	<if test="warehouseName != null">
   	and w.WH_NAME like concat('%', #{warehouseName}, '%')
   	</if>
-  	<if test="productCode != null">
-  	and p.PRO_CD like concat('%', #{productCode}, '%')
-  	</if>
   	<if test="warehouseLocal != null">
   	and w.WH_LOCAL like concat('%', #{warehouseLocal}, '%')
   	</if>
   	</where>
+  	group by w.WH_CD
   	order by w.WH_CD desc
   </select>
   
@@ -36,14 +36,27 @@
   </insert>
   
   <select id="getStockList" resultType="map">
-	select p.PRO_CD "productCode", p.PRO_NAME "productName", p.PRO_VOL "prodcutVol", w.WH_CD "warehouseCode", w.WH_NAME "warehouseName", w.WH_AREA "warehouseArea", w.WH_MVOL "warehouseMvol"
-  	from WAREHOUSE w join PRODUCT p
-  	order by p.PRO_CD desc
+	select p.PRO_CD "productCode", p.PRO_NAME "productName", p.PRO_TYPE "productType", p.PRO_VOL "prodcutVol", w.WH_CD "warehouseCode", w.WH_NAME "warehouseName", w.WH_AREA "warehouseArea", w.WH_MVOL "warehouseMvol"
+  	from WAREHOUSE w inner join PRODUCT p
+  	on w.WH_CD = p.WH_CD
+  	<where>
+  	<if test="productCode != null">
+  	w.WH_CD like concat('%', #{productCode},'%')
+  	</if>
+  	<if test="productName != null">
+  	and w.WH_NAME like concat('%', #{productName}, '%')
+  	</if>
+  	<if test="warehouseName != null">
+  	and w.WH_LOCAL like concat('%', #{warehouseName}, '%')
+  	</if>
+  	</where>
+  	order by w.WH_CD desc
   </select>
   
   <select id="getSearchStockList" resultType="map">
-  	select p.PRO_CD "productCode", p.PRO_NAME "productName", p.PRO_VOL "prodcutVol", w.WH_CD "warehouseCode", w.WH_NAME "warehouseName", w.WH_AREA "warehouseArea", w.WH_MVOL "warehouseMvol"
-  	from WAREHOUSE w join PRODUCT p
+  	select p.PRO_CD "productCode", p.PRO_NAME "productName", p.PRO_TYPE "productType", p.PRO_VOL "prodcutVol", w.WH_CD "warehouseCode", w.WH_NAME "warehouseName", w.WH_AREA "warehouseArea", w.WH_MVOL "warehouseMvol"
+  	from WAREHOUSE w inner join PRODUCT p
+  	on w.WH_CD = p.WH_CD
   	<where>
   	<if test="productCode != null">
   	p.PRO_CD like concat('%',#{productCode},'%' )
@@ -54,8 +67,11 @@
   	<if test="warehouseName != null">
   	and w.WH_NAME like concat('%', #{warehouseName}, '%')
   	</if>
+  	<if test="productType != 100">
+	and p.PRO_TYPE = #{productType}
+	</if>
   	</where>
-  	order by p.PRO_CD desc
+  	order by w.WH_CD desc
   </select>
   
   <select id="getStockCodeList" resultType="map">
@@ -76,8 +92,9 @@
   </select>
   
   <select id="getSearchWarehouseList" resultType="map">
-  	select w.WH_CD "warehouseCode", w.WH_NAME "warehouseName", p.PRO_CD "productCode", p.PRO_NAME "productName", w.WH_MVOL "warehouseMvol", w.WH_AREA "warehouseArea", w.WH_LOCAL "warehouseLocal", w.WH_TEL_NUMBER "warehouseTelNumber"
-  	from WAREHOUSE w join PRODUCT p
+	select sum(p.PRO_VOL) as "productVol", w.WH_CD "warehouseCode", w.WH_NAME "warehouseName", w.WH_AREA "warehouseArea", w.WH_MVOL "warehouseMvol", w.WH_LOCAL "warehouseLocal", w.WH_TEL_NUMBER "warehouseTelNumber"
+  	from WAREHOUSE w left join PRODUCT p
+  	on w.WH_CD = p.WH_CD
   	<where>
   	<if test="warehouseCode != null">
   	w.WH_CD like concat('%', #{warehouseCode},'%')
@@ -85,14 +102,12 @@
   	<if test="warehouseName != null">
   	and w.WH_NAME like concat('%', #{warehouseName}, '%')
   	</if>
-  	<if test="productCode != null">
-  	and p.PRO_CD like concat('%', #{productCode}, '%')
-  	</if>
   	<if test="warehouseLocal != null">
   	and w.WH_LOCAL like concat('%', #{warehouseLocal}, '%')
   	</if>
   	</where>
-	order by w.WH_CD desc
+  	group by w.WH_CD
+  	order by w.WH_CD desc
   </select>
   
  

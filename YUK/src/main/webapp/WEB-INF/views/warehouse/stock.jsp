@@ -38,12 +38,21 @@
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>창고명</b> &nbsp;&nbsp;
   <input type="text" id="warehouseName" class="form-control" name="warehouseName" style="flex: 1 1 auto; width: auto;" placeholder="창고명을 입력하세요.">
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+   <b>품목구분</b>
+   &nbsp;&nbsp;
+  <select class="form-select" id="basicSelect" name="productType" style="width: 100px;">
+	<option value="100">전체</option>
+	<option value="0">완제품</option>
+	<option value="1">식자재</option>
+	<option value="2">포장자재</option>
+   </select>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <button class="btn btn-primary btn-sm" type="submit">조회</button>
   </div>
 </form>
 
 <div style="text-align: right; margin-right:30px;">
-<button class="btn btn-primary btn-sm" type="submit">수정</button>
+<button class="btn btn-primary btn-sm" onclick="javascript:showhide()">수정</button>
 </div>
 <br>
     
@@ -54,8 +63,13 @@
   <div class="col-12">
     <div class="card">
       <div class="card-header">
-        <h4 class="card-title">총50건</h4>
-      </div>
+        <h4 class="card-title"><b>총 ${stockList.size() }건</b></h4>
+      </div>  
+      <div style="text-align: right; margin-right:30px;">
+		<button class="btn btn-primary btn-sm" onclick="javascript:showhide()">수정</button>
+	  </div>
+		<br>
+      
       <div class="card-content">
         <!-- table bordered -->
         <div class="table-responsive">
@@ -64,11 +78,12 @@
               <tr>
                 <th>품목코드</th>
                 <th>품명</th>
+                <th>품목구분</th>
                 <th>보관창고(코드)</th>
                 <th>창고명</th>
                 <th>보관구역(섹터)</th>
                 <th>재고량</th>
-                <th>실사량</th>
+                <th id="showtable" style="display:none;">실사량</th>
               </tr>
             </thead>
             <tbody>
@@ -76,11 +91,20 @@
               <tr class="color">
                 <td>${warehouseDTO.productCode } </td>
                 <td>${warehouseDTO.productName } </td>
+                <c:if test="${warehouseDTO.productType == 0 }">
+                <td>완제품</td>
+                </c:if>
+                <c:if test="${warehouseDTO.productType == 1 }">
+                <td>식자재</td>
+                </c:if>
+                <c:if test="${warehouseDTO.productType == 2 }">
+                <td>포장자재</td>
+                </c:if>
                 <td>${warehouseDTO.warehouseCode } </td>
                 <td>${warehouseDTO.warehouseName } </td>
                 <td>${warehouseDTO.warehouseArea } </td>
                 <td>${warehouseDTO.productVol} </td>
-                <td> </td>
+                <td id="showtable" style="display:none;"> </td>
 
               </tr>
               </c:forEach>
@@ -143,12 +167,32 @@
     </script>
     
     <script>
-    function receive(productCode, productName, warehouseName){
+    function receive(productCode, productName, warehouseName, productType){
     	document.getElementById("productCode").value=productCode;
     	document.getElementById("productName").value=productName;
     	document.getElementById("warehouseName").value=warehouseName;
+    	document.getElementById("productType").value=productType;
     }
     </script>
+    
+    
+<!--     수정버튼 클릭시 실사량 보여지기 -->
+    <script>
+	function showhide(){
+		
+		const field = ['']
+		
+		
+		
+		if(document.getElementById("showtable").style.display=='block'){
+			document.getElementById("showtable").style.display='none';
+		}else{
+			document.getElementById("showtable").style.display='block';
+		}
+	}
+    </script>
+    
+    
     
 </body>
 </html>

@@ -27,6 +27,22 @@ public class ClientDAO {
 		return sqlSession.selectList(namespace + ".getSearchClientList", clientDTO);
 	}
 
+	public List<ClientDTO> getClientDetail(ClientDTO clientDTO) {
+		System.out.println("확인용"+clientDTO);
+		
+		return sqlSession.selectList(namespace + ".getClientDetail", clientDTO);
+	}
+
+	public ClientDTO getClientDetailUpdate(ClientDTO clientDTO) {
+		System.out.println("clientDAO getClientDetailUpdate()");
+		return sqlSession.selectOne(namespace+".getClientDetailUpdate",clientDTO);
+	}
+
+	public void updateClient(ClientDTO clientDTO) {
+		System.out.println("clientDAO updateClient()");
+		sqlSession.update(namespace+".updateClient",clientDTO);
+	}
+
 	
 	
 	
