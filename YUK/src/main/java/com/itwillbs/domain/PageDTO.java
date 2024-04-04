@@ -2,8 +2,8 @@ package com.itwillbs.domain;
 
 public class PageDTO {
 	private int pageSize;
-	private String pageNum;
-	private String pageNum2;
+	private String pageNum; //출고, 자재입고
+	private String pageNum2; //제품입고
 	private int currentPage;
 	private int currentPage2;
 	
@@ -22,16 +22,32 @@ public class PageDTO {
 	private int pageCount2;
 	
 	//검색어 추가
-	private String search1;
+	private String search1; //출고, 자재입고
 	private String search2;
 	private String search3;
 	private String search4;
-	private String search5;
+	private String search5; //제품입고
 	private String search6;
 	private String search7;
 	private String search8;
 	
+	//검색 옵션 추가
+	private String select1; //출고, 자재입고
+	private String select2; //제품입고
 	
+	
+	public String getSelect1() {
+		return select1;
+	}
+	public void setSelect1(String select1) {
+		this.select1 = select1;
+	}
+	public String getSelect2() {
+		return select2;
+	}
+	public void setSelect2(String select2) {
+		this.select2 = select2;
+	}
 	public String getSearch5() {
 		return search5;
 	}

@@ -15,11 +15,11 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/app.css">
     <link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/assets/images/favicon.svg" type="image/x-icon">
     
-<!--     처리 버튼 Swal css  -->
+<!--    처리 버튼 Swal css  -->
 	<link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
     
-<!--     DatePicker를 위한 css -->
+<!--    DatePicker를 위한 css -->
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />  
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 	<script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
@@ -32,33 +32,28 @@
     }
     
     .searchArea{
-    text-align: center;
+    margin: 30px auto;
     }
     
-    .search1{
+    .form-control{
+    width: auto;
+    display:inline-block;
     margin-left: 5px;
     margin-right: 20px;
     }
     
-    .search2{
+    #basicSelect{
+    width: 100px;
+    display:inline-block;
+    padding: 2px;
+    padding-left: 10px;
     margin-left: 5px;
     margin-right: 20px;
     }
     
-    .search3{
-    margin-left: 5px;
-    }
-    
-    .search4{
-    margin-right: 20px;
-    }
-    
-    #page_control{
-    text-align: center;
-    }
-    
-    h2{
+    h1{
     font-weight: bold !important;
+    font-size: 25px !important;
     }
     
     th{
@@ -77,18 +72,24 @@
         <div class="card">
             <div class="card-body">
             	<div class="row">
-            		<h2 class="card-title">출고 관리</h2>
+            		<h1 class="card-title">출고 관리</h1>
             		
             <div class="searchArea">
             	<form action="${pageContext.request.contextPath}/bound/outBound" method="get">
-            	출고 코드
-            	<input type="text" class="search1" name="search1">
-            	품명
-            	<input type="text" class="search2" name="search2">
-            	출고 일자
-            	<input type="text" id="startDate" class="search3" name="search3" placeholder="기간을 선택하세요">
-            	&nbsp; ~ &nbsp;
-            	<input type="text" id="endDate" class="search4" name="search4" placeholder="기간을 선택하세요">
+            	<b>진행구분</b>
+            	<select name="select1" class="form-select" id="basicSelect">
+            		<option value="all">전체</option>
+            		<option value="ing">미출고</option>
+            		<option value="com">출고완료</option>
+            	</select>
+            	<b>출고 코드</b>
+            	<input type="text" class="form-control" name="search1">
+            	<b>품명</b>
+            	<input type="text" class="form-control" name="search2">
+            	<b>제품출고 일자</b>
+            	<input type="text" id="startDate" class="form-control" name="search3" placeholder="기간을 선택하세요">
+            	<b>~</b>&nbsp;&nbsp;&nbsp;
+            	<input type="text" id="endDate" class="form-control" name="search4" placeholder="기간을 선택하세요">
             	<input type="submit" value="조회" class="btn btn-primary">
             	</form>
             </div>
@@ -101,7 +102,7 @@
                             <th>수량</th>
                             <th>보관창고명</th>
                             <th>진행상황</th>
-                            <th>출고일자</th>
+                            <th>제품출고 일자</th>
                             <th>담당자</th>
                             <th>출고처리</th>
                         </tr>
@@ -140,22 +141,37 @@
                     </tbody>
                 </table>
                 
-    <!-- 페이징 시작 -->
+<!-- 페이징 시작 -->
 	<div id="page_control">
+	
+	<ul class="pagination pagination-primary" style="justify-content:center;">
+		
 	<c:if test="${pageDTO.startPage > pageDTO.pageBlock}">
-		<a href="${pageContext.request.contextPath}/bound/outBound?pageNum=${pageDTO.startPage - pageDTO.pageBlock}
-		&search1=${pageDTO.search1}&search2=${pageDTO.search2}&search3=${pageDTO.search3}&search4=${pageDTO.search4}">[이전]</a>
+	<li class="page-item">
+		<a class="page-link" href="${pageContext.request.contextPath}/bound/outBound?pageNum=${pageDTO.startPage - pageDTO.pageBlock}
+		&search1=${pageDTO.search1}&search2=${pageDTO.search2}&search3=${pageDTO.search3}&search4=${pageDTO.search4}
+		&select1=${pageDTO.select1}">
+		<span aria-hidden="true"><i data-feather="chevron-left"></i></span></a></li>
 	</c:if>
 
 	<c:forEach var="i" begin="${pageDTO.startPage}" end="${pageDTO.endPage}" step="1">
-		<a href="${pageContext.request.contextPath}/bound/outBound?pageNum=${i}
-		&search1=${pageDTO.search1}&search2=${pageDTO.search2}&search3=${pageDTO.search3}&search4=${pageDTO.search4}">${i}</a>
+	<li class="page-item">
+		<a class="page-link" href="${pageContext.request.contextPath}/bound/outBound?pageNum=${i}
+		&search1=${pageDTO.search1}&search2=${pageDTO.search2}&search3=${pageDTO.search3}&search4=${pageDTO.search4}
+		&select1=${pageDTO.select1}">${i}</a></li>
 	</c:forEach>
+	<!-- 현재페이지 css <li class="page-item active"><a class="page-link" href="">2</a></li> -->
 
 	<c:if test="${pageDTO.pageCount > pageDTO.endPage}">
-		<a href="${pageContext.request.contextPath}/bound/outBound?pageNum=${pageDTO.startPage + pageDTO.pageBlock}
-		&search1=${pageDTO.search1}&search2=${pageDTO.search2}&search3=${pageDTO.search3}&search4=${pageDTO.search4}">[다음]</a>
+	<li class="page-item">
+		<a class="page-link" href="${pageContext.request.contextPath}/bound/outBound?pageNum=${pageDTO.startPage + pageDTO.pageBlock}
+		&search1=${pageDTO.search1}&search2=${pageDTO.search2}&search3=${pageDTO.search3}&search4=${pageDTO.search4}
+		&select1=${pageDTO.select1}">
+		<span aria-hidden="true"><i data-feather="chevron-right"></i></span></a></li>
 	</c:if>
+	
+	</ul>
+	
 	</div>
 <!-- 페이징 끝 -->
             </div>

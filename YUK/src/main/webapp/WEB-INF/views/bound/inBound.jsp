@@ -32,33 +32,28 @@
     }
     
     .searchArea{
-    text-align: center;
+    margin: 30px auto;
     }
     
-    .search1{
+    .form-control{
+    width: auto;
+    display:inline-block;
     margin-left: 5px;
     margin-right: 20px;
     }
     
-    .search2{
+    #basicSelect{
+    width: 100px;
+    display:inline-block;
+    padding: 2px;
+    padding-left: 10px;
     margin-left: 5px;
     margin-right: 20px;
     }
     
-    .search3{
-    margin-left: 5px;
-    }
-    
-    .search4{
-    margin-right: 20px;
-    }
-    
-    #page_control{
-    text-align: center;
-    }
-    
-    h2{
+    h1{
     font-weight: bold !important;
+    font-size: 25px !important;
     }
     
     th{
@@ -81,7 +76,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="row">
-                        <h2 class="card-title">입고 관리</h2>
+                        <h1 class="card-title">입고 관리</h1>
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
                             <li class="nav-item" role="presentation">
                                 <a class="nav-link active" id="mib-tab" data-toggle="tab" href="#mibtab" role="tab" aria-controls="mibtab"
@@ -97,14 +92,20 @@
                                 <p class='my-2'>
                 <div class="searchArea">
             		<form action="${pageContext.request.contextPath}/bound/inBound" method="get">
-            		자재입고 코드
-            		<input type="text" class="search1" name="search1">
-            		품명
-            		<input type="text" class="search2" name="search2">
-            		자재입고 일자
-            		<input type="text" id="startDate" class="search3" name="search3" placeholder="기간을 선택하세요">
-            		&nbsp; ~ &nbsp;
-            		<input type="text" id="endDate" class="search4" name="search4" placeholder="기간을 선택하세요">
+            		<b>진행구분</b>
+            		<select name="select1" class="form-select" id="basicSelect">
+            			<option value="all">전체</option>
+            			<option value="ing">미입고</option>
+            			<option value="com">입고완료</option>
+            		</select>
+            		<b>자재입고 코드</b>
+            		<input type="text" class="form-control" name="search1">
+            		<b>자재품명</b>
+            		<input type="text" class="form-control" name="search2">
+            		<b>자재입고 일자</b>
+            		<input type="text" id="startDate" class="form-control" name="search3" placeholder="기간을 선택하세요">
+            		<b>~</b>&nbsp;&nbsp;&nbsp;
+            		<input type="text" id="endDate" class="form-control" name="search4" placeholder="기간을 선택하세요">
             		<input type="submit" value="조회" class="btn btn-primary">
             		</form>
             	</div>
@@ -118,7 +119,7 @@
                             <th>수량</th>
                             <th>보관창고명</th>
                             <th>진행상황</th>
-                            <th>입고일자</th>
+                            <th>자재입고 일자</th>
                             <th>담당자</th>
                             <th>입고처리</th>
                         </tr>
@@ -168,20 +169,35 @@
                 </table>
 <!-- 페이징 시작 -->
 	<div id="page_control">
+	
+	<ul class="pagination pagination-primary" style="justify-content:center;">
+		
 	<c:if test="${pageDTO.startPage > pageDTO.pageBlock}">
-		<a href="${pageContext.request.contextPath}/bound/inBound?pageNum=${pageDTO.startPage - pageDTO.pageBlock}
-		&search1=${pageDTO.search1}&search2=${pageDTO.search2}&search3=${pageDTO.search3}&search4=${pageDTO.search4}">[이전]</a>
+	<li class="page-item">
+		<a class="page-link" href="${pageContext.request.contextPath}/bound/inBound?pageNum=${pageDTO.startPage - pageDTO.pageBlock}
+		&search1=${pageDTO.search1}&search2=${pageDTO.search2}&search3=${pageDTO.search3}&search4=${pageDTO.search4}
+		&select1=${pageDTO.select1}">
+		<span aria-hidden="true"><i data-feather="chevron-left"></i></span></a></li>
 	</c:if>
 
 	<c:forEach var="i" begin="${pageDTO.startPage}" end="${pageDTO.endPage}" step="1">
-		<a href="${pageContext.request.contextPath}/bound/inBound?pageNum=${i}
-		&search1=${pageDTO.search1}&search2=${pageDTO.search2}&search3=${pageDTO.search3}&search4=${pageDTO.search4}">${i}</a>
+	<li class="page-item">
+		<a class="page-link" href="${pageContext.request.contextPath}/bound/inBound?pageNum=${i}
+		&search1=${pageDTO.search1}&search2=${pageDTO.search2}&search3=${pageDTO.search3}&search4=${pageDTO.search4}
+		&select1=${pageDTO.select1}">${i}</a></li>
 	</c:forEach>
+	<!-- 현재페이지 css <li class="page-item active"><a class="page-link" href="">2</a></li> -->
 
 	<c:if test="${pageDTO.pageCount > pageDTO.endPage}">
-		<a href="${pageContext.request.contextPath}/bound/inBound?pageNum=${pageDTO.startPage + pageDTO.pageBlock}
-		&search1=${pageDTO.search1}&search2=${pageDTO.search2}&search3=${pageDTO.search3}&search4=${pageDTO.search4}">[다음]</a>
+	<li class="page-item">
+		<a class="page-link" href="${pageContext.request.contextPath}/bound/inBound?pageNum=${pageDTO.startPage + pageDTO.pageBlock}
+		&search1=${pageDTO.search1}&search2=${pageDTO.search2}&search3=${pageDTO.search3}&search4=${pageDTO.search4}
+		&select1=${pageDTO.select1}">
+		<span aria-hidden="true"><i data-feather="chevron-right"></i></span></a></li>
 	</c:if>
+	
+	</ul>
+	
 	</div>
 <!-- 페이징 끝 -->
                             </div>
@@ -189,14 +205,20 @@
                                 <p class='my-2'>
                 <div class="searchArea">
             		<form action="${pageContext.request.contextPath}/bound/inBound2" method="get">
-            		제품입고 코드
-            		<input type="text" class="search5" name="search5">
-            		품명
-            		<input type="text" class="search6" name="search6">
-            		제품입고 일자
-            		<input type="text" id="startDate2" class="search7" name="search7" placeholder="기간을 선택하세요">
-            		&nbsp; ~ &nbsp;
-            		<input type="text" id="endDate2" class="search8" name="search8" placeholder="기간을 선택하세요">
+            		<b>진행구분</b>
+            		<select name="select2" class="form-select" id="basicSelect">
+            			<option value="pib_all">전체</option>
+            			<option value="pib_ing">미입고</option>
+            			<option value="pib_com">입고완료</option>
+            		</select>
+            		<b>제품입고 코드</b>
+            		<input type="text" class="form-control" name="search5">
+            		<b>제품명</b>
+            		<input type="text" class="form-control" name="search6">
+            		<b>제품입고 일자</b>
+            		<input type="text" id="startDate2" class="form-control" name="search7" placeholder="기간을 선택하세요">
+            		<b>~</b>&nbsp;&nbsp;&nbsp;
+            		<input type="text" id="endDate2" class="form-control" name="search8" placeholder="기간을 선택하세요">
             		<input type="submit" value="조회" class="btn btn-primary">
             		</form>
             	</div>
@@ -209,7 +231,7 @@
                             <th>수량</th>
                             <th>보관창고명</th>
                             <th>진행상황</th>
-                            <th>입고일자</th>
+                            <th>제품입고 일자</th>
                             <th>담당자</th>
                             <th>입고처리</th>
                         </tr>
@@ -248,20 +270,35 @@
                 </table>
 <!-- 페이징 시작 -->
 	<div id="page_control">
+	
+	<ul class="pagination pagination-primary" style="justify-content:center;">
+		
 	<c:if test="${pageDTO.startPage2 > pageDTO.pageBlock}">
-		<a href="${pageContext.request.contextPath}/bound/inBound?pageNum2=${pageDTO.startPage2 - pageDTO.pageBlock}
-		&search5=${pageDTO.search5}&search6=${pageDTO.search6}&search7=${pageDTO.search7}&search8=${pageDTO.search8}">[이전]</a>
+	<li class="page-item">
+		<a class="page-link" href="${pageContext.request.contextPath}/bound/inBound2?pageNum2=${pageDTO.startPage2 - pageDTO.pageBlock}
+		&search5=${pageDTO.search5}&search6=${pageDTO.search6}&search7=${pageDTO.search7}&search8=${pageDTO.search8}
+		&select2=${pageDTO.select2}">
+		<span aria-hidden="true"><i data-feather="chevron-left"></i></span></a></li>
 	</c:if>
 
 	<c:forEach var="i" begin="${pageDTO.startPage2}" end="${pageDTO.endPage2}" step="1">
-		<a href="${pageContext.request.contextPath}/bound/inBound?pageNum2=${i}
-		&search5=${pageDTO.search5}&search6=${pageDTO.search6}&search7=${pageDTO.search7}&search8=${pageDTO.search8}">${i}</a>
+	<li class="page-item">
+		<a class="page-link" href="${pageContext.request.contextPath}/bound/inBound2?pageNum2=${i}
+		&search5=${pageDTO.search5}&search6=${pageDTO.search6}&search7=${pageDTO.search7}&search8=${pageDTO.search8}
+		&select2=${pageDTO.select2}">${i}</a></li>
 	</c:forEach>
+	<!-- 현재페이지 css <li class="page-item active"><a class="page-link" href="">2</a></li> -->
 
 	<c:if test="${pageDTO.pageCount2 > pageDTO.endPage2}">
-		<a href="${pageContext.request.contextPath}/bound/inBound?pageNum2=${pageDTO.startPage2 + pageDTO.pageBlock}
-		&search5=${pageDTO.search5}&search6=${pageDTO.search6}&search7=${pageDTO.search7}&search8=${pageDTO.search8}">[다음]</a>
+	<li class="page-item">
+		<a class="page-link" href="${pageContext.request.contextPath}/bound/inBound2?pageNum2=${pageDTO.startPage2 + pageDTO.pageBlock}
+		&search5=${pageDTO.search5}&search6=${pageDTO.search6}&search7=${pageDTO.search7}&search8=${pageDTO.search8}
+		&select2=${pageDTO.select2}">
+		<span aria-hidden="true"><i data-feather="chevron-right"></i></span></a></li>
 	</c:if>
+	
+	</ul>
+	
 	</div>
 <!-- 페이징 끝 -->
                             </div>
