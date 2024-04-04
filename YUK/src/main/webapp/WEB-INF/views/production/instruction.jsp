@@ -201,7 +201,7 @@
 	    var popupY= (window.screen.height / 2) - (popupHeight / 2) - 100;
 	    
 	    function openPopup() {
-	      var popup = window.open("${pageContext.request.contextPath}/production/inspop", "팝업", 'status=no, height=' + popupHeight  + ', width=' + popupWidth  + ', left='+ popupX + ', top='+ popupY);
+	      var popup = window.open("${pageContext.request.contextPath}/production/inspop", "inspop", 'status=no, height=' + popupHeight  + ', width=' + popupWidth  + ', left='+ popupX + ', top='+ popupY);
 	      
 	      if (popup === null || typeof(popup) === 'undefined') {
 	      }
@@ -216,7 +216,7 @@
 	    var popupY= (window.screen.height / 2) - (popupHeight / 2) - 100;
 	    
 	    function openDetailpop(instructionCode) {
-	      var popup = window.open("${pageContext.request.contextPath}/production/insDetailpop?instructionCode="+ instructionCode, "팝업", 'status=no, height=' + popupHeight  + ', width=' + popupWidth  + ', left='+ popupX + ', top='+ popupY);
+	      var popup = window.open("${pageContext.request.contextPath}/production/insDetailpop?instructionCode="+ instructionCode, "insDetailpop", 'status=no, height=' + popupHeight  + ', width=' + popupWidth  + ', left='+ popupX + ', top='+ popupY);
 	      
 	      if (popup === null || typeof(popup) === 'undefined') {
 	      }

@@ -319,34 +319,6 @@
 	  });
 	});
 	</script>
-	
-	<script>
-// 	// (name값을 가지고)빈칸이 있을 때 알림 
-// 	document.addEventListener('DOMContentLoaded', function() {
-// 	    var form = document.getElementById('addForm');
-	
-// 	    if (form) {
-// 	        form.addEventListener('submit', function(e) {
-// 	            // 'perACA'와 'perGood' 이름을 가진 요소 검사
-// 	            var perACAField = document.querySelector('[name="perACA"]');
-// 	            var perGoodField = document.querySelector('[name="perGood"]');
-	
-// 	            var isPerACAFilled = perACAField.value.trim() !== '';
-// 	            var isPerGoodSelected = perGoodField.value.trim() !== '';
-	
-// 	            // 필요한 경우 여기에 추가 검사 로직을 추가할 수 있습니다.
-	
-// 	            if (!isPerACAFilled || !isPerGoodSelected) {
-// 	                Swal.fire({
-// 	                    title: "빈칸을 채워주세요.",
-// 	                    // 나머지는 동일하게 유지
-// 	                });
-// 	                e.preventDefault(); // 폼 제출 중단
-// 	            }
-// 	        });
-// 	    }
-// 	});
-	</script>
 
 	<script>
 	//검색 달력

@@ -269,9 +269,13 @@ public class ProductionController {
 	@PostMapping("/insertInstruction")
 	public String insertInstruction(ProductionDTO productionDTO) {
 		System.out.println("ProductionController insertInstruction()");
-		
 		System.out.println(productionDTO);
 		productionDTO.setName("hong123");
+		
+		//원자재 소요
+		productionService.useMaterial(productionDTO);
+		
+		// 작업지시 입력
 		productionService.insertInstruction(productionDTO);
 		
 		return "production/instruction";

@@ -141,7 +141,7 @@ values(#{lineCode}, #{name}, #{lineStatus}, #{lineName}, #{update})
 	select PRO_CD "productCode", PRO_NAME "productName", PRO_VOL "productVol"
 	from PRODUCT
 	<where>
-	PRO_TYPE = 1
+	PRO_TYPE = 0
 	<if test="search1 != '' and search1 != null"  >
 	and PRO_CD like concat('%', #{search1}, '%')
 	</if>
@@ -157,7 +157,7 @@ values(#{lineCode}, #{name}, #{lineStatus}, #{lineName}, #{update})
 	select count(*)
 	from PRODUCT
 	<where>
-	PRO_TYPE = 1
+	PRO_TYPE = 0
 	<if test="search1 != '' and search1 != null"  >
 	and PRO_CD like concat('%', #{search1}, '%')
 	</if>

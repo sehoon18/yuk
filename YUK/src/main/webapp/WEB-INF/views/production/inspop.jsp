@@ -83,7 +83,7 @@
 	        <div class="card-body" style="padding: 5px;">
 	          <!-- Table with outer spacing -->
 	          <div class="table-responsive">
-	            <table class="table">
+	            <table class="table" id="reqTable">
 	              <thead>
 	                <tr>
 	                  <th>품목코드</th>
@@ -147,7 +147,7 @@
 	<script>
 	  // 인풋 창을 클릭하면 팝업을 엽니다.
 	  function openProductPopup() {
-	    var popup = window.open("${pageContext.request.contextPath}/popup/productpop", "popup", "width=800,height=600");
+	    var popup = window.open("${pageContext.request.contextPath}/popup/productpop", "openProductPopup", "width=800,height=600");
 	    
 	    if (popup === null || typeof(popup) === 'undefined') {
 	      alert('팝업이 차단되었습니다. 팝업 차단을 해제하고 다시 시도해주세요.');
@@ -156,7 +156,7 @@
 	      $(popup.document).on('click', '.popup-option', function() {
 	        var selectedValue = $(this).text();
 	        $('#productCode').val(selectedValue);
-	        window.opener.receiveValueFromPopup(selectedValue); // 부모 창의 함수 호출
+	        window.opener.receiveValueFromPopup(selectedValue);
 	        popup.close();
 	      });
 	    }
@@ -165,7 +165,7 @@
 	<script>
 	  // 인풋 창을 클릭하면 팝업을 엽니다.
 	  function openLinePopup() {
-	    var popup = window.open("${pageContext.request.contextPath}/popup/linepop", "popup", "width=800,height=600");
+	    var popup = window.open("${pageContext.request.contextPath}/popup/linepop", "openLinePopup", "width=800,height=600");
 	    
 	    if (popup === null || typeof(popup) === 'undefined') {
 	      alert('팝업이 차단되었습니다. 팝업 차단을 해제하고 다시 시도해주세요.');
@@ -180,44 +180,45 @@
 	  }
 	</script>
 	
-	<script>
-	  // 팝업으로부터 값을 받는 함수
-	function receiveValueFromPopup(selectedValue) {
-	    $('#productCode').val(selectedValue); // 인풋 필드에 값을 설정
-	    
-	    // AJAX 요청 실행
-	    $.ajax({
-	      url: '${pageContext.request.contextPath}/production/getReq',
-	      type: 'POST',
-	      contentType: 'application/json', // 요청의 내용 유형
-	      dataType: 'json', // 응답 데이터의 유형
-	      data: JSON.stringify({
-	        productCode: selectedValue // 서버로 보낼 데이터
-	      }),
-	      success: function(response) {
-	    	  populateTable(response); // 성공 시 처리, response는 서버로부터 받은 데이터
-	      },
-	      error: function(xhr, status, error) {
-	        console.error("Error occurred: " + error); // 에러 처리
-	      }
-	    });
-	}
-	function populateTable(data) {
-	    var tbody = $('.table tbody'); // 테이블의 tbody 선택
-	    tbody.empty(); // 기존의 행들을 모두 삭제
-	
-	    // 데이터 항목별로 반복하여 테이블 행 생성
-	    $.each(data, function(index, item) {
-	        var row = $('<tr>'); // 새 행 생성
-	        row.append($('<td>').text(item.품목코드)); // 품목코드 열
-	        row.append($('<td>').text(item.품명)); // 품명 열
-	        row.append($('<td>').text(item.수량)); // 수량 열
-	        row.append($('<td>').text(item.재고량)); // 재고량 열
-	
-	        tbody.append(row); // 생성된 행을 tbody에 추가
-	    });
-	}
-	</script>
+<script>
+  // 팝업으로부터 값을 받는 함수
+  function receiveValueFromPopup(selectedValue) {
+    // AJAX 요청을 보냅니다.
+    $.ajax({
+      url: '${pageContext.request.contextPath}/production/getReq', // 서버의 URL을 지정하세요.
+      type: 'POST',
+      contentType: 'application/json',
+      dataType: 'json',
+      data: JSON.stringify({ productCode: selectedValue }),
+      success: function(response) {
+    	  alert("성공");
+        // 성공적으로 데이터를 받았을 때 테이블 업데이트
+        updateTable(response);
+      },
+      error: function(xhr, status, error) {
+        // 오류 처리
+        console.error("Error occurred: " + error);
+      }
+    });
+  }
+
+  // 응답으로 받은 데이터로 테이블 업데이트
+  function updateTable(data) {
+    var table = $('#reqTable'); // 테이블의 ID를 지정하세요.
+    table.empty(); // 기존 테이블 내용을 비웁니다.
+
+    // 데이터로 테이블 채우기
+    $.each(data, function(i, item) {
+      var row = $('<tr>').append(
+        $('<td>').text(item.column1), // 실제 데이터 구조에 맞게 수정하세요.
+        $('<td>').text(item.column2)  // 실제 데이터 구조에 맞게 수정하세요.
+        // 필요한 만큼 td 추가
+      );
+      table.append(row);
+    });
+  }
+</script>
+
 	
 	<script>
 		// 현재 날짜 생성/입력

@@ -227,4 +227,9 @@ public class ProductionService {
 		return productionDAO.getReq(productionDTO);
 	}
 
+	public void useMaterial(ProductionDTO productionDTO) {
+		productionDTO.getInstructionCode();
+		
+	}
+
 }

@@ -75,8 +75,8 @@ public class AjaxController {
 
 	// 소요량 가져오기
 	@PostMapping("/production/getReq")
-	public ResponseEntity<?> getReq(ProductionDTO productionDTO) {
-	    System.out.println("ProductionController perDeletePro()");
+	public ResponseEntity<?> getReq(@RequestBody ProductionDTO productionDTO) {
+	    System.out.println("ProductionController getReq()");
 	    System.out.println(productionDTO);
 	    
 	    List<ProductDTO> reqList = productionService.getReq(productionDTO);
