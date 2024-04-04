@@ -2,19 +2,18 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itwillbs.mappers.clientMapper">
   
-  <mapper namespace="com.itwillbs.mappers.clientMapper">
-  
-  <insert id="insertClient">
+    <insert id="insertClient">
   	insert into CLIENT(CLI_CD, CLI_NAME, CLI_TYPE, CLI_CEO, BUSINESS_LICENSE_NUMBER, CLI_ZIP_NUMBER, CLI_BASIC_ADDRESS, CLI_DETAIL_ADDRESS, CLI_TEL_NUMBER, CLI_FAX_NUMBER, CLI_BUSINESS_TYPE, CLI_CATEGORY, CLI_NOTE, CLI_EMAIL)
   	values(#{clientCode}, #{clientName}, #{clientType}, #{clientCEO}, #{businessNumber}, #{clientZipNumber}, #{clientBasicAddress}, #{clientDetailAddress},#{clientTelNumber}, #{clientFaxNumber}, #{clientBusinessType}, #{clientCategory}, #{clientNote},#{clientEmail})
-  </insert>
+    </insert>
   
-  <select id="getClientList" resultType="com.itwillbs.domain.ClientDTO">
+    <select id="getClientList" resultType="com.itwillbs.domain.ClientDTO">
   	select CLI_CD "clientCode", CLI_NAME "clientName", CLI_TYPE "clientType", CLI_CEO "clientCEO", BUSINESS_LICENSE_NUMBER "businessNumber", CLI_ZIP_NUMBER "clientZipNumber", CLI_BASIC_ADDRESS "clientBasicAddress", CLI_DETAIL_ADDRESS "clientDetailAddress", CLI_TEL_NUMBER "clientTelNumber", CLI_FAX_NUMBER "clientFaxNumber", CLI_BUSINESS_TYPE "clientBusinessType", CLI_CATEGORY "clientCategory", CLI_NOTE "clientNote", CLI_EMAIL "clientEmail"
   	from CLIENT
   	order by CLI_CD desc
-  </select>
+    </select>
   
   
     <select id="getSearchClientList" resultType="com.itwillbs.domain.ClientDTO">
@@ -29,7 +28,22 @@
   	</if>
   	</where>
   	order by CLI_CD desc
-  </select>
+    </select>
   
+    <select id="getClientDetail" resultType="com.itwillbs.domain.ClientDTO">
+  	select CLI_CD "clientCode", CLI_NAME "clientName", CLI_TYPE "clientType", CLI_CEO "clientCEO", BUSINESS_LICENSE_NUMBER "businessNumber", CLI_ZIP_NUMBER "clientZipNumber", CLI_BASIC_ADDRESS "clientBasicAddress", CLI_DETAIL_ADDRESS "clientDetailAddress", CLI_TEL_NUMBER "clientTelNumber", CLI_FAX_NUMBER "clientFaxNumber", CLI_BUSINESS_TYPE "clientBusinessType", CLI_CATEGORY "clientCategory", CLI_NOTE "clientNote", CLI_EMAIL "clientEmail"
+  	from CLIENT
+  	where CLI_CD = #{clientCode}
+    </select>
+    
+    <select id="getClientDetailUpdate" resultType="com.itwillbs.domain.ClientDTO">
+    select CLI_CD "clientCode", CLI_NAME "clientName", CLI_TYPE "clientType", CLI_CEO "clientCEO", BUSINESS_LICENSE_NUMBER "businessNumber", CLI_ZIP_NUMBER "clientZipNumber", CLI_BASIC_ADDRESS "clientBasicAddress", CLI_DETAIL_ADDRESS "clientDetailAddress", CLI_TEL_NUMBER "clientTelNumber", CLI_FAX_NUMBER "clientFaxNumber", CLI_BUSINESS_TYPE "clientBusinessType", CLI_CATEGORY "clientCategory", CLI_NOTE "clientNote", CLI_EMAIL "clientEmail"
+  	from CLIENT
+  	where CLI_CD = #{clientCode}
+    </select>
+    
+    <update id="">
+    update CLIENT set CLI_CD = #{clientCode}
+    </update>
   
   </mapper>
