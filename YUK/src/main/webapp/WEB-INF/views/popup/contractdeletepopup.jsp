@@ -37,7 +37,7 @@
                                     <div class="col-md-14 col-2">	
                                         <div class="form-group">
                                             <label for="first-name-column">품목코드</label>
-                                            <input type="text" id="pro_cd" class="form-control" placeholder="PRO_CD" name="instructionCode">
+                                            <input type="text" id="pro_cd" class="form-control" placeholder="PRO_CD"onclick="openPopup()" name="pro_cd">
                                         </div>
                                     </div>
                                     <div class="col-md-14 col-2">
@@ -70,12 +70,7 @@
                                             <input type="text" id="pro_price" class="form-control" name="pro_price"  placeholder="PRO_PRICE">
                                         </div>
                                     </div>
-<!--                                     <div class="col-md-14 col-2"> -->
-<!--                                         <div class="form-group"> -->
-<!--                                             <label for="company-column">담당자</label> -->
-<!--                                             <input type="text" id="productName" class="form-control" name="productName" placeholder="ORD_VOL"> -->
-<!--                                         </div> -->
-<!--                                     </div> -->
+                                  
                                     <div class="col-md-14 col-2">
                                         <div class="form-group">
                                             <label for="email-id-column">수주일자</label>
@@ -120,7 +115,7 @@
 	<script>
 	  // 인풋 창을 클릭하면 팝업을 엽니다.
 	  function openPopup() {
-	    var popup = window.open("${pageContext.request.contextPath}/popup/contractpop", "popup", "width=800,height=600");
+	    var popup = window.open("${pageContext.request.contextPath}/popup/contractpop", "popup1", "width=800,height=600");
 	    
 	    if (popup === null || typeof(popup) === 'undefined') {
 	      alert('팝업이 차단되었습니다. 팝업 차단을 해제하고 다시 시도해주세요.');
@@ -142,7 +137,7 @@
 	        event.preventDefault();
 
 	        $.ajax({
-	            url: "${pageContext.request.contextPath}/ordercontract/insertContract", // 실제 요청 URL로 변경해야 함
+	            url: "${pageContext.request.contextPath}/ordercontract/updateContract", // 실제 요청 URL로 변경해야 함
 	            type: "post", // 메소드 타입
 	            contentType: "application/json", // 요청 컨텐츠 타입 명시 (옵션)
 	            dataType: "json", // 응답 데이터 타입 명시 (옵션)

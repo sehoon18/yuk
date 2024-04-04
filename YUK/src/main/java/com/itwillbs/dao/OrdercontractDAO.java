@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.itwillbs.domain.OrdercontractDTO;
 import com.itwillbs.domain.PageDTO;
+import com.itwillbs.domain.ProductionDTO;
 
 
 	@Repository
@@ -38,5 +39,16 @@ import com.itwillbs.domain.PageDTO;
 		public Integer getConLastNum() {
 			return sqlSession.selectOne(namespace + ".getConLastNum");
 		}
-		
+		public void updateContract(OrdercontractDTO ordercontractDTO) {
+			sqlSession.update(namespace + ".updateContract", ordercontractDTO);
+		}
+		public void updateOrder(OrdercontractDTO ordercontractDTO) {
+			sqlSession.update(namespace + ".updateOrder", ordercontractDTO);
+		}
+		public void deleteOrder(OrdercontractDTO ordercontractDTO) {
+			sqlSession.delete(namespace + ".deleteOrder", ordercontractDTO);
+		}
+		public void deleteContract(OrdercontractDTO ordercontractDTO) {
+			sqlSession.delete(namespace + ".deleteContract", ordercontractDTO);
+		}
 }
