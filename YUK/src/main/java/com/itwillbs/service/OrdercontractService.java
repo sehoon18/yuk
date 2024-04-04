@@ -28,7 +28,7 @@ import com.itwillbs.domain.ProductionDTO;
 			Integer ordLastNum = ordercontractDAO.getOrdLastNum();
 			String ord_cd;
 			if (ordLastNum == null) {
-				ord_cd = "CON001";
+				ord_cd = "ORD001";
 			} else {
 			    int nextNum = ordLastNum + 1;
 			    if (nextNum < 10) {
@@ -69,6 +69,51 @@ import com.itwillbs.domain.ProductionDTO;
 		public Integer getConLastNum() {
 			return ordercontractDAO.getConLastNum();
 		}
-
+		
+		public void updateOrder(OrdercontractDTO ordercontractDTO) {
+//			Integer ordLastNum = ordercontractDAO.getOrdLastNum();
+//			String ord_cd;
+//			if (ordLastNum == null) {
+//				ord_cd = "ORD001";
+//			} else {
+//			    int nextNum = ordLastNum + 1;
+//			    if (nextNum < 10) {
+//			    	ord_cd = String.format("ORD00%d", nextNum);
+//			    } else if (nextNum < 100) {
+//			    	ord_cd = String.format("ORD0%d", nextNum);
+//			    } else {
+//			    	ord_cd = String.format("ORD%d", nextNum);
+//			    }
+//			}
+//			ordercontractDTO.setOrd_cd(ord_cd);
+			// 작업 지시 insert
+			ordercontractDAO.updateOrder(ordercontractDTO);
+		}
+		public void updateContract(OrdercontractDTO ordercontractDTO) {
+			
+			Integer conLastNum = ordercontractDAO.getConLastNum();
+			String con_cd;
+			if (conLastNum == null) {
+				con_cd = "CON001";
+			} else {
+			    int nextNum = conLastNum + 1;
+			    if (nextNum < 10) {
+			    	con_cd = String.format("CON00%d", nextNum);
+			    } else if (nextNum < 100) {
+			    	con_cd = String.format("CON0%d", nextNum);
+			    } else {
+			    	con_cd = String.format("CON%d", nextNum);
+			    }
+			}
+			ordercontractDTO.setCon_cd(con_cd);
+			// 작업 지시 insert
+			ordercontractDAO.updateContract(ordercontractDTO);
+		}
+		public void deleteOrder(OrdercontractDTO ordercontractDTO) {
+			ordercontractDAO.deleteOrder(ordercontractDTO);
+		}
+		public void deleteContract(OrdercontractDTO ordercontractDTO) {
+			ordercontractDAO.deleteContract(ordercontractDTO);
+		}
 			
 }

@@ -89,8 +89,8 @@
      	<td ><fmt:formatDate value="${OrdercontractDTO.ord_due_date}" pattern="yyyy.MM.dd"/></td> 
     	<td >${OrdercontractDTO.user_id}</td>
     	<td >${OrdercontractDTO.ord_info_status}</td>
-		<td ><input type="button" value="상세" onclick="popup();" /></td>
-	</tr> 
+		<td ><input type="button" value="상세"  onclick="popup('${OrdercontractDTO.ord_cd}');" /></td>
+	</tr> 									 		
 
     </c:forEach> 
                         
@@ -115,9 +115,11 @@
     
      <script>
 	  // 인풋 창을 클릭하면 팝업을 엽니다.
-	  function popup() {
-	    var popup = window.open("${pageContext.request.contextPath}/popup/orderdeletepopup", "popup", "width=1600,height=600");
-	    
+	  function popup(ord_cd) {
+// 	    var popup = window.open("${pageContext.request.contextPath}/popup/orderdeletepopup?ord_cd="+(ord_cd), "popup", "width=1600,height=600");
+	    var url = `${pageContext.request.contextPath}/popup/orderdeletepopup?ord_cd=`+ord_cd;
+        var popup = window.open(url, "popup", "width=1600,height=600");
+        
 	    if (popup === null || typeof(popup) === 'undefined') {
 	      alert('팝업이 차단되었습니다. 팝업 차단을 해제하고 다시 시도해주세요.');
 	    } else {

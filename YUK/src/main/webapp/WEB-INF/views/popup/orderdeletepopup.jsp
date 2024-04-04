@@ -30,7 +30,8 @@
                     <hr>
                     </div>
                     <div class="card-content">
-                      <<form class="form" id="ordForm" action="${pageContext.request.contextPath}/ordercontract/updateOrder" method="post" >
+                      <form class="form" id="ordForm" action="${pageContext.request.contextPath}/ordercontract/updateOrder?ord_cd=${OrdercontractDTO.ord_cd}" method="post" >
+<%--                       <input type="hidden" name="ord_cd" value="${OrdercontractDTO.ord_cd}"> --%>
                         <div class="card-body">
                                 <div class="row">
                                 
@@ -43,7 +44,7 @@
                                     <div class="col-md-14 col-13">
                                         <div class="form-group">
                                             <label for="last-name-column">품목이름</label>
-                                            <input type="text" id="pro_name" class="form-control" onclick="openPopup1()" placeholder="PRO_NAME" name="pro_name">
+                                            <input type="text" id="pro_name" class="form-control" onclick="openPopup()" placeholder="PRO_NAME" name="pro_name">
                                         </div>
                                     </div>
                                     <div class="col-md-14 col-13">
@@ -70,18 +71,18 @@
                                             <input type="text" id="pro_price" class="form-control" name="pro_price"  placeholder="PRO_PRICE">
                                         </div>
                                     </div>
-                                    <div class="col-md-14 col-13">
-                                        <div class="form-group">
-                                            <label for="company-column">담당자</label>
-                                            <input type="text" id="user_id" class="form-control" name="user_id" placeholder="USER_ID">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-14 col-13">
-                                        <div class="form-group">
-                                            <label for="email-id-column">발주일자</label>
-                                            <input type="DATE" id="ord_date" class="form-control" name="ord_date" placeholder="2024-00-00">
-                                        </div>
-                                    </div>
+<!--                                     <div class="col-md-14 col-13"> -->
+<!--                                         <div class="form-group"> -->
+<!--                                             <label for="company-column">담당자</label> -->
+<!--                                             <input type="text" id="user_id" class="form-control" name="user_id" placeholder="USER_ID"> -->
+<!--                                         </div> -->
+<!--                                     </div> -->
+<!--                                     <div class="col-md-14 col-13"> -->
+<!--                                         <div class="form-group"> -->
+<!--                                             <label for="email-id-column">발주일자</label> -->
+<!--                                             <input type="DATE" id="ord_date" class="form-control" name="ord_date" placeholder="2024-00-00"> -->
+<!--                                         </div> -->
+<!--                                     </div> -->
                                    <div class="col-md-14 col-13">
                                         <div class="form-group">
                                             <label for="email-id-column">납품일자</label>
@@ -115,8 +116,8 @@
     <script src="${pageContext.request.contextPath}/resources/assets/js/main.js"></script>
 	<script>
 	  // 인풋 창을 클릭하면 팝업을 엽니다.
-	  function openPopup1() {
-	    var popup = window.open("${pageContext.request.contextPath}/popup/orderpop1", "popup1", "width=800,height=600");
+	  function openPopup() {
+	    var popup = window.open("${pageContext.request.contextPath}/popup/orderpop", "popup1", "width=800,height=600");
 	    
 	    if (popup === null || typeof(popup) === 'undefined') {
 	      alert('팝업이 차단되었습니다. 팝업 차단을 해제하고 다시 시도해주세요.');
@@ -136,7 +137,7 @@
 	        event.preventDefault();
 
 	        $.ajax({
-	            url: "${pageContext.request.contextPath}/ordercontract/insertOrder", // 실제 요청 URL로 변경해야 함
+	            url: "${pageContext.request.contextPath}/ordercontract/updateOrder", // 실제 요청 URL로 변경해야 함
 	            type: "post", // 메소드 타입
 	            contentType: "application/json", // 요청 컨텐츠 타입 명시 (옵션)
 	            dataType: "json", // 응답 데이터 타입 명시 (옵션)
@@ -156,7 +157,7 @@
 	                window.close();
 	            },
 	            error: function(xhr, status, error) {
-	                // alert("등록 실패: " + error); // 에러 처리 부분
+	                alert("등록 실패: " + error); // 에러 처리 부분
 	            }
 	        });
 	    });

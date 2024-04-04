@@ -60,15 +60,15 @@ and cl.CLI_NAME like concat ('%', #{cli_name}, '%')
 
 <update id="updateOrder">
 	update ORDERS
-	SET ORD_CD = #{ord_cd}, PRO_NAME = #{pro_name},  CLIENT_CD= #{client_cd},CLIENT_NAME  = #{client_name},
-	ORD_VOL= #{ord_vol}, PRO_PRICE= #{pro_price},  USER_ID= #{user_id},ORD_DATE= #{ord_date},ORD_DUE_DATE= #{ord_due_date},ORD_PAY_DATE= #{ord_pay_date}
+	SET ORD_CD = #{ord_cd}, PRO_CD = #{pro_cd},  CLI_CD= #{cli_cd},ORD_VOL= #{ord_vol},  USER_ID= #{user_id},ORD_DATE= #{ord_date},
+	ORD_DUE_DATE= #{ord_due_date},ORD_PAY_DATE= #{ord_pay_date}
 	where ORD_CD = #{ord_cd}
 </update>
 
 <update id="updateContract">
 	update CONTRACT
-	SET CON_CD = #{con_cd}, PRO_NAME = #{pro_name},  CLIENT_CD= #{client_cd},CLIENT_NAME  = #{client_name},
-	CON_VOL= #{con_vol}, PRO_PRICE= #{pro_price}, CON_DATE= #{con_date},CON_DUE_DATE= #{con_due_date},CON_PAY_DATE= #{con_pay_date}
+	SET CON_CD = #{con_cd}, PRO_CD = #{pro_cd},  CLI_CD= #{cli_cd},CON_VOL= #{con_vol}, CON_DATE= #{con_date},
+	CON_DUE_DATE= #{con_due_date},CON_PAY_DATE= #{con_pay_date}
 	where CON_CD = #{con_cd}
 </update>
 
