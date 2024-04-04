@@ -140,8 +140,31 @@ values(#{lineCode}, #{name}, #{lineStatus}, #{lineName}, #{update})
 <select id="getProductList" resultType="com.itwillbs.domain.ProductionDTO">
 	select PRO_CD "productCode", PRO_NAME "productName", PRO_VOL "productVol"
 	from PRODUCT
-	where PRO_TYPE = 1
+	<where>
+	PRO_TYPE = 1
+	<if test="search1 != '' and search1 != null"  >
+	and PRO_CD like concat('%', #{search1}, '%')
+	</if>
+	<if test="search2 != '' and search2 != null ">
+	and PRO_NAME like concat('%', #{search2}, '%')
+	</if>
+	</where>
 	order by PRO_CD desc
+	limit #{startRow}, #{pageSize}
+</select>
+
+<select id="getProCount" resultType="java.lang.Integer">
+	select count(*)
+	from PRODUCT
+	<where>
+	PRO_TYPE = 1
+	<if test="search1 != '' and search1 != null"  >
+	and PRO_CD like concat('%', #{search1}, '%')
+	</if>
+	<if test="search2 != '' and search2 != null ">
+	and PRO_NAME like concat('%', #{search2}, '%')
+	</if>
+	</where>
 </select>
 
 <update id="updateLine">
@@ -200,21 +223,42 @@ values(#{lineCode}, #{name}, #{lineStatus}, #{lineName}, #{update})
 	from INSTRUCTION i join PRODUCT p
 	ON i.PRO_CD = p.PRO_CD
 	<where>
-	INS_STATUS = 2
-	<if test="instructionCode != '' and instructionCode != null"  >
-	and i.INS_CD like concat('%', #{instructionCode}, '%')
+	i.INS_STATUS = 2
+	<if test="search1 != '' and search1 != null"  >
+	and i.INS_CD like concat('%', #{search1}, '%')
 	</if>
-	<if test="productCode != '' and productCode != null ">
-	and i.PRO_CD like concat('%', #{productCode}, '%')
+	<if test="search2 != '' and search2 != null ">
+	and i.PRO_CD like concat('%', #{search2}, '%')
 	</if>
-	<if test="sDate != '' and eDate != '' and sDate != null and eDate != null">
-	and i.INS_DATE between #{sDate} and #{eDate}</if>
-	<if test="sDate == '' and eDate != ''" >
-	and i.INS_DATE &lt;= #{eDate}</if>
-	<if test="sDate != '' and eDate == ''" >
-	and i.INS_DATE &gt;= #{sDate}</if>
+	<if test="search3 != '' and search4 != '' and search3 != null and search4 != null">
+	and i.INS_DATE between #{search3} and #{search4}</if>
+	<if test="search3 == '' and search4 != ''" >
+	and i.INS_DATE &lt;= #{search4}</if>
+	<if test="search3 != '' and search4 == ''" >
+	and i.INS_DATE &gt;= #{search3}</if>
 	</where>
 	order by INS_CD desc
+	limit #{startRow}, #{pageSize}
+</select>
+
+<select id="getComInsCount" resultType="java.lang.Integer">
+	select count(*)
+	from INSTRUCTION
+	<where>
+	INS_STATUS = 2
+	<if test="search1 != '' and search1 != null"  >
+	and INS_CD like concat('%', #{search1}, '%')
+	</if>
+	<if test="search2 != '' and search2 != null ">
+	and PRO_CD like concat('%', #{search2}, '%')
+	</if>
+	<if test="search3 != '' and search4 != '' and search3 != null and search4 != null">
+	and INS_DATE between #{search3} and #{search4}</if>
+	<if test="search3 == '' and search4 != ''" >
+	and INS_DATE &lt;= #{search4}</if>
+	<if test="search3 != '' and search4 == ''" >
+	and INS_DATE &gt;= #{search3}</if>
+	</where>
 </select>
 
 <insert id="insertPer">

@@ -63,15 +63,15 @@
 			<form action="${pageContext.request.contextPath}/production/performance" method="get">
 				<div class="col-lg-2 col-3" style="display: flex; align-items: center; white-space: nowrap;">
 				<div style="flex: 0 1 auto; margin-right: 10px;"><b>작업지시코드</b></div> &nbsp;&nbsp;
-					<input type="text" class="form-control" name="instructionCode" style="flex: 1 1 auto; width: auto;" placeholder="지시코드를 입력하세요">
+					<input type="text" class="form-control" name="search1" style="flex: 1 1 auto; width: auto;" placeholder="지시코드를 입력하세요">
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					<b>품목코드</b>&nbsp;&nbsp;
-					<input type="text" class="form-control" name="productCode" style="flex: 1 1 auto; width: auto; background-color: white;" placeholder="제품코드를 입력하세요">
+					<b>제품코드</b>&nbsp;&nbsp;
+					<input type="text" class="form-control" name="search2" style="flex: 1 1 auto; width: auto; background-color: white;" placeholder="제품코드를 입력하세요">
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<b>일자</b>&nbsp;&nbsp;
-					<input type="text" id="startDate" class="form-control" name="sDate" placeholder="기간을 선택하세요" style="width: 140px;">
+					<input type="text" id="startDate" class="form-control" name="search3" placeholder="기간을 선택하세요" style="width: 140px;">
             		&nbsp; ~ &nbsp;
-					<input type="text" id="endDate" class="form-control" name="eDate" placeholder="기간을 선택하세요" style="width: 140px;">
+					<input type="text" id="endDate" class="form-control" name="search4" placeholder="기간을 선택하세요" style="width: 140px;">
 					&nbsp;&nbsp;
 					<button class="btn btn-primary btn-sm" type="submit">조회</button>
 				</div>
@@ -104,6 +104,41 @@
 	              </tbody>
 	            </table>
 	          </div>
+<!-- 			페이징 시작 -->
+<nav aria-label="Page navigation example">
+    <ul class="pagination pagination-primary justify-content-end">
+        <c:if test="${pageDTO.startPage > 1}">
+            <li class="page-item">
+                <a class="page-link" href="${pageContext.request.contextPath}/production/performance?pageNum=${pageDTO.startPage - 1}">Previous</a>
+            </li>
+        </c:if>
+        
+        <c:if test="${pageDTO.startPage <= 1}">
+            <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+            </li>
+        </c:if>
+        
+        <c:forEach var="i" begin="${pageDTO.startPage}" end="${pageDTO.endPage}" step="1">
+            <li class="page-item ${pageDTO.currentPage == i ? 'active' : ''}">
+                <a class="page-link" href="${pageContext.request.contextPath}/production/performance?pageNum=${i}">${i}</a>
+            </li>
+        </c:forEach>
+        
+        <c:if test="${pageDTO.endPage < pageDTO.pageCount}">
+            <li class="page-item">
+                <a class="page-link" href="${pageContext.request.contextPath}/production/performance?pageNum=${pageDTO.endPage + 1}">Next</a>
+            </li>
+        </c:if>
+        
+        <c:if test="${pageDTO.endPage >= pageDTO.pageCount}">
+            <li class="page-item disabled">
+                <a class="page-link" href="#">Next</a>
+            </li>
+        </c:if>
+    </ul>
+</nav>
+<!-- 			페이징 끝 -->
 			</div>
 <!-- 	          --- -->
 	          <div class="card-content">

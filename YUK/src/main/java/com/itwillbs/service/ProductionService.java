@@ -94,8 +94,15 @@ public class ProductionService {
 		return productionDAO.getPerformanceList();
 	}
 
-	public List<ProductionDTO> getProductList() {
-		return productionDAO.getProductList();
+	public List<ProductionDTO> getProductList(PageDTO pageDTO) {
+		
+		int startRow = (pageDTO.getCurrentPage() - 1) * pageDTO.getPageSize() + 1;
+		int EndRow = startRow + pageDTO.getPageSize() - 1;
+		
+		pageDTO.setStartRow(startRow -1);
+		pageDTO.setEndRow(EndRow);
+		
+		return productionDAO.getProductList(pageDTO);
 	}
 
 	public void updateLine(ProductionDTO productionDTO) {
@@ -137,8 +144,15 @@ public class ProductionService {
 		return productionDAO.setLineLastCode();
 	}
 
-	public List<ProductionDTO> getCompInstructionList(ProductionDTO productionDTO) {
-		return productionDAO.getCompInstructionList(productionDTO);
+	public List<ProductionDTO> getCompInstructionList(PageDTO pageDTO) {
+		
+		int startRow = (pageDTO.getCurrentPage() - 1) * pageDTO.getPageSize() + 1;
+		int EndRow = startRow + pageDTO.getPageSize() - 1;
+		
+		pageDTO.setStartRow(startRow -1);
+		pageDTO.setEndRow(EndRow);
+		
+		return productionDAO.getCompInstructionList(pageDTO);
 	}
 
 	public void insertPer(ProductionDTO productionDTO) {
@@ -198,6 +212,14 @@ public class ProductionService {
 
 	public int getInsCount(PageDTO pageDTO) {
 		return productionDAO.getInsCount(pageDTO);
+	}
+
+	public int getComInsCount(PageDTO pageDTO) {
+		return productionDAO.getComInsCount(pageDTO);
+	}
+
+	public int getProCount(PageDTO pageDTO) {
+		return productionDAO.getProCount(pageDTO);
 	}
 
 }

@@ -44,8 +44,8 @@ public class ProductionDAO {
 		return sqlSession.selectList(namespace + ".getPerformanceList");
 	}
 
-	public List<ProductionDTO> getProductList() {
-		return sqlSession.selectList(namespace + ".getProductList");
+	public List<ProductionDTO> getProductList(PageDTO pageDTO) {
+		return sqlSession.selectList(namespace + ".getProductList", pageDTO);
 	}
 
 	public void updateLine(ProductionDTO productionDTO) {
@@ -84,8 +84,8 @@ public class ProductionDAO {
 		return sqlSession.selectOne(namespace + ".setLineLastCode");
 	}
 
-	public List<ProductionDTO> getCompInstructionList(ProductionDTO productionDTO) {
-		return sqlSession.selectList(namespace + ".getCompInstructionList", productionDTO);
+	public List<ProductionDTO> getCompInstructionList(PageDTO pageDTO) {
+		return sqlSession.selectList(namespace + ".getCompInstructionList", pageDTO);
 	}
 
 	public void insertPer(ProductionDTO productionDTO) {
@@ -122,6 +122,14 @@ public class ProductionDAO {
 
 	public int getInsCount(PageDTO pageDTO) {
 		return sqlSession.selectOne(namespace + ".getInsCount", pageDTO);
+	}
+
+	public int getComInsCount(PageDTO pageDTO) {
+		return sqlSession.selectOne(namespace + ".getComInsCount", pageDTO);
+	}
+
+	public int getProCount(PageDTO pageDTO) {
+		return sqlSession.selectOne(namespace + ".getProCount", pageDTO);
 	}
 
 }

@@ -141,18 +141,10 @@ public class ProductionController {
 	
 	// 생산실적 페이지
 	@GetMapping("/performance")
-	public String performance(HttpServletRequest request, Model model, ProductionDTO productionDTO) {
+	public String performance(HttpServletRequest request, Model model, ProductionDTO productionDTO, PageDTO pageDTO) {
 		System.out.println("ProductionController performance()");
 		
-		productionDTO.setInstructionCode(request.getParameter("instructionCode"));
-		productionDTO.setProductCode(request.getParameter("productCode"));
-		productionDTO.setsDate(request.getParameter("sDate"));
-		productionDTO.seteDate(request.getParameter("eDate"));
-		
-		List<ProductionDTO> compInsList = productionService.getCompInstructionList(productionDTO);
-		model.addAttribute("compInsList", compInsList);
-		
-		// lineCode 생성
+		// perCode 생성
 		Integer perLastNum = productionService.getPerLastNum();
 
 		String perCode;
@@ -172,6 +164,46 @@ public class ProductionController {
 		productionDTO.setPerCode(perCode);
 		model.addAttribute("productionDTO", productionDTO);
 		
+		// 검색 기능
+		pageDTO.setSearch1(request.getParameter("search1"));
+		pageDTO.setSearch2(request.getParameter("search2"));
+		pageDTO.setSearch3(request.getParameter("search3"));
+		pageDTO.setSearch4(request.getParameter("search4"));
+
+		// 페이징
+		int pageSize = 4;
+		String pageNum = request.getParameter("pageNum");
+		if(pageNum == null) {
+			pageNum="1";
+		}
+		
+		int currentPage = Integer.parseInt(pageNum);
+		
+		pageDTO.setPageSize(pageSize);
+		pageDTO.setPageNum(pageNum);
+		pageDTO.setCurrentPage(currentPage);
+		
+		List<ProductionDTO> compInsList = productionService.getCompInstructionList(pageDTO);
+		
+		int count =  productionService.getComInsCount(pageDTO);
+		int pageBlock = 10;
+		int startPage = (currentPage - 1) / pageBlock * pageBlock + 1;
+		int endPage = startPage + pageBlock -1;
+		int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);
+		
+		if(endPage > pageCount) {
+			endPage = pageCount;
+		}
+		
+		pageDTO.setCount(pageCount);
+		pageDTO.setPageBlock(pageBlock);
+		pageDTO.setStartPage(startPage);
+		pageDTO.setEndPage(endPage);
+		pageDTO.setPageCount(pageCount);
+		
+		model.addAttribute("compInsList", compInsList);
+		model.addAttribute("pageDTO", pageDTO);
+		
 		return "production/performance";
 	}
 
@@ -189,7 +221,7 @@ public class ProductionController {
 		String instructionStatus = (String)request.getParameter("search5");
 		System.out.println(pageDTO);
 		int instructionStatus1 = 4;
-		if(instructionStatus == null) {
+		if(instructionStatus == null) {	
 			instructionStatus1 = 4;
 		} else {
 			instructionStatus1 = Integer.parseInt(request.getParameter("search5"));
@@ -324,18 +356,6 @@ public class ProductionController {
 		return "redirect:/production/instruction";
 	}
 	
-	
-	// 실적등록 팝업 (사용안함)
-	@GetMapping("/perpop")
-	public String perpop(Model model, ProductionDTO productionDTO) {
-		System.out.println("ProductionController perpop()");
-		
-		// 작업상태 2(완료)인 작업지시 가져오기
-		List<ProductionDTO> compInsList = productionService.getCompInstructionList(productionDTO);
-		model.addAttribute("compInsList", compInsList);
-		
-		return "production/perpop";
-	}
 	
 	// 실적등록
 	@PostMapping("/insertPer")

@@ -25,10 +25,45 @@ public class PopupController {
 	private OrdercontractService ordercontractService;
 
 	@GetMapping("/productpop")
-	public String contractpop(ProductionDTO productionDTO, Model model) {
+	public String contractpop(ProductionDTO productionDTO, Model model, PageDTO pageDTO, HttpServletRequest request) {
 		
-		List<ProductionDTO> productList = productionService.getProductList();
+		// 검색 기능
+		pageDTO.setSearch1(request.getParameter("search1"));
+		pageDTO.setSearch2(request.getParameter("search2"));
+
+		// 페이징
+		int pageSize = 5;
+		String pageNum = request.getParameter("pageNum");
+		if(pageNum == null) {
+			pageNum="1";
+		}
+		
+		int currentPage = Integer.parseInt(pageNum);
+		
+		pageDTO.setPageSize(pageSize);
+		pageDTO.setPageNum(pageNum);
+		pageDTO.setCurrentPage(currentPage);
+		
+		List<ProductionDTO> productList = productionService.getProductList(pageDTO);
+		
+		int count =  productionService.getProCount(pageDTO);
+		int pageBlock = 10;
+		int startPage = (currentPage - 1) / pageBlock * pageBlock + 1;
+		int endPage = startPage + pageBlock -1;
+		int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);
+		
+		if(endPage > pageCount) {
+			endPage = pageCount;
+		}
+		
+		pageDTO.setCount(pageCount);
+		pageDTO.setPageBlock(pageBlock);
+		pageDTO.setStartPage(startPage);
+		pageDTO.setEndPage(endPage);
+		pageDTO.setPageCount(pageCount);
+		
 		model.addAttribute("productList", productList);
+		model.addAttribute("pageDTO", pageDTO);
 		
 		return "popup/productpop";
 	}
