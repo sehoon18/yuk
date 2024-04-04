@@ -79,26 +79,52 @@ values(#{lineCode}, #{name}, #{lineStatus}, #{lineName}, #{update})
 	from INSTRUCTION i join PRODUCT p
 	ON i.PRO_CD = p.PRO_CD
 	<where>
-	<if test="instructionCode != '' and instructionCode != null"  >
-	i.INS_CD like concat('%', #{instructionCode}, '%')
+	<if test="search1 != '' and search1 != null"  >
+	i.INS_CD like concat('%', #{search1}, '%')
 	</if>
-	<if test="productCode != '' and productCode != null ">
-	and i.PRO_CD like concat('%', #{productCode}, '%')
+	<if test="search2 != '' and search2 != null ">
+	and i.PRO_CD like concat('%', #{search2}, '%')
 	</if>
-	<if test="instractionStatus != '' and instractionStatus != null and instractionStatus != 4">
-	and i.INS_STATUS like concat('%', #{instractionStatus}, '%')
+	<if test="search5 != '' and search5 != null and search5 != 4">
+	and i.INS_STATUS like concat('%', #{search5}, '%')
 	</if>
-	<if test="instractionStatus == 0">
+	<if test="search5 == 0">
 	and i.INS_STATUS = 0
 	</if>
-	<if test="sDate != '' and eDate != '' and sDate != null and eDate != null">
-	and i.INS_DATE between #{sDate} and #{eDate}</if>
-	<if test="sDate == '' and eDate != ''" >
-	and i.INS_DATE &lt;= #{eDate}</if>
-	<if test="sDate != '' and eDate == ''" >
-	and i.INS_DATE &gt;= #{sDate}</if>
+	<if test="search3 != '' and search4 != '' and search3 != null and search4 != null">
+	and i.INS_DATE between #{search3} and #{search4}</if>
+	<if test="search3 == '' and search4 != ''" >
+	and i.INS_DATE &lt;= #{search4}</if>
+	<if test="search3 != '' and search4 == ''" >
+	and i.INS_DATE &gt;= #{search3}</if>
 	</where>
 	order by i.INS_CD desc
+	limit #{startRow}, #{pageSize}
+</select>
+
+<select id="getInsCount" resultType="java.lang.Integer">
+	select count(*)
+	from INSTRUCTION
+	<where>
+	<if test="search1 != '' and search1 != null"  >
+	INS_CD like concat('%', #{search1}, '%')
+	</if>
+	<if test="search2 != '' and search2 != null ">
+	and PRO_CD like concat('%', #{search2}, '%')
+	</if>
+	<if test="search5 != '' and search5 != null and search5 != 4">
+	and INS_STATUS like concat('%', #{search5}, '%')
+	</if>
+	<if test="search5 == 0">
+	and INS_STATUS = 0
+	</if>
+	<if test="search3 != '' and search4 != '' and search3 != null and search4 != null">
+	and INS_DATE between #{search3} and #{search4}</if>
+	<if test="search3 == '' and search4 != ''" >
+	and INS_DATE &lt;= #{search4}</if>
+	<if test="search3 != '' and search4 == ''" >
+	and INS_DATE &gt;= #{search3}</if>
+	</where>
 </select>
 
 <!-- PERFORMANCE 생산실적 -->
@@ -237,6 +263,5 @@ values(#{lineCode}, #{name}, #{lineStatus}, #{lineName}, #{update})
 	from PERFORMANCE
 	where PER_CD = #{perCode}
 </delete>
-
 
 </mapper>

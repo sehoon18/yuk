@@ -177,27 +177,58 @@ public class ProductionController {
 
 	// 작업지시 페이지
 	@GetMapping("/instruction")
-	public String instruction(HttpServletRequest request, Model model, ProductionDTO productionDTO) {
+	public String instruction(HttpServletRequest request, Model model, ProductionDTO productionDTO, PageDTO pageDTO) {
 		System.out.println("ProductionController instruction()");
-		System.out.println(productionDTO);
 
-		productionDTO.setInstructionCode(request.getParameter("instructionCode"));
-		productionDTO.setProductCode(request.getParameter("productCode"));
-		productionDTO.setsDate(request.getParameter("sDate"));
-		productionDTO.seteDate(request.getParameter("eDate"));
-		
-		String instractionStatus = (String)request.getParameter("instractionStatus");
-		System.out.println(instractionStatus);
-		int instractionStatus1 = 4;
-		if(instractionStatus == null) {
-			instractionStatus1 = 4;
+		// 검색 기능
+		pageDTO.setSearch1(request.getParameter("search1"));
+		pageDTO.setSearch2(request.getParameter("search2"));
+		pageDTO.setSearch3(request.getParameter("search3"));
+		pageDTO.setSearch4(request.getParameter("search4"));
+
+		String instructionStatus = (String)request.getParameter("search5");
+		System.out.println(pageDTO);
+		int instructionStatus1 = 4;
+		if(instructionStatus == null) {
+			instructionStatus1 = 4;
 		} else {
-			instractionStatus1 = Integer.parseInt(request.getParameter("instractionStatus"));
+			instructionStatus1 = Integer.parseInt(request.getParameter("search5"));
 		}
-		productionDTO.setInstractionStatus(instractionStatus1);
-		List<ProductionDTO> instructionList = productionService.getInstructionList(productionDTO);
+		pageDTO.setSearch5(instructionStatus1);
+
+		// 페이징
+		int pageSize = 10;
+		String pageNum = request.getParameter("pageNum");
+		if(pageNum == null) {
+			pageNum="1";
+		}
+		
+		int currentPage = Integer.parseInt(pageNum);
+		
+		pageDTO.setPageSize(pageSize);
+		pageDTO.setPageNum(pageNum);
+		pageDTO.setCurrentPage(currentPage);
+		
+		List<ProductionDTO> instructionList = productionService.getInstructionList(pageDTO);
+		
+		int count =  productionService.getInsCount(pageDTO);
+		int pageBlock = 10;
+		int startPage = (currentPage - 1) / pageBlock * pageBlock + 1;
+		int endPage = startPage + pageBlock -1;
+		int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);
+		
+		if(endPage > pageCount) {
+			endPage = pageCount;
+		}
+		
+		pageDTO.setCount(pageCount);
+		pageDTO.setPageBlock(pageBlock);
+		pageDTO.setStartPage(startPage);
+		pageDTO.setEndPage(endPage);
+		pageDTO.setPageCount(pageCount);
+		
 		model.addAttribute("instructionList", instructionList);
-		System.out.println(productionDTO);
+		model.addAttribute("pageDTO", pageDTO);
 
 		return "production/instruction";
 	}

@@ -79,8 +79,15 @@ public class ProductionService {
 		productionDAO.insertInstruction(productionDTO);
 	}
 
-	public List<ProductionDTO> getInstructionList(ProductionDTO productionDTO) {
-		return productionDAO.getInstructionList(productionDTO);
+	public List<ProductionDTO> getInstructionList(PageDTO pageDTO) {
+		
+		int startRow = (pageDTO.getCurrentPage() - 1) * pageDTO.getPageSize() + 1;
+		int EndRow = startRow + pageDTO.getPageSize() - 1;
+		
+		pageDTO.setStartRow(startRow -1);
+		pageDTO.setEndRow(EndRow);
+		
+		return productionDAO.getInstructionList(pageDTO);
 	}
 
 	public List<ProductionDTO> getPerformanceList() {
@@ -187,6 +194,10 @@ public class ProductionService {
 	// 페이징 라인 갯수
 	public int getLineCount(PageDTO pageDTO) {
 		return productionDAO.getLineCount(pageDTO);
+	}
+
+	public int getInsCount(PageDTO pageDTO) {
+		return productionDAO.getInsCount(pageDTO);
 	}
 
 }

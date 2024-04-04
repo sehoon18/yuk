@@ -36,8 +36,8 @@ public class ProductionDAO {
 		sqlSession.insert(namespace + ".insertInstruction", productionDTO);
 	}
 
-	public List<ProductionDTO> getInstructionList(ProductionDTO productionDTO) {
-		return sqlSession.selectList(namespace + ".getInstructionList", productionDTO);
+	public List<ProductionDTO> getInstructionList(PageDTO pageDTO) {
+		return sqlSession.selectList(namespace + ".getInstructionList", pageDTO);
 	}
 
 	public List<ProductionDTO> getPerformanceList() {
@@ -118,6 +118,10 @@ public class ProductionDAO {
 
 	public int getLineCount(PageDTO pageDTO) {
 		return sqlSession.selectOne(namespace + ".getLineCount", pageDTO);
+	}
+
+	public int getInsCount(PageDTO pageDTO) {
+		return sqlSession.selectOne(namespace + ".getInsCount", pageDTO);
 	}
 
 }
