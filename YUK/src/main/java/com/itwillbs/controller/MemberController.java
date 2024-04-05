@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -55,11 +56,34 @@ public class MemberController {
 		return "member/memberLogin";
 	}
 	
-	// 회원가입
-	@GetMapping("/memberInsert")
-	public String memberInsert() {
+	
+	@PostMapping("/memberInsert")
+	public String memberInsert(MemberDTO memberDTO) {
 		System.out.println("MemberController memberInsert()");
-		return "member/memberInsert";
+		System.out.println(memberDTO);
+		
+		memberService.insertMember(memberDTO);
+		
+		return "redirect:/member/memberList";
+	}
+	@PostMapping("/memberUpdate")
+	public String memberUpdate(MemberDTO memberDTO, HttpServletRequest request) {
+		System.out.println("MemberController memberUpdate()");
+		System.out.println("memberUpdate의 멤버디티오 값1:" + memberDTO);
+		
+		memberService.updateMember(memberDTO);
+		
+		return "redirect:/member/memberList";
+	}
+	
+	@PostMapping("/memberDelete")
+	public String memberDelete(@RequestBody MemberDTO memberDTO) {
+		System.out.println("MemberController memberDelete()");
+		System.out.println(memberDTO);
+		
+		memberService.deleteMember(memberDTO);
+		
+		return "redirect:/member/memberList";
 	}
 	
 	// 메인 페이지
@@ -93,6 +117,7 @@ public class MemberController {
 		memberDTO.setId(id);
 		String name = request.getParameter("name");
 		memberDTO.setName(name);
+		model.addAttribute("memberDTO",memberDTO);
 		
 		List<MemberDTO> memberList;
 		if(id == null && name == null) {
@@ -102,6 +127,7 @@ public class MemberController {
 		}
 		
 		model.addAttribute("memberList" , memberList);
+		
 		return "member/memberList";
 	}
 	

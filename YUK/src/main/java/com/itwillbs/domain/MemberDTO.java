@@ -9,12 +9,14 @@ public class MemberDTO {
 	
 	
 	
+	
+	
+	
 	@Override
 	public String toString() {
-		return "MemberDTO [name=" + name + ", id=" + id + ", pass=" + pass + ", phone=" + phone + ", permission="
+		return "MemberDTO [id=" + id + ", name=" + name + ", pass=" + pass + ", phone=" + phone + ", permission="
 				+ permission + "]";
 	}
-	
 	
 	public String getName() {
 		return name;

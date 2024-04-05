@@ -61,7 +61,7 @@
                     <ul class="submenu">
                         
                         <li>
-                            <a href="">거래처 관리</a>
+                            <a href="${pageContext.request.contextPath}/client/client">거래처 관리</a>
                         </li>
                         
                         <li>
@@ -84,15 +84,15 @@
                     <ul class="submenu">
                         
                         <li>
-                            <a href="">라인 관리</a>
+                            <a href="${pageContext.request.contextPath}/production/line">라인 관리</a>
                         </li>
                         
                         <li>
-                            <a href="">작업 지시 관리</a>
+                            <a href="${pageContext.request.contextPath}/production/instruction">작업 지시 관리</a>
                         </li>
                         
                         <li>
-                            <a href="">생산 실적 관리</a>
+                            <a href="${pageContext.request.contextPath}/production/performance">생산 실적 관리</a>
                         </li>
                         
                     </ul>
@@ -107,19 +107,19 @@
                     <ul class="submenu">
                         
                         <li>
-                            <a href="">재고 관리</a>
+                            <a href="${pageContext.request.contextPath}/warehouse/stock">재고 관리</a>
                         </li>
                         
                         <li>
-                            <a href="">입고 관리</a>
+                            <a href="${pageContext.request.contextPath}/bound/inBound">입고 관리</a>
                         </li>
                         
                         <li>
-                            <a href="">출고 관리</a>
+                            <a href="${pageContext.request.contextPath}/bound/outBound">출고 관리</a>
                         </li>
                         
                         <li>
-                            <a href="">창고 관리</a>
+                            <a href="${pageContext.request.contextPath}/warehouse/warehouse">창고 관리</a>
                         </li>
                     </ul>
                     
@@ -133,11 +133,11 @@
                     <ul class="submenu">
                         
                         <li>
-                            <a href="">수주 관리</a>
+                            <a href="${pageContext.request.contextPath}/ordercontract/contract">수주 관리</a>
                         </li>
                         
                         <li>
-                            <a href="">발주 관리</a>
+                            <a href="${pageContext.request.contextPath}/ordercontract/order">발주 관리</a>
                         </li>
                         
                     </ul>

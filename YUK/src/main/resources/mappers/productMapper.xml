@@ -6,56 +6,104 @@
 <mapper namespace="com.itwillbs.mappers.productMapper">
 
 <select id="getProductList" resultType="com.itwillbs.domain.ProductDTO">
-select  PRO_CD "productCode", PRO_NAME "productName", PRO_TYPE "productType", PRO_ORIGIN "productOrigin", PRO_PRICE "productPrice"   
-from PRODUCT
-order by PRO_CD desc
+	select  PRO_CD "productCode", PRO_NAME "productName", PRO_TYPE "productType", PRO_ORIGIN "productOrigin", PRO_PRICE "productPrice"   
+	from PRODUCT
+	order by PRO_CD desc
 </select>
 
 <select id="getSearchProductList" resultType="com.itwillbs.domain.ProductDTO">
-select  PRO_CD "productCode", PRO_NAME "productName", PRO_TYPE "productType", PRO_ORIGIN "productOrigin", PRO_PRICE "productPrice"   
-from PRODUCT
+	select  PRO_CD "productCode", PRO_NAME "productName", PRO_TYPE "productType", PRO_ORIGIN "productOrigin", PRO_PRICE "productPrice"   
+	from PRODUCT
 <where>
 <if test="productCode != null">
-PRO_CD like concat('%',#{productCode},'%')
+	PRO_CD like concat('%',#{productCode},'%')
 </if>
 <if test="productName != null">
-and PRO_NAME like concat('%',#{productName},'%')
+	and PRO_NAME like concat('%',#{productName},'%')
 </if>
 <if test="productType != 100">
-and PRO_TYPE = #{productType}
+	and PRO_TYPE = #{productType}
 </if>
 </where>
-order by PRO_CD desc
+	order by PRO_CD desc
 </select>
 
 <select id="getRequiredList" resultType="com.itwillbs.domain.ProductDTO">
-select r.REQ_CD "requiredCode",p1.PRO_CD "productCode",p1.PRO_NAME "productName",r.MP_CD "materialProductCode",p2.PRO_NAME "productPName",p2.PRO_TYPE "productType",r.REQ_VOL "requiredVol"
-from PRODUCT p1 join REQUIRED r 
-on p1.PRO_CD = r.PP_CD 
-join PRODUCT p2
-on r.MP_CD = p2.PRO_CD
-order by REQ_CD desc
+	select r.REQ_CD "requiredCode",p1.PRO_CD "productCode",p1.PRO_NAME "productName",r.MP_CD "materialProductCode",p2.PRO_NAME "productPName",p2.PRO_TYPE "productType",r.REQ_VOL "requiredVol"
+	from PRODUCT p1 join REQUIRED r 
+	on p1.PRO_CD = r.PP_CD 
+	join PRODUCT p2
+	on r.MP_CD = p2.PRO_CD
+	order by REQ_CD desc
 </select>
 
 <select id="getSearchRequiredList" resultType="com.itwillbs.domain.ProductDTO">
-select r.REQ_CD "requiredCode",p1.PRO_CD "productCode",p1.PRO_NAME "productName",r.MP_CD "materialProductCode",p2.PRO_NAME "productPName",p2.PRO_TYPE "productType",r.REQ_VOL "requiredVol"
-from PRODUCT p1 join REQUIRED r
-on p1.PRO_CD = r.PP_CD 
-join PRODUCT p2 
-on r.MP_CD = p2.PRO_CD 
+	select r.REQ_CD "requiredCode",p1.PRO_CD "productCode",p1.PRO_NAME "productName",r.MP_CD "materialProductCode",p2.PRO_NAME "productPName",p2.PRO_TYPE "productType",r.REQ_VOL "requiredVol"
+	from PRODUCT p1 join REQUIRED r
+	on p1.PRO_CD = r.PP_CD 
+	join PRODUCT p2 
+	on r.MP_CD = p2.PRO_CD 
 <where>
 <if test="requiredCode != null">
-r.REQ_CD like concat('%', #{requiredCode}, '%')
+	r.REQ_CD like concat('%', #{requiredCode}, '%')
 </if>
 <if test="productName != null">
-and p1.PRO_NAME like concat('%', #{productName}, '%')
+	and p1.PRO_NAME like concat('%', #{productName}, '%')
 </if>
 <if test="productType != 100">
-and p2.PRO_TYPE = #{productType}
+	and p2.PRO_TYPE = #{productType}
 </if>
 </where>	
-order by REQ_CD desc
+	order by REQ_CD desc
 </select>
 
+<select id="getProductLastNum" resultType="java.lang.Integer">
+	SELECT REGEXP_REPLACE(PRO_CD, '[^0-9]', '') AS numbers_only
+	FROM PRODUCT
+	ORDER BY numbers_only DESC
+	LIMIT 1
+</select>
+
+<insert id="insertProduct">
+insert into PRODUCT(PRO_CD, PRO_NAME, PRO_PRICE, PRO_ORIGIN, PRO_TYPE)
+values(#{productCode}, #{productName}, #{productPrice}, #{productOrigin}, #{productType})
+</insert>
+
+<update id="updateProduct">
+	update PRODUCT
+	SET PRO_NAME = #{productName}, PRO_TYPE = #{productType}, PRO_ORIGIN = #{productOrigin}, PRO_PRICE = #{productPrice}
+	where PRO_CD = #{productCode}
+</update>
+
+<delete id="deleteProduct">
+	delete
+	from PRODUCT
+	WHERE PRO_CD = #{productCode}
+</delete>
+
+
+<!-- <select id="getRequiredLastNum" resultType="java.lang.Integer"> -->
+<!-- 	SELECT REGEXP_REPLACE(REQ_CD, '[^0-9]', '') AS numbers_only -->
+<!-- 	FROM REQUIRED -->
+<!-- 	ORDER BY numbers_only DESC -->
+<!-- 	LIMIT 1 -->
+<!-- </select> -->
+
+<!-- <insert id="insertRequired"> -->
+<!-- insert into REQUIRED(REQ_CD, PP_CD, MP_CD,REQ_VOL) -->
+<!-- values(#{requiredCode}, #{productCode}, #{ materialProductCode}, #{requiredVol}) -->
+<!-- </insert> -->
+
+<!-- <update id="updateRequired"> -->
+<!-- 	update PRODUCT -->
+<!-- 	SET REQ_VOL = #{requiredVol} -->
+<!-- 	where REQ_CD = #{requiredCode} -->
+<!-- </update> -->
+
+<!-- <delete id="deleteRequired"> -->
+<!-- 	delete -->
+<!-- 	from REQUIRED -->
+<!-- 	WHERE REQ_CD = #{requiredCode} -->
+<!-- </delete> -->
 
 </mapper>
