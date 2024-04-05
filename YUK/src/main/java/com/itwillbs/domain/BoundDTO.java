@@ -26,8 +26,16 @@ public class BoundDTO {
 	private String pro_name;
 	private int pro_type;
 	private String ins_cd;
+	private int pro_vol;
 	
 	
+	
+	public int getPro_vol() {
+		return pro_vol;
+	}
+	public void setPro_vol(int pro_vol) {
+		this.pro_vol = pro_vol;
+	}
 	public String getIns_cd() {
 		return ins_cd;
 	}

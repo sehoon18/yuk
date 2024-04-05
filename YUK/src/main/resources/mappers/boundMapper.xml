@@ -27,6 +27,7 @@
 	<if test="select1 == 'com'">and mib_info_status = 1</if>
 	</where>
 	order by mib_cd desc
+	limit #{startRow},#{pageSize}
 </select>
 
 <select id="getInBoundBoardList2" resultType="com.itwillbs.domain.BoundDTO">
@@ -53,6 +54,7 @@
 	<if test="select2 == 'pib_com'">and pib_info_status = 1</if>
 	</where>
 	order by pib_cd desc
+	limit #{startRow},#{pageSize}
 </select>
 
 <select id="getInBoundBoardCount" resultType="java.lang.Integer">
@@ -148,7 +150,7 @@
 	<if test="select1 == 'com'">and ob_info_status = 1</if>
 	</where>
 	order by ob_cd desc
-	
+	limit #{startRow},#{pageSize}
 </select>
 
 <select id="getOutBoundBoardCount" resultType="java.lang.Integer">
@@ -182,7 +184,7 @@
 
 <!-- <update id="outBoundPro_1"> -->
 <!-- 	update PRODUCT -->
-<!-- 	set pro_vol = pro_vol - #제품 출고 수량 -->
+<!-- 	set pro_vol = pro_vol + #수주량 -->
 <!-- 	where pro_cd = #뭐시기 -->
 <!-- </update> -->
 
