@@ -24,11 +24,11 @@
                         <img src="${pageContext.request.contextPath}/resources/assets/images/favicon.svg" height="48" class='mb-4'>
                         <h3>로그인</h3>
                     </div>
-                    <form action="${pageContext.request.contextPath}/member/memberLoginPro" method="post">
+                    <form action="${pageContext.request.contextPath}/login" method="post">
                         <div class="form-group position-relative has-icon-left">
                             <label for="username">아이디</label>
                             <div class="position-relative">
-                                <input type="text" class="form-control" id="username" name="id">
+                                <input type="text" class="form-control" id="username" name="username">
                                 <div class="form-control-icon">
                                     <i data-feather="user"></i>
                                 </div>
@@ -39,11 +39,12 @@
                                 <label for="password">비밀번호</label>
                             </div>
                             <div class="position-relative">
-                                <input type="text" class="form-control" id="password" name="pass">
+                                <input type="text" class="form-control" id="password" name="password">
                                 <div class="form-control-icon">
                                     <i data-feather="lock"></i>
                                 </div>
                             </div>
+                            <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
                         </div>
 
                         <div class="clearfix">

@@ -1,12 +1,14 @@
 package com.itwillbs.domain;
 
+import java.util.List;
+
 public class MemberDTO {	
 	private String id;		//아이디
 	private String name;	//사용자명
 	private String pass;	//비밀번호
 	private String phone;	//전화번호
 	private int permission; //권한
-	
+	private List<AuthDTO> authList; // 시큐리티 권한
 	
 	
 	@Override
@@ -45,6 +47,16 @@ public class MemberDTO {
 	}
 	public void setPermission(int permission) {
 		this.permission = permission;
+	}
+
+
+	public List<AuthDTO> getAuthList() {
+		return authList;
+	}
+
+
+	public void setAuthList(List<AuthDTO> authList) {
+		this.authList = authList;
 	}
 	
 	
