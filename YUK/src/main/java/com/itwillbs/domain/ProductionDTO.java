@@ -36,9 +36,20 @@ public class ProductionDTO {
 	private int perACA;				// 실적수량
 	private int perGood;			// 양불구분
 	
-	// search
-	private String sDate;
-	private String eDate;
+	// required
+	private String reqCode;
+	private String pProCode;
+	private String mProCode;
+	private String reqVol;
+	
+	// pinbound
+	private String pibCode;
+	private int pibStatus;
+	
+	// etc
+	private String proName1;
+	private String proName2;
+	private int vol;
 	
 	@Override
 	public String toString() {
@@ -215,20 +226,76 @@ public class ProductionDTO {
 		this.perGood = perGood;
 	}
 
-	public String getsDate() {
-		return sDate;
+	public String getReqCode() {
+		return reqCode;
 	}
 
-	public void setsDate(String sDate) {
-		this.sDate = sDate;
+	public void setReqCode(String reqCode) {
+		this.reqCode = reqCode;
 	}
 
-	public String geteDate() {
-		return eDate;
+	public String getpProCode() {
+		return pProCode;
 	}
 
-	public void seteDate(String eDate) {
-		this.eDate = eDate;
+	public void setpProCode(String pProCode) {
+		this.pProCode = pProCode;
+	}
+
+	public String getmProCode() {
+		return mProCode;
+	}
+
+	public void setmProCode(String mProCode) {
+		this.mProCode = mProCode;
+	}
+
+	public String getReqVol() {
+		return reqVol;
+	}
+
+	public void setReqVol(String reqVol) {
+		this.reqVol = reqVol;
+	}
+
+	public String getPibCode() {
+		return pibCode;
+	}
+
+	public void setPibCode(String pibCode) {
+		this.pibCode = pibCode;
+	}
+
+	public int getPibStatus() {
+		return pibStatus;
+	}
+
+	public void setPibStatus(int pibStatus) {
+		this.pibStatus = pibStatus;
+	}
+
+	public int getVol() {
+		return vol;
+	}
+
+	public void setVol(int vol) {
+		this.vol = vol;
+	}
+
+	public String getProName1() {
+		return proName1;
+	}
+
+	public void setProName1(String proName1) {
+		this.proName1 = proName1;
+	}
+
+	public String getProName2() {
+		return proName2;
+	}
+
+	public void setProName2(String proName2) {
+		this.proName2 = proName2;
 	}
 	
 }

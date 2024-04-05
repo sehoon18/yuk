@@ -450,7 +450,7 @@
 	    function makeRowEditable(row) {
 	        isDelMode = false;
 	        originalHTML = {}; // 현재 행에 대한 원본 HTML 저장을 위해 객체 초기화
-	        const cellIndex = [0, 5, 6, 7]; // 수정할 열 인덱스 (2열과 5열)
+	        const cellIndex = [0, 2, 5, 6, 7]; // 수정할 열 인덱스 (2열과 5열)
 	        cellIndex.forEach((index) => {
 	            const cell = row.cells[index];
 	            originalHTML[index] = cell.innerHTML; // 수정 전 원본 HTML을 저장
@@ -462,6 +462,15 @@
 		            input.type = 'hidden'; // 입력 필드 타입을 hidden으로 설정
 		            input.name = 'perCode'; // 요구사항에 맞게 이름 설정
 		            input.id = 'perCode1'; 
+		            input.value = originalText; // 예를 들어, 행의 고유 ID 값
+		            cell.appendChild(input); // 숨겨진 입력 필드 추가
+		       }
+	            // 1열(인덱스 0)의 경우, 텍스트 입력 필드를 생성
+	            else if (index === 2) {
+		            const input = document.createElement('input');
+		            input.type = 'hidden'; // 입력 필드 타입을 hidden으로 설정
+		            input.name = 'productCode'; // 요구사항에 맞게 이름 설정
+		            input.id = 'productCode1'; 
 		            input.value = originalText; // 예를 들어, 행의 고유 ID 값
 		            cell.appendChild(input); // 숨겨진 입력 필드 추가
 		       }
@@ -523,12 +532,14 @@
 	function collectFormData() {
 	    // 입력된 데이터 수집
 	    const perCode = document.getElementById('perCode1').value;
+	    const productCode = document.getElementById('productCode1').value;
 	    const perACA = document.getElementById('perACA1').value;
 	    const perGood = document.getElementById('perGood1').value;
 	    const perNote = document.getElementById('perNote1').value;
 	
 	    return {
 	    	perCode: perCode,
+	    	productCode: productCode,
 	        perACA: perACA,
 	        perGood: perGood,
 	        perNote: perNote
@@ -647,7 +658,6 @@
 	  	  `
 	  	});
 	    
-	    document.getElementById('addrow').disabled = true; // 추가 버튼을 다시 활성화
 	    document.getElementById('modify').disabled = true; // 삭제 버튼 다시 활성화
 	    
 	 	// 수정 버튼을 취소 버튼으로 변경
@@ -664,7 +674,6 @@
 	    modifyButton.textContent = '⚠️ 삭제';
 	    modifyButton.onclick = delTableRow; // 클릭 이벤트를 canMod 함수로 변경
 	    
-	    document.getElementById('addrow').disabled = false; // 추가 버튼을 다시 활성화
 	    document.getElementById('modify').disabled = false; // 삭제 버튼 다시 활성화
 	}
 	</script>

@@ -98,33 +98,21 @@
 	            <table class="table">
 	              <thead>
 	                <tr>
-	                  <th>품목코드</th>
-	                  <th>품명</th>
-	                  <th>수량</th>
-	                  <th>재고량</th>
+	                  <th>소요량코드</th>
+	                  <th>제품명</th>
+	                  <th>원자재명</th>
+	                  <th>소요량</th>
 	                </tr>
 	              </thead>
-					<tr>
-						<td>PRO0001</td>
-						<td>양념소스</td>
-						<td>2</td>
-						<td>30</td>
-					</tr>
-					<tr>
-						<td>PRO0001</td>
-						<td>가공육</td>
-						<td>1</td>
-						<td>25</td>
-					</tr>
 	              <tbody>
-<%-- 					<c:forEach var="productionDTO" items="${lineList }"> --%>
-<!-- 					<tr> -->
-<%-- 						<td>${productionDTO.lineCode }</td> --%>
-<%-- 						<td>${productionDTO.lineName }</td> --%>
-<%-- 						<td>${productionDTO.update }</td> --%>
-<%-- 						<td>${productionDTO.name }</td> --%>
-<!-- 					</tr> -->
-<%-- 					</c:forEach> --%>
+					<c:forEach var="productionDTO" items="${reqList }">
+					<tr>
+						<td>${productionDTO.reqCode }</td>
+						<td>${productionDTO.proName1}(${productionDTO.pProCode })</td>
+						<td>${productionDTO.proName2}(${productionDTO.mProCode })</td>
+						<td>${productionDTO.reqVol }</td>
+					</tr>
+					</c:forEach>
 	              </tbody>
 	            </table>
 	          </div>

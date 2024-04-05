@@ -309,9 +309,67 @@ values(#{lineCode}, #{name}, #{lineStatus}, #{lineName}, #{update})
 </delete>
 
 <select id="getReq" resultType="com.itwillbs.domain.ProductDTO">
-	select REQ_CD "requiredCode", REQ_VOL "productName", PP_CD "perGood", MP_CD "productPName"
+	select REQ_CD "requiredCode", REQ_VOL "requiredVol", PP_CD "productPName", MP_CD "productName"
 	from REQUIRED
-	where PP_CD = #{productCode};
+	where PP_CD = #{productCode}
+</select>
+
+<select id="getReqDetail" resultType="com.itwillbs.domain.ProductionDTO">
+	select r.REQ_CD "reqCode", r.REQ_VOL "reqVol", r.PP_CD "pProCode", r.MP_CD "mProCode", p1.PRO_NAME "proName1", p2.PRO_NAME "proName2"
+	from REQUIRED r left join PRODUCT p1
+	on r.PP_CD = p1.PRO_CD
+	left join PRODUCT p2
+	on r.MP_CD = p2.PRO_CD
+	where PP_CD = #{productCode}
+</select>
+
+<update id="updateVol">
+	update PRODUCT
+	set PRO_VOL = #{prodcutVol}
+	where PRO_CD = #{productCode}
+</update>
+
+<select id="getProductVolToProCode" resultType="java.lang.Integer">
+	select PRO_VOL "productVol"
+	from PRODUCT
+	where PRO_CD = #{productCode}
+</select>
+
+<update id="addVol">
+	update PRODUCT
+	set PRO_VOL = #{vol}
+	where PRO_CD = #{productCode}
+</update>
+
+<select id="getPerGood" resultType="java.lang.Integer">
+	select PER_GOOD "perGood"
+	from PERFORMANCE
+	where PER_CD = #{perCode}
+</select>
+
+<select id="getPerACAToPerCode" resultType="java.lang.Integer">
+	select ACTUAL_COMPLETION_AMOUNT "perACA"
+	from PERFORMANCE
+	where PER_CD = #{perCode}
+</select>
+
+<select id="getProductCodeToPerCD" resultType="java.lang.String">
+	select i.PRO_CD "productCode"
+	from PERFORMANCE p left join INSTRUCTION i
+	on p.INS_CD = i.INS_CD
+	where PER_CD = #{perCode}
+</select>
+
+<insert id="insertMib">
+	insert into PINBOUND
+	values(#{pibCode}, #{name}, #{perCode}, #{perDate}, 0)
+</insert>
+
+<select id="getPibLastNum" resultType="java.lang.Integer">
+	SELECT REGEXP_REPLACE(PIB_CD, '[^0-9]', '') AS numbers_only
+	FROM PINBOUND
+	ORDER BY numbers_only DESC
+	LIMIT 1
 </select>
 
 </mapper>

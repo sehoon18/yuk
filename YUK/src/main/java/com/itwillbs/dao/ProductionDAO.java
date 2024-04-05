@@ -137,4 +137,40 @@ public class ProductionDAO {
 		return sqlSession.selectList(namespace + ".getReq", productionDTO);
 	}
 
+	public void updateVol(ProductDTO productDTO) {
+		sqlSession.update(namespace + ".updateVol", productDTO);
+	}
+
+	public int getProductVolToProCode(String productCode) {
+		return sqlSession.selectOne(namespace + ".getProductVolToProCode", productCode);
+	}
+
+	public void addVol(ProductionDTO productionDTO) {
+		sqlSession.update(namespace + ".addVol", productionDTO);
+	}
+
+	public int getPerGood(ProductionDTO productionDTO) {
+		return sqlSession.selectOne(namespace + ".getPerGood", productionDTO);
+	}
+
+	public int getPerACAToPerCode(ProductionDTO productionDTO) {
+		return sqlSession.selectOne(namespace + ".getPerACAToPerCode", productionDTO);
+	}
+
+	public String getProductCodeToPerCD(ProductionDTO productionDTO) {
+		return sqlSession.selectOne(namespace + ".getProductCodeToPerCD", productionDTO);
+	}
+
+	public List<ProductionDTO> getReqDetail(ProductionDTO productionDTO) {
+		return sqlSession.selectList(namespace + ".getReqDetail", productionDTO);
+	}
+
+	public void insertMib(ProductionDTO productionDTO) {
+		sqlSession.insert(namespace + ".insertMib", productionDTO);
+	}
+
+	public Integer getPibLastNum() {
+		return sqlSession.selectOne(namespace + ".getPibLastNum");
+	}
+
 }

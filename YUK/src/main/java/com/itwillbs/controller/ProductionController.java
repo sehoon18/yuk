@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.itwillbs.domain.PageDTO;
+import com.itwillbs.domain.ProductDTO;
 import com.itwillbs.domain.ProductionDTO;
 import com.itwillbs.service.ProductionService;
 
@@ -26,8 +27,25 @@ public class ProductionController {
 	private ProductionService productionService; 
 
 	@GetMapping("/test")
-	public String test() {
+	public String test(ProductionDTO productionDTO, Model model) {
 		System.out.println("ProductionController main()");
+		
+		productionDTO.setProductCode("PRo005");
+		List<ProductDTO> reqList = productionService.getReq(productionDTO);
+		model.addAttribute("reqList", reqList);
+	    // reqList가 비어있지 않은지 확인
+	    if (!reqList.isEmpty()) {
+			for (ProductDTO product : reqList) {
+			    int reqVol = product.getRequiredVol();
+			    System.out.println(reqVol);
+			}
+
+	    } else {
+	        // reqList가 비어있는 경우, 적절한 처리를 해줍니다. 예를 들어:
+	        System.out.println("reqList가 비어있습니다.");
+	        System.out.println(reqList);
+	    }
+		
 		return "production/test";
 	}
 	
@@ -102,7 +120,7 @@ public class ProductionController {
 		
 		model.addAttribute("lineList", lineList);
 		model.addAttribute("pageDTO", pageDTO);
-
+		
 		return "production/line";
 	}
 	
@@ -219,7 +237,6 @@ public class ProductionController {
 		pageDTO.setSearch4(request.getParameter("search4"));
 
 		String instructionStatus = (String)request.getParameter("search5");
-		System.out.println(pageDTO);
 		int instructionStatus1 = 4;
 		if(instructionStatus == null) {	
 			instructionStatus1 = 4;
@@ -272,9 +289,6 @@ public class ProductionController {
 		System.out.println(productionDTO);
 		productionDTO.setName("hong123");
 		
-		//원자재 소요
-		productionService.useMaterial(productionDTO);
-		
 		// 작업지시 입력
 		productionService.insertInstruction(productionDTO);
 		
@@ -312,9 +326,13 @@ public class ProductionController {
 	@GetMapping("/insDetailpop")
 	public String insDetailpop(Model model, ProductionDTO productionDTO) {
 		System.out.println("ProductionController insDetailpop()");
-		 
+		
 		productionDTO = productionService.getInstruction(productionDTO);
 		model.addAttribute("productionDTO", productionDTO);
+
+		List<ProductionDTO> reqList = productionService.getReqDetail(productionDTO);
+		model.addAttribute("reqList", reqList);
+		
 		
 		return "production/insDetailpop";
 	}
@@ -364,6 +382,7 @@ public class ProductionController {
 	public String insertPer(ProductionDTO productionDTO) {
 		System.out.println("ProductionController insertPer()");
 		
+//		productionDTO.setName("hong123");
 		productionService.insertPer(productionDTO);
 		
 		return "redirect:/production/performance";

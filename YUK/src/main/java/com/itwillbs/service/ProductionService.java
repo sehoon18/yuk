@@ -74,6 +74,7 @@ public class ProductionService {
 		}
 		productionDTO.setInstructionCode(instructionCode);
 		
+
 		// 라인 상태 변경
 		productionDAO.switchLineStatus(productionDTO);
 		// 작업 지시 insert
@@ -135,6 +136,25 @@ public class ProductionService {
 		productionDTO = productionDAO.getInstruction(productionDTO); // instructionCode로 line코드 생성
 		productionDAO.switchLineStatus0(productionDTO);// 연결된 라인 상태를 0(대기)으로 변경
 		productionDAO.updateInsStatus(productionDTO); // 작업지시 상태 2(완료)로 변경
+		
+		// instructionCode로 INS_CD, PRO_CD 가져오기
+		productionDTO = productionDAO.getInstruction(productionDTO);
+		
+		// PRO_CD로 REQ_CD 가져오기
+		List<ProductDTO> reqList = productionDAO.getReq(productionDTO);
+		
+		//원자재 소요
+		for (int i = 0; i < reqList.size(); i++) {
+			ProductDTO productDTO = new ProductDTO(); 
+		    int fvol = reqList.get(i).getRequiredVol() * productionDTO.getInsVol(); // 소요량 * 지시수량
+		    String productCode = reqList.get(i).getProductName();
+		    productDTO.setProductCode(productCode);
+		    int mvol = productionDAO.getProductVolToProCode(productCode);
+		    int Lvol = mvol - fvol;	// 재고 - (소요량*지시수량)
+		    productDTO.setProdcutVol(Lvol);
+		    productionDAO.updateVol(productDTO); // 재고- (소요량*지시수량) 저장
+		}
+
 	}
 
 	public Integer getInsLastNum() {
@@ -157,7 +177,6 @@ public class ProductionService {
 	}
 
 	public void insertPer(ProductionDTO productionDTO) {
-		
 		Integer perLastNum = productionDAO.getPerLastNum();
 		String perCode;
 		if (perLastNum == null) {
@@ -180,6 +199,31 @@ public class ProductionService {
 		
 		System.out.println(productionDTO);
 		productionDAO.insertPer(productionDTO);
+		
+//		// 재고 추가
+//		if(productionDTO.getPerGood() == 0) {
+//			int proVol = productionDAO.getProductVolToProCode(productionDTO.getProductCode());
+//			int fvol = proVol + productionDTO.getPerACA(); // 재고 + 양품수량
+//			productionDTO.setVol(fvol);
+//			productionDAO.addVol(productionDTO);
+//		}
+		
+		Integer pibLastNum = productionDAO.getPibLastNum();
+		String pibCode;
+		if (pibLastNum == null) {
+			pibCode = "PIB001";
+		} else {
+		    int nextNum = pibLastNum + 1;
+		    if (nextNum < 10) {
+		    	pibCode = String.format("PIB00%d", nextNum);
+		    } else if (nextNum < 100) {
+		    	pibCode = String.format("PIB0%d", nextNum);
+		    } else {
+		    	pibCode = String.format("PIB%d", nextNum);
+		    }
+		}
+		productionDTO.setPibCode(pibCode);
+		productionDAO.insertMib(productionDTO);
 	}
 
 	public List<ProductionDTO> getPerList(ProductionDTO productionDTO) {
@@ -195,6 +239,29 @@ public class ProductionService {
 	}
 
 	public void updatePer(ProductionDTO productionDTO) {
+		
+		// 재고 추가
+		int proVol = productionDAO.getProductVolToProCode(productionDTO.getProductCode());	// 재고
+		int ovol = productionDAO.getPerACAToPerCode(productionDTO);							// 원래 기입 실적
+		int fvol = 0;																		// 최종 재고
+		
+		if(productionDTO.getPerGood() == 0) {
+			if(productionDAO.getPerGood(productionDTO) == 0) {
+				int cvol = productionDTO.getPerACA() - ovol; 	// 현재기입실적 - 원래기입실적
+				fvol = proVol + cvol; 							// 재고 + 수정수량
+			} else if (productionDAO.getPerGood(productionDTO) == 1) {
+				fvol = proVol + productionDTO.getPerACA();		// 재고 + 현재기입실적
+			}
+			
+		} else if(productionDTO.getPerGood() == 1) {
+			if(productionDAO.getPerGood(productionDTO) == 0) {
+				fvol = proVol - ovol; 		// 재고 + 현재기입실적
+			} else if (productionDAO.getPerGood(productionDTO) == 1) {
+				fvol = proVol;
+			}
+		}
+		productionDTO.setVol(fvol);
+		productionDAO.addVol(productionDTO);
 		productionDAO.updatePer(productionDTO);
 	}
 
@@ -203,6 +270,17 @@ public class ProductionService {
 	}
 
 	public void deletePer(ProductionDTO productionDTO) {
+		// 재고 감소
+		String productCode = productionDAO.getProductCodeToPerCD(productionDTO);
+		productionDTO.setProductCode(productCode);
+		int proVol = productionDAO.getProductVolToProCode(productCode);		// 재고
+		int ovol = productionDAO.getPerACAToPerCode(productionDTO);			// 원래 기입 실적
+		int fvol = 0;														// 최종 재고
+		if(productionDAO.getPerGood(productionDTO) == 0) {
+			fvol = proVol - ovol;
+			productionDTO.setVol(fvol);
+			productionDAO.addVol(productionDTO);
+		}
 		productionDAO.deletePer(productionDTO);
 	}
 
@@ -227,9 +305,8 @@ public class ProductionService {
 		return productionDAO.getReq(productionDTO);
 	}
 
-	public void useMaterial(ProductionDTO productionDTO) {
-		productionDTO.getInstructionCode();
-		
+	public List<ProductionDTO> getReqDetail(ProductionDTO productionDTO) {
+		return productionDAO.getReqDetail(productionDTO);
 	}
 
 }
