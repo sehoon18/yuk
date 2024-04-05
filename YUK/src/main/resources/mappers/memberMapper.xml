@@ -30,4 +30,29 @@ and USER_NAME like concat('%',#{name},'%')
 order by USER_ID
 </select>
 
+<insert id="insertMember">
+insert into USER(USER_ID,USER_NAME,USER_PASS,USER_PHONE,USER_PERM)
+values(#{id}, #{name}, #{pass}, #{phone}, #{permission})
+</insert>
+
+<update id="updateMember">
+update USER
+SET USER_PERM = #{permission}
+where USER_ID = #{id}
+</update>
+
+<delete id="deleteMember">
+delete
+from USER
+WHERE USER_ID = #{id}
+</delete>
+
+
+
+
+
+
+
+
+
 </mapper>

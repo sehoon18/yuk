@@ -11,12 +11,14 @@ public class MemberDTO {
 	private List<AuthDTO> authList; // 시큐리티 권한
 	
 	
+	
+	
+	
 	@Override
 	public String toString() {
-		return "MemberDTO [name=" + name + ", id=" + id + ", pass=" + pass + ", phone=" + phone + ", permission="
+		return "MemberDTO [id=" + id + ", name=" + name + ", pass=" + pass + ", phone=" + phone + ", permission="
 				+ permission + "]";
 	}
-	
 	
 	public String getName() {
 		return name;

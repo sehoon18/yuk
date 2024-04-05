@@ -26,5 +26,18 @@ public class MemberService {
 		return memberDAO.searchMemberList(memberDTO);
 	}
 
+	public void insertMember(MemberDTO memberDTO) {
+		memberDAO.insertMember(memberDTO);
+	}
+
+	public void updateMember(MemberDTO memberDTO) {
+		System.out.println(memberDTO);
+		memberDAO.updateMember(memberDTO);
+	}
+
+	public void deleteMember(MemberDTO memberDTO) {
+		memberDAO.deleteMember(memberDTO);
+	}
+
 
 }

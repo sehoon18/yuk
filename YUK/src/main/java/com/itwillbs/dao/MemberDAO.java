@@ -28,4 +28,17 @@ public class MemberDAO {
 		return sqlSession.selectList(namespace + ".searchMemberList",memberDTO);
 	}
 
+	public void insertMember(MemberDTO memberDTO) {
+		sqlSession.insert(namespace + ".insertMember",memberDTO);
+	}
+
+	public void updateMember(MemberDTO memberDTO) {
+		System.out.println(memberDTO);
+		sqlSession.update(namespace + ".updateMember",memberDTO);
+	}
+
+	public void deleteMember(MemberDTO memberDTO) {
+		sqlSession.delete(namespace + ".deleteMember",memberDTO);
+	}
+
 }
