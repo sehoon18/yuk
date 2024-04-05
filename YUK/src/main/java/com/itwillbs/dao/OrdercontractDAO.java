@@ -51,4 +51,12 @@ import com.itwillbs.domain.ProductionDTO;
 		public void deleteContract(OrdercontractDTO ordercontractDTO) {
 			sqlSession.delete(namespace + ".deleteContract", ordercontractDTO);
 		}
+		public OrdercontractDTO getOrder(OrdercontractDTO ordercontractDTO) {
+			
+			return sqlSession.selectOne(namespace+".getOrder",ordercontractDTO);
+		}
+		public OrdercontractDTO getContract(OrdercontractDTO ordercontractDTO) {
+			
+			return sqlSession.selectOne(namespace+".getContract",ordercontractDTO);
+		}
 }

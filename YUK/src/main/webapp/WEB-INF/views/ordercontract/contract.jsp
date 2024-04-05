@@ -54,7 +54,7 @@
             <div>
            
                 <button class="btn btn-primary btn-sm" type="submit" onclick="addpopup();" style="margin-top:22px !important;">등록</button>
-                <button class="btn btn-primary btn-sm" type="submit" style="margin-top:22px !important;">저장</button>
+<!--                 <button class="btn btn-primary btn-sm" type="submit" style="margin-top:22px !important;">저장</button> -->
             </div>
         </div>
             <div class="card-body">
@@ -88,7 +88,7 @@
      	<td ><fmt:formatDate value="${OrdercontractDTO.con_due_date}" pattern="yyyy.MM.dd"/></td> 
 <%--     	<td >${OrdercontractDTO.user_id}</td> --%> 
     	<td >${OrdercontractDTO.con_info_status}</td>
-		<td ><input type="button" value="상세" onclick="popup();" /></td>
+		<td ><input type="button" value="상세" onclick="popup('${OrdercontractDTO.con_cd}');" /></td>
 	</tr> 
 
     </c:forEach> 
@@ -110,13 +110,13 @@
                     </div>
                 </div>
             </footer>
-        </div>
+        
   
      <script>
 	  // 인풋 창을 클릭하면 팝업을 엽니다.
-	  function popup() {
-	    var popup = window.open("${pageContext.request.contextPath}/popup/contractdeletepopup", "popup", "width=1600,height=300");
-	    
+	  function popup(con_cd) {
+		  var popup = window.open("${pageContext.request.contextPath}/ordercontract/contractdeletepopup?con_cd="+con_cd, "popup", "width=1600,height=600");
+	        
 	    if (popup === null || typeof(popup) === 'undefined') {
 	      alert('팝업이 차단되었습니다. 팝업 차단을 해제하고 다시 시도해주세요.');
 	    } else {

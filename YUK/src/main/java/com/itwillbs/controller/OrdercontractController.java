@@ -99,7 +99,7 @@ public class OrdercontractController {
 		Timestamp today = new Timestamp(System.currentTimeMillis());
 		ordercontractDTO.setOrd_date(today);
 		ordercontractDTO.setUser_id("hong123");
-		ordercontractDTO.setOrd_cd(request.getParameter("ord_cd"));
+		ordercontractDTO.getOrd_cd();
 		ordercontractService.updateOrder(ordercontractDTO);
 		System.out.println(ordercontractDTO);
 		
@@ -149,9 +149,12 @@ public class OrdercontractController {
 			System.out.println("OrdercontractController orderdeletepopup()");
 			String ord_cd = request.getParameter("ord_cd");
 			ordercontractDTO.setOrd_cd(ord_cd);
+			ordercontractDTO=ordercontractService.getOrder(ordercontractDTO);
+			System.out.println(ordercontractDTO);
 			model.addAttribute("ordercontractDTO", ordercontractDTO);
 			return "popup/orderdeletepopup";
 		}
+		
 		@GetMapping("/contractaddpopup")
 		public String contractaddpopup(OrdercontractDTO ordercontractDTO, Model model) {
 			System.out.println("OrdercontractController contractaddpopup()");
@@ -177,32 +180,39 @@ public class OrdercontractController {
 			return "popup/contractaddpopup";
 		}
 		@GetMapping("/contractdeletepopup")
-		public String contractdeletepopup(OrdercontractDTO ordercontractDTO, Model model) {
+		public String contractdeletepopup(HttpServletRequest request,OrdercontractDTO ordercontractDTO, Model model) {
 			System.out.println("OrdercontractController contractdeletepopup()");
-			
-			// instructionCode 생성
-			Integer conLastNum = ordercontractService.getConLastNum();
-			
-			String con_cd;
-			if (conLastNum == null) {
-				con_cd = "CON001";
-			} else {
-			    int nextNum = conLastNum + 1;
-			    if (nextNum < 10) {
-			    	con_cd = String.format("CON00%d", nextNum);
-			    } else if (nextNum < 100) {
-			    	con_cd = String.format("CON0%d", nextNum);
-			    } else {
-			    	con_cd = String.format("CON%d", nextNum);
-			    }
-			}
+			String con_cd = request.getParameter("con_cd");
 			ordercontractDTO.setCon_cd(con_cd);
+			ordercontractDTO=ordercontractService.getContract(ordercontractDTO);
+			System.out.println(ordercontractDTO);
 			model.addAttribute("ordercontractDTO", ordercontractDTO);
 			return "popup/contractdeletepopup";
 		}
 	
-	
-	
+		@PostMapping("/deleteOrder")
+		public String deleteOrder(  HttpServletRequest request,OrdercontractDTO ordercontractDTO) {
+			System.out.println("OrdercontractController deleteorder()");
+			System.out.println(ordercontractDTO);
+			String ord_cd = request.getParameter("ord_cd");
+			ordercontractDTO.setOrd_cd(ord_cd);
+			ordercontractService.deleteOrder(ordercontractDTO);
+			System.out.println(ordercontractDTO);
+			
+			return "ordercontract/order";
+		}
+		@PostMapping("/deleteContract")
+		public String deleteContract( HttpServletRequest request,OrdercontractDTO ordercontractDTO) {
+			System.out.println("OrdercontractController deletecontract()");
+			System.out.println(ordercontractDTO);
+			String con_cd = request.getParameter("con_cd");
+			ordercontractDTO.setCon_cd(con_cd);
+			ordercontractService.deleteContract(ordercontractDTO);
+			System.out.println(ordercontractDTO);
+			
+//			return ResponseEntity.ok().body("{\"message\": \"등록 성공!\"}");
+			return "ordercontract/contract";
+		}
 	
 	
 }
