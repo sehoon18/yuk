@@ -103,7 +103,7 @@
 	</where>
 </select>
 
-<select id="ord_cdFromMib_cd">
+<select id="ord_cdFromMib_cd" resultType="com.itwillbs.domain.BoundDTO">
 	select m.ord_cd
 	from MINBOUND m
 	join ORDERS o
@@ -118,17 +118,33 @@
 	where mib_cd = #{mib_cd}
 </update>
 
-<!-- <update id="inBoundPro1_1"> -->
-<!-- 	update PRODUCT -->
-<!-- 	set pro_vol = pro_vol + #자재 입고 수량 -->
-<!-- 	where pro_cd = #뭐시기 -->
-<!-- </update> -->
+<select id="pro_cdFromOrd_cd" resultType="com.itwillbs.domain.BoundDTO">
+	select o.pro_cd, o.ord_vol, p.pro_vol
+	from ORDERS o
+	join PRODUCT p
+	on o.pro_cd = p.pro_cd
+	where o.ord_cd = #{ord_cd}
+</select>
+
+<update id="inBoundPro1_1">
+	update PRODUCT
+	set pro_vol = pro_vol + #{ord_vol}
+	where pro_cd = #{pro_cd}
+</update>
 
 <update id="inBoundPro1_2">
 	update ORDERS
 	set ord_info_status = 2
 	where ord_cd = #{ord_cd}
 </update>
+
+<!-- <select id="per_cdFromPib_cd" resultType="com.itwillbs.domain.BoundDTO"> -->
+<!-- 	select p.per_cd -->
+<!-- 	from PINBOUND p -->
+<!-- 	join PERFORMANCE pe -->
+<!-- 	on p.per_cd = pe.per_cd -->
+<!-- 	where p.pib_cd = #{pib_cd} -->
+<!-- </select> -->
 
 <update id="inBoundPro2">
 	update PINBOUND
@@ -141,13 +157,6 @@
 <!-- 	update PRODUCT -->
 <!-- 	set pro_vol = pro_vol + #제품 입고 수량 -->
 <!-- 	where pro_cd = #뭐시기 -->
-<!-- </update> -->
-
-<!-- <update id="inBoundPro2_2"> -->
-<!-- 	update MINBOUND -->
-<!-- 	set mib_info_status = 1, -->
-<!-- 		mib_date = now() -->
-<!-- 	where mib_cd = #{mib_cd} -->
 <!-- </update> -->
 
 <select id="getOutBoundBoardList" resultType="com.itwillbs.domain.BoundDTO">
@@ -196,6 +205,14 @@
 	</where>
 </select>
 
+<select id="con_cdFromOb_cd" resultType="com.itwillbs.domain.BoundDTO">
+	select o.con_cd
+	from OUTBOUND o
+	join CONTRACT c
+	on o.con_cd = c.con_cd
+	where o.ob_cd = #{ob_cd}
+</select>
+
 <update id="outBoundPro">
 	update OUTBOUND
 	set ob_info_status = 1,
@@ -209,12 +226,11 @@
 <!-- 	where pro_cd = #뭐시기 -->
 <!-- </update> -->
 
-<!-- <update id="outBoundPro_2"> -->
-<!-- 	update OUTBOUND -->
-<!-- 	set ob_info_status = 1, -->
-<!-- 		ob_date = now() -->
-<!-- 	where ob_cd = #{ob_cd} -->
-<!-- </update> -->
+<update id="outBoundPro_2">
+	update CONTRACT
+	set con_info_status = 2
+	where con_cd = #{con_cd}
+</update>
 
 
 </mapper>

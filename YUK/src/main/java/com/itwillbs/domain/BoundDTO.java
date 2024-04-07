@@ -30,6 +30,16 @@ public class BoundDTO {
 	
 	
 	
+	@Override
+	public String toString() {
+		return "BoundDTO [mib_cd=" + mib_cd + ", pib_cd=" + pib_cd + ", ord_cd=" + ord_cd + ", user_id=" + user_id
+				+ ", per_cd=" + per_cd + ", mib_date=" + mib_date + ", pib_date=" + pib_date + ", mib_info_status="
+				+ mib_info_status + ", pib_info_status=" + pib_info_status + ", ob_cd=" + ob_cd + ", con_cd=" + con_cd
+				+ ", ob_date=" + ob_date + ", ob_info_status=" + ob_info_status + ", ord_vol=" + ord_vol + ", con_vol="
+				+ con_vol + ", pro_cd=" + pro_cd + ", actual_completion_amount=" + actual_completion_amount
+				+ ", per_good=" + per_good + ", wh_name=" + wh_name + ", pro_name=" + pro_name + ", pro_type="
+				+ pro_type + ", ins_cd=" + ins_cd + ", pro_vol=" + pro_vol + "]";
+	}
 	public int getPro_vol() {
 		return pro_vol;
 	}

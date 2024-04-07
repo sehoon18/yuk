@@ -71,10 +71,11 @@ public class BoundService {
 	public void inBoundPro1(BoundDTO boundDTO) {	//자재 입고 처리
 		System.out.println("BoundService inBoundPro1()");
 		boundDAO.inBoundPro1(boundDTO);
-		String ord_cd1 = boundDAO.getOrd_cdFromMib_cd(boundDTO.getMib_cd());
-		System.out.println("ord_cd1 = " + ord_cd1);
-		boundDTO.setOrd_cd(ord_cd1);
+		boundDTO = boundDAO.getOrd_cdFromMib_cd(boundDTO); //mib_cd로 ord_cd select
 		boundDAO.inBoundPro1_2(boundDTO);
+		boundDTO = boundDAO.getPro_cdFromOrd_cd(boundDTO); //ord_cd로 pro_cd, ord_vol, pro_vol select
+		boundDAO.inBoundPro1_1(boundDTO);
+		System.out.println(boundDTO);
 	}//inBoundPro1()
 	
 	public void inBoundPro2(BoundDTO boundDTO) {
@@ -109,10 +110,12 @@ public class BoundService {
 		return boundDAO.getOutBoundBoardCount(pageDTO);
 	}//getOutBoundBoardCount()
 	
-	public void outBoundPro(BoundDTO boundDTO) {
+	public void outBoundPro(BoundDTO boundDTO) { //제품 출고 처리
 		System.out.println("BoundService outBoundPro()");
 		
 		boundDAO.outBoundPro(boundDTO);
+		boundDTO = boundDAO.getCon_cdFromOb_cd(boundDTO); //ob_cd로 con_cd select
+		boundDAO.outBoundPro_2(boundDTO);
 	}//outBoundPro()
 	
 }
