@@ -68,10 +68,13 @@ public class BoundService {
 		return boundDAO.getInBoundBoardCount2(pageDTO);
 	}//getInBoundBoardCount2()
 
-	public void inBoundPro1(BoundDTO boundDTO) {
+	public void inBoundPro1(BoundDTO boundDTO) {	//자재 입고 처리
 		System.out.println("BoundService inBoundPro1()");
-		
 		boundDAO.inBoundPro1(boundDTO);
+		String ord_cd1 = boundDAO.getOrd_cdFromMib_cd(boundDTO.getMib_cd());
+		System.out.println("ord_cd1 = " + ord_cd1);
+		boundDTO.setOrd_cd(ord_cd1);
+		boundDAO.inBoundPro1_2(boundDTO);
 	}//inBoundPro1()
 	
 	public void inBoundPro2(BoundDTO boundDTO) {

@@ -103,6 +103,14 @@
 	</where>
 </select>
 
+<select id="ord_cdFromMib_cd">
+	select m.ord_cd
+	from MINBOUND m
+	join ORDERS o
+	on m.ord_cd = o.ord_cd
+	where m.mib_cd = #{mib_cd}
+</select>
+
 <update id="inBoundPro1">
 	update MINBOUND
 	set mib_info_status = 1,
@@ -116,6 +124,12 @@
 <!-- 	where pro_cd = #뭐시기 -->
 <!-- </update> -->
 
+<update id="inBoundPro1_2">
+	update ORDERS
+	set ord_info_status = 2
+	where ord_cd = #{ord_cd}
+</update>
+
 <update id="inBoundPro2">
 	update PINBOUND
 	set pib_info_status = 1,
@@ -127,6 +141,13 @@
 <!-- 	update PRODUCT -->
 <!-- 	set pro_vol = pro_vol + #제품 입고 수량 -->
 <!-- 	where pro_cd = #뭐시기 -->
+<!-- </update> -->
+
+<!-- <update id="inBoundPro2_2"> -->
+<!-- 	update MINBOUND -->
+<!-- 	set mib_info_status = 1, -->
+<!-- 		mib_date = now() -->
+<!-- 	where mib_cd = #{mib_cd} -->
 <!-- </update> -->
 
 <select id="getOutBoundBoardList" resultType="com.itwillbs.domain.BoundDTO">
@@ -186,6 +207,13 @@
 <!-- 	update PRODUCT -->
 <!-- 	set pro_vol = pro_vol + #수주량 -->
 <!-- 	where pro_cd = #뭐시기 -->
+<!-- </update> -->
+
+<!-- <update id="outBoundPro_2"> -->
+<!-- 	update OUTBOUND -->
+<!-- 	set ob_info_status = 1, -->
+<!-- 		ob_date = now() -->
+<!-- 	where ob_cd = #{ob_cd} -->
 <!-- </update> -->
 
 

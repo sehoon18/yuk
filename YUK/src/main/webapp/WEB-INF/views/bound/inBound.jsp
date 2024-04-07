@@ -123,7 +123,7 @@
                     <tbody>
         <c:forEach var="boundDTO" items="${inBoundBoardList}">
     	<tr>
-   			<td id="ib">${boundDTO.mib_cd}</td>
+   			<td>${boundDTO.mib_cd}</td>
     		<td>${boundDTO.ord_cd}</td>
 <%--     		ord_cd에 링크 경로 발주서 onClick="location.href='${pageContext.request.contextPath}/폴더/파일?ord_cd=${DTO파일.ord_cd }'" --%>
     	    <td>
