@@ -141,8 +141,8 @@
 
         
         // 각 열에 대한 셀과 입력 필드 생성
-        const fields = ['id', 'name', 'pass', 'phone', 'permission'];
-        const exampleData = ['${memberDTO.id}', '', '', '', '0'];
+        const fields = ['id', 'name', 'pass', 'phone', 'permission', '${_csrf.parameterName}'];
+        const exampleData = ['${memberDTO.id}', '', '', '', '0', '${_csrf.token}'];
 
         fields.forEach((field, index) => {
             const cell = newRow.insertCell(index);
@@ -178,6 +178,11 @@
             else if(field === 'phone'){
                 input = document.createElement("input");
                 input.type = "text";
+                input.className = "form-control";
+            }
+            else if(field === '${_csrf.parameterName}'){
+                input = document.createElement("input");
+                input.type = "hidden";
                 input.className = "form-control";
             }
             else {

@@ -165,12 +165,16 @@ public class ProductionDAO {
 		return sqlSession.selectList(namespace + ".getReqDetail", productionDTO);
 	}
 
-	public void insertMib(ProductionDTO productionDTO) {
+	public void insertPib(ProductionDTO productionDTO) {
 		sqlSession.insert(namespace + ".insertMib", productionDTO);
 	}
 
 	public Integer getPibLastNum() {
 		return sqlSession.selectOne(namespace + ".getPibLastNum");
+	}
+
+	public void deletePib(ProductionDTO productionDTO) {
+		sqlSession.delete(namespace + ".deleteMib", productionDTO);
 	}
 
 }

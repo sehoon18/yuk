@@ -56,7 +56,7 @@
         <div class="card">
             <div class="card-body">
             <div class="card-header" style="padding: 27.2px 22.4px 3px 22.4px;">
-			<form action="${pageContext.request.contextPath}/production/line" method="get">
+			<form action="${pageContext.request.contextPath}/production/line" method="post">
 				<div class="col-lg-2 col-3" style="display: flex; align-items: center; white-space: nowrap;">
 				<div style="flex: 0 1 auto; margin-right: 10px;"><b>라인코드</b></div>
 					<input type="text" id="lineCode" class="form-control" name="search1" style="flex: 1 1 auto; width: auto; background-color: white;" placeholder="라인코드를 입력하세요">
@@ -189,8 +189,8 @@
 
         
         // 각 열에 대한 셀과 입력 필드 생성
-        const fields = ['lineCode', 'lineName', 'update', 'name', 'lineStatus'];
-        const exampleData = ['${productionDTO.lineCode}', '', dateStr, '', '0'];
+        const fields = ['lineCode', 'lineName', 'update', 'name', 'lineStatus', '${_csrf.parameterName}'];
+        const exampleData = ['${productionDTO.lineCode}', '', dateStr, '', '0', '${_csrf.token}'];
 
         fields.forEach((field, index) => {
             const cell = newRow.insertCell(index);
@@ -217,6 +217,11 @@
                 input.type = "text";
                 input.className = "form-control";
                 input.readOnly = true; // 입력 필드를 읽기 전용으로 설정
+            }
+            else if(field === '${_csrf.parameterName}'){
+                input = document.createElement("input");
+                input.type = "hidden";
+                input.className = "form-control";
             }
             else {
                 input = document.createElement("input");
@@ -455,7 +460,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             }
                         })
                         .catch((error) => {
-                            console.error('Error:', error);
+//                             console.error('Error:', error);
                         });
                     }
                 }
@@ -505,66 +510,36 @@ function canMod2() {
 
 <script>
 // 추가 - 빈칸이 있을 때 알림
-document.addEventListener('DOMContentLoaded', function() {
-    var form = document.getElementById('dataForm');
+// document.addEventListener('DOMContentLoaded', function() {
+//     var form = document.getElementById('dataForm');
 
-    if (form) { // 폼이 존재하는지 확인
-        form.addEventListener('submit', function(e) {
-            // 모든 'form-control' 클래스를 가진 입력 필드 검사
-            var inputFields = document.querySelectorAll('.form-control');
-            var isEmptyFieldPresent = Array.from(inputFields).some(function(input) {
-                return input.value.trim() === ''; // 비어있는 입력 필드가 있는지 확인
-            });
+//     if (form) { // 폼이 존재하는지 확인
+//         form.addEventListener('submit', function(e) {
+//             // 모든 'form-control' 클래스를 가진 입력 필드 검사
+//             var inputFields = document.querySelectorAll('.form-control');
+//             var isEmptyFieldPresent = Array.from(inputFields).some(function(input) {
+//                 return input.value.trim() === ''; // 비어있는 입력 필드가 있는지 확인
+//             });
 
-            if (isEmptyFieldPresent) { // 하나라도 비어있는 입력 필드가 있으면
-                Swal.fire({
-                	  title: "빈칸을 채워주세요.",
-                	  width: 600,
-                	  padding: "3em",
-                	  color: "#00ff0000",
-                	  background: "#fff",
-                	  backdrop: `
-                	    rgba(ff,ff,ff,0)
-                	    left top
-                	    no-repeat
-                	  `
-                	});
-                e.preventDefault(); // 폼 제출 중단
-            }
-        });
-    }
-});
+//             if (isEmptyFieldPresent) { // 하나라도 비어있는 입력 필드가 있으면
+//                 Swal.fire({
+//                 	  title: "빈칸을 채워주세요.",
+//                 	  width: 600,
+//                 	  padding: "3em",
+//                 	  color: "#00ff0000",
+//                 	  background: "#fff",
+//                 	  backdrop: `
+//                 	    rgba(ff,ff,ff,0)
+//                 	    left top
+//                 	    no-repeat
+//                 	  `
+//                 	});
+//                 e.preventDefault(); // 폼 제출 중단
+//             }
+//         });
+//     }
+// });
 </script>
     
-	<script>
-// 		라인코드 중복검사
-// 	    $(function() {
-// 	        $('#dataForm').submit(function(e){
-//     			e.preventDefault(); // 기본 submit 이벤트를 방지
-    			
-// 	            $.ajax({
-// 	                type: 'GET',
-// 	                url: '${pageContext.request.contextPath}/production/lineNameCheck',
-// 	                data: {'lineCode' : $('input[name="lineCode"]').val()},
-// 	                dataType: 'html',
-// 	                success: function(result) {
-// 	                    if(result == "lcdup") {
-// 	                    	alert("라인코드 중복");
-// 	                    } else if (result == "lcok") {
-// 	                    	alert("추가 완료");
-// 	                        submitFormDirectly();
-// 	                    } else{
-// 	                    	alert("에러발생");
-// 	                    }
-// 	                }
-// 	            });
-// 	        });
-// 	        // 폼을 직접 제출하는 함수
-// 	        function submitFormDirectly() {
-// 	            // 이벤트 핸들러를 우회하여 폼 제출
-// 	            document.getElementById('dataForm').submit();
-// 	        }
-// 	    });
-	</script>
 </body>
 </html>

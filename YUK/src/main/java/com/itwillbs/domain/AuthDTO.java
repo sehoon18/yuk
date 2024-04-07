@@ -1,20 +1,20 @@
 package com.itwillbs.domain;
 
 public class AuthDTO {
-	private String userid;
+	private String id;
 	private String auth;
 
 	@Override
 	public String toString() {
-		return "AuthDTO [userid=" + userid + ", auth=" + auth + "]";
+		return "AuthDTO [id=" + id + ", auth=" + auth + "]";
 	}
 
-	public String getUserid() {
-		return userid;
+	public String getId() {
+		return id;
 	}
 
-	public void setUserid(String userid) {
-		this.userid = userid;
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public String getAuth() {

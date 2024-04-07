@@ -2,31 +2,41 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:security="http://www.springframework.org/schema/security"
-	xsi:schemaLocation="http://www.springframework.org/schema/security 
-		http://www.springframework.org/schema/security/spring-security.xsd
-		http://www.springframework.org/schema/beans 
-		http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/security 
+		http://www.springframework.org/schema/security/spring-security.xsd">
+		
+<!-- 	<bean id="customAccessDenied" class="com.itwillbs.security.CustomAccessDeniedHandler"></bean> -->
+<!-- 	<bean id="customLoginSuccess" class="com.itwillbs.security.CustomLoginSuccessHandler"></bean> -->
+<!-- 	<bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></bean> -->
+<!-- 	<bean id="customUserDetailsService" class="com.itwillbs.security.CustomUserDetailsService"></bean> -->
+	
+<!-- 	<security:http> -->
+<!-- 	    <security:intercept-url pattern="/resources/assets/**" access="hasAnyRole('ROLE_ADMIN', 'ROLE_PRODUCT', 'ROLE_BOUND', 'ROLE_OC', 'ROLE_PRODUCTION', 'ROLE_NONE')"/> -->
+<!-- 	    <security:intercept-url pattern="/resources/fonts/**" access="hasAnyRole('ROLE_ADMIN', 'ROLE_PRODUCT', 'ROLE_BOUND', 'ROLE_OC', 'ROLE_PRODUCTION', 'ROLE_NONE')"/> -->
+<!-- 		<security:intercept-url pattern="/member/main" access="hasAnyRole('ROLE_ADMIN', 'ROLE_PRODUCT', 'ROLE_BOUND', 'ROLE_OC', 'ROLE_PRODUCTION', 'ROLE_NONE')"/> -->
 
-<bean id="customAccessDenied" class="com.itwillbs.security.CustomAccessDeniedHandler"></bean>
-<bean id="customLoginSuccess" class="com.itwillbs.security.CustomLoginSuccessHandler"></bean>
-<bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></bean>
+	<!-- 	<security:intercept-url pattern="/member/main" access="hasRole('ROLE_NONE')"/> -->
+	<!-- 	<security:intercept-url pattern="/production/line" access="hasRole('ROLE_PRODUCTION')"/> -->
+	<!-- 	<security:intercept-url pattern="/member/main" access="hasRole('ROLE_MEMBER')"/> -->
 
-<security:http>
-<!-- 	<security:intercept-url pattern="/member/main" access="permitALl"/> -->
-	<security:intercept-url pattern="/production/line" access="hasRole('ROLE_PRODUCTION')"/>
-	<security:intercept-url pattern="/member/main" access="hasRole('ROLE_MEMBER')"/>
-	<security:form-login/>
-	<security:form-login login-page="/member/memberLogin" authentication-success-handler-ref="customLoginSuccess"/>
-	<security:access-denied-handler ref="customAccessDenied"/>
-</security:http>
-
-<security:authentication-manager>
-	<security:authentication-provider>
-		<security:jdbc-user-service data-source-ref="dataSource"
-		users-by-username-query="select user_id, user_pass, enabled from USER where user_id = ?"
-		authorities-by-username-query="select user_id, auth from USER_AUTH where user_id = ?"/>
-		<security:password-encoder ref="bcryptPasswordEncoder"/>
-	</security:authentication-provider>
-</security:authentication-manager>
+<!-- 	    <security:form-login  -->
+<!-- 	        login-page="/member/memberLogin"  -->
+<!-- 	        username-parameter="id" -->
+<!-- 	        password-parameter="pass" -->
+<!-- 	        authentication-success-handler-ref="customLoginSuccess"/> -->
+<!--         <security:access-denied-handler ref="customAccessDenied"/> -->
+<!-- 	</security:http> -->
+	
+<!-- 	<security:authentication-manager> -->
+<!-- 		<security:authentication-provider> -->
+		
+<!-- 			<security:jdbc-user-service data-source-ref="dataSource" -->
+<!-- 			users-by-username-query="select user_id, user_pass, enabled from USER where user_id = ?" -->
+<!-- 			authorities-by-username-query="select user_id, auth from USER_AUTH where user_id = ?"/> -->
+<!-- 			<security:password-encoder ref="bcryptPasswordEncoder"/> -->
+<!-- 		</security:authentication-provider> -->
+<!-- 	</security:authentication-manager> -->
 
 </beans>

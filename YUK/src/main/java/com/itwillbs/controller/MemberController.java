@@ -6,6 +6,8 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,9 +29,17 @@ public class MemberController {
 	
 	// 로그인 페이지
 	@GetMapping("/memberLogin")
-	public String memberLogin() {
+	public void memberLogin(String error, String logout, Model model) {
 		System.out.println("MemberController memberLogin()");
-		return "member/memberLogin";
+//		System.out.println(error);
+//		System.out.println(logout);
+		
+		if(error != null) {
+			model.addAttribute("error", "LoginError");
+		}
+		if(logout != null) {
+			model.addAttribute("login", "login");
+		}
 	}
 	
 	// 로그인 기능
@@ -46,22 +56,20 @@ public class MemberController {
 			redirectAttributes.addFlashAttribute("message", "아이디/비밀번호가 일치하지 않습니다.");
 			return "redirect:/member/memberLogin";
 		}
-		
 	}
-	
+
 	@PostMapping("/logout")
 	public String logout(HttpSession session) {
 		System.out.println("logout");
 		session.invalidate();
 		return "member/memberLogin";
 	}
-	
-	
+
 	@PostMapping("/memberInsert")
 	public String memberInsert(MemberDTO memberDTO) {
 		System.out.println("MemberController memberInsert()");
 		System.out.println(memberDTO);
-		
+		memberDTO.setPass(new BCryptPasswordEncoder().encode(memberDTO.getPass()));
 		memberService.insertMember(memberDTO);
 		
 		return "redirect:/member/memberList";
@@ -129,6 +137,12 @@ public class MemberController {
 		model.addAttribute("memberList" , memberList);
 		
 		return "member/memberList";
+	}
+	
+	@GetMapping("/accessError")
+	public void accessError(Model model, Authentication auth) {
+		System.out.println("MemberController accessError()");
+		model.addAttribute("msg", "Access Denied");
 	}
 	
 }

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,6 +21,7 @@
         <div class="col-md-5 col-sm-12 mx-auto">
             <div class="card pt-4">
                 <div class="card-body">
+                <c:out value="${msg }"></c:out>
                     <div class="text-center mb-5">
                         <img src="${pageContext.request.contextPath}/resources/assets/images/favicon.svg" height="48" class='mb-4'>
                         <h3>로그인</h3>
@@ -28,7 +30,7 @@
                         <div class="form-group position-relative has-icon-left">
                             <label for="username">아이디</label>
                             <div class="position-relative">
-                                <input type="text" class="form-control" id="username" name="username">
+                                <input type="text" class="form-control" id="userid" name="id">
                                 <div class="form-control-icon">
                                     <i data-feather="user"></i>
                                 </div>
@@ -39,7 +41,7 @@
                                 <label for="password">비밀번호</label>
                             </div>
                             <div class="position-relative">
-                                <input type="text" class="form-control" id="password" name="password">
+                                <input type="password" class="form-control" id="password" name="pass">
                                 <div class="form-control-icon">
                                     <i data-feather="lock"></i>
                                 </div>
@@ -48,7 +50,7 @@
                         </div>
 
                         <div class="clearfix">
-                            <button class="btn btn-primary" type="submit">로그인</button>
+                            <input type="submit" class="btn btn-primary" value="로그인">
                         </div>
                     </form>
                 </div>

@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import com.itwillbs.dao.MemberDAO;
+import com.itwillbs.domain.AuthDTO;
 import com.itwillbs.domain.MemberDTO;
 
 @Service
@@ -28,6 +29,24 @@ public class MemberService {
 
 	public void insertMember(MemberDTO memberDTO) {
 		memberDAO.insertMember(memberDTO);
+		
+		AuthDTO authDTO = new AuthDTO();
+		
+		if(memberDTO.getPermission() == 0) {
+			authDTO.setAuth("ROLE_ADMIN");
+		} else if(memberDTO.getPermission() == 1) {
+			authDTO.setAuth("ROLE_PRODUCT");
+		} else if(memberDTO.getPermission() == 2) {
+			authDTO.setAuth("ROLE_BOUND");
+		} else if(memberDTO.getPermission() == 3) {
+			authDTO.setAuth("ROLE_OC");
+		} else if(memberDTO.getPermission() == 4) {
+			authDTO.setAuth("ROLE_PRODUCTION");
+		} else {
+			authDTO.setAuth("ROLE_NONE");
+		}
+		authDTO.setId(memberDTO.getId());
+		memberDAO.insertMemberAuth(authDTO);
 	}
 
 	public void updateMember(MemberDTO memberDTO) {
@@ -39,5 +58,8 @@ public class MemberService {
 		memberDAO.deleteMember(memberDTO);
 	}
 
+	public MemberDTO getMember(String id) {
+		return memberDAO.getMember(id);
+	}
 
 }

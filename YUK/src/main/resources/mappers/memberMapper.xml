@@ -35,6 +35,11 @@ insert into USER(USER_ID,USER_NAME,USER_PASS,USER_PHONE,USER_PERM)
 values(#{id}, #{name}, #{pass}, #{phone}, #{permission})
 </insert>
 
+<insert id="insertMemberAuth">
+insert into USER_AUTH
+values(#{id}, #{auth})
+</insert>
+
 <update id="updateMember">
 update USER
 SET USER_PERM = #{permission}
@@ -47,9 +52,27 @@ from USER
 WHERE USER_ID = #{id}
 </delete>
 
+<select id="getMember" resultMap="memberMap">
+	select m.user_id, m.user_pass, m.user_name, m.user_phone, m.user_perm, a.auth
+	from USER m left join USER_AUTH a
+	on m.user_id = a.user_id
+	where m.user_id = #{id}
+</select>
 
+<resultMap type="com.itwillbs.domain.MemberDTO" id="memberMap">
+	<id property="user_id" column="user_id"/>
+	<result property="user_id" column="user_id"/>
+	<result property="user_pass" column="user_pass"/>
+	<result property="user_name" column="user_name"/>
+	<result property="user_phone" column="user_phone"/>
+	<result property="user_perm" column="user_perm"/>
+	<collection property="authList" resultMap="authMap"></collection>
+</resultMap>
 
-
+<resultMap type="com.itwillbs.domain.AuthDTO" id="authMap">
+	<result property="user_id" column="user_id"/>
+	<result property="auth" column="auth"/>
+</resultMap>
 
 
 

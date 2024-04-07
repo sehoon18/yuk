@@ -8,8 +8,11 @@ public class MemberDTO {
 	private String pass;	//비밀번호
 	private String phone;	//전화번호
 	private int permission; //권한
-	private List<AuthDTO> authList; // 시큐리티 권한
 	
+	// 시큐리티 로그인
+	private List<AuthDTO> authList; // 시큐리티 권한
+//	private String user_name;
+//	private
 	
 	
 	

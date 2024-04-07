@@ -360,10 +360,16 @@ values(#{lineCode}, #{name}, #{lineStatus}, #{lineName}, #{update})
 	where PER_CD = #{perCode}
 </select>
 
-<insert id="insertMib">
+<insert id="insertPib">
 	insert into PINBOUND
 	values(#{pibCode}, #{name}, #{perCode}, #{perDate}, 0)
 </insert>
+
+<delete id="deletePib">
+	delete 
+	from PINBOUND
+	where PER_CD = #{perCode}
+</delete>
 
 <select id="getPibLastNum" resultType="java.lang.Integer">
 	SELECT REGEXP_REPLACE(PIB_CD, '[^0-9]', '') AS numbers_only

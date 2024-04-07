@@ -223,7 +223,7 @@ public class ProductionService {
 		    }
 		}
 		productionDTO.setPibCode(pibCode);
-		productionDAO.insertMib(productionDTO);
+		productionDAO.insertPib(productionDTO);
 	}
 
 	public List<ProductionDTO> getPerList(ProductionDTO productionDTO) {
@@ -245,21 +245,21 @@ public class ProductionService {
 		int ovol = productionDAO.getPerACAToPerCode(productionDTO);							// 원래 기입 실적
 		int fvol = 0;																		// 최종 재고
 		
-		if(productionDTO.getPerGood() == 0) {
-			if(productionDAO.getPerGood(productionDTO) == 0) {
-				int cvol = productionDTO.getPerACA() - ovol; 	// 현재기입실적 - 원래기입실적
-				fvol = proVol + cvol; 							// 재고 + 수정수량
-			} else if (productionDAO.getPerGood(productionDTO) == 1) {
-				fvol = proVol + productionDTO.getPerACA();		// 재고 + 현재기입실적
-			}
-			
-		} else if(productionDTO.getPerGood() == 1) {
-			if(productionDAO.getPerGood(productionDTO) == 0) {
-				fvol = proVol - ovol; 		// 재고 + 현재기입실적
-			} else if (productionDAO.getPerGood(productionDTO) == 1) {
-				fvol = proVol;
-			}
-		}
+//		if(productionDTO.getPerGood() == 0) {
+//			if(productionDAO.getPerGood(productionDTO) == 0) {
+//				int cvol = productionDTO.getPerACA() - ovol; 	// 현재기입실적 - 원래기입실적
+//				fvol = proVol + cvol; 							// 재고 + 수정수량
+//			} else if (productionDAO.getPerGood(productionDTO) == 1) {
+//				fvol = proVol + productionDTO.getPerACA();		// 재고 + 현재기입실적
+//			}
+//			
+//		} else if(productionDTO.getPerGood() == 1) {
+//			if(productionDAO.getPerGood(productionDTO) == 0) {
+//				fvol = proVol - ovol; 		// 재고 + 현재기입실적
+//			} else if (productionDAO.getPerGood(productionDTO) == 1) {
+//				fvol = proVol;
+//			}
+//		}
 		productionDTO.setVol(fvol);
 		productionDAO.addVol(productionDTO);
 		productionDAO.updatePer(productionDTO);
@@ -271,16 +271,17 @@ public class ProductionService {
 
 	public void deletePer(ProductionDTO productionDTO) {
 		// 재고 감소
-		String productCode = productionDAO.getProductCodeToPerCD(productionDTO);
-		productionDTO.setProductCode(productCode);
-		int proVol = productionDAO.getProductVolToProCode(productCode);		// 재고
-		int ovol = productionDAO.getPerACAToPerCode(productionDTO);			// 원래 기입 실적
-		int fvol = 0;														// 최종 재고
-		if(productionDAO.getPerGood(productionDTO) == 0) {
-			fvol = proVol - ovol;
-			productionDTO.setVol(fvol);
-			productionDAO.addVol(productionDTO);
-		}
+//		String productCode = productionDAO.getProductCodeToPerCD(productionDTO);
+//		productionDTO.setProductCode(productCode);
+//		int proVol = productionDAO.getProductVolToProCode(productCode);		// 재고
+//		int ovol = productionDAO.getPerACAToPerCode(productionDTO);			// 원래 기입 실적
+//		int fvol = 0;														// 최종 재고
+//		if(productionDAO.getPerGood(productionDTO) == 0) {
+//			fvol = proVol - ovol;
+//			productionDTO.setVol(fvol);
+//			productionDAO.addVol(productionDTO);
+//		}
+		productionDAO.deletePib(productionDTO);
 		productionDAO.deletePer(productionDTO);
 	}
 

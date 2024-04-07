@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.itwillbs.domain.AuthDTO;
 import com.itwillbs.domain.MemberDTO;
 
 @Repository
@@ -39,6 +40,14 @@ public class MemberDAO {
 
 	public void deleteMember(MemberDTO memberDTO) {
 		sqlSession.delete(namespace + ".deleteMember",memberDTO);
+	}
+
+	public MemberDTO getMember(String userid) {
+		return sqlSession.selectOne(namespace + ".getMember", userid);
+	}
+
+	public void insertMemberAuth(AuthDTO authDTO) {
+		sqlSession.insert(namespace + ".insertMemberAuth", authDTO);
 	}
 
 }
