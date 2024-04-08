@@ -25,7 +25,7 @@
     <h1><b>창고 관리</b></h1>
   	<hr>
   	
-  	<form action="${pageContext.request.contextPath}/warehouse/warehouse">
+  	<form action="${pageContext.request.contextPath}/warehouse/warehouseCodePopup">
   <div class="col-lg-2 col-3" style="display: flex; align-items: center; white-space: nowrap;">
 <!--   	flex: 0 1 auto; 속성은 사원번호 텍스트가 필요한 만큼의 공간만 차지 -->
   <div style="flex: 0 1 auto; margin-right: 10px;"><b>창고코드</b></div>

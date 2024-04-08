@@ -10,8 +10,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.itwillbs.domain.ProductDTO;
+import com.itwillbs.domain.ProductionDTO;
 import com.itwillbs.domain.WarehouseDTO;
 import com.itwillbs.service.WarehouseService;
 
@@ -114,6 +117,16 @@ public class WarehouseController {
 
 			return "warehouse/stockCodePopup";
 		}
+		
+		@PostMapping("/stockUpdatePro")
+		public String stockUpdatePro(WarehouseDTO warehouseDTO) {
+			System.out.println("ProductController stockUpdatePro()");
+			System.out.println(warehouseDTO);
+			
+			warehouseService.updateStock(warehouseDTO);
+			
+			return "redirect:/warehouse/stock";
+		}
 	
 	//------------------------------------------------------------------------------------------------	
 	
@@ -141,6 +154,24 @@ public class WarehouseController {
 			}
 			
 			model.addAttribute("warehouseList", warehouseList);
+			
+			//warehouseCode 생성
+			Integer warehouseLastNum = warehouseService.getWarehouseLastNum();
+			
+			if(warehouseLastNum == null) {
+				warehouseCode = "WH001";
+			}else {
+				int nextNum = warehouseLastNum + 1;
+				if(nextNum < 10) {
+					warehouseCode = String.format("WH00%d", nextNum);
+				}else if(nextNum < 100) {
+					warehouseCode = String.format("WH0%d", nextNum);
+				}else {
+					warehouseCode = String.format("WH%d", nextNum);
+				}
+			}
+			warehouseDTO.setWarehouseCode(warehouseCode);
+			model.addAttribute("warehouseDTO", warehouseDTO);
 			
 			return "warehouse/warehouse";
 		}
@@ -187,8 +218,37 @@ public class WarehouseController {
 	}
 	
 	
+	@PostMapping("/warehouseInsertPro")
+	public String warehouseInsertPro(WarehouseDTO warehouseDTO) {
+		System.out.println("warehouseController warehouseInsertPro");
+		System.out.println(warehouseDTO);
+		
+		warehouseService.insertWarehouse(warehouseDTO);
+		
+		return "redirect:/warehouse/warehouse";
+	}
 	
-
+	
+	
+	@PostMapping("/warehouseUpdatePro")
+	public String warehouseUpdatePro(WarehouseDTO warehouseDTO) {
+		System.out.println("ProductController warehouseUpdatePro()");
+		System.out.println(warehouseDTO);
+		
+		warehouseService.updateWarehouse(warehouseDTO);
+		
+		return "redirect:/warehouse/warehouse";
+	}
+	
+	@PostMapping("/warehouseDeletePro")
+	public String warehouseDeletePro(@RequestBody WarehouseDTO warehouseDTO) {
+		System.out.println("ProductionController warehouseDeletePro()");
+		System.out.println(warehouseDTO);
+		
+		warehouseService.deleteWarehouse(warehouseDTO);
+		
+		return "redirect:/warehouse/warehouse";
+	}
 	
 	
 }
