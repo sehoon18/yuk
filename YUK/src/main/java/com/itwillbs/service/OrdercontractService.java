@@ -6,6 +6,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 import com.itwillbs.dao.OrdercontractDAO;
 import com.itwillbs.domain.OrdercontractDTO;
+import com.itwillbs.domain.PageDTO;
 import com.itwillbs.domain.ProductionDTO;
 
 
@@ -16,12 +17,34 @@ import com.itwillbs.domain.ProductionDTO;
 		@Inject
 		OrdercontractDAO ordercontractDAO;
 		
+//		public List<OrdercontractDTO> getOrderList(OrdercontractDTO ordercontractDTO , PageDTO pageDTO) {
+//			return ordercontractDAO.getOrderList(ordercontractDTO);
+//		}
 		public List<OrdercontractDTO> getOrderList(OrdercontractDTO ordercontractDTO) {
+			
+//			int startRow = (pageDTO.getCurrentPage() - 1) * pageDTO.getPageSize() + 1;
+//			int EndRow = startRow + pageDTO.getPageSize() - 1;
+//			
+//			pageDTO.setStartRow(startRow -1);
+//			pageDTO.setEndRow(EndRow);
+//			
 			return ordercontractDAO.getOrderList(ordercontractDTO);
 		}
+//		public List<OrdercontractDTO> getContractList(OrdercontractDTO ordercontractDTO) {
+//			
+//			return ordercontractDAO.getContractList(ordercontractDTO);
+//		}
 		public List<OrdercontractDTO> getContractList(OrdercontractDTO ordercontractDTO) {
+			
+//			int startRow = (pageDTO.getCurrentPage() - 1) * pageDTO.getPageSize() + 1;
+//			int EndRow = startRow + pageDTO.getPageSize() - 1;
+//			
+//			pageDTO.setStartRow(startRow -1);
+//			pageDTO.setEndRow(EndRow);
+//			
 			return ordercontractDAO.getContractList(ordercontractDTO);
 		}
+		
 		
 		public void insertOrder(OrdercontractDTO ordercontractDTO) {
 			
@@ -92,6 +115,15 @@ import com.itwillbs.domain.ProductionDTO;
 			
 			return ordercontractDAO.getContract(ordercontractDTO);
 		}
+		public int getOrderCount(OrdercontractDTO ordercontractDTO) {
+			
+			return ordercontractDAO.getOrderCount(ordercontractDTO);
+		}
+		public int getContractCount(OrdercontractDTO ordercontractDTO) {
+			
+			return ordercontractDAO.getContractCount(ordercontractDTO);
+		}
+		
 		
 		
 			

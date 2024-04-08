@@ -31,8 +31,7 @@
                     </div>
                     <div class="card-content">
                       <form class="form" id="ordForm" action="${pageContext.request.contextPath}/ordercontract/updateOrder?ord_cd=${ordercontractDTO.ord_cd}" method="post" >
-<%--                       <input type="hidden" name="ord_cd" value="${ordercontractDTO.ord_cd}"> --%>
-                        <div class="card-body">
+		                   <div class="card-body">
                                 <div class="row">
                                 	<div class="col-md-14 col-13">	
                                         <div class="form-group">
@@ -94,10 +93,13 @@
                                 </div>
                                 </div>
                             <div class="col-12 d-flex justify-content-end">
-							    <button type="submit" class="btn btn-primary mr-1 mb-1">수정</button>
-							    <button type="button" class="btn btn-primary mr-1 mb-1">삭제</button>
-							    <button type="button" class="btn btn-primary mr-1 mb-1">reset</button>
-							</div>
+    
+        <c:if test="${ordercontractDTO.ord_info_status eq 0}">
+            <button type="submit" class="btn btn-primary mr-1 mb-1">수정</button>
+            <button type="button" id="deleteOrd" class="btn btn-primary mr-1 mb-1" value="${ordercontractDTO.ord_cd}" data-ord_cd="${ordercontractDTO.ord_cd}">삭제</button>
+            <button type="reset" class="btn btn-primary mr-1 mb-1">초기화</button>
+        </c:if>
+        </div>
 						</form>
                         </div>
                     </div>
@@ -153,7 +155,7 @@
 	                window.close();
 	            },
 	            error: function(xhr, status, error) {
-	                alert("등록 실패: " + error); // 에러 처리 부분
+// 	                alert("등록 실패: " + error); // 에러 처리 부분
 	            }
 	        });
 	    });
@@ -193,5 +195,56 @@
 	    }
 	});
 	</script>
+	<script>
+    $(document).ready(function() {
+        // 클릭 이벤트 핸들러 내부에서 deleteIns 함수를 호출합니다.
+        $('#deleteOrd').click(function() {
+            var ord_cd= $('#deleteOrd').val(); // instructionCode 값을 얻습니다.
+            // SweetAlert로 삭제 확인 요청
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // 사용자가 확인을 눌렀을 경우, deleteIns 함수에 instructionCode 값을 전달하여 호출합니다.
+                    deleteOrd(ord_cd);
+                    
+                    // SweetAlert로 삭제 성공 메시지 표시
+//                     Swal.fire({
+//                         title: "Deleted!",
+//                         text: "Your file has been deleted.",
+//                         icon: "success"
+//                     });
+                }
+            });
+        });
+    });
+
+    // deleteIns 함수를 클릭 이벤트 핸들러 외부에 정의합니다.
+    function deleteOrd(ord_cd) {
+        event.preventDefault();
+        $.ajax({
+            url: "${pageContext.request.contextPath}/ordercontract/deleteOrder?ord_cd="+ord_cd, // 실제 요청 URL로 변경해야 함
+            type: "post", // 메소드 타입
+            contentType: "application/json", // 요청 컨텐츠 타입 명시 (옵션)
+            dataType: "json", // 응답 데이터 타입 명시 (옵션)
+            data:  JSON.stringify({ ord_cd: ord_cd }), // 서버로 전송할 데이터
+            	
+            success: function(response) {
+                // 데이터베이스 저장 성공 후
+                window.opener.location.reload(); // 부모 창 새로고침
+                window.close(); // 팝업 창 닫기
+            },
+            error: function(xhr, status, error) {
+//                 alert("삭제 실패: " + error);
+            }
+        });
+    }
+</script>
 </body>
 </html>

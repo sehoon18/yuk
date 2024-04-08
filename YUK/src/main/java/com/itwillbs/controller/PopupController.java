@@ -123,7 +123,7 @@ public class PopupController {
 	}
 
 	@GetMapping("/orderaddpopup")
-	public String orderaddpopup(Model model,OrdercontractDTO ordercontractDTO) {	
+	public String orderaddpopup(Model model,OrdercontractDTO ordercontractDTO, PageDTO pageDTO) {	
 		System.out.println("PopupController orderaddpopup()");
 		List<OrdercontractDTO> orderList = ordercontractService.getOrderList(ordercontractDTO);
 		model.addAttribute("OrdercontractList", orderList);
@@ -131,7 +131,7 @@ public class PopupController {
 		return "popup/orderaddpopup";
 	}
 	@GetMapping("/contractaddpopup")
-	public String contractaddpopup(Model model,OrdercontractDTO ordercontractDTO) {	
+	public String contractaddpopup(Model model,OrdercontractDTO ordercontractDTO,PageDTO pageDTO) {	
 		System.out.println("PopupController contractaddpopup()");
 		List<OrdercontractDTO> contractList = ordercontractService.getContractList(ordercontractDTO);
 		model.addAttribute("contractList", contractList);

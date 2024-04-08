@@ -1,3 +1,4 @@
+<%@page import="com.itwillbs.domain.OrdercontractDTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>    
@@ -21,8 +22,6 @@
             <div class="col-12" >
                 <div class="card" style="box-shadow: none;">
                     <div class="card-content">
-                            
-<!-- 품목 소요량 테이블 -->
 		  <div class="card-header" style="margin-top: 30px;">
 	        <h3 class="card-title" style="text-align: left;">발주품목리스트</h3>
 	      <hr>
@@ -58,10 +57,7 @@
 	        </div>
 	      </div>
 	      </div>
-	      
-<!--	품목 소요량 테이블 끝 -->
-
-                        </div>
+			 </div>
                     </div>
                 </div>
             </div>
@@ -88,5 +84,45 @@
 		  window.close();
 		});
 	</script>
+	<script>
+// $(document).ready(function(){
+//     // 서버에서 받은 OrderList를 자바스크립트 객체 배열로 변환
+// 	var orders = [
+<%--         <% for(OrdercontractDTO order : orderList) { %> --%>
+//         {
+<%--             pro_name: '<%= order.getPro_name() %>', --%>
+<%--             pro_cd: '<%= order.getPro_cd() %>', --%>
+<%--             cli_cd: '<%= order.getCli_cd() %>', --%>
+<%--             cli_name: '<%= order.getCli_name() %>', --%>
+<%--             pro_price: '<%= order.getPro_price() %>' --%>
+//         },
+<%--         <% } %> --%>
+//     ];
+
+   
+//     // 중복 제거 (pro_cd를 기준으로)
+//     var uniqueOrders = [];
+//     var map = new Map();
+//     for (var order of orders) {
+//         if(!map.has(order.pro_cd)){
+//             map.set(order.pro_cd, true);    // 중복되지 않는 항목에 대해 맵에 추가
+//             uniqueOrders.push(order);
+//         }
+//     }
+
+//     // 중복이 제거된 배열을 사용하여 테이블에 행 추가
+//     uniqueOrders.forEach(function(order) {
+//         var row = `<tr>
+//             <td>${order.pro_name}</td>
+//             <td>${order.pro_cd}</td>
+//             <td>${order.cli_cd}</td>
+//             <td>${order.cli_name}</td>
+//             <td>${order.pro_price}</td>
+//         </tr>`;
+//         $('.table tbody').append(row);
+//     });
+// });
+</script>
+
 </body>
 </html>

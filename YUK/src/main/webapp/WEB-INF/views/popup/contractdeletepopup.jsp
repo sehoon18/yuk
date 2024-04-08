@@ -94,14 +94,15 @@
 									
                                 </div>
                                 </div>
-                            
-
-							<div class="col-12 d-flex justify-content-end">
-							    <button type="submit" class="btn btn-primary mr-1 mb-1">수정</button>
-							    <button type="button" id="deleteCon" class="btn btn-primary mr-1 mb-1" value="${ordercontractDTO.con_cd}" data-con-cd="${ordercontractDTO.con_cd}">⚠️ 삭제</button>
-							    <button type="reset" class="btn btn-light-secondary mr-1 mb-1">Reset</button>
-							</div>
-						</form>
+                            <div class="col-12 d-flex justify-content-end">
+    <c:if test="${ordercontractDTO.con_info_status eq 0}">
+            <button type="submit" class="btn btn-primary mr-1 mb-1">수정</button>
+            <button type="button" id="deleteCon" class="btn btn-primary mr-1 mb-1" value="${ordercontractDTO.con_cd}" data-con_cd="${ordercontractDTO.con_cd}">삭제</button>
+            <button type="reset" class="btn btn-primary mr-1 mb-1">초기화</button>
+        </c:if>
+      
+								</div>
+							</form>
                         </div>
                     </div>
                 </div>
@@ -236,16 +237,16 @@
             type: "post", // 메소드 타입
             contentType: "application/json", // 요청 컨텐츠 타입 명시 (옵션)
             dataType: "json", // 응답 데이터 타입 명시 (옵션)
-            data:  { con_cd: con_cd }, // 서버로 전송할 데이터
+            data:  JSON.stringify({ con_cd: con_cd }), // 서버로 전송할 데이터
             	
             success: function(response) {
                 // 데이터베이스 저장 성공 후
                 window.opener.location.reload(); // 부모 창 새로고침
                 window.close(); // 팝업 창 닫기
             },
-            error: function(xhr, status, error) {
-                alert("삭제 실패: " + error);
-            }
+//             error: function(xhr, status, error) {
+//                 alert("삭제 실패: " + error);
+//             }
         });
     }
 </script>

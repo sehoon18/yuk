@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.google.protobuf.TimestampProto;
 import com.itwillbs.domain.OrdercontractDTO;
+import com.itwillbs.domain.PageDTO;
 import com.itwillbs.domain.ProductionDTO;
 import com.itwillbs.service.OrdercontractService;
 
@@ -41,7 +42,11 @@ public class OrdercontractController {
 		String pro_name = request.getParameter("pro_name");
 		ordercontractDTO.setPro_name(pro_name);
 		
+		
+		
 		List<OrdercontractDTO> orderList = ordercontractService.getOrderList(ordercontractDTO);
+		
+		
 		model.addAttribute("OrderList", orderList);
 		System.out.println(orderList);
 		
@@ -61,6 +66,7 @@ public class OrdercontractController {
 		model.addAttribute("ContractList", contractList);
 		
 		System.out.println(contractList);
+//		model.addAttribute("pageDTO", pageDTO);
 		return "ordercontract/contract";
 	}
 	@PostMapping("/insertOrder")
@@ -92,7 +98,7 @@ public class OrdercontractController {
 	}
 		
 	@PostMapping("/updateOrder")
-	public ResponseEntity<String> updateOrder(@RequestBody OrdercontractDTO ordercontractDTO, HttpServletRequest request ) {
+	public ResponseEntity<String> updateOrder(@RequestBody OrdercontractDTO ordercontractDTO ) {
 		System.out.println("OrdercontractController updateOrder()");
 		System.out.println(ordercontractDTO);	
 		
@@ -149,7 +155,9 @@ public class OrdercontractController {
 			System.out.println("OrdercontractController orderdeletepopup()");
 			String ord_cd = request.getParameter("ord_cd");
 			ordercontractDTO.setOrd_cd(ord_cd);
+			
 			ordercontractDTO=ordercontractService.getOrder(ordercontractDTO);
+			
 			System.out.println(ordercontractDTO);
 			model.addAttribute("ordercontractDTO", ordercontractDTO);
 			return "popup/orderdeletepopup";
@@ -182,9 +190,12 @@ public class OrdercontractController {
 		@GetMapping("/contractdeletepopup")
 		public String contractdeletepopup(HttpServletRequest request,OrdercontractDTO ordercontractDTO, Model model) {
 			System.out.println("OrdercontractController contractdeletepopup()");
+			
 			String con_cd = request.getParameter("con_cd");
 			ordercontractDTO.setCon_cd(con_cd);
+			
 			ordercontractDTO=ordercontractService.getContract(ordercontractDTO);
+			
 			System.out.println(ordercontractDTO);
 			model.addAttribute("ordercontractDTO", ordercontractDTO);
 			return "popup/contractdeletepopup";
@@ -213,6 +224,19 @@ public class OrdercontractController {
 //			return ResponseEntity.ok().body("{\"message\": \"등록 성공!\"}");
 			return "ordercontract/contract";
 		}
-	
-	
+//		@GetMapping("/orders")
+//		public String showOrders(Model model,OrdercontractDTO ordercontractDTO) {
+//			List<OrdercontractDTO> orderList = ordercontractService.getOrderList(ordercontractDTO);
+//			model.addAttribute("OrderList", orderList);
+//			System.out.println(orderList);
+//		    return "popup/orderpop"; // JSP 파일의 경로 (View의 이름)
+//		}
+//		@GetMapping("/contracts")
+//		public String showContracts(Model model,OrdercontractDTO ordercontractDTO) {
+//			List<OrdercontractDTO> contractList = ordercontractService.getContractList(ordercontractDTO);
+//			model.addAttribute("ContractList", contractList);
+//			System.out.println(contractList);
+//		    return "popup/orderpop"; // JSP 파일의 경로 (View의 이름)
+//		}
+//	
 }
