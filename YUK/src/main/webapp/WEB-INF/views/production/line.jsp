@@ -5,6 +5,8 @@
 <html>
 <head>
     <meta charset="UTF-8">
+	<meta name="_csrf" content="${_csrf.token}"/>
+	<meta name="_csrf_header" content="${_csrf.headerName}"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YOGIYUK</title>
     
@@ -42,21 +44,21 @@
             <div class="col-12 col-md-6 order-md-1 order-last">
                 <h3>라인 관리</h3>
             </div>
-            <div class="col-12 col-md-6 order-md-2 order-first">
-                <nav aria-label="breadcrumb" class='breadcrumb-header'>
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Datatable</li>
-                    </ol>
-                </nav>
-            </div>
+<!--             <div class="col-12 col-md-6 order-md-2 order-first"> -->
+<!--                 <nav aria-label="breadcrumb" class='breadcrumb-header'> -->
+<!--                     <ol class="breadcrumb"> -->
+<!--                         <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li> -->
+<!--                         <li class="breadcrumb-item active" aria-current="page">Datatable</li> -->
+<!--                     </ol> -->
+<!--                 </nav> -->
+<!--             </div> -->
         </div>
     </div>
     <section class="section">
         <div class="card">
             <div class="card-body">
             <div class="card-header" style="padding: 27.2px 22.4px 3px 22.4px;">
-			<form action="${pageContext.request.contextPath}/production/line" method="post">
+			<form action="${pageContext.request.contextPath}/production/line" method="get">
 				<div class="col-lg-2 col-3" style="display: flex; align-items: center; white-space: nowrap;">
 				<div style="flex: 0 1 auto; margin-right: 10px;"><b>라인코드</b></div>
 					<input type="text" id="lineCode" class="form-control" name="search1" style="flex: 1 1 auto; width: auto; background-color: white;" placeholder="라인코드를 입력하세요">
@@ -91,6 +93,7 @@
 			                <th style="width: 180px;">등록일자</th>
 			                <th style="width: 180px;">등록자</th>
 			                <th style="width: 150px; text">라인상태</th>
+			                <th style="width: 0px; text"></th>
 			            </tr>
 			        </thead>
 			        <tbody>
@@ -110,6 +113,8 @@
                             <c:if test="${productionDTO.lineStatus == 2 }">
 							<font color="gray">정비</font>
                             </c:if>
+                            </td>
+                            <td>
                             </td>
                         </tr>
                         </c:forEach>
@@ -361,7 +366,7 @@
     function makeRowEditable(row) {
         isDelMode = false;
         originalHTML = {}; // 현재 행에 대한 원본 HTML 저장을 위해 객체 초기화
-        const cellIndex = [0, 1, 4]; // 수정할 열 인덱스 (2열과 5열)
+        const cellIndex = [0, 1, 4, 5]; // 수정할 열 인덱스 (2열과 5열)
         cellIndex.forEach((index) => {
             const cell = row.cells[index];
             originalHTML[index] = cell.innerHTML; // 수정 전 원본 HTML을 저장
@@ -383,6 +388,15 @@
                 input.className = 'form-control';
                 input.value = originalText;
                 cell.innerHTML = '';
+                cell.appendChild(input);
+            }
+            // 6열(인덱스 5)의 경우, 텍스트 입력 필드를 생성
+			else if (index === 5) {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = '${_csrf.parameterName}';
+                input.className = 'form-control';
+                input.value = '${_csrf.token}';
                 cell.appendChild(input);
             }
             // 5열(인덱스 4)의 경우, 선택 목록을 생성
@@ -409,6 +423,7 @@
         });
     }
 </script>
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const table = document.getElementById('table1');
@@ -433,14 +448,19 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (target.tagName === 'TR') {
                         const firstColumnValue = target.cells[0].textContent || target.cells[0].innerText; // 첫 번째 열 값
                         
+                        var token = document.querySelector('meta[name="_csrf"]').getAttribute('content');
+                        var header = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
+                        
                         // 서버로 첫 번째 열 값을 POST 요청으로 전송
                         fetch('${pageContext.request.contextPath}/production/lineDeletePro', {
-                            method: 'POST',
+                            method: 'post',
                             headers: {
                                 'Content-Type': 'application/json',
+                                [header]: token // CSRF 토큰 추가
                             },
-                            body: JSON.stringify({ lineCode: firstColumnValue }) // 서버에 전송할 데이터
+                            body: JSON.stringify({ lineCode: firstColumnValue}) // 서버에 전송할 데이터
                         })
+
                         .then(response => {
                             if(response.ok) {
                                 tbody.removeChild(target); // 서버에서 성공적으로 처리되면 행 삭제

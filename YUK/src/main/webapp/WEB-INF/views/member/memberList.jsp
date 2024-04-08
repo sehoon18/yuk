@@ -66,6 +66,7 @@
                 <th>비밀번호</th>
                 <th>전화번호</th>
                 <th>권한</th>
+                <th style="width: 0px;"></th>
               </tr>
             </thead>
             <tbody>
@@ -93,6 +94,8 @@
                 <c:if test="${memberDTO.permission == 4}">
                 <td>작업/실적/라인</td>
                 </c:if>
+                <td>
+                </td>
               </tr>
                </c:forEach>
             </tbody>
@@ -131,7 +134,6 @@
     <script src="${pageContext.request.contextPath}/resources/assets/vendors/apexcharts/apexcharts.min.js"></script>
     <script src="${pageContext.request.contextPath}/resources/assets/js/pages/dashboard.js"></script>
     <script src="${pageContext.request.contextPath}/resources/assets/js/main.js"></script>
-    
     
     <script>
     function addTableRow() {

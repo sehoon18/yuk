@@ -6,6 +6,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="_csrf" content="${_csrf.token}"/>
+<meta name="_csrf_header" content="${_csrf.headerName}"/>
 <title>요기육</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/bootstrap.css">
     
@@ -181,45 +183,36 @@
 	</script>
 	
 <script>
-  // 팝업으로부터 값을 받는 함수
-  function receiveValueFromPopup(selectedValue) {
-    // AJAX 요청을 보냅니다.
-    $.ajax({
-      url: '${pageContext.request.contextPath}/production/getReq', // 서버의 URL을 지정하세요.
-      type: 'POST',
-      contentType: 'application/json',
-      dataType: 'json',
-      data: JSON.stringify({ productCode: selectedValue }),
-      success: function(response) {
-    	  alert("성공");
-        // 성공적으로 데이터를 받았을 때 테이블 업데이트
-        updateTable(response);
-      },
-      error: function(xhr, status, error) {
-        // 오류 처리
-        console.error("Error occurred: " + error);
-      }
-    });
-  }
+function receiveValueFromPopup(selectedValue) {
+  $.ajax({
+    url: '${pageContext.request.contextPath}/production/getReq', // 서버 URL 적절히 수정
+    type: 'GET', // 또는 POST, 서버에 맞게 조정
+    data: {
+      productCode: selectedValue // 서버에 전달할 데이터
+    },
+    success: function(response) {
+      var $tbody = $('#reqTable tbody');
+      $tbody.empty(); // 기존에 tbody에 있던 내용을 비웁니다.
 
-  // 응답으로 받은 데이터로 테이블 업데이트
-  function updateTable(data) {
-    var table = $('#reqTable'); // 테이블의 ID를 지정하세요.
-    table.empty(); // 기존 테이블 내용을 비웁니다.
-
-    // 데이터로 테이블 채우기
-    $.each(data, function(i, item) {
-      var row = $('<tr>').append(
-        $('<td>').text(item.column1), // 실제 데이터 구조에 맞게 수정하세요.
-        $('<td>').text(item.column2)  // 실제 데이터 구조에 맞게 수정하세요.
-        // 필요한 만큼 td 추가
-      );
-      table.append(row);
-    });
-  }
+      // 응답 데이터를 이용하여 각 아이템에 대한 행을 생성
+      $.each(response, function(index, item) {
+        var $row = $('<tr>'); // 새로운 행 생성
+        $row.append($('<td>').text(item.productCode)); // 품목코드
+        $row.append($('<td>').text(item.productName)); // 품명
+        $row.append($('<td>').text(item.quantity)); // 수량
+        $row.append($('<td>').text(item.stock)); // 재고량
+        
+        $tbody.append($row); // 생성된 행을 tbody에 추가
+      });
+    },
+    error: function() {
+      alert('리스트를 불러오는데 실패했습니다.');
+    }
+  });
+}
 </script>
 
-	
+
 	<script>
 		// 현재 날짜 생성/입력
 		document.getElementById('instructionDate').valueAsDate = new Date();
@@ -238,6 +231,14 @@
 	            url: "${pageContext.request.contextPath}/production/insertInstruction", // 실제 요청 URL로 변경해야 함
 	            type: "post", // 메소드 타입
 	            data: $(this).serialize(), // 현재 폼 데이터 직렬화
+	            beforeSend: function(xhr) {
+	                // CSRF 토큰과 헤더 이름 읽기
+	                var token = $('meta[name="_csrf"]').attr('content');
+	                var header = $('meta[name="_csrf_header"]').attr('content');
+	                
+	                // 요청 헤더에 CSRF 토큰 추가
+	                xhr.setRequestHeader(header, token);
+	            },
 	            success: function(response) {
 	                // 데이터베이스 저장 성공 후
 	                alert("등록 성공!");

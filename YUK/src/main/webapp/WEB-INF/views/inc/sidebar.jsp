@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
         <div id="sidebar" class='active'>
             <div class="sidebar-wrapper active">
@@ -13,7 +14,7 @@
         <img src="${pageContext.request.contextPath}/resources/assets/images/user.png" style="width:60px; height:60px;">
      </div> 
      <div style="text-align: center; margin-top:20px;">  
-     <h4><b>${sessionScope.name}</b></h4>
+     <h4><b><sec:authentication property="principal.username"/> </b></h4>
      </div>
      <div style="text-align: center;">
      <c:if test="${sessionScope.permission == 0}">

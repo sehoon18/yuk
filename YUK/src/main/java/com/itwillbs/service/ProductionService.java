@@ -197,33 +197,29 @@ public class ProductionService {
 		String Stoday = new SimpleDateFormat("yyyy-MM-dd").format(Ttoday);
 		productionDTO.setPerDate(Stoday);
 		
-		System.out.println(productionDTO);
+		// 실적 입력
 		productionDAO.insertPer(productionDTO);
 		
-//		// 재고 추가
-//		if(productionDTO.getPerGood() == 0) {
-//			int proVol = productionDAO.getProductVolToProCode(productionDTO.getProductCode());
-//			int fvol = proVol + productionDTO.getPerACA(); // 재고 + 양품수량
-//			productionDTO.setVol(fvol);
-//			productionDAO.addVol(productionDTO);
-//		}
-		
-		Integer pibLastNum = productionDAO.getPibLastNum();
-		String pibCode;
-		if (pibLastNum == null) {
-			pibCode = "PIB001";
-		} else {
-		    int nextNum = pibLastNum + 1;
-		    if (nextNum < 10) {
-		    	pibCode = String.format("PIB00%d", nextNum);
-		    } else if (nextNum < 100) {
-		    	pibCode = String.format("PIB0%d", nextNum);
-		    } else {
-		    	pibCode = String.format("PIB%d", nextNum);
-		    }
+		// 양품일 때 입고 데이터 추가
+		if(productionDTO.getPerGood() == 0) {
+			Integer pibLastNum = productionDAO.getPibLastNum();
+			String pibCode;
+			if (pibLastNum == null) {
+				pibCode = "PIB001";
+			} else {
+				int nextNum = pibLastNum + 1;
+				if (nextNum < 10) {
+					pibCode = String.format("PIB00%d", nextNum);
+				} else if (nextNum < 100) {
+					pibCode = String.format("PIB0%d", nextNum);
+				} else {
+					pibCode = String.format("PIB%d", nextNum);
+				}
+			}
+			productionDTO.setPibCode(pibCode);
+			productionDAO.insertPib(productionDTO);
 		}
-		productionDTO.setPibCode(pibCode);
-		productionDAO.insertPib(productionDTO);
+		
 	}
 
 	public List<ProductionDTO> getPerList(ProductionDTO productionDTO) {
@@ -239,29 +235,33 @@ public class ProductionService {
 	}
 
 	public void updatePer(ProductionDTO productionDTO) {
-		
-		// 재고 추가
-		int proVol = productionDAO.getProductVolToProCode(productionDTO.getProductCode());	// 재고
-		int ovol = productionDAO.getPerACAToPerCode(productionDTO);							// 원래 기입 실적
-		int fvol = 0;																		// 최종 재고
-		
-//		if(productionDTO.getPerGood() == 0) {
-//			if(productionDAO.getPerGood(productionDTO) == 0) {
-//				int cvol = productionDTO.getPerACA() - ovol; 	// 현재기입실적 - 원래기입실적
-//				fvol = proVol + cvol; 							// 재고 + 수정수량
-//			} else if (productionDAO.getPerGood(productionDTO) == 1) {
-//				fvol = proVol + productionDTO.getPerACA();		// 재고 + 현재기입실적
-//			}
-//			
-//		} else if(productionDTO.getPerGood() == 1) {
-//			if(productionDAO.getPerGood(productionDTO) == 0) {
-//				fvol = proVol - ovol; 		// 재고 + 현재기입실적
-//			} else if (productionDAO.getPerGood(productionDTO) == 1) {
-//				fvol = proVol;
-//			}
-//		}
-		productionDTO.setVol(fvol);
-		productionDAO.addVol(productionDTO);
+		// 양불 구분해서 입고테이블 입력
+		if(productionDAO.getPerGood(productionDTO) == 0) {
+			if(productionDTO.getPerGood() == 0) {
+			} else if (productionDTO.getPerGood() == 1) {
+				productionDAO.deletePib(productionDTO);
+			}
+		} else if(productionDAO.getPerGood(productionDTO) == 1) {
+			if(productionDTO.getPerGood() == 0) {
+				Integer pibLastNum = productionDAO.getPibLastNum();
+				String pibCode;
+				if (pibLastNum == null) {
+					pibCode = "PIB001";
+				} else {
+					int nextNum = pibLastNum + 1;
+					if (nextNum < 10) {
+						pibCode = String.format("PIB00%d", nextNum);
+					} else if (nextNum < 100) {
+						pibCode = String.format("PIB0%d", nextNum);
+					} else {
+						pibCode = String.format("PIB%d", nextNum);
+					}
+				}
+				productionDTO.setPibCode(pibCode);
+				productionDAO.insertPib(productionDTO);
+			} else if (productionDTO.getPerGood() == 1) {
+			}
+		}
 		productionDAO.updatePer(productionDTO);
 	}
 
@@ -270,18 +270,11 @@ public class ProductionService {
 	}
 
 	public void deletePer(ProductionDTO productionDTO) {
-		// 재고 감소
-//		String productCode = productionDAO.getProductCodeToPerCD(productionDTO);
-//		productionDTO.setProductCode(productCode);
-//		int proVol = productionDAO.getProductVolToProCode(productCode);		// 재고
-//		int ovol = productionDAO.getPerACAToPerCode(productionDTO);			// 원래 기입 실적
-//		int fvol = 0;														// 최종 재고
-//		if(productionDAO.getPerGood(productionDTO) == 0) {
-//			fvol = proVol - ovol;
-//			productionDTO.setVol(fvol);
-//			productionDAO.addVol(productionDTO);
-//		}
-		productionDAO.deletePib(productionDTO);
+		// 양품일 때 입고 데이터 삭제
+		if(productionDAO.getPerGood(productionDTO) == 0) {
+			productionDAO.deletePib(productionDTO);
+		}
+		// 실적 삭제
 		productionDAO.deletePer(productionDTO);
 	}
 
@@ -308,6 +301,10 @@ public class ProductionService {
 
 	public List<ProductionDTO> getReqDetail(ProductionDTO productionDTO) {
 		return productionDAO.getReqDetail(productionDTO);
+	}
+
+	public ProductionDTO getLine(ProductionDTO productionDTO) {
+		return productionDAO.getLine(productionDTO);
 	}
 
 }

@@ -5,6 +5,8 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name="_csrf" content="${_csrf.token}"/>
+	<meta name="_csrf_header" content="${_csrf.headerName}"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>요기육</title>
     
@@ -46,14 +48,14 @@
                 <h3>작업지시</h3>
 <!--                 <p class="text-subtitle text-muted">We use 'simple-datatables' made by @fiduswriter. You can check the full documentation <a href="https://github.com/fiduswriter/Simple-DataTables/wiki">here</a>.</p> -->
             </div>
-            <div class="col-12 col-md-6 order-md-2 order-first">
-                <nav aria-label="breadcrumb" class='breadcrumb-header'>
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Datatable</li>
-                    </ol>
-                </nav>
-            </div>
+<!--             <div class="col-12 col-md-6 order-md-2 order-first"> -->
+<!--                 <nav aria-label="breadcrumb" class='breadcrumb-header'> -->
+<!--                     <ol class="breadcrumb"> -->
+<!--                         <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li> -->
+<!--                         <li class="breadcrumb-item active" aria-current="page">Datatable</li> -->
+<!--                     </ol> -->
+<!--                 </nav> -->
+<!--             </div> -->
         </div>
     </div>
     <section class="section">
@@ -243,6 +245,14 @@
 	                url: "${pageContext.request.contextPath}/production/updateInsStatus",
 	                type: "post",
 	                data: { instructionCode: instructionCode },
+	                beforeSend: function(xhr) {
+	                    // CSRF 토큰과 헤더 이름 읽기
+	                    var token = $('meta[name="_csrf"]').attr('content');
+	                    var header = $('meta[name="_csrf_header"]').attr('content');
+	                    
+	                    // 요청 헤더에 CSRF 토큰 추가
+	                    xhr.setRequestHeader(header, token);
+	                },
 	                success: function(response) {
 	                    // 성공 시, 변경 완료 메시지 알림 후 페이지 새로고침
 	                    Swal.fire("변경완료", "Your file has been deleted.", "success")

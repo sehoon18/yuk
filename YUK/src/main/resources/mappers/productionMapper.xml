@@ -169,7 +169,7 @@ values(#{lineCode}, #{name}, #{lineStatus}, #{lineName}, #{update})
 
 <update id="updateLine">
 	update LINE
-	SET LINE_NAME = #{lineName}, LINE_STATUS = #{lineStatus}
+	SET LINE_NAME = #{lineName}, LINE_STATUS = #{lineStatus}, USER_ID = #{name}
 	where LINE_CD = #{lineCode}
 </update>
 
@@ -188,7 +188,7 @@ values(#{lineCode}, #{name}, #{lineStatus}, #{lineName}, #{update})
 
 <update id="updateInstruction">
 	update INSTRUCTION
-	SET PRO_CD = #{productCode}, LINE_CD = #{lineCode}, INS_VOL = #{insVol}, INS_DATE = #{instructionDate}
+	SET PRO_CD = #{productCode}, LINE_CD = #{lineCode}, INS_VOL = #{insVol}, INS_DATE = #{instructionDate}, USER_ID = #{name}
 	where INS_CD = #{instructionCode}
 </update>
 
@@ -362,7 +362,7 @@ values(#{lineCode}, #{name}, #{lineStatus}, #{lineName}, #{update})
 
 <insert id="insertPib">
 	insert into PINBOUND
-	values(#{pibCode}, #{name}, #{perCode}, #{perDate}, 0)
+	values(#{pibCode}, #{name}, #{perCode}, null, 0)
 </insert>
 
 <delete id="deletePib">
@@ -376,6 +376,12 @@ values(#{lineCode}, #{name}, #{lineStatus}, #{lineName}, #{update})
 	FROM PINBOUND
 	ORDER BY numbers_only DESC
 	LIMIT 1
+</select>
+
+<select id="getLine" resultType="com.itwillbs.domain.ProductionDTO">
+	select LINE_CD "lineCode", USER_ID "name", LINE_STATUS "lineStatus", LINE_NAME "lineName", LINE_DATE "update"
+	from LINE
+	where LINE_CD = #{lineCode}
 </select>
 
 </mapper>

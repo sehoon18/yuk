@@ -6,6 +6,7 @@ import javax.inject.Inject;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -49,9 +50,11 @@ public class AjaxController {
 
 	// 실적 수정
 	@PostMapping("/production/updatePer")
-	public ResponseEntity<?> updatePer(@RequestBody ProductionDTO productionDTO) {
+	public ResponseEntity<?> updatePer(@RequestBody ProductionDTO productionDTO, Authentication authentication) {
 	    System.out.println("ProductionController updatePer()");
 	    System.out.println(productionDTO);
+		String username = authentication.getName();
+		productionDTO.setName(username);	
 
 	    productionService.updatePer(productionDTO);
 	    

@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -125,23 +126,24 @@ public class ProductionController {
 	}
 	
 	@PostMapping("/linePro")
-	public String linePro(ProductionDTO productionDTO, HttpSession session) {
+	public String linePro(ProductionDTO productionDTO, HttpSession session, Authentication authentication) {
 		System.out.println("ProductionController linePro()");
 		System.out.println(productionDTO);
 		
-//		String id = (String)session.getAttribute("id");
-		
-		productionDTO.setName("hong123");		
+		String username = authentication.getName();
+		productionDTO.setName(username);		
 		productionService.insertLine(productionDTO);
 		
 		return "redirect:/production/line";
 		}
 	
 	@PostMapping("/lineUpdatePro")
-	public String lineUpdatePro(ProductionDTO productionDTO, HttpSession session) {
+	public String lineUpdatePro(ProductionDTO productionDTO, HttpSession session, Authentication authentication) {
 		System.out.println("ProductionController lineUpdatePro()");
 		System.out.println(productionDTO);
 		
+		String username = authentication.getName();
+		productionDTO.setName(username);	
 		productionService.updateLine(productionDTO);
 		
 		return "redirect:/production/line";
@@ -284,10 +286,11 @@ public class ProductionController {
 
 	// 작업지시 등록
 	@PostMapping("/insertInstruction")
-	public String insertInstruction(ProductionDTO productionDTO) {
+	public String insertInstruction(ProductionDTO productionDTO, Authentication authentication) {
 		System.out.println("ProductionController insertInstruction()");
-		System.out.println(productionDTO);
-		productionDTO.setName("hong123");
+
+		String username = authentication.getName();
+		productionDTO.setName(username);
 		
 		// 작업지시 입력
 		productionService.insertInstruction(productionDTO);
@@ -339,10 +342,11 @@ public class ProductionController {
 	
 	// 작업지시 수정
 	@PostMapping("/updateInstruction")
-	public String updateInstruction(ProductionDTO productionDTO) {
+	public String updateInstruction(ProductionDTO productionDTO, Authentication authentication) {
 		System.out.println("ProductionController updateInstruction()");
-		System.out.println(productionDTO);
-//		productionDTO.setName("hong123");
+		
+		String username = authentication.getName();
+		productionDTO.setName(username);	
 		
 		Timestamp Ttoday = new Timestamp(System.currentTimeMillis());
 		String Stoday = new SimpleDateFormat("yyyy-MM-dd").format(Ttoday);

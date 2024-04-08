@@ -5,6 +5,8 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name="_csrf" content="${_csrf.token}"/>
+	<meta name="_csrf_header" content="${_csrf.headerName}"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>요기육</title>
     
@@ -46,14 +48,14 @@
                 <h3>실적 관리</h3>
 <!--                 <p class="text-subtitle text-muted">We use 'simple-datatables' made by @fiduswriter. You can check the full documentation <a href="https://github.com/fiduswriter/Simple-DataTables/wiki">here</a>.</p> -->
             </div>
-            <div class="col-12 col-md-6 order-md-2 order-first">
-                <nav aria-label="breadcrumb" class='breadcrumb-header'>
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Datatable</li>
-                    </ol>
-                </nav>
-            </div>
+<!--             <div class="col-12 col-md-6 order-md-2 order-first"> -->
+<!--                 <nav aria-label="breadcrumb" class='breadcrumb-header'> -->
+<!--                     <ol class="breadcrumb"> -->
+<!--                         <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li> -->
+<!--                         <li class="breadcrumb-item active" aria-current="page">Datatable</li> -->
+<!--                     </ol> -->
+<!--                 </nav> -->
+<!--             </div> -->
         </div>
     </div>
     <section class="section">
@@ -173,6 +175,7 @@
 	                  <th style="width: 130px;">실적수량</th>
 	                  <th style="width: 150px;">양불구분</th>
 	                  <th>비고</th>
+<!-- 	                  <th style="width: 0px;"></th> -->
 	                </tr>
 	              </thead>
 	              <tbody>
@@ -188,6 +191,7 @@
 							<option value="1">불량품</option>
 						</select></td>
 					<td><input type="text" name="perNote" class="form-control" placeholder="불량사유, 기타 정보"></td>
+<%-- 					<td><input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" ></td> --%>
 	              </tr>
 	              </tbody>
 	              <tfoot>
@@ -201,6 +205,7 @@
 							<div class="col-12 d-flex justify-content-end">
 <!-- 							    <button type="submit" class="btn btn-primary mr-1 mb-1">Submit</button> -->
 							</div>
+							<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" >
 							</form>
                         </div>
 <!-- 	          --- -->
@@ -287,6 +292,14 @@
 	      url: "${pageContext.request.contextPath}/production/getPerList",
 	      data: JSON.stringify(data),
 	      contentType: "application/json",
+          beforeSend: function(xhr) {
+              // CSRF 토큰과 헤더 이름 읽기
+              var token = $('meta[name="_csrf"]').attr('content');
+              var header = $('meta[name="_csrf_header"]').attr('content');
+              
+              // 요청 헤더에 CSRF 토큰 추가
+              xhr.setRequestHeader(header, token);
+          },
 	      cache: false,  // 캐싱 방지
 	      success: function(response) {
 // 	        console.log(response); // 응답 데이터 로깅
@@ -553,6 +566,14 @@
 	        data: JSON.stringify(data),
 	        contentType: "application/json",
 	        dataType: "json",
+            beforeSend: function(xhr) {
+                // CSRF 토큰과 헤더 이름 읽기
+                var token = $('meta[name="_csrf"]').attr('content');
+                var header = $('meta[name="_csrf_header"]').attr('content');
+                
+                // 요청 헤더에 CSRF 토큰 추가
+                xhr.setRequestHeader(header, token);
+            },
 	        success: function(response) {
 	            // AJAX 호출 성공 시 로직...
 	            Swal.fire({
@@ -605,11 +626,15 @@
 	                    if (target.tagName === 'TR') {
 	                        const firstColumnValue = target.cells[0].textContent || target.cells[0].innerText; // 첫 번째 열 값
 	                        
+	                        var token = document.querySelector('meta[name="_csrf"]').getAttribute('content');
+	                        var header = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
+
 	                        // 서버로 첫 번째 열 값을 POST 요청으로 전송
 	                        fetch('${pageContext.request.contextPath}/production/perDeletePro', {
 	                            method: 'POST',
 	                            headers: {
 	                                'Content-Type': 'application/json',
+	                                [header]: token // CSRF 토큰 추가
 	                            },
 	                            body: JSON.stringify({ perCode: firstColumnValue }) // 서버에 전송할 데이터
 	                        })

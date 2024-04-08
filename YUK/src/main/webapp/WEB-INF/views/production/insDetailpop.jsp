@@ -6,6 +6,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="_csrf" content="${_csrf.token}"/>
+<meta name="_csrf_header" content="${_csrf.headerName}"/>
 <title>요기육</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/bootstrap.css">
     
@@ -61,6 +63,7 @@
                                             <input type="text" id="productCode" class="form-control" name="productName" value="${productionDTO.productName }" disabled>
                                         </div>
                                     </div>
+											<input type="hidden" id="csrf" class="form-control" name="${_csrf.parameterName}" value="${_csrf.token}" >
 						</div></div>
                         <div class="card-body">
                                 <div class="row">
@@ -212,6 +215,14 @@
             url: "${pageContext.request.contextPath}/production/deleteInstruction", // 실제 요청 URL로 변경해야 함
             type: "post", // 메소드 타입
             data:  { instructionCode: instructionCode }, // 서버로 전송할 데이터
+            beforeSend: function(xhr) {
+                // CSRF 토큰과 헤더 이름 읽기
+                var token = $('meta[name="_csrf"]').attr('content');
+                var header = $('meta[name="_csrf_header"]').attr('content');
+                
+                // 요청 헤더에 CSRF 토큰 추가
+                xhr.setRequestHeader(header, token);
+            },
             success: function(response) {
                 // 데이터베이스 저장 성공 후
                 window.opener.location.reload(); // 부모 창 새로고침
