@@ -229,7 +229,8 @@
         },
         error: function(xhr, status, error) {
         	Swal.fire({
-   				title: "출고처리 에러!",
+   				title: "출고처리 불가!",
+   				text: "　제품 재고 보유량 부족",
    				icon: "error"
    			})
         }

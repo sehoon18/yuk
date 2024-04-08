@@ -374,15 +374,16 @@
         data: {mib_cd : mib_cd},
         success: function(response) {
         	Swal.fire({
-					title: "입고처리 완료!",
-					icon: "success" 
+				title: "입고처리 완료!",
+				icon: "success" 
 			}).then(() => {
                 location.reload(); // 페이지 새로고침
             });
         },
         error: function(xhr, status, error) {
         	Swal.fire({
-   				title: "입고처리 에러!",
+   				title: "입고처리 불가!",
+   				text: "　창고 최대 보유량 초과",
    				icon: "error"
    			})
         }
@@ -418,8 +419,9 @@
     },
     error: function(xhr, status, error) {
     	Swal.fire({
-				title: "입고처리 에러!",
-				icon: "error"
+				title: "입고처리 불가!",
+   				text: "　창고 최대 보유량 초과",
+   				icon: "error"
 			})
     }
   });

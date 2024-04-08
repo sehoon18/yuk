@@ -38,6 +38,21 @@ public class BoundDAO {
 			return sqlSession.selectOne(namespace + ".getInBoundBoardCount2", pageDTO);
 	}//getInBoundBoardCount2()
 	
+	public BoundDTO getWh_cdFromMib_cd(BoundDTO boundDTO) {
+		System.out.println("BoundDAO getWh_cdFromMib_cd()");
+			return sqlSession.selectOne(namespace + ".getWh_cdFromMib_cd", boundDTO);
+	}//getWh_cdFromMib_cd()
+	
+	public BoundDTO getWh_cdFromPib_cd(BoundDTO boundDTO) {
+		System.out.println("BoundDAO getWh_cdFromPib_cd()");
+			return sqlSession.selectOne(namespace + ".getWh_cdFromPib_cd", boundDTO);
+	}//getWh_cdFromPib_cd()
+	
+	public int getWh_stockFromWh_cd(BoundDTO boundDTO) {
+		System.out.println("BoundDAO getWh_stockFromWh_cd()");
+			return sqlSession.selectOne(namespace + ".getWh_stockFromWh_cd", boundDTO);
+	}//getWh_stockFromWh_cd()
+	
 	public BoundDTO getPro_cdFromOrd_cd(BoundDTO boundDTO) {
 		System.out.println("BoundDAO getPro_cdFromOrd_cd()");
 			return sqlSession.selectOne(namespace + ".pro_cdFromOrd_cd", boundDTO);
@@ -47,6 +62,16 @@ public class BoundDAO {
 		System.out.println("BoundDAO getOrd_cdFromMib_cd()");
 			return sqlSession.selectOne(namespace + ".ord_cdFromMib_cd", boundDTO);
 	}//getOrd_cdFromMib_cd()
+	
+	public BoundDTO getPer_cdFromPib_cd(BoundDTO boundDTO) {
+		System.out.println("BoundDAO getPer_cdFromPib_cd()");
+			return sqlSession.selectOne(namespace + ".getPer_cdFromPib_cd", boundDTO);
+	}//getPer_cdFromPib_cd()
+	
+	public BoundDTO getPro_cdFromPer_cd(BoundDTO boundDTO) {
+		System.out.println("BoundDAO getPro_cdFromPer_cd()");
+			return sqlSession.selectOne(namespace + ".getPro_cdFromPer_cd", boundDTO);
+	}//getPro_cdFromPer_cd()
 
 	public void inBoundPro1(BoundDTO boundDTO) {
 		System.out.println("BoundDAO inBoundPro1()");
@@ -68,6 +93,11 @@ public class BoundDAO {
 		sqlSession.update(namespace + ".inBoundPro2", boundDTO);
 	}//inBoundPro2()
 	
+	public void inBoundPro2_1(BoundDTO boundDTO) {
+		System.out.println("BoundDAO inBoundPro2_1()");
+		sqlSession.update(namespace + ".inBoundPro2_1", boundDTO);
+	}//inBoundPro2_1()
+	
 	public List<BoundDTO> getOutBoundBoardList(PageDTO pageDTO) {
 		System.out.println("BoundDAO getOutBoundBoardList()");
 		return sqlSession.selectList(namespace + ".getOutBoundBoardList", pageDTO);
@@ -78,15 +108,30 @@ public class BoundDAO {
 		return sqlSession.selectOne(namespace + ".getOutBoundBoardCount", pageDTO);
 	}//getOutBoundBoardCount()
 	
-	public BoundDTO getCon_cdFromOb_cd(BoundDTO boundDTO) {
-		System.out.println("BoundDAO getCon_cdFromOb_cd()");
-			return sqlSession.selectOne(namespace + ".con_cdFromOb_cd", boundDTO);
-	}//getCon_cdFromOb_cd()
+//	public BoundDTO getCon_cdFromOb_cd(BoundDTO boundDTO) {
+//		System.out.println("BoundDAO getCon_cdFromOb_cd()");
+//			return sqlSession.selectOne(namespace + ".con_cdFromOb_cd", boundDTO);
+//	}//getCon_cdFromOb_cd()
+//	
+//	public BoundDTO getPro_cdFromCon_cd(BoundDTO boundDTO) {
+//		System.out.println("BoundDAO getPro_cdFromCon_cd()");
+//		return sqlSession.selectOne(namespace + ".getPro_cdFromCon_cd", boundDTO);
+//	}//getPro_cdFromCon_cd()
+	
+	public BoundDTO getPro_cdFromOb_cd(BoundDTO boundDTO) {
+		System.out.println("BoundDAO getPro_cdFromOb_cd()");
+		return sqlSession.selectOne(namespace + ".getPro_cdFromOb_cd", boundDTO);
+	}//getPro_cdFromOb_cd()
 	
 	public void outBoundPro(BoundDTO boundDTO) {
 		System.out.println("BoundDAO outBoundPro()");
 		sqlSession.update(namespace + ".outBoundPro", boundDTO);
 	}//outBoundPro()
+	
+	public void outBoundPro_1(BoundDTO boundDTO) {
+		System.out.println("BoundDAO outBoundPro_1()");
+		sqlSession.update(namespace + ".outBoundPro_1", boundDTO);
+	}//outBoundPro_1()
 	
 	public void outBoundPro_2(BoundDTO boundDTO) {
 		System.out.println("BoundDAO outBoundPro_2");

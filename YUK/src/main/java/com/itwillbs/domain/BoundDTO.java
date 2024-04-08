@@ -27,7 +27,9 @@ public class BoundDTO {
 	private int pro_type;
 	private String ins_cd;
 	private int pro_vol;
-	
+	private String wh_cd;
+	private int wh_mvol;
+	private int wh_stock;	//특정 창고 현재보유량(보유 품목 적재량 합계)
 	
 	
 	@Override
@@ -38,7 +40,29 @@ public class BoundDTO {
 				+ ", ob_date=" + ob_date + ", ob_info_status=" + ob_info_status + ", ord_vol=" + ord_vol + ", con_vol="
 				+ con_vol + ", pro_cd=" + pro_cd + ", actual_completion_amount=" + actual_completion_amount
 				+ ", per_good=" + per_good + ", wh_name=" + wh_name + ", pro_name=" + pro_name + ", pro_type="
-				+ pro_type + ", ins_cd=" + ins_cd + ", pro_vol=" + pro_vol + "]";
+				+ pro_type + ", ins_cd=" + ins_cd + ", pro_vol=" + pro_vol + ", wh_cd=" + wh_cd + ", wh_mvol=" + wh_mvol
+				+ ", wh_stock=" + wh_stock + "]";
+	}
+	
+	
+	
+	public int getWh_stock() {
+		return wh_stock;
+	}
+	public void setWh_stock(int wh_stock) {
+		this.wh_stock = wh_stock;
+	}
+	public String getWh_cd() {
+		return wh_cd;
+	}
+	public void setWh_cd(String wh_cd) {
+		this.wh_cd = wh_cd;
+	}
+	public int getWh_mvol() {
+		return wh_mvol;
+	}
+	public void setWh_mvol(int wh_mvol) {
+		this.wh_mvol = wh_mvol;
 	}
 	public int getPro_vol() {
 		return pro_vol;
