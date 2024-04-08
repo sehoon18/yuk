@@ -17,6 +17,14 @@
 		tbody tr:hover {
 		    background-color:#e4e8ff;
 		}
+   .custom-placeholder {
+        background-color: white !important; /* 흰색 배경을 강제 적용 */
+        color: black; /* 글자 색상 */
+    }
+
+    .custom-placeholder::placeholder {
+        color: black; /* 플레이스홀더 글자 색상 */
+    }
 	</style>
     	<script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>   
 </head>
@@ -56,10 +64,12 @@
      <form id="dataForm" class="insertRequired" action="${pageContext.request.contextPath}/product/requiredInsert" method="post">
       <div class="card-header" style="text-align:right;">
         <h4 class="card-title" style="text-align:left;">소요량 목록 <b>총 ${requiredList.size()}건</b></h4>
+        <c:if test="${memberDTO.permission == 0 || memberDTO.permission == 1}">
      		    <button type="button" onclick="addTableRow()" class='btn btn-primary' id="addrow">➕ 추가</button>
 			    <button type="button" onclick="modTableRow()" class='btn btn-primary' id="modify">↪️ 수정</button>
 			    <button type="button" onclick="delTableRow()" class='btn btn-primary' id="delete">⚠️ 삭제</button>
 			    <button type="submit" class='btn btn-primary' id="submitrow" disabled>💾 저장</button>
+			    </c:if>
       </div>
       <div class="card-content">
         <div class="table-responsive">
@@ -77,7 +87,7 @@
             </thead>
             <tbody>
             <c:forEach var="productDTO" items="${requiredList}">
-              <tr>
+              <tr data-id="${productDTO.requiredCode}">
                 <td>${productDTO.requiredCode}</td> 
                 <td>${productDTO.productCode}</td>
                 <td>${productDTO.productName}</td>
@@ -143,66 +153,107 @@
 	}
 	</script>
 	
-	 <script>
-    function addTableRow() {
-        const table = document.getElementById("table1").getElementsByTagName('tbody')[0];
-        const newRow = table.insertRow(0);
-        const rowId = table.rows.length; // 행 ID로 사용될 값
+	<script>
+	function requiredInsertPopUp1(){
+		window.open("${pageContext.request.contextPath}/product/requiredInsertPopUp1" , "이름1" , "width=1300px, height=700px , left=100px; , top=100px;");
+	}
+	function receiveReq1(productCode,productName){
+		document.getElementById("productCode").value = productCode;
+		document.getElementById("productName1").value = productName;
+	}
+	</script>
+	
+	<script>
+	function requiredInsertPopUp2(){
+		window.open("${pageContext.request.contextPath}/product/requiredInsertPopUp2" , "이름2" , "width=1300px, height=700px , left=100px; , top=100px;");
+	}
+	function receiveReq2(productCode,productName,productType){
+		document.getElementById("productCode1").value = productCode;
+		document.getElementById("productName2").value = productName;
+		document.getElementById("productType").value = productType;
+	}
+	</script>
+	
 
-        
-        // 각 열에 대한 셀과 입력 필드 생성
-       		const fields = ['requiredCode', 'productCode', 'productName', 'materialProductCode', 'productPName','productType','requiredVol'];
-       		const exampleData = ['${productionDTO.requiredCode}','', '', '', '','',''];
+<script> 
+function addTableRow() {
+    const table = document.getElementById("table1").getElementsByTagName('tbody')[0];
+    const newRow = table.insertRow(0);
+    const rowId = table.rows.length; // 행 ID로 사용될 값
 
-        	fields.forEach((field, index) => {
-            const cell = newRow.insertCell(index);
-            let input;
+   
+    // 각 열에 대한 셀과 입력 필드 생성
+  		const fields = ['requiredCode', 'productCode', 'productName', 'materialProductCode', 'productPName','productType','requiredVol'];
+  		const exampleData = ['${productDTO.requiredCode}','', '', '', '','',''];
 
-            // 인풋 타입 변경
-            if (field === 'requiredCode') {
-            	input = document.createElement("input");
-                input.type = "text";
-                input.className = "form-control";
-                input.readOnly = true; // 입력 필드를 읽기 전용으로 설정
-            } else if(field === 'productName'){
-                input = document.createElement("input");
-                input.type = "text";
-                input.className = "form-control";
-                input.readOnly = true; // 입력 필드를 읽기 전용으로 설정
-            } else if(field === 'productCode'){
-                input = document.createElement("input");
-                input.type = "text";
-                input.className = "form-control";
-	        } else if(field === 'materialProductCode'){
-	            input = document.createElement("input");
-	            input.type = "text";
-	            input.className = "form-control";
-	        } else if(field === 'productPName'){
-	            input = document.createElement("input");
-	            input.type = "text";
-	            input.className = "form-control";
-	            input.readOnly = true; // 입력 필드를 읽기 전용으로 설정
-	        } else if(field === 'productType'){
-	            input = document.createElement("input");
-	            input.type = "text";
-	            input.className = "form-control";
-	            input.readOnly = true; // 입력 필드를 읽기 전용으로 설정
-	        }else if(field === 'requiredVol'){
-	            input = document.createElement("input");
-	            input.type = "text";
-	            input.className = "form-control";
-	        }
-            else {
-                input = document.createElement("input");
-                input.type = "text";
-                input.className = "form-control";
-            }
+    	fields.forEach((field, index) => {
+        const cell = newRow.insertCell(index);
+        let input;
 
-            input.name = field;
-            input.value = exampleData[index];
-            cell.appendChild(input);
-        });
+        // 인풋 타입 변경
+        if (field === 'requiredCode') {
+        	input = document.createElement("input");
+            input.type = "text";
+            input.className = "form-control";
+            input.readOnly = true; // 입력 필드를 읽기 전용으로 설정
+        } else if(field === 'productCode'){
+            input = document.createElement("input");
+            input.type = "text";
+            input.id = "productCode";
+            input.name = "productCode";
+            input.className = "form-control custom-placeholder";
+            input.placeholder = "완제품코드 선택하기"; // 플레이스홀더 텍스트
+			input.readOnly = true; // 입력 필드를 읽기 전용으로 설정
+          input.addEventListener('click', function() {
+       	   requiredInsertPopUp1(); // 팝업을 띄우는 함수 호출
+          });
+        } else if(field === 'productName'){
+            input = document.createElement("input");
+            input.type = "text";
+            input.id = "productName1";
+            input.name = "productName1";
+            input.className = "form-control";
+            input.readOnly = true; // 입력 필드를 읽기 전용으로 설정
+       } else if(field === 'materialProductCode'){
+      	   input = document.createElement("input");
+    	   input.type = "text";
+    	   input.id = "productCode1";
+    	   input.name = "productCode1";
+           input.className = "form-control custom-placeholder";
+           input.placeholder = "자재코드 선택하기"; // 플레이스홀더 텍스트
+           input.readOnly = true; // 입력 필드를 읽기 전용으로 설정
+           input.addEventListener('click', function() {
+           	requiredInsertPopUp2(); // 팝업을 띄우는 함수 호출
+           });
+       } else if(field === 'productPName'){
+           input = document.createElement("input");
+           input.type = "text";
+           input.id = "productName2";
+           input.name = "productName2";
+       input.className = "form-control";
+       input.readOnly = true; // 입력 필드를 읽기 전용으로 설정
+       } else if(field === 'productType'){
+           input = document.createElement("input");
+           input.type = "text";
+           input.id = "productType";
+           input.name = "productType";
+       input.className = "form-control";
+           input.readOnly = true; // 입력 필드를 읽기 전용으로 설정
+       }else if(field === 'requiredVol'){
+           input = document.createElement("input");
+            input.type = "text";
+            input.className = "form-control";
+        }
+        else {
+            input = document.createElement("input");
+           input.type = "text";
+            input.className = "form-control";
+       }
 
+        input.name = field;
+        input.value = exampleData[index];
+        cell.appendChild(input);
+    });
         // '추가' 버튼을 '취소' 버튼으로 변경하면서 id값도 변경
         const addButton = document.querySelector('#addrow');
         addButton.textContent = '✖️ 취소';
@@ -330,7 +381,7 @@
     function makeRowEditable(row) {
         isDelMode = false;
         originalHTML = {}; // 현재 행에 대한 원본 HTML 저장을 위해 객체 초기화
-        const cellIndex = [6]; // 수정할 열 인덱스 (2열과 5열)
+        const cellIndex = [0,6]; // 수정할 열 인덱스 (2열과 5열)  
         cellIndex.forEach((index) => {
             const cell = row.cells[index];
             originalHTML[index] = cell.innerHTML; // 수정 전 원본 HTML을 저장
@@ -338,10 +389,10 @@
             
             // 1열(인덱스 0)의 경우, 텍스트 입력 필드를 생성
 	       if (index === 0) {
-	            const input = document.createElement('input');
-	            input.type = 'hidden'; // 입력 필드 타입을 hidden으로 설정
-	            input.name = 'requiredCode'; // 요구사항에 맞게 이름 설정
-	            input.value = originalText; // 예를 들어, 행의 고유 ID 값
+	    	   const input = document.createElement('input');
+	           input.type = 'hidden'; // 입력 필드 타입을 hidden으로 설정
+	           input.name = 'requiredCode'; // 요구사항에 맞게 이름 설정
+	           input.value = row.getAttribute('data-id'); // 'data-id' 속성이나 다른 방법으로 'id' 값을 설정
 	            cell.appendChild(input); // 숨겨진 입력 필드 추가
 	       }
 			else if (index === 6) {
@@ -381,12 +432,12 @@ document.addEventListener('DOMContentLoaded', function() {
                         const firstColumnValue = target.cells[0].textContent || target.cells[0].innerText; // 첫 번째 열 값
                         
                         // 서버로 첫 번째 열 값을 POST 요청으로 전송
-                        fetch('${pageContext.request.contextPath}/product/productDelete', {
+                        fetch('${pageContext.request.contextPath}/product/requiredDelete', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
                             },
-                            body: JSON.stringify({ productCode: firstColumnValue }) // 서버에 전송할 데이터
+                            body: JSON.stringify({ requiredCode: firstColumnValue }) // 서버에 전송할 데이터
                         })
                         .then(response => {
                             if(response.ok) {

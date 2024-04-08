@@ -11,7 +11,7 @@
     <link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/assets/images/favicon.svg" type="image/x-icon">
     <style>
     .color:hover {
-    background-color: lightgray;
+    background-color: #e4e8ff;
     }
     </style>
     
@@ -48,7 +48,6 @@
                 <th>품목구분</th>
                 <th>원산지</th>
                 <th>단가</th>
-                <th>비고</th>
               </tr>
             </thead>
             <tbody>
@@ -67,12 +66,6 @@
                 </c:if>
                 <td>${productDTO.productOrigin}</td>
                 <td>${productDTO.productPrice}</td>
-                <c:if test="${productDTO.note == null}">
-                <td></td>
-                </c:if>
-                <c:if test="${productDTO.note != null}">
-                <td>${productDTO.Note}</td>
-                </c:if>
               </tr>
               </c:forEach>
             </tbody>

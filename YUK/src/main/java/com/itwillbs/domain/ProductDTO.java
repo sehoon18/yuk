@@ -13,16 +13,16 @@ public class ProductDTO {
 	private int prodcutVol;				//적재량
 	private String requiredCode;		//소요량코드
 	private int requiredVol;			//소요량
-	private String note;				//비고
+	
+	
 	
 	
 	@Override
 	public String toString() {
 		return "ProductDTO [productCode=" + productCode + ", materialProductCode=" + materialProductCode
-				+ ", productType=" + productType + ", productName=" + productName
-				+ ", productPName=" + productPName + ", productPrice=" + productPrice + ", productOrigin="
-				+ productOrigin + ", prodcutVol=" + prodcutVol + ", requiredCode=" + requiredCode + ", requiredVol="
-				+ requiredVol + ", note=" + note + "]";
+				+ ", productType=" + productType + ", productName=" + productName + ", productPName=" + productPName
+				+ ", productPrice=" + productPrice + ", productOrigin=" + productOrigin + ", prodcutVol=" + prodcutVol
+				+ ", requiredCode=" + requiredCode + ", requiredVol=" + requiredVol + "]";
 	}
 	
 	
@@ -73,12 +73,6 @@ public class ProductDTO {
 	}
 	public void setRequiredVol(int requiredVol) {
 		this.requiredVol = requiredVol;
-	}
-	public String getNote() {
-		return note;
-	}
-	public void setNote(String note) {
-		this.note = note;
 	}
 	public String getMaterialProductCode() {
 		return materialProductCode;
