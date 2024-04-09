@@ -89,8 +89,8 @@
 
 
 							<div class="col-12 d-flex justify-content-end">
-							    <button type="submit" class="btn btn-primary mr-1 mb-1" >Submit</button>
-							    <button type="reset" class="btn btn-light-secondary mr-1 mb-1">Reset</button>
+							    <button type="submit" class="btn btn-primary mr-1 mb-1" >등록</button>
+							    <button type="reset" class="btn btn-light-secondary mr-1 mb-1">초기화</button>
 							</div>
 						</form>
                         </div>

@@ -30,8 +30,8 @@
 
 <div class="main-content container-fluid" width="1392px" height="1000px">
     <div class="page-title">
-        <h3><a href="#">발주관리</a></h3>
-        <h5><a href="#">조회페이지</a></h5>
+        <h3><a href="${pageContext.request.contextPath}/ordercontract/order">수주관리</a></h3>
+        <h5><a href="${pageContext.request.contextPath}/ordercontract/order">조회페이지</a></h5>
     </div>
     <div class="card">
         <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
@@ -55,7 +55,7 @@
             <div>
            
                 <button class="btn btn-primary btn-sm" type="submit" onclick="addpopup();" style="margin-top:22px !important;">등록</button>
-                <button class="btn btn-primary btn-sm" type="submit" style="margin-top:22px !important;">저장</button>
+<!--                 <button class="btn btn-primary btn-sm" type="submit" style="margin-top:22px !important;">저장</button> -->
             </div>
         </div>
           <div class="card-body">
@@ -93,12 +93,45 @@
 	</tr> 									 		
 
     </c:forEach> 
-                        
-                        
-                    </tbody>
+   	  </tbody>
                 </table>
+                <!-- 			페이징 시작 -->
+<!-- <nav aria-label="Page navigation example"> -->
+<!--     <ul class="pagination pagination-primary justify-content-end"> -->
+<%--         <c:if test="${pageDTO.startPage > 1}"> --%>
+<!--             <li class="page-item"> -->
+<%--                 <a class="page-link" href="${pageContext.request.contextPath}/ordercontract/order?pageNum=${pageDTO.startPage - 1}">Previous</a> --%>
+<!--             </li> -->
+<%--         </c:if> --%>
+        
+<%--         <c:if test="${pageDTO.startPage <= 1}"> --%>
+<!--             <li class="page-item disabled"> -->
+<!--                 <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a> -->
+<!--             </li> -->
+<%--         </c:if> --%>
+        
+<%--         <c:forEach var="i" begin="${pageDTO.startPage}" end="${pageDTO.endPage}" step="1"> --%>
+<%--             <li class="page-item ${pageDTO.currentPage == i ? 'active' : ''}"> --%>
+<%--                 <a class="page-link" href="${pageContext.request.contextPath}/ordercontract/order?pageNum=${i}">${i}</a> --%>
+<!--             </li> -->
+<%--         </c:forEach> --%>
+        
+<%--         <c:if test="${pageDTO.endPage < pageDTO.pageCount}"> --%>
+<!--             <li class="page-item"> -->
+<%--                 <a class="page-link" href="${pageContext.request.contextPath}/ordercontract/order?pageNum=${pageDTO.endPage + 1}">Next</a> --%>
+<!--             </li> -->
+<%--         </c:if> --%>
+        
+<%--         <c:if test="${pageDTO.endPage >= pageDTO.pageCount}"> --%>
+<!--             <li class="page-item disabled"> -->
+<!--                 <a class="page-link" href="#">Next</a> -->
+<!--             </li> -->
+<%--         </c:if> --%>
+<!--     </ul> -->
+<!-- </nav> -->
+<!-- 			페이징 끝 -->   
             </div>
-        </div>
+         </div>
 </div>
 
             <footer>
@@ -117,8 +150,8 @@
 	  // 인풋 창을 클릭하면 팝업을 엽니다.
 	  function popup(ord_cd) {
 // 	    var popup = window.open("${pageContext.request.contextPath}/popup/orderdeletepopup?ord_cd="+(ord_cd), "popup", "width=1600,height=600");
-	    var url = `${pageContext.request.contextPath}/popup/orderdeletepopup?ord_cd=`+ord_cd;
-        var popup = window.open(url, "popup", "width=1600,height=600");
+// 	    var url = `${pageContext.request.contextPath}/popup/orderdeletepopup?ord_cd=`+ord_cd;
+        var popup = window.open("${pageContext.request.contextPath}/ordercontract/orderdeletepopup?ord_cd="+ord_cd, "popup", "width=1600,height=600");
         
 	    if (popup === null || typeof(popup) === 'undefined') {
 	      alert('팝업이 차단되었습니다. 팝업 차단을 해제하고 다시 시도해주세요.');

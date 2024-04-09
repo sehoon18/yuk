@@ -27,7 +27,7 @@ import com.itwillbs.domain.ProductionDTO;
 		}
 		public List<OrdercontractDTO> getOrderList(OrdercontractDTO ordercontractDTO) {
 			System.out.println("OrdercontractDAO getOrderList()");
-			return sqlSession.selectList(namespace + ".getOrderList" ,ordercontractDTO);
+			return sqlSession.selectList(namespace + ".getOrderList", ordercontractDTO);
 		}
 		public List<OrdercontractDTO> getContractList(OrdercontractDTO ordercontractDTO) {
 			System.out.println("OrdercontractDAO getContractList()");
@@ -51,4 +51,19 @@ import com.itwillbs.domain.ProductionDTO;
 		public void deleteContract(OrdercontractDTO ordercontractDTO) {
 			sqlSession.delete(namespace + ".deleteContract", ordercontractDTO);
 		}
+		public OrdercontractDTO getOrder(OrdercontractDTO ordercontractDTO) {
+			
+			return sqlSession.selectOne(namespace+".getOrder",ordercontractDTO);
+		}
+		public OrdercontractDTO getContract(OrdercontractDTO ordercontractDTO) {
+			
+			return sqlSession.selectOne(namespace+".getContract",ordercontractDTO);
+		}
+		public int getOrderCount(OrdercontractDTO ordercontractDTO) {
+			return sqlSession.selectOne(namespace + ".getOrderCount", ordercontractDTO);
+		}
+		public int getContractCount(OrdercontractDTO ordercontractDTO) {
+			return sqlSession.selectOne(namespace + ".getContractCount", ordercontractDTO);
+		}
+		
 }

@@ -20,7 +20,21 @@ public class PageDTO {
 	private int count2;
 	private int pageCount;
 	private int pageCount2;
-	
+//	private String ord_cd;
+//	
+//	public String getOrd_cd() {
+//		return ord_cd;
+//	}
+//	public void setOrd_cd(String ord_cd) {
+//		this.ord_cd = ord_cd;
+//	}
+//	public String getCon_cd() {
+//		return con_cd;
+//	}
+//	public void setCon_cd(String con_cd) {
+//		this.con_cd = con_cd;
+//	}
+//	private String con_cd;
 	//검색어 추가
 	private String search1; //출고, 자재입고
 	private String search2;

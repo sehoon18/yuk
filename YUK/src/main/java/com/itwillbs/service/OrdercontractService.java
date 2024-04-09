@@ -6,6 +6,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 import com.itwillbs.dao.OrdercontractDAO;
 import com.itwillbs.domain.OrdercontractDTO;
+import com.itwillbs.domain.PageDTO;
 import com.itwillbs.domain.ProductionDTO;
 
 
@@ -16,12 +17,34 @@ import com.itwillbs.domain.ProductionDTO;
 		@Inject
 		OrdercontractDAO ordercontractDAO;
 		
+//		public List<OrdercontractDTO> getOrderList(OrdercontractDTO ordercontractDTO , PageDTO pageDTO) {
+//			return ordercontractDAO.getOrderList(ordercontractDTO);
+//		}
 		public List<OrdercontractDTO> getOrderList(OrdercontractDTO ordercontractDTO) {
+			
+//			int startRow = (pageDTO.getCurrentPage() - 1) * pageDTO.getPageSize() + 1;
+//			int EndRow = startRow + pageDTO.getPageSize() - 1;
+//			
+//			pageDTO.setStartRow(startRow -1);
+//			pageDTO.setEndRow(EndRow);
+//			
 			return ordercontractDAO.getOrderList(ordercontractDTO);
 		}
+//		public List<OrdercontractDTO> getContractList(OrdercontractDTO ordercontractDTO) {
+//			
+//			return ordercontractDAO.getContractList(ordercontractDTO);
+//		}
 		public List<OrdercontractDTO> getContractList(OrdercontractDTO ordercontractDTO) {
+			
+//			int startRow = (pageDTO.getCurrentPage() - 1) * pageDTO.getPageSize() + 1;
+//			int EndRow = startRow + pageDTO.getPageSize() - 1;
+//			
+//			pageDTO.setStartRow(startRow -1);
+//			pageDTO.setEndRow(EndRow);
+//			
 			return ordercontractDAO.getContractList(ordercontractDTO);
 		}
+		
 		
 		public void insertOrder(OrdercontractDTO ordercontractDTO) {
 			
@@ -71,42 +94,11 @@ import com.itwillbs.domain.ProductionDTO;
 		}
 		
 		public void updateOrder(OrdercontractDTO ordercontractDTO) {
-//			Integer ordLastNum = ordercontractDAO.getOrdLastNum();
-//			String ord_cd;
-//			if (ordLastNum == null) {
-//				ord_cd = "ORD001";
-//			} else {
-//			    int nextNum = ordLastNum + 1;
-//			    if (nextNum < 10) {
-//			    	ord_cd = String.format("ORD00%d", nextNum);
-//			    } else if (nextNum < 100) {
-//			    	ord_cd = String.format("ORD0%d", nextNum);
-//			    } else {
-//			    	ord_cd = String.format("ORD%d", nextNum);
-//			    }
-//			}
-//			ordercontractDTO.setOrd_cd(ord_cd);
-			// 작업 지시 insert
+			
 			ordercontractDAO.updateOrder(ordercontractDTO);
 		}
 		public void updateContract(OrdercontractDTO ordercontractDTO) {
 			
-			Integer conLastNum = ordercontractDAO.getConLastNum();
-			String con_cd;
-			if (conLastNum == null) {
-				con_cd = "CON001";
-			} else {
-			    int nextNum = conLastNum + 1;
-			    if (nextNum < 10) {
-			    	con_cd = String.format("CON00%d", nextNum);
-			    } else if (nextNum < 100) {
-			    	con_cd = String.format("CON0%d", nextNum);
-			    } else {
-			    	con_cd = String.format("CON%d", nextNum);
-			    }
-			}
-			ordercontractDTO.setCon_cd(con_cd);
-			// 작업 지시 insert
 			ordercontractDAO.updateContract(ordercontractDTO);
 		}
 		public void deleteOrder(OrdercontractDTO ordercontractDTO) {
@@ -115,5 +107,24 @@ import com.itwillbs.domain.ProductionDTO;
 		public void deleteContract(OrdercontractDTO ordercontractDTO) {
 			ordercontractDAO.deleteContract(ordercontractDTO);
 		}
+		public OrdercontractDTO getOrder(OrdercontractDTO ordercontractDTO) {
+			
+			return ordercontractDAO.getOrder(ordercontractDTO);
+		}
+		public OrdercontractDTO getContract(OrdercontractDTO ordercontractDTO) {
+			
+			return ordercontractDAO.getContract(ordercontractDTO);
+		}
+		public int getOrderCount(OrdercontractDTO ordercontractDTO) {
+			
+			return ordercontractDAO.getOrderCount(ordercontractDTO);
+		}
+		public int getContractCount(OrdercontractDTO ordercontractDTO) {
+			
+			return ordercontractDAO.getContractCount(ordercontractDTO);
+		}
+		
+		
+		
 			
 }
