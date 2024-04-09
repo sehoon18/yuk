@@ -5,6 +5,8 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name="_csrf" content="${_csrf.token}"/>
+	<meta name="_csrf_header" content="${_csrf.headerName}"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YOGIYUK</title>
 
@@ -31,13 +33,13 @@
   <div class="col-lg-2 col-3" style="display: flex; align-items: center; white-space: nowrap;">
 <!--   	flex: 0 1 auto; 속성은 사원번호 텍스트가 필요한 만큼의 공간만 차지 -->
   <div style="flex: 0 1 auto; margin-right: 10px;"><b>품목코드</b></div>
-  <input type="text" id="productCode" class="form-control" name="productCode" style="flex: 1 1 auto; width: auto; background-color: white;" placeholder="품목코드를 선택하세요" onclick="productPopUp();" readonly>
+  <input type="text" id="productCode" class="form-control" name="search1" style="flex: 1 1 auto; width: auto; background-color: white;" placeholder="품목코드를 선택하세요" onclick="productPopUp();" readonly>
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>품명</b> &nbsp;&nbsp;
-  <input type="text" id="productName" class="form-control" name="productName" style="flex: 1 1 auto; width: auto;" placeholder="품명을 입력하세요">
+  <input type="text" id="productName" class="form-control" name="search2" style="flex: 1 1 auto; width: auto;" placeholder="품명을 입력하세요">
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
    <b>품목구분</b>
    &nbsp;&nbsp;
-  <select class="form-select" id="basicSelect" name="productType" style="width: 100px;">
+  <select class="form-select" id="basicSelect" name="search5" style="width: 100px;">
 	<option value="100">전체</option>
 	<option value="0">완제품</option>
 	<option value="1">식자재</option>
@@ -57,12 +59,10 @@
         <form id="dataForm" class="insertProduct" action="${pageContext.request.contextPath}/product/productInsertPro" method="post">
       <div class="card-header" style="text-align:right;">
         <h4 class="card-title" style="text-align:left;">품목 목록 <b>총 ${productList.size()}건</b></h4>
-        <c:if test="${memberDTO.permission == 0 || memberDTO.permission == 1}">
 			    <button type="button" onclick="addTableRow()" class='btn btn-primary' id="addrow">➕ 추가</button>
 			    <button type="button" onclick="modTableRow()" class='btn btn-primary' id="modify">↪️ 수정</button>
 			    <button type="button" onclick="delTableRow()" class='btn btn-primary' id="delete">⚠️ 삭제</button>
 			    <button type="submit" class='btn btn-primary' id="submitrow" disabled>💾 저장</button>
-	    </c:if>
       </div>
       <div class="card-content">
         <div class="table-responsive">
@@ -74,6 +74,7 @@
                 <th>단가</th>
                 <th>원산지</th>
                 <th>품목구분</th>
+                <th style="display: none;"></th>
               </tr>
             </thead>
             <tbody>
@@ -92,6 +93,7 @@
                 <c:if test="${productDTO.productType == 2 }">
                 <td>포장자재</td>
                 </c:if>
+                <td style="display: none;"></td>
               </tr>
               </c:forEach>
             </tbody>
@@ -105,23 +107,60 @@
 </div>
     
 </div>    
-<nav aria-label="Page navigation example">
-	<ul class="pagination pagination-primary" style="justify-content:center;">
-		<li class="page-item">
-			<a class="page-link" href="#">
-		<span aria-hidden="true"><i data-feather="chevron-left"></i></span>
-			</a>
-		</li>
-			<li class="page-item"><a class="page-link" href="">1</a></li>
-			<li class="page-item active"><a class="page-link" href="">2</a></li>
-			<li class="page-item"><a class="page-link" href="">3</a></li>
-			<li class="page-item"><a class="page-link" href="">
-		<span aria-hidden="true"><i data-feather="chevron-right"></i></span>
-			</a>
-		</li>
-	</ul>
-</nav>
 
+<!-- 페이징 시작 -->
+<nav aria-label="Page navigation example">
+	
+    <ul class="pagination pagination-primary justify-content-end">
+		
+	<c:if test="${pageDTO.startPage > 1}">
+		<li class="page-item">
+			<a class="page-link" href="${pageContext.request.contextPath}/product/productMain?pageNum=${pageDTO.startPage - 1}
+			&search1=${pageDTO.search1}&search2=${pageDTO.search2}
+			&select1=${pageDTO.select1}">
+			<span aria-hidden="true">
+				<i data-feather="chevron-left"></i></span></a>
+		</li>
+	</c:if>
+	
+	<c:if test="${pageDTO.startPage <= 1}">
+		<li class="page-item disabled">
+			<a class="page-link" href="#" tabindex="-1" aria-disabled="true">
+			<span aria-hidden="true">
+				<i data-feather="chevron-left"></i></span></a>
+        </li>
+    </c:if>
+
+	<c:forEach var="i" begin="${pageDTO.startPage}" end="${pageDTO.endPage}" step="1">
+		<li class="page-item ${pageDTO.currentPage == i ? 'active' : ''}">
+			<a class="page-link" href="${pageContext.request.contextPath}/product/productMain?pageNum=${i}
+			&search1=${pageDTO.search1}&search2=${pageDTO.search2}&search5=${pageDTO.search5}
+			&select1=${pageDTO.select1}">${i}</a>
+		</li>
+	</c:forEach>
+
+	<c:if test="${pageDTO.endPage < pageDTO.pageCount}">
+		<li class="page-item">
+			<a class="page-link" href="${pageContext.request.contextPath}/product/productMain?pageNum=${pageDTO.endPage + 1}
+			&search1=${pageDTO.search1}&search2=${pageDTO.search2}&search5=${pageDTO.search5}
+			&select1=${pageDTO.select1}">
+			<span aria-hidden="true">
+				<i data-feather="chevron-right"></i></span></a>
+		</li>
+	</c:if>
+	
+    <c:if test="${pageDTO.endPage >= pageDTO.pageCount}">
+		<li class="page-item disabled">
+			<a class="page-link" href="#">
+			<span aria-hidden="true">
+				<i data-feather="chevron-right"></i></span></a>
+		</li>
+    </c:if>
+    
+	</ul>
+	
+</nav>
+<!-- 페이징 끝 -->
 
 
 
@@ -138,7 +177,7 @@
 	<script>
 	
 	function productPopUp(){
-		window.open("${pageContext.request.contextPath}/product/productPopUp", "" , "width=1000px, height=700px , left=100px; , top=100px;");
+		window.open("${pageContext.request.contextPath}/product/productPopUp", "" , "width=1500px, height=1000px , left=100px; , top=100px;");
 	}
 	</script>
 	
@@ -159,8 +198,8 @@
 
         
         // 각 열에 대한 셀과 입력 필드 생성
-        const fields = ['productCode', 'productName', 'productPrice', 'productOrigin', 'productType'];
-        const exampleData = ['${productionDTO.productCode}', '', '', '', '0'];
+        const fields = ['productCode', 'productName', 'productPrice', 'productOrigin', 'productType','${_csrf.parameterName}'];
+        const exampleData = ['${productionDTO.productCode}', '', '', '', '0','${_csrf.token}'];
 
         fields.forEach((field, index) => {
             const cell = newRow.insertCell(index);
@@ -187,6 +226,11 @@
                 input.type = "text";
                 input.className = "form-control";
                 input.readOnly = true; // 입력 필드를 읽기 전용으로 설정
+            }
+            else if(field === '${_csrf.parameterName}'){
+                input = document.createElement("input");
+                input.type = "hidden";
+                input.className = "form-control";
             }
             else {
                 input = document.createElement("input");
@@ -326,7 +370,7 @@
     function makeRowEditable(row) {
         isDelMode = false;
         originalHTML = {}; // 현재 행에 대한 원본 HTML 저장을 위해 객체 초기화
-        const cellIndex = [0, 1, 2, 3, 4]; // 수정할 열 인덱스 (2열과 5열)
+        const cellIndex = [0, 1, 2, 3, 4, 5]; // 수정할 열 인덱스 (2열과 5열)
         cellIndex.forEach((index) => {
             const cell = row.cells[index];
             originalHTML[index] = cell.innerHTML; // 수정 전 원본 HTML을 저장
@@ -368,6 +412,15 @@
                 input.className = 'form-control';
                 input.value = originalText;
                 cell.innerHTML = '';
+                cell.appendChild(input);
+            }
+	       // 6열(인덱스 5)의 경우, 텍스트 입력 필드를 생성
+			else if (index === 5) {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = '${_csrf.parameterName}';
+                input.className = 'form-control';
+                input.value = '${_csrf.token}';
                 cell.appendChild(input);
             }
             // 5열(인덱스 4)의 경우, 선택 목록을 생성
@@ -417,11 +470,15 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (target.tagName === 'TR') {
                         const firstColumnValue = target.cells[0].textContent || target.cells[0].innerText; // 첫 번째 열 값
                         
+                        var token = document.querySelector('meta[name="_csrf"]').getAttribute('content');
+                        var header = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
+                        
                         // 서버로 첫 번째 열 값을 POST 요청으로 전송
                         fetch('${pageContext.request.contextPath}/product/productDeletePro', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
+                                [header]: token // CSRF 토큰 추가
                             },
                             body: JSON.stringify({ productCode: firstColumnValue }) // 서버에 전송할 데이터
                         })

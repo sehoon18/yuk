@@ -144,7 +144,7 @@
                     </ul>
                     
                 </li>
-			<c:if test="${sessionScope.permission == 0}">
+<%-- 			<c:if test="${sessionScope.permission == 0}"> --%>
              <li>
                     <a href="${pageContext.request.contextPath}/member/memberList" class='sidebar-link'>
                      <i data-feather="user"></i> 
@@ -152,7 +152,7 @@
                         </a>
                         
             </li>
-            </c:if>
+<%--             </c:if> --%>
         </ul>
        
  

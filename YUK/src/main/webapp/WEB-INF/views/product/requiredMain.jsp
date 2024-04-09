@@ -5,6 +5,8 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name="_csrf" content="${_csrf.token}"/>
+	<meta name="_csrf_header" content="${_csrf.headerName}"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YOGIYUK</title>
 
@@ -83,6 +85,7 @@
                 <th>자재품명</th>
                 <th>자재구분</th>
                 <th>소요량</th>
+               <th style="display: none;"></th>
               </tr>
             </thead>
             <tbody>
@@ -103,6 +106,7 @@
                 <td>포장자재</td>
                 </c:if>
                 <td>${productDTO.requiredVol}</td>
+                <td style="display: none;"></td>
               </tr>
               </c:forEach>
             </tbody>
@@ -183,8 +187,8 @@ function addTableRow() {
 
    
     // 각 열에 대한 셀과 입력 필드 생성
-  		const fields = ['requiredCode', 'productCode', 'productName', 'materialProductCode', 'productPName','productType','requiredVol'];
-  		const exampleData = ['${productDTO.requiredCode}','', '', '', '','',''];
+  		const fields = ['requiredCode', 'productCode', 'productName', 'materialProductCode', 'productPName','productType','requiredVol', '${_csrf.parameterName}'];
+  		const exampleData = ['${productDTO.requiredCode}','', '', '', '','','','${_csrf.token}'];
 
     	fields.forEach((field, index) => {
         const cell = newRow.insertCell(index);
@@ -244,6 +248,11 @@ function addTableRow() {
             input.type = "text";
             input.className = "form-control";
         }
+       else if(field === '${_csrf.parameterName}'){
+           input = document.createElement("input");
+           input.type = "hidden";
+           input.className = "form-control";
+       }
         else {
             input = document.createElement("input");
            input.type = "text";
@@ -381,7 +390,7 @@ function addTableRow() {
     function makeRowEditable(row) {
         isDelMode = false;
         originalHTML = {}; // 현재 행에 대한 원본 HTML 저장을 위해 객체 초기화
-        const cellIndex = [0,6]; // 수정할 열 인덱스 (2열과 5열)  
+        const cellIndex = [0,6,7]; // 수정할 열 인덱스 (2열과 5열)  
         cellIndex.forEach((index) => {
             const cell = row.cells[index];
             originalHTML[index] = cell.innerHTML; // 수정 전 원본 HTML을 저장
@@ -395,6 +404,15 @@ function addTableRow() {
 	           input.value = row.getAttribute('data-id'); // 'data-id' 속성이나 다른 방법으로 'id' 값을 설정
 	            cell.appendChild(input); // 숨겨진 입력 필드 추가
 	       }
+	    // 8열(인덱스 7)의 경우, 텍스트 입력 필드를 생성
+			else if (index === 7) {
+               const input = document.createElement('input');
+               input.type = 'hidden';
+               input.name = '${_csrf.parameterName}';
+               input.className = 'form-control';
+               input.value = '${_csrf.token}';
+               cell.appendChild(input);
+           }
 			else if (index === 6) {
                 const input = document.createElement('input');
                 input.type = 'text';
@@ -431,11 +449,15 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (target.tagName === 'TR') {
                         const firstColumnValue = target.cells[0].textContent || target.cells[0].innerText; // 첫 번째 열 값
                         
+                        var token = document.querySelector('meta[name="_csrf"]').getAttribute('content');
+                        var header = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
+                        
                         // 서버로 첫 번째 열 값을 POST 요청으로 전송
                         fetch('${pageContext.request.contextPath}/product/requiredDelete', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
+                                [header]: token // CSRF 토큰 추가
                             },
                             body: JSON.stringify({ requiredCode: firstColumnValue }) // 서버에 전송할 데이터
                         })

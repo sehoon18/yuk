@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.itwillbs.domain.AuthDTO;
 import com.itwillbs.domain.MemberDTO;
+import com.itwillbs.domain.PageDTO;
 
 @Repository
 public class MemberDAO {
@@ -21,12 +22,8 @@ public class MemberDAO {
 		return sqlSession.selectOne(namespace + ".userCheck", memberDTO);
 	}
 
-	public List<MemberDTO> getMemberList(MemberDTO memberDTO) {
-		return sqlSession.selectList(namespace + ".getMemberList",memberDTO);
-	}
-
-	public List<MemberDTO> searchMemberList(MemberDTO memberDTO) {
-		return sqlSession.selectList(namespace + ".searchMemberList",memberDTO);
+	public List<MemberDTO> getMemberList(PageDTO pageDTO) {
+		return sqlSession.selectList(namespace + ".getMemberList",pageDTO);
 	}
 
 	public void insertMember(MemberDTO memberDTO) {
@@ -48,6 +45,10 @@ public class MemberDAO {
 
 	public void insertMemberAuth(AuthDTO authDTO) {
 		sqlSession.insert(namespace + ".insertMemberAuth", authDTO);
+	}
+
+	public int getMemberCount(PageDTO pageDTO) {
+		return sqlSession.selectOne(namespace + ".getMemberCount", pageDTO);
 	}
 
 }

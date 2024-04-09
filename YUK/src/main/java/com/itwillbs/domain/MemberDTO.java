@@ -9,6 +9,7 @@ public class MemberDTO {
 	private String phone;	//전화번호
 	private int permission; //권한
 	
+	private String name2;	//authentication
 	// 시큐리티 로그인
 	private List<AuthDTO> authList; // 시큐리티 권한
 //	private String user_name;
@@ -16,13 +17,22 @@ public class MemberDTO {
 	
 	
 	
-	
 	@Override
 	public String toString() {
 		return "MemberDTO [id=" + id + ", name=" + name + ", pass=" + pass + ", phone=" + phone + ", permission="
-				+ permission + "]";
+				+ permission + ", name2=" + name2 + ", authList=" + authList + "]";
 	}
 	
+	
+	public String getName2() {
+		return name2;
+	}
+
+
+	public void setName2(String name2) {
+		this.name2 = name2;
+	}
+
 	public String getName() {
 		return name;
 	}

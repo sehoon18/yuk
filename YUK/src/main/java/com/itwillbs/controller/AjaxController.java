@@ -87,8 +87,13 @@ public class AjaxController {
 	    // reqList를 JSON 형태로 응답
 	    return ResponseEntity.ok().body(reqList);
 	}
-
 	
+	@GetMapping("/production/mainJson")
+	public ResponseEntity<List<ProductionDTO>> mainJson(ProductionDTO productionDTO) {
+		List<ProductionDTO> InsVolList = productionService.getInsVol(productionDTO);
+		ResponseEntity<List<ProductionDTO>> entity = new ResponseEntity<List<ProductionDTO>>(InsVolList, HttpStatus.OK);
+		return entity;
+	}
 	
 	
 }

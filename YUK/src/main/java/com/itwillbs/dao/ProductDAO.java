@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.itwillbs.domain.PageDTO;
 import com.itwillbs.domain.ProductDTO;
 
 
@@ -17,8 +18,8 @@ public class ProductDAO {
 	
 	private static final String namespace = "com.itwillbs.mappers.productMapper";
 
-	public List<ProductDTO> getProductList(ProductDTO productDTO) {
-		return sqlSession.selectList(namespace + ".getProductList",productDTO);
+	public List<ProductDTO> getProductList(PageDTO pageDTO) {
+		return sqlSession.selectList(namespace + ".getProductList",pageDTO);
 	}
 
 	public List<ProductDTO> getRequiredList(ProductDTO productDTO) {
@@ -65,6 +66,10 @@ public class ProductDAO {
 
 	public void deleteRequired(ProductDTO productDTO) {
 		sqlSession.delete(namespace + ".deleteRequired", productDTO);
+	}
+
+	public int getProductCount(PageDTO pageDTO) {
+		return sqlSession.selectOne(namespace + ".getProductCount", pageDTO);
 	} 
 
 	

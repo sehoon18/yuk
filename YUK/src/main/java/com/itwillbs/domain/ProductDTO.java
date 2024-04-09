@@ -13,6 +13,11 @@ public class ProductDTO {
 	private int prodcutVol;				//적재량
 	private String requiredCode;		//소요량코드
 	private int requiredVol;			//소요량
+	private String name;
+	
+	
+	
+	
 	
 	
 	
@@ -22,9 +27,19 @@ public class ProductDTO {
 		return "ProductDTO [productCode=" + productCode + ", materialProductCode=" + materialProductCode
 				+ ", productType=" + productType + ", productName=" + productName + ", productPName=" + productPName
 				+ ", productPrice=" + productPrice + ", productOrigin=" + productOrigin + ", prodcutVol=" + prodcutVol
-				+ ", requiredCode=" + requiredCode + ", requiredVol=" + requiredVol + "]";
+				+ ", requiredCode=" + requiredCode + ", requiredVol=" + requiredVol + ", name=" + name + "]";
 	}
-	
+
+
+	public String getName() {
+		return name;
+	}
+
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	
 	public String getProductCode() {
 		return productCode;
@@ -90,6 +105,9 @@ public class ProductDTO {
 	public void setProductPName(String productPName) {
 		this.productPName = productPName;
 	}
+
+
+	
 
 
 	

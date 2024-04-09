@@ -7,6 +7,8 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name="_csrf" content="${_csrf.token}"/>
+	<meta name="_csrf_header" content="${_csrf.headerName}"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YOGIYUK</title>
 
@@ -34,9 +36,9 @@
   <div class="col-lg-2 col-3" style="display: flex; align-items: center; white-space: nowrap;">
 <!--   	flex: 0 1 auto; 속성은 사원번호 텍스트가 필요한 만큼의 공간만 차지 -->
   <div style="flex: 0 1 auto; margin-right: 10px;"><b>아이디</b></div>
-  <input type="text" id="first-name" class="form-control" name="id" style="flex: 1 1 auto; width: auto;">
+  <input type="text" id="first-name" class="form-control" name="search1" style="flex: 1 1 auto; width: auto;">
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>사용자명</b> &nbsp;&nbsp;
-  <input type="text" id="first-name" class="form-control" name="name" style="flex: 1 1 auto; width: auto;">
+  <input type="text" id="first-name" class="form-control" name="search2" style="flex: 1 1 auto; width: auto;">
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <button class="btn btn-primary btn-sm" type="submit">조회</button>
 </div>
@@ -49,6 +51,7 @@
   <div class="col-12">
     <div class="card">
      <form id="dataForm" class="insertMember" action="${pageContext.request.contextPath}/member/memberInsert" method="post">
+      <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
       <div class="card-header" style="text-align:right;">
         <h4 class="card-title" style="text-align:left;">사원관리 <b>총 ${memberList.size()}명</b></h4>
         <c:if test="${memberDTO.permission == 0}">
@@ -68,7 +71,7 @@
                 <th>비밀번호</th>
                 <th>전화번호</th>
                 <th>권한</th>
-                <th style="width: 0px;"></th>
+                <th style="display: none;"></th>
               </tr>
             </thead>
             <tbody>
@@ -96,8 +99,7 @@
                 <c:if test="${memberDTO.permission == 4}">
                 <td>작업/실적/라인</td>
                 </c:if>
-                <td>
-                </td>
+                <td style="display: none;"></td>
               </tr>
                </c:forEach>
             </tbody>
@@ -111,22 +113,78 @@
 
 </div>    
 
+<!-- 페이징 시작 -->
 <nav aria-label="Page navigation example">
-	<ul class="pagination pagination-primary" style="justify-content:center;">
+	
+    <ul class="pagination pagination-primary justify-content-end">
+		
+	<c:if test="${pageDTO.startPage > 1}">
 		<li class="page-item">
+			<a class="page-link" href="${pageContext.request.contextPath}/member/memberList?pageNum=${pageDTO.startPage - 1}
+			&search1=${pageDTO.search1}&search2=${pageDTO.search2}
+			&select1=${pageDTO.select1}">
+			<span aria-hidden="true">
+				<i data-feather="chevron-left"></i></span></a>
+		</li>
+	</c:if>
+	
+	<c:if test="${pageDTO.startPage <= 1}">
+		<li class="page-item disabled">
+			<a class="page-link" href="#" tabindex="-1" aria-disabled="true">
+			<span aria-hidden="true">
+				<i data-feather="chevron-left"></i></span></a>
+        </li>
+    </c:if>
+
+	<c:forEach var="i" begin="${pageDTO.startPage}" end="${pageDTO.endPage}" step="1">
+		<li class="page-item ${pageDTO.currentPage == i ? 'active' : ''}">
+			<a class="page-link" href="${pageContext.request.contextPath}/member/memberList?pageNum=${i}
+			&search1=${pageDTO.search1}&search2=${pageDTO.search2}
+			&select1=${pageDTO.select1}">${i}</a>
+		</li>
+	</c:forEach>
+
+	<c:if test="${pageDTO.endPage < pageDTO.pageCount}">
+		<li class="page-item">
+			<a class="page-link" href="${pageContext.request.contextPath}/member/memberList?pageNum=${pageDTO.endPage + 1}
+			&search1=${pageDTO.search1}&search2=${pageDTO.search2}
+			&select1=${pageDTO.select1}">
+			<span aria-hidden="true">
+				<i data-feather="chevron-right"></i></span></a>
+		</li>
+	</c:if>
+	
+    <c:if test="${pageDTO.endPage >= pageDTO.pageCount}">
+		<li class="page-item disabled">
 			<a class="page-link" href="#">
-		<span aria-hidden="true"><i data-feather="chevron-left"></i></span>
-			</a>
+			<span aria-hidden="true">
+				<i data-feather="chevron-right"></i></span></a>
 		</li>
-			<li class="page-item"><a class="page-link" href="">1</a></li>
-			<li class="page-item active"><a class="page-link" href="">2</a></li>
-			<li class="page-item"><a class="page-link" href="">3</a></li>
-			<li class="page-item"><a class="page-link" href="">
-		<span aria-hidden="true"><i data-feather="chevron-right"></i></span>
-			</a>
-		</li>
+    </c:if>
+    
 	</ul>
+	
 </nav>
+<!-- 페이징 끝 -->
+
+
+
+<!-- <nav aria-label="Page navigation example"> -->
+<!-- 	<ul class="pagination pagination-primary" style="justify-content:center;"> -->
+<!-- 		<li class="page-item"> -->
+<!-- 			<a class="page-link" href="#"> -->
+<!-- 		<span aria-hidden="true"><i data-feather="chevron-left"></i></span> -->
+<!-- 			</a> -->
+<!-- 		</li> -->
+<!-- 			<li class="page-item"><a class="page-link" href="">1</a></li> -->
+<!-- 			<li class="page-item active"><a class="page-link" href="">2</a></li> -->
+<!-- 			<li class="page-item"><a class="page-link" href="">3</a></li> -->
+<!-- 			<li class="page-item"><a class="page-link" href=""> -->
+<!-- 		<span aria-hidden="true"><i data-feather="chevron-right"></i></span> -->
+<!-- 			</a> -->
+<!-- 		</li> -->
+<!-- 	</ul> -->
+<!-- </nav> -->
 
 
     <script src="${pageContext.request.contextPath}/resources/assets/js/feather-icons/feather.min.js"></script>
@@ -361,7 +419,7 @@ window.onload = function() {
     function makeRowEditable(row) {
         isDelMode = false;
         originalHTML = {}; // 현재 행에 대한 원본 HTML 저장을 위해 객체 초기화
-        const cellIndex = [4]; // 수정할 열 인덱스 
+        const cellIndex = [0,4,5]; // 수정할 열 인덱스 
         cellIndex.forEach((index) => {
             const cell = row.cells[index];
             originalHTML[index] = cell.innerHTML; // 수정 전 원본 HTML을 저장
@@ -372,19 +430,20 @@ window.onload = function() {
                 input.type = 'hidden'; // 입력 필드 타입을 hidden으로 설정
                 input.name = 'id'; // 요구사항에 맞게 이름 설정
                 input.value = row.getAttribute('data-id'); // 'data-id' 속성이나 다른 방법으로 'id' 값을 설정
-                alert("0"+input.value);
                 // 폼에 숨겨진 입력 필드 추가
                 var form = document.getElementById('dataForm'); // 폼의 ID가 'dataForm'인 경우
                 form.appendChild(input);
             }
+         // 6열(인덱스 5)의 경우, 텍스트 입력 필드를 생성
+			else if (index === 5) {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = '${_csrf.parameterName}';
+                input.className = 'form-control';
+                input.value = '${_csrf.token}';
+                cell.appendChild(input);
+            }
             else if (index === 4) {
-            	const input = document.createElement('input');
-                input.type = 'hidden'; // 입력 필드 타입을 hidden으로 설정
-                input.name = 'id'; // 요구사항에 맞게 이름 설정
-                input.value = row.getAttribute('data-id'); // 'data-id' 속성이나 다른 방법으로 'id' 값을 설정
-                alert("0"+input.value);
-            	
-            	alert(4);
                 const select = document.createElement('select');
                 select.name = 'permission';
                 select.className = 'form-select';
@@ -430,11 +489,15 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (target.tagName === 'TR') {
                         const firstColumnValue = target.cells[0].textContent || target.cells[0].innerText; // 첫 번째 열 값
                         
+                        var token = document.querySelector('meta[name="_csrf"]').getAttribute('content');
+                        var header = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
+                        
                         // 서버로 첫 번째 열 값을 POST 요청으로 전송
                         fetch('${pageContext.request.contextPath}/member/memberDelete', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
+                                [header]: token // CSRF 토큰 추가
                             },
                             body: JSON.stringify({ id: firstColumnValue }) // 서버에 전송할 데이터
                         })

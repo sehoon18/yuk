@@ -384,4 +384,10 @@ values(#{lineCode}, #{name}, #{lineStatus}, #{lineName}, #{update})
 	where LINE_CD = #{lineCode}
 </select>
 
+<select id="getInsVol" resultType="com.itwillbs.domain.ProductionDTO">
+	select INS_VOL "insVol", INS_CD "instructionCode"
+	from INSTRUCTION
+</select>
+
+
 </mapper>

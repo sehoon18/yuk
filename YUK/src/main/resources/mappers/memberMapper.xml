@@ -4,6 +4,7 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="com.itwillbs.mappers.memberMapper">
+
 <select id="userCheck" resultType="com.itwillbs.domain.MemberDTO">
 select USER_ID "id" , USER_PASS "pass" , USER_NAME "name" , USER_PERM "permission"
 from USER
@@ -13,21 +14,16 @@ where USER_ID = #{id} and USER_PASS = #{pass}
 <select id="getMemberList" resultType="com.itwillbs.domain.MemberDTO">
 select USER_ID "id", USER_NAME "name", USER_PASS "pass", USER_PHONE "phone", USER_PERM "permission"
 from USER 
-order by USER_ID
-</select>
-
-<select id="searchMemberList" resultType="com.itwillbs.domain.MemberDTO">
-select USER_ID "id", USER_NAME "name", USER_PASS "pass", USER_PHONE "phone", USER_PERM "permission"
-from USER 
 <where>
-<if test="id != null">
-USER_ID like concat('%',#{id},'%')
-</if>
-<if test="name != null">
-and USER_NAME like concat('%',#{name},'%')
-</if>
-</where>
-order by USER_ID
+	<if test="search1 != '' and search1 != null"  >
+	USER_ID like concat('%', #{search1}, '%')
+	</if>
+	<if test="search2 != '' and search2 != null ">
+	and USER_NAME like concat('%', #{search2}, '%')
+	</if>
+	</where>
+	order by USER_ID desc
+    limit #{startRow}, #{pageSize}
 </select>
 
 <insert id="insertMember">
@@ -58,6 +54,20 @@ WHERE USER_ID = #{id}
 	on m.user_id = a.user_id
 	where m.user_id = #{id}
 </select>
+
+<select id="getMemberCount" resultType="java.lang.Integer">
+	select count(*)
+	from USER
+	<where>
+	<if test="search1 != '' and search1 != null"  >
+	USER_ID like concat('%', #{search1}, '%')
+	</if>
+	<if test="search2 != '' and search2 != null ">
+	and USER_NAME like concat('%', #{search2}, '%')
+	</if>
+	</where>
+</select>
+
 
 <resultMap type="com.itwillbs.domain.MemberDTO" id="memberMap">
 	<id property="user_id" column="user_id"/>

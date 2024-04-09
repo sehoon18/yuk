@@ -131,7 +131,7 @@ public class ProductionController {
 		System.out.println(productionDTO);
 		
 		String username = authentication.getName();
-		productionDTO.setName(username);		
+		productionDTO.setName(username);		                                                                  
 		productionService.insertLine(productionDTO);
 		
 		return "redirect:/production/line";
