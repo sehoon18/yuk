@@ -20,29 +20,29 @@ import com.itwillbs.domain.ProductionDTO;
 //		public List<OrdercontractDTO> getOrderList(OrdercontractDTO ordercontractDTO , PageDTO pageDTO) {
 //			return ordercontractDAO.getOrderList(ordercontractDTO);
 //		}
-		public List<OrdercontractDTO> getOrderList(OrdercontractDTO ordercontractDTO) {
+		public List<OrdercontractDTO> getOrderList(PageDTO pageDTO) {
 			
-//			int startRow = (pageDTO.getCurrentPage() - 1) * pageDTO.getPageSize() + 1;
-//			int EndRow = startRow + pageDTO.getPageSize() - 1;
+			int startRow = (pageDTO.getCurrentPage() - 1) * pageDTO.getPageSize() + 1;
+			int EndRow = startRow + pageDTO.getPageSize() - 1;
+			
+			pageDTO.setStartRow(startRow -1);
+			pageDTO.setEndRow(EndRow);
 //			
-//			pageDTO.setStartRow(startRow -1);
-//			pageDTO.setEndRow(EndRow);
-//			
-			return ordercontractDAO.getOrderList(ordercontractDTO);
+			return ordercontractDAO.getOrderList(pageDTO);
 		}
 //		public List<OrdercontractDTO> getContractList(OrdercontractDTO ordercontractDTO) {
 //			
 //			return ordercontractDAO.getContractList(ordercontractDTO);
 //		}
-		public List<OrdercontractDTO> getContractList(OrdercontractDTO ordercontractDTO) {
+		public List<OrdercontractDTO> getContractList(PageDTO pageDTO) {
 			
-//			int startRow = (pageDTO.getCurrentPage() - 1) * pageDTO.getPageSize() + 1;
-//			int EndRow = startRow + pageDTO.getPageSize() - 1;
+			int startRow = (pageDTO.getCurrentPage() - 1) * pageDTO.getPageSize() + 1;
+			int EndRow = startRow + pageDTO.getPageSize() - 1;
+			
+			pageDTO.setStartRow(startRow -1);
+			pageDTO.setEndRow(EndRow);
 //			
-//			pageDTO.setStartRow(startRow -1);
-//			pageDTO.setEndRow(EndRow);
-//			
-			return ordercontractDAO.getContractList(ordercontractDTO);
+			return ordercontractDAO.getContractList(pageDTO);
 		}
 		
 		
@@ -115,13 +115,13 @@ import com.itwillbs.domain.ProductionDTO;
 			
 			return ordercontractDAO.getContract(ordercontractDTO);
 		}
-		public int getOrderCount(OrdercontractDTO ordercontractDTO) {
+		public int getOrderCount(PageDTO pageDTO) {
 			
-			return ordercontractDAO.getOrderCount(ordercontractDTO);
+			return ordercontractDAO.getOrderCount(pageDTO);
 		}
-		public int getContractCount(OrdercontractDTO ordercontractDTO) {
+		public int getContractCount(PageDTO pageDTO) {
 			
-			return ordercontractDAO.getContractCount(ordercontractDTO);
+			return ordercontractDAO.getContractCount(pageDTO);
 		}
 		
 		

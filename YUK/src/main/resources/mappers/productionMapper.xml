@@ -362,7 +362,7 @@ values(#{lineCode}, #{name}, #{lineStatus}, #{lineName}, #{update})
 
 <insert id="insertPib">
 	insert into PINBOUND
-	values(#{pibCode}, #{name}, #{perCode}, null, 0)
+	values(#{pibCode}, null, #{perCode}, null, 0)
 </insert>
 
 <delete id="deletePib">

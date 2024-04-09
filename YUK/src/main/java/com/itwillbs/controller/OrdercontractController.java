@@ -33,40 +33,98 @@ public class OrdercontractController {
 	
 	//Ordercontract
 	@GetMapping("/order")
-	public String order(HttpServletRequest request,Model model,OrdercontractDTO ordercontractDTO ) {
+	public String order(HttpServletRequest request,Model model,OrdercontractDTO ordercontractDTO, PageDTO pageDTO) {
 		System.out.println("MemberController order()");
-		String ord_cd = request.getParameter("ord_cd");
-		ordercontractDTO.setOrd_cd(ord_cd);
-		String cli_name = request.getParameter("cli_name");
-		ordercontractDTO.setCli_name(cli_name);
-		String pro_name = request.getParameter("pro_name");
-		ordercontractDTO.setPro_name(pro_name);
+		String search1 = request.getParameter("search1");
+		pageDTO.setSearch1(search1);
+		String search2 = request.getParameter("search2");
+		pageDTO.setSearch2(search2);
+		String search3 = request.getParameter("search3");
+		pageDTO.setSearch3(search3);
 		
+		// 페이징
+		int pageSize = 10;
+		String pageNum = request.getParameter("pageNum");
+		if(pageNum == null) {
+			pageNum="1";
+		}
 		
+		int currentPage = Integer.parseInt(pageNum);
 		
-		List<OrdercontractDTO> orderList = ordercontractService.getOrderList(ordercontractDTO);
+		pageDTO.setPageSize(pageSize);
+		pageDTO.setPageNum(pageNum);
+		pageDTO.setCurrentPage(currentPage);
 		
+		List<OrdercontractDTO> orderList = ordercontractService.getOrderList(pageDTO);
+		
+		int count =  ordercontractService.getOrderCount(pageDTO);
+		int pageBlock = 10;
+		int startPage = (currentPage - 1) / pageBlock * pageBlock + 1;
+		int endPage = startPage + pageBlock -1;
+		int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);
+		
+		if(endPage > pageCount) {
+			endPage = pageCount;
+		}
+		
+		pageDTO.setCount(pageCount);
+		pageDTO.setPageBlock(pageBlock);
+		pageDTO.setStartPage(startPage);
+		pageDTO.setEndPage(endPage);
+		pageDTO.setPageCount(pageCount);
 		
 		model.addAttribute("OrderList", orderList);
-		System.out.println(orderList);
+		model.addAttribute("pageDTO", pageDTO);
 		
 		return "ordercontract/order";
 	}
 	@GetMapping("/contract")
-	public String contract(HttpServletRequest request,Model model,OrdercontractDTO ordercontractDTO ) {
+	public String contract(HttpServletRequest request,Model model,OrdercontractDTO ordercontractDTO, PageDTO pageDTO) {
 		System.out.println("MemberController contract()");
-		String con_cd = request.getParameter("con_cd");
-		ordercontractDTO.setCon_cd(con_cd);
-		String cli_name = request.getParameter("cli_name");
-		ordercontractDTO.setCli_name(cli_name);
-		String pro_name = request.getParameter("pro_name");
-		ordercontractDTO.setPro_name(pro_name);
+		String search1 = request.getParameter("search1");
+		pageDTO.setSearch1(search1);
+		String search2 = request.getParameter("search2");
+		pageDTO.setSearch2(search2);
+		String search3 = request.getParameter("search3");
+		pageDTO.setSearch3(search3);
 		
-		List<OrdercontractDTO> contractList = ordercontractService.getContractList(ordercontractDTO);
+		// 페이징
+		int pageSize = 10;
+		String pageNum = request.getParameter("pageNum");
+		if(pageNum == null) {
+			pageNum="1";
+		}
+		
+		int currentPage = Integer.parseInt(pageNum);
+		
+		pageDTO.setPageSize(pageSize);
+		pageDTO.setPageNum(pageNum);
+		pageDTO.setCurrentPage(currentPage);
+		
+		List<OrdercontractDTO> contractList = ordercontractService.getContractList(pageDTO);
+		
+		int count =  ordercontractService.getContractCount(pageDTO);
+		int pageBlock = 10;
+		int startPage = (currentPage - 1) / pageBlock * pageBlock + 1;
+		int endPage = startPage + pageBlock -1;
+		int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);
+		
+		if(endPage > pageCount) {
+			endPage = pageCount;
+		}
+		
+		pageDTO.setCount(pageCount);
+		pageDTO.setPageBlock(pageBlock);
+		pageDTO.setStartPage(startPage);
+		pageDTO.setEndPage(endPage);
+		pageDTO.setPageCount(pageCount);
+		
 		model.addAttribute("ContractList", contractList);
+		model.addAttribute("pageDTO", pageDTO);
+		
 		
 		System.out.println(contractList);
-//		model.addAttribute("pageDTO", pageDTO);
+		model.addAttribute("pageDTO", pageDTO);
 		return "ordercontract/contract";
 	}
 	@PostMapping("/insertOrder")

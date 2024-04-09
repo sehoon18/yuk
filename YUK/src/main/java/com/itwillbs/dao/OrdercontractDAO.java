@@ -25,13 +25,13 @@ import com.itwillbs.domain.ProductionDTO;
 		public void insertContract(OrdercontractDTO ordercontractDTO) {
 			sqlSession.insert(namespace + ".insertContract", ordercontractDTO);
 		}
-		public List<OrdercontractDTO> getOrderList(OrdercontractDTO ordercontractDTO) {
+		public List<OrdercontractDTO> getOrderList(PageDTO pageDTO) {
 			System.out.println("OrdercontractDAO getOrderList()");
-			return sqlSession.selectList(namespace + ".getOrderList", ordercontractDTO);
+			return sqlSession.selectList(namespace + ".getOrderList", pageDTO);
 		}
-		public List<OrdercontractDTO> getContractList(OrdercontractDTO ordercontractDTO) {
+		public List<OrdercontractDTO> getContractList(PageDTO pageDTO) {
 			System.out.println("OrdercontractDAO getContractList()");
-			return sqlSession.selectList(namespace + ".getContractList", ordercontractDTO);
+			return sqlSession.selectList(namespace + ".getContractList", pageDTO);
 		}
 		public Integer getOrdLastNum() {
 			return sqlSession.selectOne(namespace + ".getOrdLastNum");
@@ -59,11 +59,11 @@ import com.itwillbs.domain.ProductionDTO;
 			
 			return sqlSession.selectOne(namespace+".getContract",ordercontractDTO);
 		}
-		public int getOrderCount(OrdercontractDTO ordercontractDTO) {
-			return sqlSession.selectOne(namespace + ".getOrderCount", ordercontractDTO);
+		public int getOrderCount(PageDTO pageDTO) {
+			return sqlSession.selectOne(namespace + ".getOrderCount", pageDTO);
 		}
-		public int getContractCount(OrdercontractDTO ordercontractDTO) {
-			return sqlSession.selectOne(namespace + ".getContractCount", ordercontractDTO);
+		public int getContractCount(PageDTO pageDTO) {
+			return sqlSession.selectOne(namespace + ".getContractCount", pageDTO);
 		}
 		
 }

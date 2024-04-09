@@ -33,7 +33,7 @@ public class ProductController {
 		
 		Integer permission = (Integer)session.getAttribute("permission");
 		MemberDTO memberDTO = new MemberDTO();
-		memberDTO.setPermission(permission);
+//		memberDTO.setPermission(permission);
 		model.addAttribute("memberDTO", memberDTO);
 		ProductDTO productDTO = new ProductDTO();
 		

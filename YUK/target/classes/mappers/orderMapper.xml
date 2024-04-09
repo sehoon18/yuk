@@ -15,12 +15,28 @@ values(#{ord_cd}, #{cli_cd}, #{user_id}, #{pro_cd},#{ord_vol}, #{ord_date}, #{or
 insert into CONTRACT(CON_CD, CLI_CD, PRO_CD, CON_VOL, CON_DATE, CON_DUE_DATE, CON_INFO_STATUS, CON_PAY_DATE)
 values(#{con_cd}, #{cli_cd}, #{pro_cd},#{con_vol}, #{con_date}, #{con_due_date}, #{con_info_status},#{con_pay_date})
 </insert>
+
 <select id="getOrderCount" resultType="java.lang.Integer">
-select count(*) from ORDERS
-
+	select count(*)
+	from ORDERS o
+	join PRODUCT p
+	on o.pro_cd = p.pro_cd
+	join CLIENT c
+	on c.cli_cd = o.cli_cd
+	<where>
+	<if test="search1 != '' and search1 != null"  >
+	o.ORD_CD like concat('%', #{search1}, '%')
+	</if>
+	<if test="search2 != '' and search2 != null ">
+	and p.PRO_NAME like concat('%', #{search2}, '%')
+	</if>
+	<if test="search3 != '' and search3 != null ">
+	and c.CLI_NAME like concat ('%', #{search3}, '%')
+	</if>
+	</where>
 </select>
-<select id="getOrderList" resultType="com.itwillbs.domain.OrdercontractDTO">
 
+<select id="getOrderList" resultType="com.itwillbs.domain.OrdercontractDTO">
 select o.*, c.*, p.*
 	from ORDERS o
 	join PRODUCT p
@@ -28,18 +44,18 @@ select o.*, c.*, p.*
 	join CLIENT c
 	on c.cli_cd = o.cli_cd
 <where>
-<if test="ord_cd != '' and ord_cd != null"  >
-o.ORD_CD like concat('%', #{ord_cd}, '%')
+<if test="search1 != '' and search1 != null"  >
+o.ORD_CD like concat('%', #{search1}, '%')
 </if>
-<if test="pro_name != '' and pro_name != null ">
-and p.PRO_NAME like concat('%', #{pro_name}, '%')
+<if test="search2 != '' and search2 != null ">
+and p.pro_name like concat('%', #{search2}, '%')
 </if>
-<if test="cli_name != '' and cli_name != null ">
-and c.CLI_NAME like concat ('%', #{cli_name}, '%')
+<if test="search3 != '' and search3 != null ">
+and c.cli_name like concat ('%', #{search3}, '%')
 </if>
 </where>
 order by ORD_CD desc	
-<!-- limit #{startRow},#{pageSize} -->
+limit #{startRow},#{pageSize}
 </select>
 
 <select id="getOrder" resultType="com.itwillbs.domain.OrdercontractDTO">
@@ -63,7 +79,6 @@ where c.con_cd = #{con_cd}
 </select>
 
 <select id="getContractList" resultType="com.itwillbs.domain.OrdercontractDTO">
-
 select c.*, cl.*, p.*
 	from CONTRACT c
 	join PRODUCT p
@@ -71,19 +86,19 @@ select c.*, cl.*, p.*
 	join CLIENT cl
 	on c.cli_cd = cl.cli_cd
 	<where>
-<if test="con_cd != '' and con_cd != null ">
-c.CON_CD like concat('%', #{con_cd}, '%')
-</if>
-<if test="pro_name != '' and pro_name != null">
-and p.PRO_NAME like concat('%', #{pro_name}, '%')
-</if>
-<if test="cli_name != '' and cli_name != null">
-and cl.CLI_NAME like concat ('%', #{cli_name}, '%')
-</if>
-</where>
-order by CON_CD desc
-<!-- limit #{startRow},#{pageSize} -->
-</select>
+	<if test="search1 != '' and search1 != null ">
+	c.CON_CD like concat('%', #{search1}, '%')
+	</if>
+	<if test="search2 != '' and search2 != null">
+	and cl.CLI_NAME like concat ('%', #{search2}, '%')
+	</if>
+	<if test="search3 != '' and search3 != null">
+	and p.PRO_NAME like concat('%', #{search3}, '%')
+	</if>
+	</where>
+	order by CON_CD desc
+	limit #{startRow},#{pageSize}
+	</select>
 
 <update id="updateOrder">
 	update ORDERS
@@ -144,6 +159,26 @@ order by CON_CD desc
 	FROM ORDERS
 	ORDER BY numbers_only DESC
 	LIMIT 1
+</select>
+
+<select id="getContractCount" resultType="java.lang.Integer">
+	select count(*)
+	from CONTRACT c
+	left join PRODUCT p
+	on c.pro_cd = p.pro_cd
+	left join CLIENT cl
+	on c.cli_cd = cl.cli_cd
+	<where>
+	<if test="search1 != '' and search1 != null ">
+	c.CON_CD like concat('%', #{search1}, '%')
+	</if>
+	<if test="search3 != '' and search3 != null">
+	and p.PRO_NAME like concat('%', #{search3}, '%')
+	</if>
+	<if test="search2 != '' and search2 != null">
+	and cl.CLI_NAME like concat ('%', #{search2}, '%')
+	</if>
+	</where>
 </select>
 
 </mapper>

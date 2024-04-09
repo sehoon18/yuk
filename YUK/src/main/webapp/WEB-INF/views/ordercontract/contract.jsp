@@ -38,15 +38,15 @@
                 <form action="${pageContext.request.contextPath}/ordercontract/contract" method="get" style="display: flex;">
                     <div style="margin-right: 10px;">
                         <b>수주코드</b>
-                        <input type="text" id="first-name" class="form-control" name="con_cd" style="width: auto;">
+                        <input type="text" id="first-name" class="form-control" name="search1" style="width: auto;">
                     </div>
                     <div style="margin-right: 10px;">
                         <b>거래처명</b>
-                        <input type="text" id="first-name" class="form-control" name="cli_name" style="width: auto;">
+                        <input type="text" id="first-name" class="form-control" name="search2" style="width: auto;">
                     </div>
                     <div style="margin-right: 10px;">
                         <b>품명</b>
-                        <input type="text" id="first-name" class="form-control" name="pro_name" style="width: auto;">
+                        <input type="text" id="first-name" class="form-control" name="search3" style="width: auto;">
                     </div>
                     <button class="btn btn-primary btn-sm" type="submit" style="height:36px !important; margin-top:22px !important;" >조회</button>
                 </form>
@@ -96,6 +96,41 @@
                         
                     </tbody>
                 </table>
+<!-- 			페이징 시작 -->
+<nav aria-label="Page navigation example">
+    <ul class="pagination pagination-primary justify-content-end">
+        <c:if test="${pageDTO.startPage > 1}">
+            <li class="page-item">
+                <a class="page-link" href="${pageContext.request.contextPath}/production/line?pageNum=${pageDTO.startPage - 1}">Previous</a>
+            </li>
+        </c:if>
+        
+        <c:if test="${pageDTO.startPage <= 1}">
+            <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+            </li>
+        </c:if>
+        
+        <c:forEach var="i" begin="${pageDTO.startPage}" end="${pageDTO.endPage}" step="1">
+            <li class="page-item ${pageDTO.currentPage == i ? 'active' : ''}">
+                <a class="page-link" href="${pageContext.request.contextPath}/production/line?pageNum=${i}">${i}</a>
+            </li>
+        </c:forEach>
+        
+        <c:if test="${pageDTO.endPage < pageDTO.pageCount}">
+            <li class="page-item">
+                <a class="page-link" href="${pageContext.request.contextPath}/production/line?pageNum=${pageDTO.endPage + 1}">Next</a>
+            </li>
+        </c:if>
+        
+        <c:if test="${pageDTO.endPage >= pageDTO.pageCount}">
+            <li class="page-item disabled">
+                <a class="page-link" href="#">Next</a>
+            </li>
+        </c:if>
+    </ul>
+</nav>
+<!-- 			페이징 끝 -->
             </div>
         </div>
 </div>
