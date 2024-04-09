@@ -27,25 +27,20 @@
 	      <hr>
 	      <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
             <div>
-                <form action="${pageContext.request.contextPath}/popup/orderpop" method="get" style="display: flex;">
+                <form action="${pageContext.request.contextPath}/ordercontract/order" method="get" style="display: flex;">
                     <div style="margin-right: 10px;">
                         <b>품목코드</b>
-                        <input type="text" id="first-name" class="form-control" name="search1" style="width: auto;">
+                        <input type="text" id="first-name" class="form-control" name="ord_cd" style="width: auto;">
                     </div>
                     <div style="margin-right: 10px;">
                         <b>품명</b>
-                        <input type="text" id="first-name" class="form-control" name="search2" style="width: auto;">
+                        <input type="text" id="first-name" class="form-control" name="cli_name" style="width: auto;">
                     </div>
                     <div style="margin-right: 10px;">
-                        <b>자재구분</b>
-                        <select class="form-select" id="basicSelect" name="search5" style="width: 100px;">
-						<option value="4">전체</option>	
-						<option value="1">식자재</option>
-						<option value="2">포장자재</option>
-					</select>
-					</div>
+                        <b>단가</b>
+                        <input type="text" id="first-name" class="form-control" name="pro_name" style="width: auto;">
+                    </div>
                     <button class="btn btn-primary btn-sm" type="submit" style="height:36px !important; margin-top:22px !important;" >조회</button>
-                    
                 </form>
             </div>
             
@@ -61,15 +56,19 @@
 	                <tr>
 	                  <th>품목이름</th>
 	                  <th>품목코드</th>
-	                 <th>자재구분</th>
+	                  <th>거래처코드</th>
+	                  <th>거래처명</th>
+	                  <th>단가</th>
 	                </tr>
 	              </thead>
 	              <tbody>
-					<c:forEach var="OrdercontractDTO" items="${orderList2 }">
+					<c:forEach var="OrdercontractDTO" items="${OrderList }">
 					<tr>
 						<td>${OrdercontractDTO.pro_name }</td>
 						<td>${OrdercontractDTO.pro_cd }</td>
-						<td>${OrdercontractDTO.pro_type }</td>
+						<td>${OrdercontractDTO.cli_cd }</td>
+						<td>${OrdercontractDTO.cli_name }</td>
+						<td>${OrdercontractDTO.pro_price }</td>
 					</tr>
 					</c:forEach>
 	              </tbody>
@@ -94,9 +93,14 @@
 		  var selectedRow = $(this);
 		  var selectedValue = selectedRow.find('td:eq(0)').text(); // 첫 번째 열의 값을 가져오는 경우
 		  var selectedValue1 = selectedRow.find('td:eq(1)').text(); // 두 번째 열의 값을 가져오는 경우
-		  
+		  var selectedValue2 = selectedRow.find('td:eq(2)').text(); // 세 번째 열의 값을 가져오는 경우
+		  var selectedValue3 = selectedRow.find('td:eq(4)').text();
+		  var selectedValue4 = selectedRow.find('td:eq(3)').text();// 5 번째 열의 값을 가져오는 경우
 		  window.opener.document.getElementById('pro_name').value = selectedValue;
 		  window.opener.document.getElementById('pro_cd').value = selectedValue1;
+		  window.opener.document.getElementById('cli_cd').value = selectedValue2;
+		  window.opener.document.getElementById('pro_price').value = selectedValue3;
+		  window.opener.document.getElementById('cli_name').value = selectedValue4;
 		  window.close();
 		});
 	</script>

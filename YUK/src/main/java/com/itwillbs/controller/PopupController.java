@@ -122,30 +122,30 @@ public class PopupController {
 		return "popup/linepop";
 	}
 
-	@GetMapping("/orderaddpopup")
-	public String orderaddpopup(Model model,OrdercontractDTO ordercontractDTO, PageDTO pageDTO) {	
-		System.out.println("PopupController orderaddpopup()");
+//	@GetMapping("/orderaddpopup")
+//	public String orderaddpopup(Model model,OrdercontractDTO ordercontractDTO, PageDTO pageDTO) {	
+//		System.out.println("PopupController orderaddpopup()");
 //		List<OrdercontractDTO> orderList = ordercontractService.getOrderList(ordercontractDTO);
 //		model.addAttribute("OrdercontractList", orderList);
 //		System.out.println(orderList);
-		return "popup/orderaddpopup";
-	}
-	@GetMapping("/contractaddpopup")
-	public String contractaddpopup(Model model,OrdercontractDTO ordercontractDTO,PageDTO pageDTO) {	
-		System.out.println("PopupController contractaddpopup()");
+//		return "popup/orderaddpopup";
+//	}
+//	@GetMapping("/contractaddpopup")
+//	public String contractaddpopup(Model model,OrdercontractDTO ordercontractDTO,PageDTO pageDTO) {	
+//		System.out.println("PopupController contractaddpopup()");
 //		List<OrdercontractDTO> contractList = ordercontractService.getContractList(ordercontractDTO);
 //		model.addAttribute("contractList", contractList);
 //		System.out.println(contractList);
-		return "popup/contractaddpopup";
-	}
+//		return "popup/contractaddpopup";
+//	}
 	
 	
 	@GetMapping("/orderpop")
-	public String orderpop(Model model, OrdercontractDTO ordercontractDTO) {
+	public String orderpop(Model model, OrdercontractDTO ordercontractDTO, PageDTO pageDTO) {
 		System.out.println("PopupController orderpop()");
-		List<OrdercontractDTO> orderList = ordercontractService.getOrderList(ordercontractDTO);
-		model.addAttribute("OrderList", orderList);
-		System.out.println(orderList);
+		List<OrdercontractDTO> orderList2 = ordercontractService.getOrderList2(pageDTO);
+		model.addAttribute("orderList2", orderList2);
+		System.out.println(orderList2);
 		return "popup/orderpop";
 	}
 	

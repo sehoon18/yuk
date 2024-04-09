@@ -25,7 +25,28 @@
 <!-- 품목 소요량 테이블 -->
 		  <div class="card-header" style="margin-top: 30px;">
 	        <h3 class="card-title" style="text-align: left;">수주품목리스트</h3>
-	      <hr>
+	     <hr>
+	      <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <form action="${pageContext.request.contextPath}/popup/contractpop" method="get" style="display: flex;">
+                    <div style="margin-right: 10px;">
+                        <b>품목코드</b>
+                        <input type="text" id="first-name" class="form-control" name="search1" style="width: auto;">
+                    </div>
+                    <div style="margin-right: 10px;">
+                        <b>품명</b>
+                        <input type="text" id="first-name" class="form-control" name="search2" style="width: auto;">
+                    </div>
+                    <div style="margin-right: 10px;">
+                        <b>자재구분</b>
+                       <input type="text" id="first-name" class="form-control" name="완제품" value="완제품" readonly style="width: auto;">
+					</div>
+                    <button class="btn btn-primary btn-sm" type="submit" style="height:36px !important; margin-top:22px !important;" >조회</button>
+                    
+                </form>
+            </div>
+            
+        </div>
 	      </div>
 		<div class="card-body">
 	      <div class="card-content">
@@ -37,19 +58,15 @@
 	                <tr>
 	                  <th>품목이름</th>
 	                  <th>품목코드</th>
-	                  <th>거래처코드</th>
-	                  <th>거래처명</th>
-	                  <th>단가</th>
+	                  <th>구분</th>
 	                </tr>
 	              </thead>
 	              <tbody>
-					<c:forEach var="OrdercontractDTO" items="${ContractList }">
+					<c:forEach var="OrdercontractDTO" items="${ContractList2 }">
 					<tr>
 						<td>${OrdercontractDTO.pro_name }</td>
 						<td>${OrdercontractDTO.pro_cd }</td>
-						<td>${OrdercontractDTO.cli_cd }</td>
-						<td>${OrdercontractDTO.cli_name }</td>
-						<td>${OrdercontractDTO.pro_price }</td>
+						<td>${OrdercontractDTO.pro_type }</td>
 					</tr>
 					</c:forEach>
 	              </tbody>
@@ -77,14 +94,9 @@
 		  var selectedRow = $(this);
 		  var selectedValue = selectedRow.find('td:eq(0)').text(); // 첫 번째 열의 값을 가져오는 경우
 		  var selectedValue1 = selectedRow.find('td:eq(1)').text(); // 두 번째 열의 값을 가져오는 경우
-		  var selectedValue2 = selectedRow.find('td:eq(2)').text(); // 세 번째 열의 값을 가져오는 경우
-		  var selectedValue3 = selectedRow.find('td:eq(4)').text();
-		  var selectedValue4 = selectedRow.find('td:eq(3)').text();// 5 번째 열의 값을 가져오는 경우
-		  window.opener.document.getElementById('pro_name').value = selectedValue;
+		 window.opener.document.getElementById('pro_name').value = selectedValue;
 		  window.opener.document.getElementById('pro_cd').value = selectedValue1;
-		  window.opener.document.getElementById('cli_cd').value = selectedValue2;
-		  window.opener.document.getElementById('pro_price').value = selectedValue3;
-		  window.opener.document.getElementById('cli_name').value = selectedValue4;
+		 
 		  window.close();
 		});
 	</script>

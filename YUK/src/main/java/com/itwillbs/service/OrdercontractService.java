@@ -44,6 +44,16 @@ import com.itwillbs.domain.ProductionDTO;
 //			
 			return ordercontractDAO.getContractList(pageDTO);
 		}
+			public List<OrdercontractDTO> getOrderList2(PageDTO pageDTO) {
+			int currentPage = pageDTO.getCurrentPage();
+			int startRow = (pageDTO.getCurrentPage() - 1) * pageDTO.getPageSize() + 1;
+			int EndRow = startRow + pageDTO.getPageSize() - 1;
+			
+			pageDTO.setStartRow(startRow -1);
+			pageDTO.setEndRow(EndRow);
+			
+			return ordercontractDAO.getOrderList2(pageDTO);
+		}
 		
 		
 		public void insertOrder(OrdercontractDTO ordercontractDTO) {
