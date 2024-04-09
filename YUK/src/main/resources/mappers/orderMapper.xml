@@ -19,9 +19,9 @@ values(#{con_cd}, #{cli_cd}, #{pro_cd},#{con_vol}, #{con_date}, #{con_due_date},
 <select id="getOrderCount" resultType="java.lang.Integer">
 	select count(*)
 	from ORDERS o
-	join PRODUCT p
+	left join PRODUCT p
 	on o.pro_cd = p.pro_cd
-	join CLIENT c
+	left join CLIENT c
 	on c.cli_cd = o.cli_cd
 	<where>
 	<if test="search1 != '' and search1 != null"  >
@@ -39,9 +39,9 @@ values(#{con_cd}, #{cli_cd}, #{pro_cd},#{con_vol}, #{con_date}, #{con_due_date},
 <select id="getOrderList" resultType="com.itwillbs.domain.OrdercontractDTO">
 select o.*, c.*, p.*
 	from ORDERS o
-	join PRODUCT p
+	left join PRODUCT p
 	on o.pro_cd = p.pro_cd
-	join CLIENT c
+	left join CLIENT c
 	on c.cli_cd = o.cli_cd
 <where>
 <if test="search1 != '' and search1 != null"  >

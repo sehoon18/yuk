@@ -25,10 +25,27 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler{
 			response.sendRedirect(request.getContextPath() + "/member/main");
 			return;
 		}
-		if (roleNames.contains("ROLE_PRODUCTION")) {
-			response.sendRedirect(request.getContextPath() + "/production/line");
+		if (roleNames.contains("ROLE_BOUND")) {
+			response.sendRedirect(request.getContextPath() + "/member/main");
 			return;
 		}
+		if (roleNames.contains("ROLE_PRODUCT")) {
+			response.sendRedirect(request.getContextPath() + "/member/main");
+			return;
+		}
+		if (roleNames.contains("ROLE_OC")) {
+			response.sendRedirect(request.getContextPath() + "/member/main");
+			return;
+		}
+		if (roleNames.contains("ROLE_PRODUCTION")) {
+			response.sendRedirect(request.getContextPath() + "/member/main");
+			return;
+		}
+		
+//		if (roleNames.contains("ROLE_PRODUCTION")) {
+//			response.sendRedirect(request.getContextPath() + "/production/line");
+//			return;
+//		}
 		
 		response.sendRedirect(request.getContextPath() + "/");
 	}

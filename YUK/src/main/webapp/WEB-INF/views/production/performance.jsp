@@ -111,7 +111,7 @@
     <ul class="pagination pagination-primary justify-content-end">
         <c:if test="${pageDTO.startPage > 1}">
             <li class="page-item">
-                <a class="page-link" href="${pageContext.request.contextPath}/production/performance?pageNum=${pageDTO.startPage - 1}">Previous</a>
+                <a class="page-link" href="${pageContext.request.contextPath}/production/performance?pageNum=${pageDTO.startPage - 1}&search1=${pageDTO.search1}&search2=${pageDTO.search2}&search3=${pageDTO.search3}&search4=${pageDTO.search4}">Previous</a>
             </li>
         </c:if>
         
@@ -123,13 +123,13 @@
         
         <c:forEach var="i" begin="${pageDTO.startPage}" end="${pageDTO.endPage}" step="1">
             <li class="page-item ${pageDTO.currentPage == i ? 'active' : ''}">
-                <a class="page-link" href="${pageContext.request.contextPath}/production/performance?pageNum=${i}">${i}</a>
+                <a class="page-link" href="${pageContext.request.contextPath}/production/performance?pageNum=${i}&search1=${pageDTO.search1}&search2=${pageDTO.search2}&search3=${pageDTO.search3}&search4=${pageDTO.search4}">${i}</a>
             </li>
         </c:forEach>
         
         <c:if test="${pageDTO.endPage < pageDTO.pageCount}">
             <li class="page-item">
-                <a class="page-link" href="${pageContext.request.contextPath}/production/performance?pageNum=${pageDTO.endPage + 1}">Next</a>
+                <a class="page-link" href="${pageContext.request.contextPath}/production/performance?pageNum=${pageDTO.endPage + 1}&search1=${pageDTO.search1}&search2=${pageDTO.search2}&search3=${pageDTO.search3}&search4=${pageDTO.search4}">Next</a>
             </li>
         </c:if>
         
