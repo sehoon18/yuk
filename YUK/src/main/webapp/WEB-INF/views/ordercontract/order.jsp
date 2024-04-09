@@ -30,7 +30,7 @@
 
 <div class="main-content container-fluid" width="1392px" height="1000px">
     <div class="page-title">
-        <h3><a href="${pageContext.request.contextPath}/ordercontract/order">수주관리</a></h3>
+        <h3><a href="${pageContext.request.contextPath}/ordercontract/order">발주관리</a></h3>
         <h5><a href="${pageContext.request.contextPath}/ordercontract/order">조회페이지</a></h5>
     </div>
     <div class="card">

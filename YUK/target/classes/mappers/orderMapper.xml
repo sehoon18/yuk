@@ -109,8 +109,51 @@ on c.cli_cd = o.cli_cd
 	
 order by ORD_CD desc
 </select>
-
-
+<select id="getOrderList2" resultType="com.itwillbs.domain.OrdercontractDTO">
+    select PRO_NAME "pro_name", PRO_CD "pro_cd" , PRO_TYPE "pro_type"
+    from PRODUCT 
+  
+    <where>
+      pro_type = 1
+      OR pro_type = 2
+        
+<!--      <if test="search1 != '' and search1 != null"  > -->
+<!-- 		and PRO_CD like concat('%', #{search1}, '%') -->
+<!-- 	</if> -->
+<!-- 	<if test="search2 != '' and search2 != null "> -->
+<!-- 		and PRO_NAME like concat('%', #{search2}, '%') -->
+<!-- 	</if> -->
+    </where>
+   
+order by pro_cd desc 
+<!-- limit #{startRow},#{pageSize} -->
+</select>
+<select id="getContractList2" resultType="com.itwillbs.domain.OrdercontractDTO">
+    select PRO_NAME "pro_name", PRO_CD "pro_cd" , PRO_TYPE "pro_type"
+    from PRODUCT 
+  
+    <where>
+      pro_type = 0
+      
+     </where>
+        
+     order by pro_cd desc 
+<!-- limit #{startRow},#{pageSize} -->
+</select>
+<select id="getClientList" resultType="com.itwillbs.domain.OrdercontractDTO">
+    select CLI_CD "cli_cd", CLI_NAME "cli_name" 
+    from CLIENT 
+    <where>
+<!-- 	<if test="search1 != '' and search1 != null"  > -->
+<!-- 		and cli_cd like concat('%', #{search1}, '%') -->
+<!-- 			</if> -->
+<!-- 	<if test="search2 != '' and search2 != null "> -->
+<!-- 		and cli_name like concat('%', #{search2}, '%') -->
+<!-- 	</if> -->
+     </where>
+     order by cli_cd desc 
+<!-- limit #{startRow},#{pageSize} -->
+</select>
 
 <select id="getSearchContractList" resultType="com.itwillbs.domain.OrdercontractDTO">
 select c.CON_CD "con_cd",p.PRO_NAME "pro_name",cl.CLI_NAME "cli_name",c.CON_VOL "con_vol",p.PRO_PRICE "pro_price",USER_ID "user_id",
