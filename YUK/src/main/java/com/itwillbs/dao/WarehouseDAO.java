@@ -47,6 +47,26 @@ public class WarehouseDAO {
 		return sqlSession.selectList(namespace + ".getSearchWarehouseList", warehouseDTO);
 	}
 
+	public void updateWarehouse(WarehouseDTO warehouseDTO) {
+		sqlSession.update(namespace + ".updateWarehouse", warehouseDTO);
+		
+	}
+
+	public void deleteWarehouse(WarehouseDTO warehouseDTO) {
+		sqlSession.delete(namespace + ".deleteWarehouse", warehouseDTO);
+		
+	}
+
+	public Integer getWarehouseLastNum() {
+		System.out.println("warehouseDAO getWarehouseLastNum()");
+		return sqlSession.selectOne(namespace + ".getWarehouseLastNum");
+	}
+
+	public void updateStock(WarehouseDTO warehouseDTO) {
+		sqlSession.update(namespace + ".updateStock", warehouseDTO);
+		
+	}
+
 
 
 

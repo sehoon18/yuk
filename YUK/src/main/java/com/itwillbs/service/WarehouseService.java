@@ -58,6 +58,31 @@ public class WarehouseService {
 		return warehouseDAO.getSearchWarehouseList(warehouseDTO);
 	}
 
+	public void updateWarehouse(WarehouseDTO warehouseDTO) {
+		System.out.println("WarehouseService updateWarehouse()");
+		
+		warehouseDAO.updateWarehouse(warehouseDTO);
+	}
+
+	public void deleteWarehouse(WarehouseDTO warehouseDTO) {
+		System.out.println("WarehouseService deleteWarehouse()");
+		
+		warehouseDAO.deleteWarehouse(warehouseDTO);
+		
+	}
+
+	public Integer getWarehouseLastNum() {
+		System.out.println("WarehouseService getWarehouseLastNum()");
+		return warehouseDAO.getWarehouseLastNum();
+	}
+
+	public void updateStock(WarehouseDTO warehouseDTO) {
+		System.out.println("WarehouseService updateStock()");
+		
+		warehouseDAO.updateStock(warehouseDTO);
+		
+	}
+
 
 
 

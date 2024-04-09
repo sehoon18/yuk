@@ -13,10 +13,16 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/app.css">
     <link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/assets/images/favicon.svg" type="image/x-icon">
+
+<!-- sweetalert2 -->
+	<script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>    
+
 <style>
 	.color:hover{
 		background-color: lightgray;
 	}
+	
+	
 </style>    
 </head>
 <body>
@@ -41,16 +47,7 @@
 </div>
 </form>
 <br>
-<div style="text-align: right; margin-right:30px;">
-<button class="btn btn-primary btn-sm" type="submit">등록</button>
-<button class="btn btn-primary btn-sm" type="submit">수정</button>
-<button class="btn btn-primary btn-sm" type="submit">삭제</button>
-<button class="btn btn-primary btn-sm" type="submit">취소</button>
-<button class="btn btn-primary btn-sm" type="submit">저장</button>
-</div>
-<br>
     
-
     
 <!--     Bordered table start -->
 <div class="row" id="table-bordered" style="margin-right: 20px;">
@@ -63,7 +60,7 @@
         <!-- table bordered -->
         <div class="table-responsive">
         
-        <form id="dataForm" class="insertWarehouse" action="${pageContext.request.contextPath}/warehouse/warehousePro" method="post">
+        <form id="dataForm" class="insertWarehouse" action="${pageContext.request.contextPath}/warehouse/warehouseInsertPro" method="post">
             <div class="card-header" style="text-align: right;">
 			    <button type="button" onclick="addTableRow()" class='btn btn-primary' id="addrow">➕ 추가</button>
 			    <button type="button" onclick="modTableRow()" class='btn btn-primary' id="modify">↪️ 수정</button>
@@ -161,12 +158,10 @@
 
 <script>
     function addTableRow() {
+//     	alert(200);
         const table = document.getElementById("table1").getElementsByTagName('tbody')[0];
         const newRow = table.insertRow(0);
         const rowId = table.rows.length; // 행 ID로 사용될 값
-//         var today = new Date();
-// 		var dateStr = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2); // 'YYYY-MM-DD' 형식으로 변환
-
         
         // 각 열에 대한 셀과 입력 필드 생성
         const fields = ['warehouseCode', 'warehouseName','productVol', 'warehouseMvol', 'warehouseArea','warehouseLocal','warehouseTelNumber'];
@@ -177,20 +172,16 @@
             let input;
 
             // 인풋 타입 변경
-            if (field === 'lineStatus') {
-                input = document.createElement("select");
-                input.className = "form-select";
-                const options = ["대기", "가동", "정비"];
-                options.forEach((option, index) => {
-                    const optionElement = document.createElement("option");
-                    optionElement.value = index;
-                    optionElement.textContent = option;
-                    input.appendChild(optionElement);
-                });
-                else if(field === 'warehouseCode'){
+            if (field === 'warehouseArea') {
+            	input = document.createElement("input");
+                input.type = "text";
+                input.className = "form-control";
+                }
+      			  else if(field === 'warehouseCode'){
                     input = document.createElement("input");
                     input.type = "text";
                     input.className = "form-control";
+                    input.readOnly = true; //입력 필드를 읽기 전용으로 설정
                     
                 } else if(field === 'warehouseName'){
                     input = document.createElement("input");
@@ -207,6 +198,10 @@
                 input.type = "text";
                 input.className = "form-control";
                 
+            }else if(field === 'warehouseLocal'){
+                input = document.createElement("input");
+                input.type = "text";
+                input.className = "form-control";
             }
             
             else {
@@ -311,7 +306,7 @@
             var form = document.getElementById('dataForm'); // 폼의 ID
 
             // 폼의 action 속성을 새로운 주소로 변경합니다.
-            form.action = '${pageContext.request.contextPath}/production/lineUpdatePro'; // 새로운 주소로 변경
+            form.action = '${pageContext.request.contextPath}/warehouse/warehouseUpdatePro'; // 새로운 주소로 변경
 
             // 폼을 수동으로 전송합니다.
             form.submit();
@@ -347,7 +342,7 @@
     function makeRowEditable(row) {
         isDelMode = false;
         originalHTML = {}; // 현재 행에 대한 원본 HTML 저장을 위해 객체 초기화
-        const cellIndex = [0, 1, 4]; // 수정할 열 인덱스 (2열과 5열)
+        const cellIndex = [0, 1, 2, 3, 4, 5, 6]; // 수정할 열 인덱스 (2열과 5열)
         cellIndex.forEach((index) => {
             const cell = row.cells[index];
             originalHTML[index] = cell.innerHTML; // 수정 전 원본 HTML을 저장
@@ -357,40 +352,64 @@
 	       if (index === 0) {
 	            const input = document.createElement('input');
 	            input.type = 'hidden'; // 입력 필드 타입을 hidden으로 설정
-	            input.name = 'lineCode'; // 요구사항에 맞게 이름 설정
+	            input.name = 'warehouseCode'; // 요구사항에 맞게 이름 설정
 	            input.value = originalText; // 예를 들어, 행의 고유 ID 값
 	            cell.appendChild(input); // 숨겨진 입력 필드 추가
 	       }
             // 2열(인덱스 1)의 경우, 텍스트 입력 필드를 생성
-			else if (index === 1 || index === 2 || index === 3 || index === 5 || index === 6) {
+			else if (index === 1) {
                 const input = document.createElement('input');
                 input.type = 'text';
-                input.name = 'lineName';
+                input.name = 'warehouseName';
                 input.className = 'form-control';
                 input.value = originalText;
                 cell.innerHTML = '';
                 cell.appendChild(input);
             }
-            // 5열(인덱스 4)의 경우, 선택 목록을 생성
-			else if (index === 4) {
-                const select = document.createElement('select');
-                select.name = 'lineStatus';
-                select.className = 'form-select';
-                
-                // 예시로 추가하는 선택지. 실제 요구사항에 맞게 수정해야 함
-                const options = ["대기", "가동", "정비"];
-                options.forEach((optionText, optionIndex) => { // optionIndex를 추가하여 인덱스 값을 사용
-                    const option = document.createElement('option');
-                    option.value = optionIndex; // optionIndex를 value로 사용
-                    option.textContent = optionText;
-                    if (optionText === originalText) {
-                        option.selected = true;
-                    }
-                    select.appendChild(option);
-                });
-                
+			else if (index === 2) {
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.name = 'productVol';
+                input.className = 'form-control';
+                input.value = originalText;
                 cell.innerHTML = '';
-                cell.appendChild(select);
+                cell.appendChild(input);
+            }
+			else if (index === 3) {
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.name = 'warehouseMvol';
+                input.className = 'form-control';
+                input.value = originalText;
+                cell.innerHTML = '';
+                cell.appendChild(input);
+            }
+			else if (index === 4) {
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.name = 'warehouseArea';
+                input.className = 'form-control';
+                input.value = originalText;
+                cell.innerHTML = '';
+                cell.appendChild(input);
+            }
+			else if (index === 5) {
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.name = 'warehouseLocal';
+                input.className = 'form-control';
+                input.value = originalText;
+                cell.innerHTML = '';
+                cell.appendChild(input);
+            }
+			else if (index === 6) {
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.name = 'warehouseTelNumber';
+                input.className = 'form-control';
+                input.value = originalText;
+                cell.innerHTML = '';
+                cell.appendChild(input);
             }
         });
     }
@@ -403,9 +422,8 @@ document.addEventListener('DOMContentLoaded', function() {
         if (isDelMode) {
             let target = e.target;
             Swal.fire({
-                title: "Are you sure?",
-                text: "You won't be able to revert this!",
-                icon: "warning",
+                title: "삭제 하시겠습니까?",
+                icon: "주의",
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
@@ -420,28 +438,25 @@ document.addEventListener('DOMContentLoaded', function() {
                         const firstColumnValue = target.cells[0].textContent || target.cells[0].innerText; // 첫 번째 열 값
                         
                         // 서버로 첫 번째 열 값을 POST 요청으로 전송
-                        fetch('${pageContext.request.contextPath}/production/lineDeletePro', {
+                        fetch('${pageContext.request.contextPath}/warehouse/warehouseDeletePro', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
                             },
-                            body: JSON.stringify({ lineCode: firstColumnValue }) // 서버에 전송할 데이터
+                            body: JSON.stringify({ warehouseCode: firstColumnValue }) // 서버에 전송할 데이터
                         })
                         .then(response => {
                             if(response.ok) {
                                 tbody.removeChild(target); // 서버에서 성공적으로 처리되면 행 삭제
                                 Swal.fire(
-                                    "Deleted!",
-                                    "Your file has been deleted.",
-                                    "success"
+                                    "삭제완료!"
                                 );
                                 isDelMode = true; // 삭제 모드 비활성화
                             } else {
                                 // 서버 처리 실패 시
                                 Swal.fire(
-                                    "Error!",
-                                    "There was an issue deleting your file.",
-                                    "error"
+                                    "에러발생!",
+                                    "삭제 할 수 없습니다.",
                                 );
                             }
                         })
@@ -501,6 +516,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (form) { // 폼이 존재하는지 확인
         form.addEventListener('submit', function(e) {
+        	// 폼 제출 시 빈칸을 채워야 하는 입력 필드를 확인
+            if (isEditMode || isDelMode) {
+                // 수정 모드나 삭제 모드일 때는 폼 제출을 막지 않음
+                return;
+            }
             // 모든 'form-control' 클래스를 가진 입력 필드 검사
             var inputFields = document.querySelectorAll('.form-control');
             var isEmptyFieldPresent = Array.from(inputFields).some(function(input) {

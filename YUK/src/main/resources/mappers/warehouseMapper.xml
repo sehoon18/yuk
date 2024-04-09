@@ -3,11 +3,11 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
-  <mapper namespace="com.itwillbs.mappers.warehouseMapper">
+   <mapper namespace="com.itwillbs.mappers.warehouseMapper">
   
   
   <insert id="insertWarehouse">
-  	insert into Warehouse(WH_CD, WH_NAME, WH_AREA, WH_MVOL, WH_LOCAL, WH_TEL_NUMBER)
+  	insert into WAREHOUSE(WH_CD, WH_NAME, WH_AREA, WH_MVOL, WH_LOCAL, WH_TEL_NUMBER)
   	values (#{warehouseCode}, #{warehouseName}, #{warehouseArea}, #{warehouseMvol}, #{warehouseLocal}, #{warehouseTelNumber})
   </insert>
   
@@ -30,13 +30,59 @@
   	order by w.WH_CD desc
   </select>
   
+  <select id="getSearchWarehouseList" resultType="map">
+	select sum(p.PRO_VOL) as "productVol", w.WH_CD "warehouseCode", w.WH_NAME "warehouseName", w.WH_AREA "warehouseArea", w.WH_MVOL "warehouseMvol", w.WH_LOCAL "warehouseLocal", w.WH_TEL_NUMBER "warehouseTelNumber"
+  	from WAREHOUSE w left join PRODUCT p
+  	on w.WH_CD = p.WH_CD
+  	<where>
+  	<if test="warehouseCode != null">
+  	w.WH_CD like concat('%', #{warehouseCode},'%')
+  	</if>
+  	<if test="warehouseName != null">
+  	and w.WH_NAME like concat('%', #{warehouseName}, '%')
+  	</if>
+  	<if test="warehouseLocal != null">
+  	and w.WH_LOCAL like concat('%', #{warehouseLocal}, '%')
+  	</if>
+  	</where>
+  	group by w.WH_CD
+  	order by w.WH_CD desc
+  </select>
+  
+  <update id="updateWarehouse">
+  	update WAREHOUSE w
+  	left join PRODUCT p
+  	on w.WH_CD = p.WH_CD
+  	SET w.WH_CD = #{warehouseCode}, w.WH_NAME = #{warehouseName}, w.WH_AREA = #{warehouseArea}, w.WH_MVOL = #{warehouseMvol}, w.WH_LOCAL = #{warehouseLocal}, w.WH_TEL_NUMBER = #{warehouseTelNumber}
+    where w.WH_CD = #{warehouseCode};  
+  </update>
+  
+  <delete id="deleteWarehouse">
+  	delete
+	from WAREHOUSE
+	WHERE WH_CD = #{warehouseCode}
+  </delete>
+  
+      
+	<select id="getWarehouseLastNum" resultType="java.lang.Integer">
+	SELECT REGEXP_REPLACE(WH_CD, '[^0-9]', '') AS numbers_only
+	FROM WAREHOUSE
+	ORDER BY numbers_only DESC
+	LIMIT 1
+	</select>
+	
+	
+  
+<!--   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~   -->
+  
+  
   <insert id="insertStock">
   	insert into Warehouse(WH_CD, WH_NAME, WH_AREA, WH_MVOL, WH_LOCAL, WH_TEL_NUMBER)
   	values (#{warehouseCode}, #{warehouseName}, #{warehouseArea}, #{warehouseMvol}, #{warehouseLocal}, #{warehouseTelNumber})
   </insert>
   
   <select id="getStockList" resultType="map">
-	select p.PRO_CD "productCode", p.PRO_NAME "productName", p.PRO_TYPE "productType", p.PRO_VOL "prodcutVol", w.WH_CD "warehouseCode", w.WH_NAME "warehouseName", w.WH_AREA "warehouseArea", w.WH_MVOL "warehouseMvol"
+	select p.PRO_CD "productCode", p.PRO_NAME "productName", p.PRO_TYPE "productType", p.PRO_VOL "productVol", w.WH_CD "warehouseCode", w.WH_NAME "warehouseName", w.WH_AREA "warehouseArea", w.WH_MVOL "warehouseMvol"
   	from WAREHOUSE w inner join PRODUCT p
   	on w.WH_CD = p.WH_CD
   	<where>
@@ -50,7 +96,7 @@
   	and w.WH_LOCAL like concat('%', #{warehouseName}, '%')
   	</if>
   	</where>
-  	order by w.WH_CD desc
+  	order by p.PRO_CD desc
   </select>
   
   <select id="getSearchStockList" resultType="map">
@@ -91,24 +137,11 @@
   	order by p.PRO_CD desc
   </select>
   
-  <select id="getSearchWarehouseList" resultType="map">
-	select sum(p.PRO_VOL) as "productVol", w.WH_CD "warehouseCode", w.WH_NAME "warehouseName", w.WH_AREA "warehouseArea", w.WH_MVOL "warehouseMvol", w.WH_LOCAL "warehouseLocal", w.WH_TEL_NUMBER "warehouseTelNumber"
-  	from WAREHOUSE w left join PRODUCT p
-  	on w.WH_CD = p.WH_CD
-  	<where>
-  	<if test="warehouseCode != null">
-  	w.WH_CD like concat('%', #{warehouseCode},'%')
-  	</if>
-  	<if test="warehouseName != null">
-  	and w.WH_NAME like concat('%', #{warehouseName}, '%')
-  	</if>
-  	<if test="warehouseLocal != null">
-  	and w.WH_LOCAL like concat('%', #{warehouseLocal}, '%')
-  	</if>
-  	</where>
-  	group by w.WH_CD
-  	order by w.WH_CD desc
-  </select>
+  <update id="updateStock">
+  	update PRODUCT
+  	set PRO_VOL = #{productVol}
+  	WHERE PRO_VOL = #{productVol}
+  </update>
   
  
   
