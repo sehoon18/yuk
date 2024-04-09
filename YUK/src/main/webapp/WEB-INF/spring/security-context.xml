@@ -13,7 +13,8 @@
 	<bean id="customUserDetailsService" class="com.itwillbs.security.CustomUserDetailsService"></bean>
 	
 	<security:http>
-	    <security:intercept-url pattern="/resources/**" access="hasAnyRole('ROLE_ADMIN', 'ROLE_PRODUCT', 'ROLE_BOUND', 'ROLE_OC', 'ROLE_PRODUCTION', 'ROLE_NONE')"/>
+	    <security:intercept-url pattern="/resources/css/**" access="hasAnyRole('ROLE_ADMIN', 'ROLE_PRODUCT', 'ROLE_BOUND', 'ROLE_OC', 'ROLE_PRODUCTION', 'ROLE_NONE')"/>
+	    <security:intercept-url pattern="/resources/fornts/**" access="hasAnyRole('ROLE_ADMIN', 'ROLE_PRODUCT', 'ROLE_BOUND', 'ROLE_OC', 'ROLE_PRODUCTION', 'ROLE_NONE')"/>
 		<security:intercept-url pattern="/member/main" access="hasAnyRole('ROLE_ADMIN', 'ROLE_PRODUCT', 'ROLE_BOUND', 'ROLE_OC', 'ROLE_PRODUCTION', 'ROLE_NONE')"/>
 		<security:intercept-url pattern="/production/**" access="hasAnyRole('ROLE_ADMIN', 'ROLE_PRODUCTION')"/>
 
