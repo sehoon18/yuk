@@ -384,4 +384,10 @@ values(#{lineCode}, #{name}, #{lineStatus}, #{lineName}, #{update})
 	where LINE_CD = #{lineCode}
 </select>
 
+<select id="getPib" resultType="com.itwillbs.domain.ProductionDTO">
+	select PIB_CD "pibCode", USER_ID "name", PIB_INFO_STATUS "pibStatus", PER_CD "perCode"
+	from PINBOUND
+	where PER_CD = #{perCode}
+</select>
+
 </mapper>

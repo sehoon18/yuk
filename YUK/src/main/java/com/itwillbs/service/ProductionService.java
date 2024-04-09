@@ -307,4 +307,8 @@ public class ProductionService {
 		return productionDAO.getLine(productionDTO);
 	}
 
+	public ProductionDTO getPib(ProductionDTO productionDTO) {
+		return productionDAO.getPib(productionDTO);
+	}
+
 }

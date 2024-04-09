@@ -181,4 +181,8 @@ public class ProductionDAO {
 		return sqlSession.selectOne(namespace + ".getLine", productionDTO);
 	}
 
+	public ProductionDTO getPib(ProductionDTO productionDTO) {
+		return sqlSession.selectOne(namespace + ".getPib", productionDTO);
+	}
+
 }

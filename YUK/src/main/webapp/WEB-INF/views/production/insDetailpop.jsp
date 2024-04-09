@@ -39,11 +39,12 @@
         <button type="submit" id="updateIns" class="btn btn-primary mr-1 mb-1" onclick="updateIns()" disabled>💾 저장</button>
         <c:if test="${productionDTO.instractionStatus == 0 }">
         <button type="button" id="modifyIns" class="btn btn-primary mr-1 mb-1" onclick="modifyIns()">↪️ 수정</button>
+        <button type="button" id="deleteIns" class="btn btn-primary mr-1 mb-1" data-instruction-code="${productionDTO.instructionCode}">⚠️ 삭제</button>
         </c:if>
         <c:if test="${productionDTO.instractionStatus == 2 }">
         <button type="button" id="modifyIns" class="btn btn-primary mr-1 mb-1" onclick="modifyIns()" disabled>↪️ 수정</button>
+        <button type="button" id="deleteIns" class="btn btn-primary mr-1 mb-1" data-instruction-code="${productionDTO.instructionCode}" disabled>⚠️ 삭제</button>
         </c:if>
-        <button type="button" id="deleteIns" class="btn btn-primary mr-1 mb-1" data-instruction-code="${productionDTO.instructionCode}">⚠️ 삭제</button>
     </div>
 </div>
                     <hr>

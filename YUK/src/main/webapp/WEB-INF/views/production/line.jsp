@@ -474,7 +474,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 // 서버 처리 실패 시
                                 Swal.fire(
                                     "Error!",
-                                    "There was an issue deleting your file.",
+                                    "가동중인 라인은 수정/삭제가 불가능합니다.",
                                     "error"
                                 );
                             }
@@ -526,6 +526,20 @@ function canMod2() {
     document.getElementById('addrow').disabled = false; // 추가 버튼을 다시 활성화
     document.getElementById('modify').disabled = false; // 삭제 버튼 다시 활성화
 }
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // 서버로부터 전달받은 에러 메시지 확인
+    var errorMessage = "${errorMessage}";
+    if (errorMessage) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: errorMessage
+        });
+    }
+});
 </script>
 
 <script>

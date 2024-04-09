@@ -587,11 +587,17 @@
 	                }
 	            });
 	        },
-
-
 	        error: function(xhr, status, error) {
 	            // 서버 요청이 실패했을 때의 처리
+	            var errorMessage = JSON.parse(xhr.responseText).message;
+	            Swal.fire({
+	                title: '오류!',
+	                text: '입고가 완료된 실적은 수정/삭제가 불가능합니다.',
+	                icon: 'error',
+	                confirmButtonText: '확인'
+	            });
 	        }
+
 	    });
 	}
 	
@@ -651,7 +657,7 @@
 	                                // 서버 처리 실패 시
 	                                Swal.fire(
 	                                    "Error!",
-	                                    "There was an issue deleting your file.",
+	                                    "입고가 완료된 실적은 수정/삭제가 불가능합니다.",
 	                                    "error"
 	                                );
 	                            }

@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.itwillbs.domain.PageDTO;
 import com.itwillbs.domain.ProductDTO;
@@ -138,27 +140,22 @@ public class ProductionController {
 		}
 	
 	@PostMapping("/lineUpdatePro")
-	public String lineUpdatePro(ProductionDTO productionDTO, HttpSession session, Authentication authentication) {
+	public String lineUpdatePro(ProductionDTO productionDTO, HttpSession session, Authentication authentication, RedirectAttributes redirectAttributes) {
 		System.out.println("ProductionController lineUpdatePro()");
-		System.out.println(productionDTO);
 		
 		String username = authentication.getName();
 		productionDTO.setName(username);	
-		productionService.updateLine(productionDTO);
-		
-		return "redirect:/production/line";
+
+		ProductionDTO productionDTO2 = productionService.getLine(productionDTO);
+		if(productionDTO2.getLineStatus() != 1) {
+			productionService.updateLine(productionDTO);
+			return "redirect:/production/line";
+		} else {
+	        redirectAttributes.addFlashAttribute("errorMessage", "가동중인 라인은 수정/삭제가 불가능합니다.");
+	        return "redirect:/production/line";
+		}
 	}
 
-	@PostMapping("/lineDeletePro")
-	public String lineUpdatelineDeleteProPro(@RequestBody ProductionDTO productionDTO, HttpSession session) {
-		System.out.println("ProductionController lineDeletePro()");
-		System.out.println(productionDTO);
-		
-		productionService.deleteLine(productionDTO);
-		
-		return "redirect:/production/line";
-	}
-	
 	// 생산실적 페이지
 	@GetMapping("/performance")
 	public String performance(HttpServletRequest request, Model model, ProductionDTO productionDTO, PageDTO pageDTO) {

@@ -227,6 +227,7 @@ function receiveValueFromPopup(selectedValue) {
 	        event.preventDefault();
 	
 	        // AJAX 요청
+	     // AJAX 요청
 	        $.ajax({
 	            url: "${pageContext.request.contextPath}/production/insertInstruction", // 실제 요청 URL로 변경해야 함
 	            type: "post", // 메소드 타입
@@ -241,14 +242,29 @@ function receiveValueFromPopup(selectedValue) {
 	            },
 	            success: function(response) {
 	                // 데이터베이스 저장 성공 후
-	                alert("등록 성공!");
-	                window.opener.location.reload(); // 부모 창 새로고침
-	                window.close(); // 팝업 창 닫기
+	                Swal.fire({
+	                    icon: 'success',
+	                    title: '등록 성공!',
+	                    text: '데이터가 성공적으로 등록되었습니다.',
+	                    confirmButtonText: '확인'
+	                }).then((result) => {
+	                    if (result.value) {
+	                        window.opener.location.reload(); // 부모 창 새로고침
+	                        window.close(); // 팝업 창 닫기
+	                    }
+	                });
 	            },
 	            error: function(xhr, status, error) {
-// 	                alert("등록 실패: " + error);
+	                // 등록 실패 시
+	                Swal.fire({
+	                    icon: 'error',
+	                    title: '등록 실패',
+	                    text: '오류가 발생했습니다: ' + error,
+	                    confirmButtonText: '확인'
+	                });
 	            }
 	        });
+
 	    });
 	});
 	</script>

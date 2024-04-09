@@ -12,7 +12,16 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/app.css">
     <link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/assets/images/favicon.svg" type="image/x-icon">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+	<!-- Required meta tags -->
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+	<!-- sweetalert2 -->
+	<script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>    
+	
+	<!-- 	jquery -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     
 </head>
 <body>
@@ -146,10 +155,20 @@
 	      var selectedStatus = selectedRow.find('td:eq(4)').text(); // 다섯 번째 열의 값을 가져오는 경우
 	      
 	      if(selectedStatus.trim() === 'Active'){
-	          alert("가동중인 라인입니다.");
-	      } else if(selectedStatus.trim() === 'Maintenance'){
-	          alert("정비중인 라인입니다.");
-	      } else{
+	    	    Swal.fire({
+	    	        icon: 'warning',
+	    	        title: '가동중',
+	    	        text: '현재 이 라인은 가동 중입니다.',
+	    	        confirmButtonText: '확인'
+	    	    });
+	    	} else if(selectedStatus.trim() === 'Maintenance'){
+	    	    Swal.fire({
+	    	        icon: 'info',
+	    	        title: '정비중',
+	    	        text: '현재 이 라인은 정비 중입니다.',
+	    	        confirmButtonText: '확인'
+	    	    });
+	    	} else{
 	          window.opener.document.getElementById('lineCode').value = selectedValue; 
 	          window.close();
 	      }
