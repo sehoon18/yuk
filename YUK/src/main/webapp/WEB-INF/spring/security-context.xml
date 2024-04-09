@@ -17,6 +17,9 @@
 	    <security:intercept-url pattern="/resources/fornts/**" access="hasAnyRole('ROLE_ADMIN', 'ROLE_PRODUCT', 'ROLE_BOUND', 'ROLE_OC', 'ROLE_PRODUCTION', 'ROLE_NONE')"/>
 		<security:intercept-url pattern="/member/main" access="hasAnyRole('ROLE_ADMIN', 'ROLE_PRODUCT', 'ROLE_BOUND', 'ROLE_OC', 'ROLE_PRODUCTION', 'ROLE_NONE')"/>
 		<security:intercept-url pattern="/production/**" access="hasAnyRole('ROLE_ADMIN', 'ROLE_PRODUCTION')"/>
+<!-- 		<security:intercept-url pattern="/bound/inBound/inBoundPro1" access="hasAnyRole('ROLE_ADMIN', 'ROLE_BOUND')"/> -->
+<!-- 		<security:intercept-url pattern="/bound/inBound/inBoundPro2" access="hasAnyRole('ROLE_ADMIN', 'ROLE_BOUND')"/> -->
+<!-- 		<security:intercept-url pattern="/bound/outBound/outBoundPro" access="hasAnyRole('ROLE_ADMIN', 'ROLE_BOUND')"/> -->
 
 <!-- 		<security:intercept-url pattern="/member/main" access="hasRole('ROLE_NONE')"/> -->
 <!-- 		<security:intercept-url pattern="/production/line" access="hasRole('ROLE_PRODUCTION')"/> -->

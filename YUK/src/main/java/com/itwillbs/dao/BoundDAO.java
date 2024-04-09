@@ -118,6 +118,11 @@ public class BoundDAO {
 //		return sqlSession.selectOne(namespace + ".getPro_cdFromCon_cd", boundDTO);
 //	}//getPro_cdFromCon_cd()
 	
+//	public String getUser_nameFromUser_id(BoundDTO boundDTO) {
+//		System.out.println("BoundDAO getUser_nameFromUser_id()");
+//		return sqlSession.selectOne(namespace + ".getUser_nameFromUser_id", boundDTO);
+//	}//getUser_nameFromUser_id()
+	
 	public BoundDTO getPro_cdFromOb_cd(BoundDTO boundDTO) {
 		System.out.println("BoundDAO getPro_cdFromOb_cd()");
 		return sqlSession.selectOne(namespace + ".getPro_cdFromOb_cd", boundDTO);

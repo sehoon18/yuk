@@ -7,7 +7,7 @@
 
 <select id="getInBoundBoardList" resultType="com.itwillbs.domain.BoundDTO">
 	select m.mib_cd, m.ord_cd, pr.pro_type, pr.pro_name, o.ord_vol,
-	w.wh_name, m.mib_info_status, m.mib_date, m.user_id
+	w.wh_name, m.mib_info_status, m.mib_date, u.user_name
 	from MINBOUND m
 	join ORDERS o
 	on m.ord_cd = o.ord_cd
@@ -15,6 +15,8 @@
 	on pr.pro_cd = o.pro_cd
 	join WAREHOUSE w
 	on w.wh_cd = pr.wh_cd
+	left join USER u
+	on m.user_id = u.user_id
 	<where>
 	<if test="search1 != null">m.mib_cd like CONCAT('%',#{search1},'%')</if>
 	<if test="search2 != null">and pr.pro_name like CONCAT('%',#{search2},'%')</if>
@@ -32,7 +34,7 @@
 
 <select id="getInBoundBoardList2" resultType="com.itwillbs.domain.BoundDTO">
 	select p.pib_cd, p.per_cd, pe.actual_completion_amount, pr.pro_name, w.wh_name,
-	p.pib_info_status, p.pib_date, p.user_id
+	p.pib_info_status, p.pib_date, u.user_name
 	from PINBOUND p
 	join PERFORMANCE pe
 	on p.per_cd = pe.per_cd
@@ -42,6 +44,8 @@
 	on pr.pro_cd = i.pro_cd
 	join WAREHOUSE w
 	on w.wh_cd = pr.wh_cd
+	left join USER u
+	on p.user_id = u.user_id
 	<where>
 	<if test="search5 != null">p.pib_cd like CONCAT('%',#{search5},'%')</if>
 	<if test="search6 != null">and pr.pro_name like CONCAT('%',#{search6},'%')</if>
@@ -66,6 +70,8 @@
 	on pr.pro_cd = o.pro_cd
 	join WAREHOUSE w
 	on w.wh_cd = pr.wh_cd
+	left join USER u
+	on m.user_id = u.user_id
 	<where>
 	<if test="search1 != null">m.mib_cd like CONCAT('%',#{search1},'%')</if>
 	<if test="search2 != null">and pr.pro_name like CONCAT('%',#{search2},'%')</if>
@@ -90,6 +96,8 @@
 	on pr.pro_cd = i.pro_cd
 	join WAREHOUSE w
 	on w.wh_cd = pr.wh_cd
+	left join USER u
+	on p.user_id = u.user_id
 	<where>
 	<if test="search5 != null">p.pib_cd like CONCAT('%',#{search5},'%')</if>
 	<if test="search6 != null">and pr.pro_name like CONCAT('%',#{search6},'%')</if>
@@ -115,6 +123,12 @@
 	where m.mib_cd = #{mib_cd}
 </select>
 
+<!-- <select id="getUser_nameFromUser_id" resultType="java.lang.String"> -->
+<!-- 	select user_name -->
+<!-- 	from USER -->
+<!-- 	where user_id = #{user_id} -->
+<!-- </select> -->
+
 <select id="getWh_stockFromWh_cd" resultType="java.lang.Integer">
 	select sum(pro_vol)
 	from PRODUCT
@@ -132,7 +146,8 @@
 <update id="inBoundPro1">
 	update MINBOUND
 	set mib_info_status = 1,
-		mib_date = now()
+		mib_date = now(),
+		user_id = #{user_id}
 	where mib_cd = #{mib_cd}
 </update>
 
@@ -189,7 +204,8 @@
 <update id="inBoundPro2">
 	update PINBOUND
 	set pib_info_status = 1,
-		pib_date = now()
+		pib_date = now(),
+		user_id = #{user_id}
 	where pib_cd = #{pib_cd}
 </update>
 
@@ -200,7 +216,7 @@
 </update>
 
 <select id="getOutBoundBoardList" resultType="com.itwillbs.domain.BoundDTO">
-	select o.*, c.*, pr.*, w.*
+	select o.*, c.*, pr.*, w.*, u.*
 	from OUTBOUND o
 	join CONTRACT c
 	on o.con_cd = c.con_cd
@@ -208,6 +224,8 @@
 	on pr.pro_cd = c.pro_cd
 	join WAREHOUSE w
 	on w.wh_cd = pr.wh_cd
+	left join USER u
+	on o.user_id = u.user_id
 	<where>
 	<if test="search1 != null">o.ob_cd like CONCAT('%',#{search1},'%')</if>
 	<if test="search2 != null">and pr.pro_name like CONCAT('%',#{search2},'%')</if>
@@ -232,6 +250,8 @@
 	on pr.pro_cd = c.pro_cd
 	join WAREHOUSE w
 	on w.wh_cd = pr.wh_cd
+	left join USER u
+	on o.user_id = u.user_id
 	<where>
 	<if test="search1 != null">o.ob_cd like CONCAT('%',#{search1},'%')</if>
 	<if test="search2 != null">and pr.pro_name like CONCAT('%',#{search2},'%')</if>
@@ -266,7 +286,8 @@
 <update id="outBoundPro">
 	update OUTBOUND
 	set ob_info_status = 1,
-		ob_date = now()
+		ob_date = now(),
+		user_id = #{user_id}
 	where ob_cd = #{ob_cd}
 </update>
 

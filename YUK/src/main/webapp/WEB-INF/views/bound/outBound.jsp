@@ -6,6 +6,8 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name="_csrf" content="${_csrf.token}"/>
+	<meta name="_csrf_header" content="${_csrf.headerName}"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>출고 관리</title>
     
@@ -86,6 +88,7 @@
             	<b>~</b>&nbsp;&nbsp;&nbsp;
             	<input type="text" id="endDate" class="form-control" name="search4" placeholder="기간을 선택하세요">
             	<input type="submit" value="조회" class="btn btn-primary">
+            	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" >
             	</form>
             </div>
                 <table class='table table-striped' id="obTable">
@@ -120,7 +123,7 @@
     		<c:if test="${!empty boundDTO.ob_date}">
     		<fmt:formatDate value="${boundDTO.ob_date}" pattern="yyyy-MM-dd"/></c:if>
     		</td>
-    		<td>${boundDTO.user_id}</td>
+    		<td>${boundDTO.user_name}</td>
     		<td>
     		<c:choose>
     		<c:when test="${boundDTO.ob_info_status == 0 }">
@@ -219,6 +222,14 @@
     	url: '${pageContext.request.contextPath}/bound/outBoundPro',
         method: 'POST',
         data: {ob_cd : ob_cd},
+        beforeSend: function(xhr) {
+            // CSRF 토큰과 헤더 이름 읽기
+            var token = $('meta[name="_csrf"]').attr('content');
+            var header = $('meta[name="_csrf_header"]').attr('content');
+            
+            // 요청 헤더에 CSRF 토큰 추가
+            xhr.setRequestHeader(header, token);
+        },
         success: function(response) {
         	Swal.fire({
 					title: "출고처리 완료!",

@@ -6,6 +6,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -211,16 +212,20 @@ public class BoundController {
 	//자재 입고 처리 기능
 	@GetMapping("/inBoundPro1")
 	@PostMapping("/inBoundPro1")
-	public ResponseEntity<?> inBoundPro1(BoundDTO boundDTO) {
+	public ResponseEntity<?> inBoundPro1(BoundDTO boundDTO, Authentication authentication) {
 		System.out.println("BoundController inBoundPro1()");
+		String user_id = authentication.getName();
+		boundDTO.setUser_id(user_id);
 		return boundService.inBoundPro1(boundDTO);
 	}//inBoundPro1()
 	
 	//제품 입고 처리 기능
 	@GetMapping("/inBoundPro2")
 	@PostMapping("/inBoundPro2")
-	public ResponseEntity<?> inBoundPro2(BoundDTO boundDTO) {
+	public ResponseEntity<?> inBoundPro2(BoundDTO boundDTO, Authentication authentication) {
 		System.out.println("BoundController inBoundPro2()");
+		String user_id = authentication.getName();
+		boundDTO.setUser_id(user_id);
 		return boundService.inBoundPro2(boundDTO);
 	}//inBoundPro2()
 	
@@ -297,8 +302,10 @@ public class BoundController {
 	//제품 출고 처리 기능
 	@GetMapping("/outBoundPro")
 	@PostMapping("/outBoundPro")
-	public ResponseEntity<?> outBoundPro(BoundDTO boundDTO) {
+	public ResponseEntity<?> outBoundPro(BoundDTO boundDTO, Authentication authentication) {
 		System.out.println("BoundController outBoundPro()");
+		String user_id = authentication.getName();
+		boundDTO.setUser_id(user_id);
 		return boundService.outBoundPro(boundDTO);
 	}//outBoundPro()
 

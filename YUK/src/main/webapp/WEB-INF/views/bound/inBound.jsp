@@ -6,6 +6,8 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name="_csrf" content="${_csrf.token}"/>
+	<meta name="_csrf_header" content="${_csrf.headerName}"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>입고 관리</title>
     
@@ -103,6 +105,7 @@
             		<b>~</b>&nbsp;&nbsp;&nbsp;
             		<input type="text" id="endDate" class="form-control" name="search4" placeholder="기간을 선택하세요">
             		<input type="submit" value="조회" class="btn btn-primary">
+            		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" >
             		</form>
             	</div>
                     <table class='table table-striped' id="table1">
@@ -131,13 +134,7 @@
     	    <c:if test="${boundDTO.pro_type == 2}">포장자재</c:if>
     	    </td>
     		<td>${boundDTO.pro_name}</td>
-    		<td>
-<%--     		<c:choose> --%>
-<%--     		<c:when test="${boundDTO.ord_cd eq null && boundDTO.per_good eq 0 }">${boundDTO.actual_completion_amount}</c:when> --%>
-<%--     		<c:when test="${boundDTO.per_cd eq null}">${boundDTO.ord_vol}</c:when> --%>
-<%--     		</c:choose> --%>
-			${boundDTO.ord_vol}
-    		</td>
+    		<td>${boundDTO.ord_vol}</td>
     		<td>${boundDTO.wh_name}</td>
 			<td>
 			<c:if test="${boundDTO.mib_info_status == 0}">미입고</c:if>
@@ -148,7 +145,7 @@
     		<c:if test="${!empty boundDTO.mib_date}">
     		<fmt:formatDate value="${boundDTO.mib_date}" pattern="yyyy-MM-dd"/></c:if>
     		</td>
-    		<td>${boundDTO.user_id}</td>
+    		<td>${boundDTO.user_name}</td>
     		<td>
     		<c:choose>
     		<c:when test="${boundDTO.mib_info_status == 0 }">
@@ -236,6 +233,7 @@
             		<b>~</b>&nbsp;&nbsp;&nbsp;
             		<input type="text" id="endDate2" class="form-control" name="search8" placeholder="기간을 선택하세요">
             		<input type="submit" value="조회" class="btn btn-primary">
+            		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" >
             		</form>
             	</div>
                     <table class='table table-striped' id="table1">
@@ -269,7 +267,7 @@
     		<c:if test="${!empty boundDTO.pib_date}">
     		<fmt:formatDate value="${boundDTO.pib_date}" pattern="yyyy-MM-dd"/></c:if>
     		</td>
-    		<td>${boundDTO.user_id}</td>
+    		<td>${boundDTO.user_name}</td>
     		<td>
     		<c:choose>
     		<c:when test="${boundDTO.pib_info_status == 0 }">
@@ -372,6 +370,14 @@
     	url: '${pageContext.request.contextPath}/bound/inBoundPro1',
         method: 'POST',
         data: {mib_cd : mib_cd},
+        beforeSend: function(xhr) {
+            // CSRF 토큰과 헤더 이름 읽기
+            var token = $('meta[name="_csrf"]').attr('content');
+            var header = $('meta[name="_csrf_header"]').attr('content');
+            
+            // 요청 헤더에 CSRF 토큰 추가
+            xhr.setRequestHeader(header, token);
+        },
         success: function(response) {
         	Swal.fire({
 				title: "입고처리 완료!",
@@ -409,6 +415,14 @@
 	url: '${pageContext.request.contextPath}/bound/inBoundPro2',
     method: 'POST',
     data: {pib_cd : pib_cd},
+    beforeSend: function(xhr) {
+        // CSRF 토큰과 헤더 이름 읽기
+        var token = $('meta[name="_csrf"]').attr('content');
+        var header = $('meta[name="_csrf_header"]').attr('content');
+        
+        // 요청 헤더에 CSRF 토큰 추가
+        xhr.setRequestHeader(header, token);
+    },
     success: function(response) {
     	Swal.fire({
 				title: "입고처리 완료!",

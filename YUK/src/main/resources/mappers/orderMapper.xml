@@ -128,6 +128,7 @@ order by CON_CD desc
 			delete from ORDERS
 			where ORD_CD = #{ord_cd}
 </delete>
+
 <delete id="deleteContract">
 			delete from CONTRACT
 			where CON_CD = #{con_cd}
@@ -139,9 +140,46 @@ order by CON_CD desc
 	ORDER BY numbers_only DESC
 	LIMIT 1
 </select>
+
 <select id="getOrdLastNum" resultType="java.lang.Integer">
 	SELECT REGEXP_REPLACE(ORD_CD, '[^0-9]', '') AS numbers_only
 	FROM ORDERS
+	ORDER BY numbers_only DESC
+	LIMIT 1
+</select>
+
+<insert id="insertMib">
+	insert into MINBOUND
+	values(#{mib_cd}, #{ord_cd}, null, null, 0)
+</insert>
+
+<delete id="deleteMib">
+	delete 
+	from MINBOUND
+	where ord_cd = #{ord_cd}
+</delete>
+
+<insert id="insertOb">
+	insert into OUTBOUND
+	values(#{ob_cd}, #{con_cd}, null, null, 0)
+</insert>
+
+<delete id="deleteOb">
+	delete 
+	from OUTBOUND
+	where con_cd = #{con_cd}
+</delete>
+
+<select id="getMibLastNum" resultType="java.lang.Integer">
+	SELECT REGEXP_REPLACE(MIB_CD, '[^0-9]', '') AS numbers_only
+	FROM MINBOUND
+	ORDER BY numbers_only DESC
+	LIMIT 1
+</select>
+
+<select id="getObLastNum" resultType="java.lang.Integer">
+	SELECT REGEXP_REPLACE(OB_CD, '[^0-9]', '') AS numbers_only
+	FROM PINBOUND
 	ORDER BY numbers_only DESC
 	LIMIT 1
 </select>

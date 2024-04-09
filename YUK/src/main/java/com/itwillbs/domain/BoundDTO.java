@@ -8,6 +8,7 @@ public class BoundDTO {
 	private String pib_cd;
 	private String ord_cd;
 	private String user_id;
+	private String user_name;
 	private String per_cd;
 	private Timestamp mib_date;
 	private Timestamp pib_date;
@@ -35,17 +36,21 @@ public class BoundDTO {
 	@Override
 	public String toString() {
 		return "BoundDTO [mib_cd=" + mib_cd + ", pib_cd=" + pib_cd + ", ord_cd=" + ord_cd + ", user_id=" + user_id
-				+ ", per_cd=" + per_cd + ", mib_date=" + mib_date + ", pib_date=" + pib_date + ", mib_info_status="
-				+ mib_info_status + ", pib_info_status=" + pib_info_status + ", ob_cd=" + ob_cd + ", con_cd=" + con_cd
-				+ ", ob_date=" + ob_date + ", ob_info_status=" + ob_info_status + ", ord_vol=" + ord_vol + ", con_vol="
-				+ con_vol + ", pro_cd=" + pro_cd + ", actual_completion_amount=" + actual_completion_amount
-				+ ", per_good=" + per_good + ", wh_name=" + wh_name + ", pro_name=" + pro_name + ", pro_type="
-				+ pro_type + ", ins_cd=" + ins_cd + ", pro_vol=" + pro_vol + ", wh_cd=" + wh_cd + ", wh_mvol=" + wh_mvol
-				+ ", wh_stock=" + wh_stock + "]";
+				+ ", user_name=" + user_name + ", per_cd=" + per_cd + ", mib_date=" + mib_date + ", pib_date="
+				+ pib_date + ", mib_info_status=" + mib_info_status + ", pib_info_status=" + pib_info_status
+				+ ", ob_cd=" + ob_cd + ", con_cd=" + con_cd + ", ob_date=" + ob_date + ", ob_info_status="
+				+ ob_info_status + ", ord_vol=" + ord_vol + ", con_vol=" + con_vol + ", pro_cd=" + pro_cd
+				+ ", actual_completion_amount=" + actual_completion_amount + ", per_good=" + per_good + ", wh_name="
+				+ wh_name + ", pro_name=" + pro_name + ", pro_type=" + pro_type + ", ins_cd=" + ins_cd + ", pro_vol="
+				+ pro_vol + ", wh_cd=" + wh_cd + ", wh_mvol=" + wh_mvol + ", wh_stock=" + wh_stock + "]";
 	}
 	
-	
-	
+	public String getUser_name() {
+		return user_name;
+	}
+	public void setUser_name(String user_name) {
+		this.user_name = user_name;
+	}
 	public int getWh_stock() {
 		return wh_stock;
 	}

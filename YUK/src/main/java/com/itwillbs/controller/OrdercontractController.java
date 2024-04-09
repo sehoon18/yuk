@@ -78,6 +78,7 @@ public class OrdercontractController {
 		ordercontractDTO.setOrd_date(today);
 		ordercontractDTO.setUser_id("hong123");
 		ordercontractService.insertOrder(ordercontractDTO);
+		ordercontractService.insertMib(ordercontractDTO);
 		System.out.println(ordercontractDTO);
 		
 		return ResponseEntity.ok().body("{\"message\": \"등록 성공!\"}");
@@ -92,6 +93,7 @@ public class OrdercontractController {
 		ordercontractDTO.setCon_date(today);
 		ordercontractDTO.setUser_id("hong123");
 		ordercontractService.insertContract(ordercontractDTO);
+		ordercontractService.insertOb(ordercontractDTO);
 		System.out.println(ordercontractDTO);
 		
 		return ResponseEntity.ok().body("{\"message\": \"등록 성공!\"}");
@@ -208,6 +210,7 @@ public class OrdercontractController {
 			String ord_cd = request.getParameter("ord_cd");
 			ordercontractDTO.setOrd_cd(ord_cd);
 			ordercontractService.deleteOrder(ordercontractDTO);
+			ordercontractService.deleteMib(ordercontractDTO);
 			System.out.println(ordercontractDTO);
 			
 			return "ordercontract/order";
@@ -219,6 +222,7 @@ public class OrdercontractController {
 			String con_cd = request.getParameter("con_cd");
 			ordercontractDTO.setCon_cd(con_cd);
 			ordercontractService.deleteContract(ordercontractDTO);
+			ordercontractService.deleteOb(ordercontractDTO);
 			System.out.println(ordercontractDTO);
 			
 //			return ResponseEntity.ok().body("{\"message\": \"등록 성공!\"}");
