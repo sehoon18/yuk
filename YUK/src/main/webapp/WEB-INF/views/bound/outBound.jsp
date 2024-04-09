@@ -51,11 +51,6 @@
     margin-right: 20px;
     }
     
-    h1{
-    font-weight: bold !important;
-    font-size: 25px !important;
-    }
-    
     th{
     font-size: 15px !important;
     }
@@ -68,12 +63,12 @@
 <jsp:include page="../inc/sidebar.jsp" />
 
 <div class="main-content container-fluid">
+<h1 class="card-title"><b>출고 관리</b></h1>
+<br>
     <section class="section">
         <div class="card">
             <div class="card-body">
             	<div class="row">
-            		<h1 class="card-title">출고 관리</h1>
-            		
             <div class="searchArea">
             	<form action="${pageContext.request.contextPath}/bound/outBound" method="get">
             	<b>진행구분</b>
@@ -140,39 +135,58 @@
     	</c:forEach>
                     </tbody>
                 </table>
-                
 <!-- 페이징 시작 -->
-	<div id="page_control">
+<nav aria-label="Page navigation example">
 	
-	<ul class="pagination pagination-primary" style="justify-content:center;">
+    <ul class="pagination pagination-primary justify-content-end">
 		
-	<c:if test="${pageDTO.startPage > pageDTO.pageBlock}">
-	<li class="page-item">
-		<a class="page-link" href="${pageContext.request.contextPath}/bound/outBound?pageNum=${pageDTO.startPage - pageDTO.pageBlock}
-		&search1=${pageDTO.search1}&search2=${pageDTO.search2}&search3=${pageDTO.search3}&search4=${pageDTO.search4}
-		&select1=${pageDTO.select1}">
-		<span aria-hidden="true"><i data-feather="chevron-left"></i></span></a></li>
+	<c:if test="${pageDTO.startPage > 1}">
+		<li class="page-item">
+			<a class="page-link" href="${pageContext.request.contextPath}/bound/outBound?pageNum=${pageDTO.startPage - 1}
+			&search1=${pageDTO.search1}&search2=${pageDTO.search2}&search3=${pageDTO.search3}&search4=${pageDTO.search4}
+			&select1=${pageDTO.select1}">
+			<span aria-hidden="true">
+				<i data-feather="chevron-left"></i></span></a>
+		</li>
 	</c:if>
+	
+	<c:if test="${pageDTO.startPage <= 1}">
+		<li class="page-item disabled">
+			<a class="page-link" href="#" tabindex="-1" aria-disabled="true">
+			<span aria-hidden="true">
+				<i data-feather="chevron-left"></i></span></a>
+        </li>
+    </c:if>
 
 	<c:forEach var="i" begin="${pageDTO.startPage}" end="${pageDTO.endPage}" step="1">
-	<li class="page-item">
-		<a class="page-link" href="${pageContext.request.contextPath}/bound/outBound?pageNum=${i}
-		&search1=${pageDTO.search1}&search2=${pageDTO.search2}&search3=${pageDTO.search3}&search4=${pageDTO.search4}
-		&select1=${pageDTO.select1}">${i}</a></li>
+		<li class="page-item ${pageDTO.currentPage == i ? 'active' : ''}">
+			<a class="page-link" href="${pageContext.request.contextPath}/bound/outBound?pageNum=${i}
+			&search1=${pageDTO.search1}&search2=${pageDTO.search2}&search3=${pageDTO.search3}&search4=${pageDTO.search4}
+			&select1=${pageDTO.select1}">${i}</a>
+		</li>
 	</c:forEach>
-	<!-- 현재페이지 css <li class="page-item active"><a class="page-link" href="">2</a></li> -->
 
-	<c:if test="${pageDTO.pageCount > pageDTO.endPage}">
-	<li class="page-item">
-		<a class="page-link" href="${pageContext.request.contextPath}/bound/outBound?pageNum=${pageDTO.startPage + pageDTO.pageBlock}
-		&search1=${pageDTO.search1}&search2=${pageDTO.search2}&search3=${pageDTO.search3}&search4=${pageDTO.search4}
-		&select1=${pageDTO.select1}">
-		<span aria-hidden="true"><i data-feather="chevron-right"></i></span></a></li>
+	<c:if test="${pageDTO.endPage < pageDTO.pageCount}">
+		<li class="page-item">
+			<a class="page-link" href="${pageContext.request.contextPath}/bound/outBound?pageNum=${pageDTO.endPage + 1}
+			&search1=${pageDTO.search1}&search2=${pageDTO.search2}&search3=${pageDTO.search3}&search4=${pageDTO.search4}
+			&select1=${pageDTO.select1}">
+			<span aria-hidden="true">
+				<i data-feather="chevron-right"></i></span></a>
+		</li>
 	</c:if>
 	
+    <c:if test="${pageDTO.endPage >= pageDTO.pageCount}">
+		<li class="page-item disabled">
+			<a class="page-link" href="#">
+			<span aria-hidden="true">
+				<i data-feather="chevron-right"></i></span></a>
+		</li>
+    </c:if>
+    
 	</ul>
 	
-	</div>
+</nav>
 <!-- 페이징 끝 -->
             </div>
         </div>
@@ -215,7 +229,8 @@
         },
         error: function(xhr, status, error) {
         	Swal.fire({
-   				title: "출고처리 에러!",
+   				title: "출고처리 불가!",
+   				text: "　제품 재고 보유량 부족",
    				icon: "error"
    			})
         }

@@ -27,6 +27,7 @@
 	<if test="select1 == 'com'">and mib_info_status = 1</if>
 	</where>
 	order by mib_cd desc
+	limit #{startRow},#{pageSize}
 </select>
 
 <select id="getInBoundBoardList2" resultType="com.itwillbs.domain.BoundDTO">
@@ -53,6 +54,7 @@
 	<if test="select2 == 'pib_com'">and pib_info_status = 1</if>
 	</where>
 	order by pib_cd desc
+	limit #{startRow},#{pageSize}
 </select>
 
 <select id="getInBoundBoardCount" resultType="java.lang.Integer">
@@ -101,6 +103,32 @@
 	</where>
 </select>
 
+<select id="getWh_cdFromMib_cd" resultType="com.itwillbs.domain.BoundDTO">
+	select m.mib_cd, w.wh_cd, w.wh_mvol, o.ord_vol
+	from MINBOUND m
+	join ORDERS o
+	on m.ord_cd = o.ord_cd
+	join PRODUCT p
+	on o.pro_cd = p.pro_cd
+	join WAREHOUSE w
+	on p.wh_cd = w.wh_cd
+	where m.mib_cd = #{mib_cd}
+</select>
+
+<select id="getWh_stockFromWh_cd" resultType="java.lang.Integer">
+	select sum(pro_vol)
+	from PRODUCT
+	where wh_cd = #{wh_cd}
+</select>
+
+<select id="ord_cdFromMib_cd" resultType="com.itwillbs.domain.BoundDTO">
+	select m.ord_cd
+	from MINBOUND m
+	join ORDERS o
+	on m.ord_cd = o.ord_cd
+	where m.mib_cd = #{mib_cd}
+</select>
+
 <update id="inBoundPro1">
 	update MINBOUND
 	set mib_info_status = 1,
@@ -108,11 +136,55 @@
 	where mib_cd = #{mib_cd}
 </update>
 
-<!-- <update id="inBoundPro1_1"> -->
-<!-- 	update PRODUCT -->
-<!-- 	set pro_vol = pro_vol + #자재 입고 수량 -->
-<!-- 	where pro_cd = #뭐시기 -->
-<!-- </update> -->
+<select id="pro_cdFromOrd_cd" resultType="com.itwillbs.domain.BoundDTO">
+    select o.pro_cd, o.ord_vol
+	from ORDERS o
+	join PRODUCT p
+	on o.pro_cd = p.pro_cd
+	where o.ord_cd = #{ord_cd}
+</select>
+
+<update id="inBoundPro1_1">
+	update PRODUCT
+	set pro_vol = pro_vol + #{ord_vol}
+	where pro_cd = #{pro_cd}
+</update>
+
+<update id="inBoundPro1_2">
+	update ORDERS
+	set ord_info_status = 2
+	where ord_cd = #{ord_cd}
+</update>
+
+<select id="getWh_cdFromPib_cd" resultType="com.itwillbs.domain.BoundDTO">
+	select p.pib_cd, w.wh_cd, w.wh_mvol, pe.actual_completion_amount
+	from PINBOUND p
+	join PERFORMANCE pe
+	on p.per_cd = pe.per_cd
+	join INSTRUCTION i
+	on pe.ins_cd = i.ins_cd
+	join PRODUCT pr
+	on pr.pro_cd = i.pro_cd
+	join WAREHOUSE w
+	on w.wh_cd = pr.wh_cd
+	where p.pib_cd = #{pib_cd}
+</select>
+
+<select id="getPer_cdFromPib_cd" resultType="com.itwillbs.domain.BoundDTO">
+	select p.per_cd
+	from PINBOUND p
+	join PERFORMANCE pe
+	on p.per_cd = pe.per_cd
+	where p.pib_cd = #{pib_cd}
+</select>
+
+<select id="getPro_cdFromPer_cd" resultType="com.itwillbs.domain.BoundDTO">
+	select i.pro_cd, p.actual_completion_amount
+	from PERFORMANCE p
+	join INSTRUCTION i
+	on p.ins_cd = i.ins_cd
+	where p.per_cd = #{per_cd}
+</select>
 
 <update id="inBoundPro2">
 	update PINBOUND
@@ -121,11 +193,11 @@
 	where pib_cd = #{pib_cd}
 </update>
 
-<!-- <update id="inBoundPro2_1"> -->
-<!-- 	update PRODUCT -->
-<!-- 	set pro_vol = pro_vol + #제품 입고 수량 -->
-<!-- 	where pro_cd = #뭐시기 -->
-<!-- </update> -->
+<update id="inBoundPro2_1">
+	update PRODUCT
+	set pro_vol = pro_vol + #{actual_completion_amount}
+	where pro_cd = #{pro_cd}
+</update>
 
 <select id="getOutBoundBoardList" resultType="com.itwillbs.domain.BoundDTO">
 	select o.*, c.*, pr.*, w.*
@@ -148,7 +220,7 @@
 	<if test="select1 == 'com'">and ob_info_status = 1</if>
 	</where>
 	order by ob_cd desc
-	
+	limit #{startRow},#{pageSize}
 </select>
 
 <select id="getOutBoundBoardCount" resultType="java.lang.Integer">
@@ -173,6 +245,24 @@
 	</where>
 </select>
 
+<select id="getPro_cdFromOb_cd" resultType="com.itwillbs.domain.BoundDTO"> 
+	select o.ob_cd, c.con_cd, c.pro_cd, p.pro_vol, c.con_vol
+	from OUTBOUND o
+	join CONTRACT c
+	on o.con_cd = c.con_cd
+	join PRODUCT p
+	on p.pro_cd = c.pro_cd
+	where o.ob_cd = #{ob_cd}
+</select>
+
+<!-- <select id="con_cdFromOb_cd" resultType="com.itwillbs.domain.BoundDTO"> -->
+<!-- 	select o.con_cd -->
+<!-- 	from OUTBOUND o -->
+<!-- 	join CONTRACT c -->
+<!-- 	on o.con_cd = c.con_cd -->
+<!-- 	where o.ob_cd = #{ob_cd} -->
+<!-- </select> -->
+
 <update id="outBoundPro">
 	update OUTBOUND
 	set ob_info_status = 1,
@@ -180,11 +270,24 @@
 	where ob_cd = #{ob_cd}
 </update>
 
-<!-- <update id="outBoundPro_1"> -->
-<!-- 	update PRODUCT -->
-<!-- 	set pro_vol = pro_vol - #제품 출고 수량 -->
-<!-- 	where pro_cd = #뭐시기 -->
-<!-- </update> -->
+<!-- <select id="getPro_cdFromCon_cd" resultType="com.itwillbs.domain.BoundDTO"> -->
+<!-- 	select c.pro_cd, c.con_vol -->
+<!-- 	from CONTRACT c -->
+<!-- 	join PRODUCT p -->
+<!-- 	on c.pro_cd = p.pro_cd -->
+<!-- 	where c.con_cd = #{con_cd} -->
+<!-- </select> -->
 
+<update id="outBoundPro_1">
+	update PRODUCT
+	set pro_vol = pro_vol - #{con_vol}
+	where pro_cd = #{pro_cd}
+</update>
+
+<update id="outBoundPro_2">
+	update CONTRACT
+	set con_info_status = 2
+	where con_cd = #{con_cd}
+</update>
 
 </mapper>

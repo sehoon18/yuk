@@ -51,11 +51,6 @@
     margin-right: 20px;
     }
     
-    h1{
-    font-weight: bold !important;
-    font-size: 25px !important;
-    }
-    
     th{
     font-size: 15px !important;
     }
@@ -72,11 +67,12 @@
 <jsp:include page="../inc/sidebar.jsp" />
 
 <div class="main-content container-fluid">
+<h1 class="card-title"><b>입고 관리</b></h1>
+<br>
     <section class="section">
         <div class="card">
             <div class="card-body">
                 <div class="row">
-                        <h1 class="card-title">입고 관리</h1>
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
                             <li class="nav-item" role="presentation">
                                 <a class="nav-link active" id="mib-tab" data-toggle="tab" href="#mibtab" role="tab" aria-controls="mibtab"
@@ -127,7 +123,7 @@
                     <tbody>
         <c:forEach var="boundDTO" items="${inBoundBoardList}">
     	<tr>
-   			<td id="ib">${boundDTO.mib_cd}</td>
+   			<td>${boundDTO.mib_cd}</td>
     		<td>${boundDTO.ord_cd}</td>
 <%--     		ord_cd에 링크 경로 발주서 onClick="location.href='${pageContext.request.contextPath}/폴더/파일?ord_cd=${DTO파일.ord_cd }'" --%>
     	    <td>
@@ -168,37 +164,57 @@
                     </tbody>
                 </table>
 <!-- 페이징 시작 -->
-	<div id="page_control">
+<nav aria-label="Page navigation example">
 	
-	<ul class="pagination pagination-primary" style="justify-content:center;">
+    <ul class="pagination pagination-primary justify-content-end">
 		
-	<c:if test="${pageDTO.startPage > pageDTO.pageBlock}">
-	<li class="page-item">
-		<a class="page-link" href="${pageContext.request.contextPath}/bound/inBound?pageNum=${pageDTO.startPage - pageDTO.pageBlock}
-		&search1=${pageDTO.search1}&search2=${pageDTO.search2}&search3=${pageDTO.search3}&search4=${pageDTO.search4}
-		&select1=${pageDTO.select1}">
-		<span aria-hidden="true"><i data-feather="chevron-left"></i></span></a></li>
+	<c:if test="${pageDTO.startPage > 1}">
+		<li class="page-item">
+			<a class="page-link" href="${pageContext.request.contextPath}/bound/inBound?pageNum=${pageDTO.startPage - 1}
+			&search1=${pageDTO.search1}&search2=${pageDTO.search2}&search3=${pageDTO.search3}&search4=${pageDTO.search4}
+			&select1=${pageDTO.select1}">
+			<span aria-hidden="true">
+				<i data-feather="chevron-left"></i></span></a>
+		</li>
 	</c:if>
+	
+	<c:if test="${pageDTO.startPage <= 1}">
+		<li class="page-item disabled">
+			<a class="page-link" href="#" tabindex="-1" aria-disabled="true">
+			<span aria-hidden="true">
+				<i data-feather="chevron-left"></i></span></a>
+        </li>
+    </c:if>
 
 	<c:forEach var="i" begin="${pageDTO.startPage}" end="${pageDTO.endPage}" step="1">
-	<li class="page-item">
-		<a class="page-link" href="${pageContext.request.contextPath}/bound/inBound?pageNum=${i}
-		&search1=${pageDTO.search1}&search2=${pageDTO.search2}&search3=${pageDTO.search3}&search4=${pageDTO.search4}
-		&select1=${pageDTO.select1}">${i}</a></li>
+		<li class="page-item ${pageDTO.currentPage == i ? 'active' : ''}">
+			<a class="page-link" href="${pageContext.request.contextPath}/bound/inBound?pageNum=${i}
+			&search1=${pageDTO.search1}&search2=${pageDTO.search2}&search3=${pageDTO.search3}&search4=${pageDTO.search4}
+			&select1=${pageDTO.select1}">${i}</a>
+		</li>
 	</c:forEach>
-	<!-- 현재페이지 css <li class="page-item active"><a class="page-link" href="">2</a></li> -->
 
-	<c:if test="${pageDTO.pageCount > pageDTO.endPage}">
-	<li class="page-item">
-		<a class="page-link" href="${pageContext.request.contextPath}/bound/inBound?pageNum=${pageDTO.startPage + pageDTO.pageBlock}
-		&search1=${pageDTO.search1}&search2=${pageDTO.search2}&search3=${pageDTO.search3}&search4=${pageDTO.search4}
-		&select1=${pageDTO.select1}">
-		<span aria-hidden="true"><i data-feather="chevron-right"></i></span></a></li>
+	<c:if test="${pageDTO.endPage < pageDTO.pageCount}">
+		<li class="page-item">
+			<a class="page-link" href="${pageContext.request.contextPath}/bound/inBound?pageNum=${pageDTO.endPage + 1}
+			&search1=${pageDTO.search1}&search2=${pageDTO.search2}&search3=${pageDTO.search3}&search4=${pageDTO.search4}
+			&select1=${pageDTO.select1}">
+			<span aria-hidden="true">
+				<i data-feather="chevron-right"></i></span></a>
+		</li>
 	</c:if>
 	
+    <c:if test="${pageDTO.endPage >= pageDTO.pageCount}">
+		<li class="page-item disabled">
+			<a class="page-link" href="#">
+			<span aria-hidden="true">
+				<i data-feather="chevron-right"></i></span></a>
+		</li>
+    </c:if>
+    
 	</ul>
 	
-	</div>
+</nav>
 <!-- 페이징 끝 -->
                             </div>
                             <div class="tab-pane fade" id="pibtab" role="tabpanel" aria-labelledby="pibtab">
@@ -269,37 +285,57 @@
                     </tbody>
                 </table>
 <!-- 페이징 시작 -->
-	<div id="page_control">
+<nav aria-label="Page navigation example">
 	
-	<ul class="pagination pagination-primary" style="justify-content:center;">
+    <ul class="pagination pagination-primary justify-content-end">
 		
-	<c:if test="${pageDTO.startPage2 > pageDTO.pageBlock}">
-	<li class="page-item">
-		<a class="page-link" href="${pageContext.request.contextPath}/bound/inBound2?pageNum2=${pageDTO.startPage2 - pageDTO.pageBlock}
-		&search5=${pageDTO.search5}&search6=${pageDTO.search6}&search7=${pageDTO.search7}&search8=${pageDTO.search8}
-		&select2=${pageDTO.select2}">
-		<span aria-hidden="true"><i data-feather="chevron-left"></i></span></a></li>
+	<c:if test="${pageDTO.startPage2 > 1}">
+		<li class="page-item">
+			<a class="page-link" href="${pageContext.request.contextPath}/bound/inBound2?pageNum2=${pageDTO.startPage2 - 1}
+			&search5=${pageDTO.search5}&search6=${pageDTO.search6}&search7=${pageDTO.search7}&search8=${pageDTO.search8}
+			&select2=${pageDTO.select2}">
+			<span aria-hidden="true">
+				<i data-feather="chevron-left"></i></span></a>
+		</li>
 	</c:if>
+	
+	<c:if test="${pageDTO.startPage2 <= 1}">
+		<li class="page-item disabled">
+			<a class="page-link" href="#" tabindex="-1" aria-disabled="true">
+			<span aria-hidden="true">
+				<i data-feather="chevron-left"></i></span></a>
+        </li>
+    </c:if>
 
 	<c:forEach var="i" begin="${pageDTO.startPage2}" end="${pageDTO.endPage2}" step="1">
-	<li class="page-item">
-		<a class="page-link" href="${pageContext.request.contextPath}/bound/inBound2?pageNum2=${i}
-		&search5=${pageDTO.search5}&search6=${pageDTO.search6}&search7=${pageDTO.search7}&search8=${pageDTO.search8}
-		&select2=${pageDTO.select2}">${i}</a></li>
+		<li class="page-item ${pageDTO.currentPage2 == i ? 'active' : ''}">
+			<a class="page-link" href="${pageContext.request.contextPath}/bound/inBound2?pageNum2=${i}
+			&search5=${pageDTO.search5}&search6=${pageDTO.search6}&search7=${pageDTO.search7}&search8=${pageDTO.search8}
+			&select2=${pageDTO.select2}">${i}</a>
+		</li>
 	</c:forEach>
-	<!-- 현재페이지 css <li class="page-item active"><a class="page-link" href="">2</a></li> -->
 
-	<c:if test="${pageDTO.pageCount2 > pageDTO.endPage2}">
-	<li class="page-item">
-		<a class="page-link" href="${pageContext.request.contextPath}/bound/inBound2?pageNum2=${pageDTO.startPage2 + pageDTO.pageBlock}
-		&search5=${pageDTO.search5}&search6=${pageDTO.search6}&search7=${pageDTO.search7}&search8=${pageDTO.search8}
-		&select2=${pageDTO.select2}">
-		<span aria-hidden="true"><i data-feather="chevron-right"></i></span></a></li>
+	<c:if test="${pageDTO.endPage2 < pageDTO.pageCount2}">
+		<li class="page-item">
+			<a class="page-link" href="${pageContext.request.contextPath}/bound/inBound2?pageNum2=${pageDTO.endPage2 + 1}
+			&search5=${pageDTO.search5}&search6=${pageDTO.search6}&search7=${pageDTO.search7}&search8=${pageDTO.search8}
+			&select2=${pageDTO.select2}">
+			<span aria-hidden="true">
+				<i data-feather="chevron-right"></i></span></a>
+		</li>
 	</c:if>
 	
+    <c:if test="${pageDTO.endPage2 >= pageDTO.pageCount2}">
+		<li class="page-item disabled">
+			<a class="page-link" href="#">
+			<span aria-hidden="true">
+				<i data-feather="chevron-right"></i></span></a>
+		</li>
+    </c:if>
+    
 	</ul>
 	
-	</div>
+</nav>
 <!-- 페이징 끝 -->
                             </div>
                             </div>
@@ -338,15 +374,16 @@
         data: {mib_cd : mib_cd},
         success: function(response) {
         	Swal.fire({
-					title: "입고처리 완료!",
-					icon: "success" 
+				title: "입고처리 완료!",
+				icon: "success" 
 			}).then(() => {
                 location.reload(); // 페이지 새로고침
             });
         },
         error: function(xhr, status, error) {
         	Swal.fire({
-   				title: "입고처리 에러!",
+   				title: "입고처리 불가!",
+   				text: "　창고 최대 보유량 초과",
    				icon: "error"
    			})
         }
@@ -382,8 +419,9 @@
     },
     error: function(xhr, status, error) {
     	Swal.fire({
-				title: "입고처리 에러!",
-				icon: "error"
+				title: "입고처리 불가!",
+   				text: "　창고 최대 보유량 초과",
+   				icon: "error"
 			})
     }
   });
