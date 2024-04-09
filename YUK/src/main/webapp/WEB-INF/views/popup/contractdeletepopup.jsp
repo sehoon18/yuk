@@ -54,13 +54,13 @@
                                     <div class="col-md-14 col-2">
                                         <div class="form-group">
                                             <label for="city-column">거래처코드</label>
-                                            <input type="text" id="cli_cd" class="form-control" placeholder="CLI_CD" name="cli_cd" value="${ordercontractDTO.cli_cd}">
+                                            <input type="text" id="cli_cd" class="form-control" placeholder="CLI_CD" onclick="openPopup2()" name="cli_cd" value="${ordercontractDTO.cli_cd}">
                                         </div>
                                     </div>
                                    <div class="col-md-14 col-2">
                                         <div class="form-group">
                                             <label for="country-floating">거래처명</label>
-                                            <input type="text" id="cli_name" class="form-control" name="cli_name" placeholder="CLI_NAME" value="${ordercontractDTO.cli_name}">
+                                            <input type="text" id="cli_name" class="form-control" name="cli_name" onclick="openPopup2()" placeholder="CLI_NAME" value="${ordercontractDTO.cli_name}">
                                         </div>
                                     </div>
                                     <div class="col-md-14 col-2">
@@ -126,6 +126,24 @@
 	      $(popup.document).on('click', '.popup-option', function() {
 	        var selectedValue = $(this).text();
 	        $('#pro_name').val(selectedValue);
+	        popup.close();
+	      });
+	    }
+	  }
+	</script>
+	<script>
+	  // 인풋 창을 클릭하면 팝업을 엽니다.
+	  function openPopup2() {
+	    var popup = window.open("${pageContext.request.contextPath}/popup/clientpop", "popup2", "width=800,height=600");
+	    
+	    if (popup === null || typeof(popup) === 'undefined') {
+	      alert('팝업이 차단되었습니다. 팝업 차단을 해제하고 다시 시도해주세요.');
+	    } else {
+	    	
+	      // 팝업에서 선택한 값을 가져와서 인풋 필드에 설정합니다.
+	      $(popup.document).on('click', '.popup-option', function() {
+	        var selectedValue = $(this).text();
+	        $('#cli_name').val(selectedValue);
 	        popup.close();
 	      });
 	    }

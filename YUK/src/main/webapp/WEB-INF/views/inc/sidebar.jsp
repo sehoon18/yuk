@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
 <!DOCTYPE html>
         <div id="sidebar" class='active'>
             <div class="sidebar-wrapper active">
@@ -14,24 +15,24 @@
         <img src="${pageContext.request.contextPath}/resources/assets/images/user.png" style="width:60px; height:60px;">
      </div> 
      <div style="text-align: center; margin-top:20px;">  
-     <h4><b><sec:authentication property="principal.username"/> </b></h4>
+     <h4><b><sec:authentication property="principal.username"/>  </b></h4>
      </div>
      <div style="text-align: center;">
-     <c:if test="${sessionScope.permission == 0}">
+<%--      <c:if test="${sessionScope.permission == 0}"> --%>
      <b>권한 : 관리자 </b>
-     </c:if>
-     <c:if test="${sessionScope.permission == 1}">
+<%--      </c:if> --%>
+<%--      <c:if test="${sessionScope.permission == 1}"> --%>
      <b>권한 : 품목/거래처/소요량 </b>
-     </c:if>
-     <c:if test="${sessionScope.permission == 2}">
+<%--      </c:if> --%>
+<%--      <c:if test="${sessionScope.permission == 2}"> --%>
      <b>권한 : 입고/출고/재고/창고 </b>
-     </c:if>
-     <c:if test="${sessionScope.permission == 3}">
+<%--      </c:if> --%>
+<%--      <c:if test="${sessionScope.permission == 3}"> --%>
      <b>권한 : 수주/발주 </b>
-     </c:if>
-     <c:if test="${sessionScope.permission == 4}">
+<%--      </c:if> --%>
+<%--      <c:if test="${sessionScope.permission == 4}"> --%>
      <b>권한 : 작업/실적/라인 </b>
-     </c:if>
+<%--      </c:if> --%>
      
      </div>
   	 <form action="${pageContext.request.contextPath}/member/logout" method="post">
@@ -144,7 +145,7 @@
                     </ul>
                     
                 </li>
-			<c:if test="${sessionScope.permission == 0}">
+<%-- 			<c:if test="${sessionScope.permission == 0}"> --%>
              <li>
                     <a href="${pageContext.request.contextPath}/member/memberList" class='sidebar-link'>
                      <i data-feather="user"></i> 
@@ -152,7 +153,7 @@
                         </a>
                         
             </li>
-            </c:if>
+<%--             </c:if> --%>
         </ul>
        
  

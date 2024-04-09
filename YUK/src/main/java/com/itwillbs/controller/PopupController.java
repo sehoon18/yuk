@@ -122,40 +122,138 @@ public class PopupController {
 		return "popup/linepop";
 	}
 
-//	@GetMapping("/orderaddpopup")
-//	public String orderaddpopup(Model model,OrdercontractDTO ordercontractDTO, PageDTO pageDTO) {	
-//		System.out.println("PopupController orderaddpopup()");
+	@GetMapping("/orderaddpopup")
+	public String orderaddpopup(Model model,OrdercontractDTO ordercontractDTO, PageDTO pageDTO) {	
+		System.out.println("PopupController orderaddpopup()");
 //		List<OrdercontractDTO> orderList = ordercontractService.getOrderList(ordercontractDTO);
 //		model.addAttribute("OrdercontractList", orderList);
 //		System.out.println(orderList);
-//		return "popup/orderaddpopup";
-//	}
-//	@GetMapping("/contractaddpopup")
-//	public String contractaddpopup(Model model,OrdercontractDTO ordercontractDTO,PageDTO pageDTO) {	
-//		System.out.println("PopupController contractaddpopup()");
+		return "popup/orderaddpopup";
+	}
+	@GetMapping("/contractaddpopup")
+	public String contractaddpopup(Model model,OrdercontractDTO ordercontractDTO,PageDTO pageDTO) {	
+		System.out.println("PopupController contractaddpopup()");
 //		List<OrdercontractDTO> contractList = ordercontractService.getContractList(ordercontractDTO);
 //		model.addAttribute("contractList", contractList);
 //		System.out.println(contractList);
-//		return "popup/contractaddpopup";
-//	}
+		return "popup/contractaddpopup";
+	}
 	
 	
 	@GetMapping("/orderpop")
-	public String orderpop(Model model, OrdercontractDTO ordercontractDTO, PageDTO pageDTO) {
+	public String orderpop(Model model, OrdercontractDTO ordercontractDTO, PageDTO pageDTO,HttpServletRequest request) {
 		System.out.println("PopupController orderpop()");
-		List<OrdercontractDTO> orderList2 = ordercontractService.getOrderList2(pageDTO);
-		model.addAttribute("orderList2", orderList2);
-		System.out.println(orderList2);
-		return "popup/orderpop";
+		
+		
+				int pageSize = 10;
+				String pageNum = request.getParameter("pageNum");
+				if(pageNum == null) {
+					pageNum="1";
+				}
+				
+				int currentPage = Integer.parseInt(pageNum);
+				
+				pageDTO.setPageSize(pageSize);
+				pageDTO.setPageNum(pageNum);
+				pageDTO.setCurrentPage(currentPage);
+				
+				List<OrdercontractDTO> orderList2 = ordercontractService.getOrderList2(pageDTO);
+				
+				int count =  ordercontractService.getOrderCount(pageDTO);
+				int pageBlock = 10;
+				int startPage = (currentPage - 1) / pageBlock * pageBlock + 1;
+				int endPage = startPage + pageBlock -1;
+				int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);
+				
+				if(endPage > pageCount) {
+					endPage = pageCount;
+				}
+				
+				pageDTO.setCount(pageCount);
+				pageDTO.setPageBlock(pageBlock);
+				pageDTO.setStartPage(startPage);
+				pageDTO.setEndPage(endPage);
+				pageDTO.setPageCount(pageCount);
+				
+				model.addAttribute("orderList2", orderList2);
+				model.addAttribute("pageDTO", pageDTO);
+				return "popup/orderpop";
 	}
 	
 	@GetMapping("/contractpop")
-	public String contractpop(Model model,OrdercontractDTO ordercontractDTO) {
+	public String contractpop(Model model,OrdercontractDTO ordercontractDTO ,PageDTO pageDTO,HttpServletRequest request) {
 		System.out.println("PopupController contractpop()");
-//		List<OrdercontractDTO> contractList = ordercontractService.getContractList(ordercontractDTO);
-//		model.addAttribute("ContractList", contractList);
 		
-//		System.out.println(contractList);
+		int pageSize = 10;
+		String pageNum = request.getParameter("pageNum");
+		if(pageNum == null) {
+			pageNum="1";
+		}
+		
+		int currentPage = Integer.parseInt(pageNum);
+		
+		pageDTO.setPageSize(pageSize);
+		pageDTO.setPageNum(pageNum);
+		pageDTO.setCurrentPage(currentPage);
+		
+		List<OrdercontractDTO> contractList2 = ordercontractService.getContractList2(pageDTO);
+		
+		int count =  ordercontractService.getOrderCount(pageDTO);
+		int pageBlock = 10;
+		int startPage = (currentPage - 1) / pageBlock * pageBlock + 1;
+		int endPage = startPage + pageBlock -1;
+		int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);
+		
+		if(endPage > pageCount) {
+			endPage = pageCount;
+		}
+		
+		pageDTO.setCount(pageCount);
+		pageDTO.setPageBlock(pageBlock);
+		pageDTO.setStartPage(startPage);
+		pageDTO.setEndPage(endPage);
+		pageDTO.setPageCount(pageCount);
+		
+		model.addAttribute("contractList2", contractList2);
+		model.addAttribute("pageDTO", pageDTO);
 		return "popup/contractpop";
+	}
+	@GetMapping("/clientpop")
+	public String clientpop(Model model,OrdercontractDTO ordercontractDTO ,PageDTO pageDTO,HttpServletRequest request) {
+		System.out.println("PopupController clientpop()");
+		int pageSize = 10;
+		String pageNum = request.getParameter("pageNum");
+		if(pageNum == null) {
+			pageNum="1";
+		}
+		
+		int currentPage = Integer.parseInt(pageNum);
+		
+		pageDTO.setPageSize(pageSize);
+		pageDTO.setPageNum(pageNum);
+		pageDTO.setCurrentPage(currentPage);
+		
+		List<OrdercontractDTO> clientList = ordercontractService.getClientList(pageDTO);
+		
+		int count =  ordercontractService.getOrderCount(pageDTO);
+		int pageBlock = 10;
+		int startPage = (currentPage - 1) / pageBlock * pageBlock + 1;
+		int endPage = startPage + pageBlock -1;
+		int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);
+		
+		if(endPage > pageCount) {
+			endPage = pageCount;
+		}
+		
+		pageDTO.setCount(pageCount);
+		pageDTO.setPageBlock(pageBlock);
+		pageDTO.setStartPage(startPage);
+		pageDTO.setEndPage(endPage);
+		pageDTO.setPageCount(pageCount);
+		
+		model.addAttribute("clientList", clientList);
+		model.addAttribute("pageDTO", pageDTO);
+		
+		return "popup/clientpop";
 	}
 }

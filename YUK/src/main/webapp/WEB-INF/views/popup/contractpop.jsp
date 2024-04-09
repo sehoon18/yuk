@@ -58,25 +58,64 @@
 	                <tr>
 	                  <th>품목이름</th>
 	                  <th>품목코드</th>
+	                  <th>단가</th>
 	                  <th>구분</th>
 	                </tr>
 	              </thead>
 	              <tbody>
-					<c:forEach var="OrdercontractDTO" items="${ContractList2 }">
+					<c:forEach var="OrdercontractDTO" items="${contractList2 }">
 					<tr>
 						<td>${OrdercontractDTO.pro_name }</td>
 						<td>${OrdercontractDTO.pro_cd }</td>
-						<td>${OrdercontractDTO.pro_type }</td>
+						<td>${OrdercontractDTO.pro_price }</td>
+						<c:if test="${OrdercontractDTO.pro_type  == 0 }">
+                            <td><button class="btn icon icon-left btn-success" disabled><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>완제품</button></td>
+							</c:if>
 					</tr>
 					</c:forEach>
 	              </tbody>
 	            </table>
+	            
 	          </div>
 	        </div>
 	      </div>
 	      </div>
 	      
-<!--	품목 소요량 테이블 끝 -->
+<!-- 			페이징 시작 -->
+<nav aria-label="Page navigation example">
+    <ul class="pagination pagination-primary justify-content-end">
+        <c:if test="${pageDTO.startPage > 1}">
+            <li class="page-item">
+                <a class="page-link" href="${pageContext.request.contextPath}/popup/contractpop?pageNum=${pageDTO.startPage - 1}">Previous</a>
+            </li>
+        </c:if>
+        
+        <c:if test="${pageDTO.startPage <= 1}">
+            <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+            </li>
+        </c:if>
+        
+        <c:forEach var="i" begin="${pageDTO.startPage}" end="${pageDTO.endPage}" step="1">
+            <li class="page-item ${pageDTO.currentPage == i ? 'active' : ''}">
+                <a class="page-link" href="${pageContext.request.contextPath}/popup/contractpop?pageNum=${i}">${i}</a>
+            </li>
+        </c:forEach>
+        
+        <c:if test="${pageDTO.endPage < pageDTO.pageCount}">
+            <li class="page-item">
+                <a class="page-link" href="${pageContext.request.contextPath}/popup/contractpop?pageNum=${pageDTO.endPage + 1}">Next</a>
+            </li>
+        </c:if>
+        
+        <c:if test="${pageDTO.endPage >= pageDTO.pageCount}">
+            <li class="page-item disabled">
+                <a class="page-link" href="#">Next</a>
+            </li>
+        </c:if>
+    </ul>
+</nav>
+<!-- 			페이징 끝 -->
 
                         </div>
                     </div>
@@ -94,9 +133,10 @@
 		  var selectedRow = $(this);
 		  var selectedValue = selectedRow.find('td:eq(0)').text(); // 첫 번째 열의 값을 가져오는 경우
 		  var selectedValue1 = selectedRow.find('td:eq(1)').text(); // 두 번째 열의 값을 가져오는 경우
-		 window.opener.document.getElementById('pro_name').value = selectedValue;
+		  var selectedValue2 = selectedRow.find('td:eq(2)').text(); // 두 번째 열의 값을 가져오는 경우
+		  window.opener.document.getElementById('pro_name').value = selectedValue;
 		  window.opener.document.getElementById('pro_cd').value = selectedValue1;
-		 
+		  window.opener.document.getElementById('pro_price').value = selectedValue2;
 		  window.close();
 		});
 	</script>

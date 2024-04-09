@@ -23,24 +23,22 @@
                 <div class="card" style="box-shadow: none;">
                     <div class="card-content">
 		  <div class="card-header" style="margin-top: 30px;">
-	        <h3 class="card-title" style="text-align: left;">발주품목리스트</h3>
+	        <h3 class="card-title" style="text-align: left;">거래처리스트</h3>
 	      <hr>
 	      <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
             <div>
-                <form action="${pageContext.request.contextPath}/ordercontract/order" method="get" style="display: flex;">
+                <form action="${pageContext.request.contextPath}/popup/clientpop" method="get" style="display: flex;">
                     <div style="margin-right: 10px;">
-                        <b>품목코드</b>
-                        <input type="text" id="first-name" class="form-control" name="ord_cd" style="width: auto;">
+                        <b>거래처코드</b>
+                        <input type="text" id="first-name" class="form-control" name="search1" style="width: auto;">
                     </div>
                     <div style="margin-right: 10px;">
-                        <b>품명</b>
-                        <input type="text" id="first-name" class="form-control" name="cli_name" style="width: auto;">
+                        <b>거래처명</b>
+                        <input type="text" id="first-name" class="form-control" name="search2" style="width: auto;">
                     </div>
-                    <div style="margin-right: 10px;">
-                        <b>단가</b>
-                        <input type="text" id="first-name" class="form-control" name="pro_name" style="width: auto;">
-                    </div>
+                   
                     <button class="btn btn-primary btn-sm" type="submit" style="height:36px !important; margin-top:22px !important;" >조회</button>
+                    
                 </form>
             </div>
             
@@ -54,21 +52,17 @@
 	            <table class="table">
 	              <thead>
 	                <tr>
-	                  <th>품목이름</th>
-	                  <th>품목코드</th>
-	                  <th>거래처코드</th>
 	                  <th>거래처명</th>
-	                  <th>단가</th>
+	                  <th>거래처코드</th>
+	                
 	                </tr>
 	              </thead>
 	              <tbody>
-					<c:forEach var="OrdercontractDTO" items="${OrderList }">
+					<c:forEach var="OrdercontractDTO" items="${clientList }">
 					<tr>
-						<td>${OrdercontractDTO.pro_name }</td>
-						<td>${OrdercontractDTO.pro_cd }</td>
-						<td>${OrdercontractDTO.cli_cd }</td>
 						<td>${OrdercontractDTO.cli_name }</td>
-						<td>${OrdercontractDTO.pro_price }</td>
+						<td>${OrdercontractDTO.cli_cd }</td>
+						
 					</tr>
 					</c:forEach>
 	              </tbody>
@@ -77,6 +71,41 @@
 	        </div>
 	      </div>
 	      </div>
+	      <!-- 			페이징 시작 -->
+<nav aria-label="Page navigation example">
+    <ul class="pagination pagination-primary justify-content-end">
+        <c:if test="${pageDTO.startPage > 1}">
+            <li class="page-item">
+                <a class="page-link" href="${pageContext.request.contextPath}/popup/clientpop?pageNum=${pageDTO.startPage - 1}">Previous</a>
+            </li>
+        </c:if>
+        
+        <c:if test="${pageDTO.startPage <= 1}">
+            <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+            </li>
+        </c:if>
+        
+        <c:forEach var="i" begin="${pageDTO.startPage}" end="${pageDTO.endPage}" step="1">
+            <li class="page-item ${pageDTO.currentPage == i ? 'active' : ''}">
+                <a class="page-link" href="${pageContext.request.contextPath}/popup/clientpop?pageNum=${i}">${i}</a>
+            </li>
+        </c:forEach>
+        
+        <c:if test="${pageDTO.endPage < pageDTO.pageCount}">
+            <li class="page-item">
+                <a class="page-link" href="${pageContext.request.contextPath}/popup/clientpop?pageNum=${pageDTO.endPage + 1}">Next</a>
+            </li>
+        </c:if>
+        
+        <c:if test="${pageDTO.endPage >= pageDTO.pageCount}">
+            <li class="page-item disabled">
+                <a class="page-link" href="#">Next</a>
+            </li>
+        </c:if>
+    </ul>
+</nav>
+<!-- 			페이징 끝 -->
 			 </div>
                     </div>
                 </div>
@@ -93,56 +122,12 @@
 		  var selectedRow = $(this);
 		  var selectedValue = selectedRow.find('td:eq(0)').text(); // 첫 번째 열의 값을 가져오는 경우
 		  var selectedValue1 = selectedRow.find('td:eq(1)').text(); // 두 번째 열의 값을 가져오는 경우
-		  var selectedValue2 = selectedRow.find('td:eq(2)').text(); // 세 번째 열의 값을 가져오는 경우
-		  var selectedValue3 = selectedRow.find('td:eq(4)').text();
-		  var selectedValue4 = selectedRow.find('td:eq(3)').text();// 5 번째 열의 값을 가져오는 경우
-		  window.opener.document.getElementById('pro_name').value = selectedValue;
-		  window.opener.document.getElementById('pro_cd').value = selectedValue1;
-		  window.opener.document.getElementById('cli_cd').value = selectedValue2;
-		  window.opener.document.getElementById('pro_price').value = selectedValue3;
-		  window.opener.document.getElementById('cli_name').value = selectedValue4;
+		  
+		  window.opener.document.getElementById('cli_name').value = selectedValue;
+		  window.opener.document.getElementById('cli_cd').value = selectedValue1;
 		  window.close();
 		});
 	</script>
-	<script>
-// $(document).ready(function(){
-//     // 서버에서 받은 OrderList를 자바스크립트 객체 배열로 변환
-// 	var orders = [
-<%--         <% for(OrdercontractDTO order : orderList) { %> --%>
-//         {
-<%--             pro_name: '<%= order.getPro_name() %>', --%>
-<%--             pro_cd: '<%= order.getPro_cd() %>', --%>
-<%--             cli_cd: '<%= order.getCli_cd() %>', --%>
-<%--             cli_name: '<%= order.getCli_name() %>', --%>
-<%--             pro_price: '<%= order.getPro_price() %>' --%>
-//         },
-<%--         <% } %> --%>
-//     ];
-
-   
-//     // 중복 제거 (pro_cd를 기준으로)
-//     var uniqueOrders = [];
-//     var map = new Map();
-//     for (var order of orders) {
-//         if(!map.has(order.pro_cd)){
-//             map.set(order.pro_cd, true);    // 중복되지 않는 항목에 대해 맵에 추가
-//             uniqueOrders.push(order);
-//         }
-//     }
-
-//     // 중복이 제거된 배열을 사용하여 테이블에 행 추가
-//     uniqueOrders.forEach(function(order) {
-//         var row = `<tr>
-//             <td>${order.pro_name}</td>
-//             <td>${order.pro_cd}</td>
-//             <td>${order.cli_cd}</td>
-//             <td>${order.cli_name}</td>
-//             <td>${order.pro_price}</td>
-//         </tr>`;
-//         $('.table tbody').append(row);
-//     });
-// });
-</script>
-
+	
 </body>
 </html>

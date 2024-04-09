@@ -121,10 +121,6 @@ public class OrdercontractController {
 		
 		model.addAttribute("ContractList", contractList);
 		model.addAttribute("pageDTO", pageDTO);
-		
-		
-		System.out.println(contractList);
-		model.addAttribute("pageDTO", pageDTO);
 		return "ordercontract/contract";
 	}
 	@PostMapping("/insertOrder")
