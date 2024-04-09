@@ -57,10 +57,12 @@
         <form id="dataForm" class="insertProduct" action="${pageContext.request.contextPath}/product/productInsertPro" method="post">
       <div class="card-header" style="text-align:right;">
         <h4 class="card-title" style="text-align:left;">품목 목록 <b>총 ${productList.size()}건</b></h4>
+        <c:if test="${memberDTO.permission == 0 || memberDTO.permission == 1}">
 			    <button type="button" onclick="addTableRow()" class='btn btn-primary' id="addrow">➕ 추가</button>
 			    <button type="button" onclick="modTableRow()" class='btn btn-primary' id="modify">↪️ 수정</button>
 			    <button type="button" onclick="delTableRow()" class='btn btn-primary' id="delete">⚠️ 삭제</button>
 			    <button type="submit" class='btn btn-primary' id="submitrow" disabled>💾 저장</button>
+	    </c:if>
       </div>
       <div class="card-content">
         <div class="table-responsive">

@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.itwillbs.domain.MemberDTO;
 import com.itwillbs.domain.ProductDTO;
 import com.itwillbs.service.ProductService;
 
@@ -26,11 +28,14 @@ public class ProductController {
 	// --------  품목 관리 -----------
 	
 	@GetMapping("/productMain")
-	public String productMain(Model model,HttpServletRequest request) {
+	public String productMain(Model model,HttpServletRequest request,HttpSession session) {
 		System.out.println("ProductController productMain()");
+		
+		Integer permission = (Integer)session.getAttribute("permission");
+		MemberDTO memberDTO = new MemberDTO();
+		memberDTO.setPermission(permission);
+		model.addAttribute("memberDTO", memberDTO);
 		ProductDTO productDTO = new ProductDTO();
-		
-		
 		
 		String productCode;
 		// productCode 생성
@@ -78,9 +83,11 @@ public class ProductController {
 			productList = productService.getSearchProductList(productDTO);
 		}
 		model.addAttribute("productList", productList);
+		
+		
 		return "product/productMain";
 	}
-	
+	//품목 팝업
 	@GetMapping("/productPopUp")
 	public String productPopUp(Model model,HttpServletRequest request) {
 		System.out.println("ProductController productPopUp()");
@@ -90,9 +97,8 @@ public class ProductController {
 		productDTO.setProductCode(productCode);
 		String productName = request.getParameter("productName");
 		productDTO.setProductName(productName);
-		
 		List<ProductDTO> productList;
-		if(productCode == null && productName == null){
+		if(productCode == "" && productName == ""){
 			productList = productService.getProductList(productDTO);
 		}else {
 			productList = productService.getSearchProductList(productDTO);
@@ -141,30 +147,36 @@ public class ProductController {
 	// --------  소요량 관리 -----------
 	
 	@GetMapping("/requiredMain")
-	public String requiredMain(Model model, HttpServletRequest request) {
+	public String requiredMain(Model model, HttpServletRequest request,HttpSession session) {
 		System.out.println("ProductController requiredMain()");
+		
+		Integer permission = (Integer)session.getAttribute("permission");
+		MemberDTO memberDTO = new MemberDTO();
+		memberDTO.setPermission(permission);
+		model.addAttribute("memberDTO", memberDTO);
+		
 		
 		ProductDTO productDTO = new ProductDTO();
 		
 		String requiredCode;
-//		// productCode 생성
-//				Integer requiredLastNum = productService.getRequiredLastNum();
-//
-//				if (requiredLastNum == null) {
-//					requiredCode = "REQ001";
-//				} else {
-//				    int nextNum = requiredLastNum + 1;
-//				    if (nextNum < 10) {
-//				    	requiredCode = String.format("REQ00%d", nextNum);
-//				    } else if (nextNum < 100) {
-//				    	requiredCode = String.format("REQ0%d", nextNum);
-//				    } else {
-//				    	requiredCode = String.format("REQ%d", nextNum);
-//				    }
-//				}
-//				
-//				productDTO.setRequiredCode(requiredCode);
-//				model.addAttribute("productDTO", productDTO);
+		// productCode 생성
+				Integer requiredLastNum = productService.getRequiredLastNum();
+
+				if (requiredLastNum == null) {
+					requiredCode = "REQ001";
+				} else {
+				    int nextNum = requiredLastNum + 1;
+				    if (nextNum < 10) {
+				    	requiredCode = String.format("REQ00%d", nextNum);
+				    } else if (nextNum < 100) {
+				    	requiredCode = String.format("REQ0%d", nextNum);
+				    } else {
+				    	requiredCode = String.format("REQ%d", nextNum);
+				    }
+				}
+				
+				productDTO.setRequiredCode(requiredCode);
+				model.addAttribute("productDTO", productDTO);
 		requiredCode = request.getParameter("requiredCode");
 		productDTO.setRequiredCode(requiredCode);
 		String productName = request.getParameter("productName");
@@ -179,9 +191,6 @@ public class ProductController {
 			}
 		}
 		productDTO.setProductType(productType);
-		System.out.println(productType);
-		System.out.println(productName);
-		
 		List<ProductDTO> requiredList;
 		if(requiredCode == null && productName == null && requiredTypeParam == null ) {
 			requiredList = productService.getRequiredList(productDTO);
@@ -191,6 +200,7 @@ public class ProductController {
 		model.addAttribute("requiredList",requiredList);
 		return "product/requiredMain";
 	}
+	//소요량 팝업
 	@GetMapping("/requiredPopUp")
 	public String requiredPopUp(Model model, HttpServletRequest request) {
 		System.out.println("ProductController requiredPopUp()");
@@ -200,10 +210,10 @@ public class ProductController {
 		String requiredCode = request.getParameter("requiredCode");
 		productDTO.setRequiredCode(requiredCode);
 		String productName = request.getParameter("productName");
-		productDTO.setProductCode(productName);
+		productDTO.setProductName(productName);
 		
 		List<ProductDTO> requiredList;
-		if(requiredCode == null && productName == null) {
+		if(requiredCode == "" && productName == "") {
 			requiredList = productService.getRequiredList(productDTO);
 		}else {
 			requiredList = productService.getSearchRequiredList(productDTO);
@@ -242,11 +252,46 @@ public class ProductController {
 		
 		return "redirect:/product/requiredMain";
 	}
+	//소요량 추가 -> 완제품 선택 팝업
+	@GetMapping("/requiredInsertPopUp1")
+	public String requiredInsertPopUp1(Model model, HttpServletRequest request) {
+		System.out.println("ProductController requiredInsertPopUp1()");
+		
+		ProductDTO productDTO = new ProductDTO();
+		String productCode = request.getParameter("productCode");
+		productDTO.setProductCode(productCode);
+		String productName = request.getParameter("productName");
+		productDTO.setProductName(productName);
+		List<ProductDTO> productList;
+		if(productCode == "" && productName == ""){
+			productList = productService.getProductList(productDTO);
+		}else {
+			productList = productService.getSearchProductList(productDTO);
+		}
+		model.addAttribute("productList", productList);
+		return "product/requiredInsertPopUp1";
+	}
 	
-	
-	
-	
-	
+	//소요량 추가 ->자재 팝업
+		@GetMapping("/requiredInsertPopUp2")
+		public String requiredInsertPopUp2(Model model, HttpServletRequest request) {
+			System.out.println("ProductController requiredInsertPopUp2()");
+			
+			ProductDTO productDTO = new ProductDTO();
+			
+			String productCode = request.getParameter("productCode");
+			productDTO.setProductCode(productCode);
+			String productName = request.getParameter("productName");
+			productDTO.setProductName(productName);
+			List<ProductDTO> productList;
+			if(productCode == "" && productName == ""){
+				productList = productService.getProductList(productDTO);
+			}else {
+				productList = productService.getSearchProductList(productDTO);
+			}
+			model.addAttribute("productList", productList);
+			return "product/requiredInsertPopUp2";
+		}
 	
 	
 }

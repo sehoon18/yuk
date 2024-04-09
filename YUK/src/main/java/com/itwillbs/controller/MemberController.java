@@ -117,11 +117,21 @@ public class MemberController {
 		return "member/contract";
 	}
 	@GetMapping("/memberList")
-	public String memberList(Model model , HttpServletRequest request) {
+	public String memberList(Model model , HttpServletRequest request, HttpSession session) {
 		System.out.println("MemberController memberList()");
 		
+		Integer permission = (Integer)session.getAttribute("permission");
+		if(permission != 0 || permission == null) {
+			return "redirect:/member/memberLogin";
+		}
 		MemberDTO memberDTO = new MemberDTO();
+		memberDTO.setPermission(permission);
+		model.addAttribute("memberDTO", memberDTO);
+		
+		memberService.userCheck(memberDTO);
+		System.out.println(memberDTO);
 		String id = request.getParameter("id");
+		
 		memberDTO.setId(id);
 		String name = request.getParameter("name");
 		memberDTO.setName(name);
@@ -135,6 +145,8 @@ public class MemberController {
 		}
 		
 		model.addAttribute("memberList" , memberList);
+		
+		
 		
 		return "member/memberList";
 	}

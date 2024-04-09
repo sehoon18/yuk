@@ -15,13 +15,13 @@
 	select  PRO_CD "productCode", PRO_NAME "productName", PRO_TYPE "productType", PRO_ORIGIN "productOrigin", PRO_PRICE "productPrice"   
 	from PRODUCT
 <where>
-<if test="productCode != null">
+<if test="productCode != ''  and  productCode != null">
 	PRO_CD like concat('%',#{productCode},'%')
 </if>
-<if test="productName != null">
+<if test="productName != ''  and  productName != null">
 	and PRO_NAME like concat('%',#{productName},'%')
 </if>
-<if test="productType != 100">
+<if test="productType != '' and productType != null and productType != 100">
 	and PRO_TYPE = #{productType}
 </if>
 </where>
@@ -44,13 +44,13 @@
 	join PRODUCT p2 
 	on r.MP_CD = p2.PRO_CD 
 <where>
-<if test="requiredCode != null">
+<if test="requiredCode != '' and requiredCode != null">
 	r.REQ_CD like concat('%', #{requiredCode}, '%')
 </if>
-<if test="productName != null">
+<if test="productName != '' and productName != null">
 	and p1.PRO_NAME like concat('%', #{productName}, '%')
 </if>
-<if test="productType != 100">
+<if test="productType != '' and productType != null and productType != 100">
 	and p2.PRO_TYPE = #{productType}
 </if>
 </where>	
@@ -82,28 +82,28 @@ values(#{productCode}, #{productName}, #{productPrice}, #{productOrigin}, #{prod
 </delete>
 
 
-<!-- <select id="getRequiredLastNum" resultType="java.lang.Integer"> -->
-<!-- 	SELECT REGEXP_REPLACE(REQ_CD, '[^0-9]', '') AS numbers_only -->
-<!-- 	FROM REQUIRED -->
-<!-- 	ORDER BY numbers_only DESC -->
-<!-- 	LIMIT 1 -->
-<!-- </select> -->
+<select id="getRequiredLastNum" resultType="java.lang.Integer">
+	SELECT REGEXP_REPLACE(REQ_CD, '[^0-9]', '') AS numbers_only
+	FROM REQUIRED
+	ORDER BY numbers_only DESC
+	LIMIT 1
+</select>
 
-<!-- <insert id="insertRequired"> -->
-<!-- insert into REQUIRED(REQ_CD, PP_CD, MP_CD,REQ_VOL) -->
-<!-- values(#{requiredCode}, #{productCode}, #{ materialProductCode}, #{requiredVol}) -->
-<!-- </insert> -->
+<insert id="insertRequired">
+insert into REQUIRED(REQ_CD, PP_CD, MP_CD,REQ_VOL)
+values(#{requiredCode}, #{productCode}, #{ materialProductCode}, #{requiredVol})
+</insert>
 
-<!-- <update id="updateRequired"> -->
-<!-- 	update PRODUCT -->
-<!-- 	SET REQ_VOL = #{requiredVol} -->
-<!-- 	where REQ_CD = #{requiredCode} -->
-<!-- </update> -->
+<update id="updateRequired">
+	update REQUIRED
+	SET REQ_VOL = #{requiredVol}
+	where REQ_CD = #{requiredCode}
+</update>
 
-<!-- <delete id="deleteRequired"> -->
-<!-- 	delete -->
-<!-- 	from REQUIRED -->
-<!-- 	WHERE REQ_CD = #{requiredCode} -->
-<!-- </delete> -->
+<delete id="deleteRequired">
+	delete
+	from REQUIRED
+	WHERE REQ_CD = #{requiredCode}
+</delete>
 
 </mapper>

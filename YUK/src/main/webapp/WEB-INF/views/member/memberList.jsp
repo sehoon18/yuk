@@ -51,10 +51,12 @@
      <form id="dataForm" class="insertMember" action="${pageContext.request.contextPath}/member/memberInsert" method="post">
       <div class="card-header" style="text-align:right;">
         <h4 class="card-title" style="text-align:left;">사원관리 <b>총 ${memberList.size()}명</b></h4>
+        <c:if test="${memberDTO.permission == 0}">
         		<button type="button" onclick="addTableRow()" class='btn btn-primary' id="addrow">➕ 추가</button>
 			    <button type="button" onclick="modTableRow()" class='btn btn-primary' id="modify">↪️ 수정</button>
 			    <button type="button" onclick="delTableRow()" class='btn btn-primary' id="delete">⚠️ 삭제</button>
 			    <button type="submit" class='btn btn-primary' id="submitrow" disabled>💾 저장</button>
+			    </c:if>
       </div>
       <div class="card-content">
         <div class="table-responsive">
@@ -134,6 +136,38 @@
     <script src="${pageContext.request.contextPath}/resources/assets/vendors/apexcharts/apexcharts.min.js"></script>
     <script src="${pageContext.request.contextPath}/resources/assets/js/pages/dashboard.js"></script>
     <script src="${pageContext.request.contextPath}/resources/assets/js/main.js"></script>
+    
+    <script>
+// 페이지가 로드되면 실행되는 함수입니다.
+window.onload = function() {
+    // memberDTO 객체의 permission 값을 확인합니다.
+    // 이 예제에서는 permission 값을 직접 지정하였지만, 실제로는 서버로부터 받아온 데이터를 사용해야 합니다.
+    var memberDTO = {
+        permission: 0 // 이 값이 1이면 버튼을 보여주고, 그렇지 않으면 숨깁니다.
+    };
+
+    // 버튼 요소를 가져옵니다.
+    var addButton = document.getElementById('addrow');
+    var modifyButton = document.getElementById('modify');
+    var deleteButton = document.getElementById('delete');
+    var submitButton = document.getElementById('submitrow');
+
+    // permission 값에 따라 버튼의 표시 여부를 결정합니다.
+    if (memberDTO.permission === 0) {
+        // permission 값이 1이면, 버튼을 보여줍니다.
+        addButton.style.display = '';
+        modifyButton.style.display = '';
+        deleteButton.style.display = '';
+        submitButton.style.display = '';
+    } else {
+        // permission 값이 1이 아니면, 버튼을 숨깁니다.
+        addButton.style.display = 'none';
+        modifyButton.style.display = 'none';
+        deleteButton.style.display = 'none';
+        submitButton.style.display = 'none';
+    }
+};
+</script>
     
     <script>
     function addTableRow() {
@@ -349,9 +383,6 @@
                 input.name = 'id'; // 요구사항에 맞게 이름 설정
                 input.value = row.getAttribute('data-id'); // 'data-id' 속성이나 다른 방법으로 'id' 값을 설정
                 alert("0"+input.value);
-                // 폼에 숨겨진 입력 필드 추가
-                var form = document.getElementById('dataForm'); // 폼의 ID가 'dataForm'인 경우
-                form.appendChild(input);
             	
             	alert(4);
                 const select = document.createElement('select');
