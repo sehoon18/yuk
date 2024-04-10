@@ -42,10 +42,10 @@ public class BoundService {
 		System.out.println("BoundService getInBoundBoardList2()");
 		
 		// 시작하는 행번호 구하기
-		int currentPage = pageDTO.getCurrentPage();
+		int currentPage2 = pageDTO.getCurrentPage2();
 		int pageSize = pageDTO.getPageSize();
 		
-		int startRow = (currentPage - 1) * pageSize + 1;
+		int startRow = (currentPage2 - 1) * pageSize + 1;
 		
 		// 끝나는 행번호 구하기
 		int endRow = startRow + pageSize - 1;
