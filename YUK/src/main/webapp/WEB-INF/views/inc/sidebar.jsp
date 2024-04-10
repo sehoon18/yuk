@@ -19,19 +19,19 @@
      </div>
      <div style="text-align: center;">
 <%--      <c:if test="${sessionScope.permission == 0}"> --%>
-     <b>권한 : 관리자 </b>
+<!--      <b>권한 : 관리자 </b> -->
 <%--      </c:if> --%>
 <%--      <c:if test="${sessionScope.permission == 1}"> --%>
-     <b>권한 : 품목/거래처/소요량 </b>
+<!--      <b>권한 : 품목/거래처/소요량 </b> -->
 <%--      </c:if> --%>
 <%--      <c:if test="${sessionScope.permission == 2}"> --%>
-     <b>권한 : 입고/출고/재고/창고 </b>
+<!--      <b>권한 : 입고/출고/재고/창고 </b> -->
 <%--      </c:if> --%>
 <%--      <c:if test="${sessionScope.permission == 3}"> --%>
-     <b>권한 : 수주/발주 </b>
+<!--      <b>권한 : 수주/발주 </b> -->
 <%--      </c:if> --%>
 <%--      <c:if test="${sessionScope.permission == 4}"> --%>
-     <b>권한 : 작업/실적/라인 </b>
+<!--      <b>권한 : 작업/실적/라인 </b> -->
 <%--      </c:if> --%>
      
      </div>
