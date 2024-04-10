@@ -8,7 +8,29 @@
 <select id="getProductList" resultType="com.itwillbs.domain.ProductDTO">
 	select  PRO_CD "productCode", PRO_NAME "productName", PRO_TYPE "productType", PRO_ORIGIN "productOrigin", PRO_PRICE "productPrice"   
 	from PRODUCT
+	<where>
+	<if test="search1 != '' and search1 != null"  >
+	PRO_CD like concat('%', #{search1}, '%')
+	</if>
+	<if test="search2 != '' and search2 != null ">
+	and PRO_NAME like concat('%', #{search2}, '%')
+	</if>
+	</where>
 	order by PRO_CD desc
+    limit #{startRow}, #{pageSize}
+</select>
+
+<select id="getProductCount" resultType="java.lang.Integer">
+	select count(*)
+	from PRODUCT
+	<where>
+	<if test="search1 != '' and search1 != null"  >
+	PRO_CD like concat('%', #{search1}, '%')
+	</if>
+	<if test="search2 != '' and search2 != null ">
+	and PRO_NAME like concat('%', #{search2}, '%')
+	</if>
+	</where>
 </select>
 
 <select id="getSearchProductList" resultType="com.itwillbs.domain.ProductDTO">

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.itwillbs.domain.MemberDTO;
+import com.itwillbs.domain.PageDTO;
 import com.itwillbs.service.MemberService;
 
 @Controller
@@ -66,18 +67,25 @@ public class MemberController {
 	}
 
 	@PostMapping("/memberInsert")
-	public String memberInsert(MemberDTO memberDTO) {
+	public String memberInsert(MemberDTO memberDTO, Authentication authentication) {
 		System.out.println("MemberController memberInsert()");
 		System.out.println(memberDTO);
+		
+		String username = authentication.getName();
+		memberDTO.setName2(username);
+		
+		
 		memberDTO.setPass(new BCryptPasswordEncoder().encode(memberDTO.getPass()));
 		memberService.insertMember(memberDTO);
 		
 		return "redirect:/member/memberList";
 	}
 	@PostMapping("/memberUpdate")
-	public String memberUpdate(MemberDTO memberDTO, HttpServletRequest request) {
+	public String memberUpdate(MemberDTO memberDTO, HttpServletRequest request, Authentication authentication) {
 		System.out.println("MemberController memberUpdate()");
-		System.out.println("memberUpdate의 멤버디티오 값1:" + memberDTO);
+		
+		String username = authentication.getName();
+		memberDTO.setName2(username);
 		
 		memberService.updateMember(memberDTO);
 		
@@ -117,35 +125,59 @@ public class MemberController {
 		return "member/contract";
 	}
 	@GetMapping("/memberList")
-	public String memberList(Model model , HttpServletRequest request, HttpSession session) {
+	public String memberList(Model model , HttpServletRequest request,Authentication authentication, PageDTO pageDTO) {
+		
 		System.out.println("MemberController memberList()");
 		
-		Integer permission = (Integer)session.getAttribute("permission");
-		if(permission != 0 || permission == null) {
-			return "redirect:/member/memberLogin";
-		}
-		MemberDTO memberDTO = new MemberDTO();
-		memberDTO.setPermission(permission);
-		model.addAttribute("memberDTO", memberDTO);
+//		MemberDTO memberDTO = new MemberDTO();
+//		
+//		
+//		memberService.userCheck(memberDTO);
+//		System.out.println(memberDTO);
+//		String id = request.getParameter("id");
+//		memberDTO.setId(id);
+//		String name = request.getParameter("name");
+//		memberDTO.setName(name);
+//		model.addAttribute("memberDTO",memberDTO);
 		
-		memberService.userCheck(memberDTO);
-		System.out.println(memberDTO);
-		String id = request.getParameter("id");
+		// 검색 기능
+				pageDTO.setSearch1(request.getParameter("search1"));
+				pageDTO.setSearch2(request.getParameter("search2"));
 		
-		memberDTO.setId(id);
-		String name = request.getParameter("name");
-		memberDTO.setName(name);
-		model.addAttribute("memberDTO",memberDTO);
-		
-		List<MemberDTO> memberList;
-		if(id == null && name == null) {
-			memberList = memberService.getMemberList(memberDTO);
-		}else {
-			memberList = memberService.searchMemberList(memberDTO);
-		}
-		
+		// 페이징
+				int pageSize = 10;
+				String pageNum = request.getParameter("pageNum");
+				if(pageNum == null) {
+					pageNum="1";
+				}
+				
+				int currentPage = Integer.parseInt(pageNum);
+				
+				pageDTO.setPageSize(pageSize);
+				pageDTO.setPageNum(pageNum);
+				pageDTO.setCurrentPage(currentPage);
+				
+				List<MemberDTO> memberList = memberService.getMemberList(pageDTO);
+				
+				int count =  memberService.getMemberCount(pageDTO);
+				int pageBlock = 10;
+				int startPage = (currentPage - 1) / pageBlock * pageBlock + 1;
+				int endPage = startPage + pageBlock -1;
+				int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);
+				
+				if(endPage > pageCount) {
+					endPage = pageCount;
+				}
+				
+				pageDTO.setCount(pageCount);
+				pageDTO.setPageBlock(pageBlock);
+				pageDTO.setStartPage(startPage);
+				pageDTO.setEndPage(endPage);
+				pageDTO.setPageCount(pageCount);
+				
+				
 		model.addAttribute("memberList" , memberList);
-		
+		model.addAttribute("pageDTO", pageDTO);
 		
 		
 		return "member/memberList";

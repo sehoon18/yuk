@@ -21,7 +21,7 @@
         <div class="col-md-5 col-sm-12 mx-auto">
             <div class="card pt-4">
                 <div class="card-body">
-                <c:out value="${msg }"></c:out>
+                <c:out value="${msg}"></c:out>
                     <div class="text-center mb-5">
                         <img src="${pageContext.request.contextPath}/resources/assets/images/favicon.svg" height="48" class='mb-4'>
                         <h3>로그인</h3>

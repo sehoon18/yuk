@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.itwillbs.dao.MemberDAO;
 import com.itwillbs.domain.AuthDTO;
 import com.itwillbs.domain.MemberDTO;
+import com.itwillbs.domain.PageDTO;
 
 @Service
 public class MemberService {
@@ -19,13 +20,17 @@ public class MemberService {
 		return memberDAO.userCheck(memberDTO);
 	}
 
-	public List<MemberDTO> getMemberList(MemberDTO memberDTO) {
-		return memberDAO.getMemberList(memberDTO);
+	public List<MemberDTO> getMemberList(PageDTO pageDTO) {
+		
+		int startRow = (pageDTO.getCurrentPage() - 1) * pageDTO.getPageSize() + 1;
+		int EndRow = startRow + pageDTO.getPageSize() - 1;
+		
+		pageDTO.setStartRow(startRow -1);
+		pageDTO.setEndRow(EndRow);
+		
+		return memberDAO.getMemberList(pageDTO);
 	}
 
-	public List<MemberDTO> searchMemberList(MemberDTO memberDTO) {
-		return memberDAO.searchMemberList(memberDTO);
-	}
 
 	public void insertMember(MemberDTO memberDTO) {
 		memberDAO.insertMember(memberDTO);
@@ -60,6 +65,10 @@ public class MemberService {
 
 	public MemberDTO getMember(String id) {
 		return memberDAO.getMember(id);
+	}
+
+	public int getMemberCount(PageDTO pageDTO) {
+		return memberDAO.getMemberCount(pageDTO);
 	}
 
 }

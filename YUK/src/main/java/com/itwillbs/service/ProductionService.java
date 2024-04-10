@@ -310,5 +310,10 @@ public class ProductionService {
 	public ProductionDTO getPib(ProductionDTO productionDTO) {
 		return productionDAO.getPib(productionDTO);
 	}
+	
+	public List<ProductionDTO> getInsVol(ProductionDTO productionDTO) {
+		System.out.println("productionService getInsVol()");
+		return productionDAO.getInsVol(productionDTO);
+	}
 
 }

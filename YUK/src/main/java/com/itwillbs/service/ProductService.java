@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import com.itwillbs.dao.ProductDAO;
+import com.itwillbs.domain.PageDTO;
 import com.itwillbs.domain.ProductDTO;
 
 @Service
@@ -14,8 +15,8 @@ public class ProductService {
 	@Inject
 	ProductDAO productDAO;
 
-	public List<ProductDTO> getProductList(ProductDTO productDTO) {
-		return productDAO.getProductList(productDTO);
+	public List<ProductDTO> getProductList(PageDTO pageDTO) {
+		return productDAO.getProductList(pageDTO);
 	}
 
 	public List<ProductDTO> getRequiredList(ProductDTO productDTO) {
@@ -98,6 +99,10 @@ public class ProductService {
 
 	public void deleteRequired(ProductDTO productDTO) {
 		productDAO.deleteRequired(productDTO);
+	}
+
+	public int getProductCount(PageDTO pageDTO) {
+		return productDAO.getProductCount(pageDTO);
 	}
 	
 	

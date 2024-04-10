@@ -114,4 +114,12 @@ public class AjaxController {
 		}
 	}
 	
+	@GetMapping("/production/mainJson")
+	public ResponseEntity<List<ProductionDTO>> mainJson(ProductionDTO productionDTO) {
+		List<ProductionDTO> InsVolList = productionService.getInsVol(productionDTO);
+		ResponseEntity<List<ProductionDTO>> entity = new ResponseEntity<List<ProductionDTO>>(InsVolList, HttpStatus.OK);
+		return entity;
+	}
+	
+	
 }

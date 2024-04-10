@@ -184,5 +184,10 @@ public class ProductionDAO {
 	public ProductionDTO getPib(ProductionDTO productionDTO) {
 		return sqlSession.selectOne(namespace + ".getPib", productionDTO);
 	}
+	
+	public List<ProductionDTO> getInsVol(ProductionDTO productionDTO) {
+		System.out.println("productionDAO getInsVol()");
+		return sqlSession.selectList(namespace + ".getInsVol",productionDTO);
+	}
 
 }
