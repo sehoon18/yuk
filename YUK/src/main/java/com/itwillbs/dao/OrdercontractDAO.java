@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 
 import com.itwillbs.domain.OrdercontractDTO;
 import com.itwillbs.domain.PageDTO;
-import com.itwillbs.domain.ProductionDTO;
 
 
 	@Repository
@@ -77,5 +76,24 @@ import com.itwillbs.domain.ProductionDTO;
 			System.out.println("OrdercontractDAO getContractList2()");
 			return sqlSession.selectList(namespace + ".getContractList2", pageDTO);
 		}
+		public void insertMib(OrdercontractDTO ordercontractDTO) {
+			sqlSession.insert(namespace + ".insertMib", ordercontractDTO);
+		}
+		public void deleteMib(OrdercontractDTO ordercontractDTO) {
+			sqlSession.delete(namespace + ".deleteMib", ordercontractDTO);
+		}
+		public void insertOb(OrdercontractDTO ordercontractDTO) {
+			sqlSession.insert(namespace + ".insertOb", ordercontractDTO);
+		}
+		public void deleteOb(OrdercontractDTO ordercontractDTO) {
+			sqlSession.delete(namespace + ".deleteOb", ordercontractDTO);
+		}
+		public Integer getMibLastNum() {
+			return sqlSession.selectOne(namespace + ".getMibLastNum");
+		}
+		public Integer getObLastNum() {
+			return sqlSession.selectOne(namespace + ".getObLastNum");
+		}
+		
 		
 }

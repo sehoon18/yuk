@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import com.itwillbs.dao.OrdercontractDAO;
 import com.itwillbs.domain.OrdercontractDTO;
 import com.itwillbs.domain.PageDTO;
-import com.itwillbs.domain.ProductionDTO;
 
 
 
@@ -145,6 +144,57 @@ import com.itwillbs.domain.ProductionDTO;
 			
 			return ordercontractDAO.getContractCount(pageDTO);
 		}
+		
+		public void insertMib(OrdercontractDTO ordercontractDTO) {
+			//mib_cd 생성
+			Integer mibLastNum = ordercontractDAO.getMibLastNum();
+			String mib_cd;
+			if (mibLastNum == null) {
+				mib_cd = "MIB001";
+			} else {
+			    int nextNum = mibLastNum + 1;
+			    if (nextNum < 10) {
+			    	mib_cd = String.format("MIB00%d", nextNum);
+			    } else if (nextNum < 100) {
+			    	mib_cd = String.format("MIB0%d", nextNum);
+			    } else {
+			    	mib_cd = String.format("MIB%d", nextNum);
+			    }
+			}
+			ordercontractDTO.setMib_cd(mib_cd);
+			//자재 입고 insert
+			ordercontractDAO.insertMib(ordercontractDTO);
+		}
+		
+		public void insertOb(OrdercontractDTO ordercontractDTO) {
+			//ob_cd 생성
+			Integer obLastNum = ordercontractDAO.getObLastNum();
+			String ob_cd;
+			if (obLastNum == null) {
+				ob_cd = "OB001";
+			} else {
+			    int nextNum = obLastNum + 1;
+			    if (nextNum < 10) {
+			    	ob_cd = String.format("OB00%d", nextNum);
+			    } else if (nextNum < 100) {
+			    	ob_cd = String.format("OB0%d", nextNum);
+			    } else {
+			    	ob_cd = String.format("OB%d", nextNum);
+			    }
+			}
+			ordercontractDTO.setOb_cd(ob_cd);
+			//제품 출고 insert
+			ordercontractDAO.insertOb(ordercontractDTO);
+		}
+		
+		public void deleteMib(OrdercontractDTO ordercontractDTO) {
+			ordercontractDAO.deleteMib(ordercontractDTO);
+		}
+		
+		public void deleteOb(OrdercontractDTO ordercontractDTO) {
+			ordercontractDAO.deleteOb(ordercontractDTO);
+		}
+		
 		
 		
 		

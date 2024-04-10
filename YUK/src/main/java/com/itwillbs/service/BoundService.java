@@ -70,18 +70,20 @@ public class BoundService {
 		return boundDAO.getInBoundBoardCount2(pageDTO);
 	}//getInBoundBoardCount2()
 
-	public ResponseEntity<?> inBoundPro1(BoundDTO boundDTO) {  //자재 입고 처리
+	public ResponseEntity<?> inBoundPro1(BoundDTO boundDTO) {	//자재 입고 처리
 		System.out.println("BoundService inBoundPro1()");
-		boundDTO = boundDAO.getWh_cdFromMib_cd(boundDTO);	   //mib_cd로 창고정보 select
-		int curVol = boundDAO.getWh_stockFromWh_cd(boundDTO);  //창고 현재 보유량
-		int maxVol = boundDTO.getWh_mvol();					   //창고 최대 보유량
-		int addVol = boundDTO.getOrd_vol();					   //자재 입고량(발주량)
+		String user_id1 = boundDTO.getUser_id();				//user_id 세팅1
+		boundDTO = boundDAO.getWh_cdFromMib_cd(boundDTO);		//mib_cd로 창고정보 select
+		boundDTO.setUser_id(user_id1);							//user_id 세팅2
+		int curVol = boundDAO.getWh_stockFromWh_cd(boundDTO);	//창고 현재 보유량
+		int maxVol = boundDTO.getWh_mvol();						//창고 최대 보유량
+		int addVol = boundDTO.getOrd_vol();						//자재 입고량(발주량)
 		if(curVol + addVol <= maxVol) {
 			boundDAO.inBoundPro1(boundDTO);
-			boundDTO = boundDAO.getOrd_cdFromMib_cd(boundDTO); //mib_cd로 ord_cd select
-			boundDAO.inBoundPro1_2(boundDTO);				   //발주 진행상태 완료
-			boundDTO = boundDAO.getPro_cdFromOrd_cd(boundDTO); //ord_cd로 pro_cd, ord_vol select
-			boundDAO.inBoundPro1_1(boundDTO);				   //발주수량만큼 자재 적재량 증가
+			boundDTO = boundDAO.getOrd_cdFromMib_cd(boundDTO);	//mib_cd로 ord_cd select
+			boundDAO.inBoundPro1_2(boundDTO);					//발주 진행상태 완료
+			boundDTO = boundDAO.getPro_cdFromOrd_cd(boundDTO);	//ord_cd로 pro_cd, ord_vol select
+			boundDAO.inBoundPro1_1(boundDTO);					//발주수량만큼 자재 적재량 증가
 			return new ResponseEntity<>("입고 처리 완료", HttpStatus.OK);
 		}else {
 			return new ResponseEntity<>("창고 최대 보유량 초과", HttpStatus.BAD_REQUEST);
@@ -90,7 +92,9 @@ public class BoundService {
 	
 	public ResponseEntity<?> inBoundPro2(BoundDTO boundDTO) {	//제품 입고 처리
 		System.out.println("BoundService inBoundPro2()");
+		String user_id2 = boundDTO.getUser_id();				//user_id 세팅1
 		boundDTO = boundDAO.getWh_cdFromPib_cd(boundDTO);		//pib_cd로 창고정보 select
+		boundDTO.setUser_id(user_id2);							//user_id 세팅2
 		int curVol2 = boundDAO.getWh_stockFromWh_cd(boundDTO);	//창고 현재 보유량
 		int maxVol2 = boundDTO.getWh_mvol();					//창고 최대 보유량
 		int addVol2 = boundDTO.getActual_completion_amount();	//제품 입고량(양품 실적수량)
@@ -133,14 +137,14 @@ public class BoundService {
 	
 	public ResponseEntity<?> outBoundPro(BoundDTO boundDTO) {	//제품 출고 처리
 		System.out.println("BoundService outBoundPro()");
+		String user_id3 = boundDTO.getUser_id();				//user_id 세팅1
 		boundDTO = boundDAO.getPro_cdFromOb_cd(boundDTO);		//ob_cd로 ob_cd, con_cd, pro_cd, pro_vol, con_vol select
+		boundDTO.setUser_id(user_id3);							//user_id 세팅2
 		int proVol = boundDTO.getPro_vol();						//제품 적재량(재고량)
 		int conVol = boundDTO.getCon_vol();						//제품 출고량(수주량)
 		if(proVol >= conVol) {
 			boundDAO.outBoundPro(boundDTO);
-//			boundDTO = boundDAO.getCon_cdFromOb_cd(boundDTO);	//ob_cd로 con_cd select
 			boundDAO.outBoundPro_2(boundDTO);					//수주 진행상태 완료
-//			boundDTO = boundDAO.getPro_cdFromCon_cd(boundDTO);	//con_cd로 pro_cd, con_vol select
 			boundDAO.outBoundPro_1(boundDTO);					//수주수량만큼 제품 적재량 감소
 			return new ResponseEntity<>("출고 처리 완료", HttpStatus.OK);
 		}else {
