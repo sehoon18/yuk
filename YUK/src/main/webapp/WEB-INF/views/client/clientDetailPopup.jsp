@@ -6,7 +6,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="_csrf" content="${_csrf.token}"/>
+<meta name="_csrf_header" content="${_csrf.headerName}"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>요기육</title>
+
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/bootstrap.css">
     
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
@@ -26,7 +30,7 @@
                     <hr>
                     </div>
                     <div class="card-content">
-                      
+                      <form class="form" id="clientDetailForm" action="${pageContext.request.contextPath}/client/clientDetailUpdate" method="post">
                         <div class="card-body">
                                 <div class="row">
                                 
@@ -117,6 +121,7 @@
                                             <label for="email-id-column">비고</label>
                                             <input type="text" id="clientNote" class="form-control" name="clientNote" value="${clientDList[0].clientNote }" disabled
                                             style="height:30px">
+                                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" >
                                         </div>
                                     </div> 
                           
@@ -124,10 +129,11 @@
                                 </div>
                                 </div>
                             
-                             <form class="updateBtn" id="clientDetailUpdateBtn" action="${pageContext.request.contextPath}/client/clientDetailPopupUpdate" method="post">
+                             
 							<div class="col-12 d-flex justify-content-center">
 							    <button type="button"class="btn btn-primary mr-1 mb-1" onclick="enableInputs()">수정</button>&nbsp;&nbsp;&nbsp;&nbsp;
-							    <button type="reset" class="btn btn-light-secondary mr-1 mb-1">초기화</button>
+							    
+<!-- 							    <button type="reset" class="btn btn-light-secondary mr-1 mb-1">초기화</button> -->
 							</div>
 							</form>
 					
@@ -174,6 +180,8 @@
 	
 	<script>
 function enableInputs() {
+	
+	
     var inputs = document.querySelectorAll("input[type='text']");
     for (var i = 0; i < inputs.length; i++) {
         inputs[i].disabled = false;
@@ -189,18 +197,64 @@ function enableInputs() {
     submitButton.setAttribute("class", "btn btn-primary mr-1 mb-1");
     submitButton.innerHTML = "수정완료";
 
-    var form = document.getElementById("clientDetailUpdateBtn");
-    form.innerHTML = "";
+//     var form = document.getElementById("clientDetailUpdateBtn");
+    var form = document.getElementById("clientDetailForm");
+//     form.innerHTML = "";
     
     var buttonContainer = document.createElement("div");
     buttonContainer.setAttribute("class", "col-12 d-flex justify-content-center");
     buttonContainer.appendChild(submitButton);
-
+	
     form.appendChild(buttonContainer);
 }
 </script>
-	
-	
-	
+
+<script>
+function updateClient(clientCode) {
+    event.preventDefault();
+    // 수정할 클라이언트 정보를 가져오는 코드 (예: 폼 데이터 가져오기)
+    
+    var clientType = document.querySelector("input[name='clientType]:checked']").val();
+    var clientCode = $("#clientCode").val();
+    var clientName = $("#clientName").val();
+    var businessNumber = $("#businessNumber").val();
+    var clientCEO = $("#clientCEO").val();
+    var clientTelNumber = $("#clientTelNumber").val();
+    var clientFaxNumber = $("#clientFaxNumber").val();
+    var clientBusinessType = $("#clientBusinessType").val();
+    var clientCategory = $("#clientCategory").val();
+    var clientBasicAddress = $("#clientBasicAddress").val();
+    var clientEmail = $("#clientEmail").val();
+    var clientNote = $("#clientNote").val();
+    var name = $("name").val();
+
+    $.ajax({
+        url: "${pageContext.request.contextPath}/client/clientDetailUpdate", // 클라이언트 수정을 처리하는 URL로 변경해야 함
+        data:  { 
+            {'clientCode': clientCode},
+            {'clientType': clientType},
+            {'clientName': clientName},
+            {'businessNumber': businessNumber},
+            {'clientCEO': clientCEO},
+            {'clientTelNumber': clientTelNumber},
+            {'clientFaxNumber': clientFaxNumber},
+            {'clientBusinessType': clientBusinessType},
+            {'clientCategory': clientCategory},
+            {'clientBasicAddress': clientBasicAddress},
+            {'clientEmail': clientEmail},
+            {'clientNote': clientNote},
+            {'name': name}
+        }, // 서버로 전송할 데이터
+        success: function(response) {
+            // 클라이언트 정보 수정이 성공한 경우
+//             window.opener.location.reload(); // 부모 창 새로고침
+// 				alert(response);
+            window.close(); // 팝업 창 닫기
+        }
+    });
+}
+ 
+</script>	
+		
 </body>
 </html>

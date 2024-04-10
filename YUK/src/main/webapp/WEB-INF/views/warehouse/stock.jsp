@@ -5,8 +5,10 @@
 <html>
 <head>
     <meta charset="UTF-8">
-<!--     <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
-<!--     <title>YOGIYUK</title> -->
+    <meta name="_csrf" content="${_csrf.token}"/>
+	<meta name="_csrf_header" content="${_csrf.headerName}"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YOGIYUK</title>
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/bootstrap.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/vendors/chartjs/Chart.min.css">
@@ -50,10 +52,6 @@
   <button class="btn btn-primary btn-sm" type="submit">조회</button>
   </div>
 </form>
-
-<div style="text-align: right; margin-right:30px;">
-<button class="btn btn-primary btn-sm" onclick="javascript:showhide()">수정</button>
-</div>
 <br>
     
 
@@ -65,9 +63,6 @@
       <div class="card-header">
         <h4 class="card-title"><b>총 ${stockList.size() }건</b></h4>
       </div>  
-      <div style="text-align: right; margin-right:30px;">
-		<button class="btn btn-primary btn-sm" onclick="javascript:showhide()">수정</button>
-	  </div>
 		<br>
       
       <div class="card-content">
@@ -83,7 +78,8 @@
                 <th>창고명</th>
                 <th>보관구역(섹터)</th>
                 <th>재고량</th>
-                <th id="showtable" style="display:none;">실사량</th>
+                <th>실사량</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -104,7 +100,8 @@
                 <td>${warehouseDTO.warehouseName } </td>
                 <td>${warehouseDTO.warehouseArea } </td>
                 <td>${warehouseDTO.productVol} </td>
-                <td id="showtable" style="display:none;"> </td>
+                <td>${warehouseDTO.realAmount }<input type="text" id="clientCode" class="form-control" name="clientCode" style="flex: 1 1 auto; width: 70px; background-color: white;"></td>
+                <td><button class="btn btn-primary btn-sm" >수정</button></td>
 
               </tr>
               </c:forEach>
@@ -173,23 +170,6 @@
     	document.getElementById("warehouseName").value=warehouseName;
     	document.getElementById("productType").value=productType;
     }
-    </script>
-    
-    
-<!--     수정버튼 클릭시 실사량 보여지기 -->
-    <script>
-	function showhide(){
-		
-		const field = ['']
-		
-		
-		
-		if(document.getElementById("showtable").style.display=='block'){
-			document.getElementById("showtable").style.display='none';
-		}else{
-			document.getElementById("showtable").style.display='block';
-		}
-	}
     </script>
     
     

@@ -73,7 +73,6 @@
                 <th>창고명</th>
                 <th>보관구역(섹터)</th>
                 <th>재고량</th>
-                <th>실사량</th>
               </tr>
             </thead>
             <tbody>
@@ -94,7 +93,6 @@
                 <td>${warehouseDTO.warehouseName } </td>
                 <td>${warehouseDTO.warehouseArea } </td>
                 <td>${warehouseDTO.productVol} </td>
-                <td> </td>
               </tr>
               </c:forEach>
               

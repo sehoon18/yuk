@@ -6,6 +6,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -70,7 +71,7 @@ public class WarehouseController {
 		System.out.println("WarehouseController stockPro()");
 		System.out.println(warehouseDTO);
 		
-		String id = (String)session.getAttribute("id");
+//		String id = (String)session.getAttribute("id");
 		//warehouseDTO.setName("");
 		
 		warehouseService.insertStock(warehouseDTO);
@@ -119,10 +120,12 @@ public class WarehouseController {
 		}
 		
 		@PostMapping("/stockUpdatePro")
-		public String stockUpdatePro(WarehouseDTO warehouseDTO) {
+		public String stockUpdatePro(WarehouseDTO warehouseDTO, Authentication authentication) {
 			System.out.println("ProductController stockUpdatePro()");
 			System.out.println(warehouseDTO);
 			
+			String username = authentication.getName();
+			warehouseDTO.setName(username);	
 			warehouseService.updateStock(warehouseDTO);
 			
 			return "redirect:/warehouse/stock";
@@ -177,13 +180,12 @@ public class WarehouseController {
 		}
 		
 		@PostMapping("/warehousePro")
-		public String warehousePro(WarehouseDTO warehouseDTO, HttpSession session) {
+		public String warehousePro(WarehouseDTO warehouseDTO, HttpSession session, Authentication authentication) {
 			System.out.println("WarehouseController warehousePro()");
 			System.out.println(warehouseDTO);
 			
-			String id = (String)session.getAttribute("id");
-			//warehouseDTO.setName("");
-			
+			String username = authentication.getName();
+			warehouseDTO.setName(username);			
 			warehouseService.insertWarehouse(warehouseDTO);
 			
 			return "redirect:/warehouse/warehouse";
@@ -219,10 +221,12 @@ public class WarehouseController {
 	
 	
 	@PostMapping("/warehouseInsertPro")
-	public String warehouseInsertPro(WarehouseDTO warehouseDTO) {
+	public String warehouseInsertPro(WarehouseDTO warehouseDTO, Authentication authentication) {
 		System.out.println("warehouseController warehouseInsertPro");
 		System.out.println(warehouseDTO);
 		
+		String username = authentication.getName();
+		warehouseDTO.setName(username);		
 		warehouseService.insertWarehouse(warehouseDTO);
 		
 		return "redirect:/warehouse/warehouse";
@@ -231,10 +235,12 @@ public class WarehouseController {
 	
 	
 	@PostMapping("/warehouseUpdatePro")
-	public String warehouseUpdatePro(WarehouseDTO warehouseDTO) {
+	public String warehouseUpdatePro(WarehouseDTO warehouseDTO, Authentication authentication) {
 		System.out.println("ProductController warehouseUpdatePro()");
 		System.out.println(warehouseDTO);
 		
+		String username = authentication.getName();
+		warehouseDTO.setName(username);	
 		warehouseService.updateWarehouse(warehouseDTO);
 		
 		return "redirect:/warehouse/warehouse";

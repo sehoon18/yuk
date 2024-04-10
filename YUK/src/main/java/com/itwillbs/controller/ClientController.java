@@ -6,14 +6,16 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.itwillbs.domain.ClientDTO;
-import com.itwillbs.domain.ProductionDTO;
+import com.itwillbs.domain.PageDTO;
 import com.itwillbs.service.ClientService;
 
 @Controller
@@ -29,7 +31,7 @@ public class ClientController {
 	//거래처 관리
 	// http://localhost:8080/client/client
 	@GetMapping("/client")
-	public String client(Model model, HttpServletRequest request) {
+	public String client(Model model, HttpServletRequest request, PageDTO pageDTO) {
 		System.out.println("ClientController client()");
 		
 		ClientDTO clientDTO = new ClientDTO();
@@ -47,9 +49,57 @@ public class ClientController {
 		}else {
 			clientList = clientService.getSearchClientList(clientDTO);
 		}
-		
-
-		model.addAttribute("clientList", clientList);
+				model.addAttribute("clientList", clientList);
+				
+				// clientCode 생성
+				Integer clientLastNum = clientService.getClinetLastNum();
+				
+				if (clientLastNum == null) {
+					clientCode = "CL001";
+				}else {
+					int nextNum = clientLastNum + 1;
+					if(nextNum < 10) {
+						clientCode = String.format("CL00%d", nextNum);
+					}else if (nextNum < 100) {
+						clientCode = String.format("CL0%d", nextNum);
+					}else {
+						clientCode = String.format("CL%d", nextNum);
+					}
+				}		
+				
+				//페이징
+//				int pageSize = 10;
+//				String pageNum = request.getParameter("pageNum");
+//				if(pageNum == null) {
+//					pageNum="1";
+//				}
+//				int currentPage = Integer.parseInt(pageNum);
+//				
+//				pageDTO.setPageSize(pageSize);
+//				pageDTO.setPageNum(pageNum);
+//				pageDTO.setCurrentPage(currentPage);
+//				
+//				List<ClientDTO> clientPList = clientService.getClientPList(pageDTO);
+//				
+//				int count = clientService.getClientCount(pageDTO);
+//				int pageBlock = 10;
+//				int startPage = (currentPage - 1) / pageBlock * pageBlock + 1;
+//				int endPage = startPage + pageBlock -1;
+//				int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);
+//				
+//				if(endPage > pageCount) {
+//					endPage = pageCount;
+//				}
+//				
+//				pageDTO.setCount(pageCount);
+//				pageDTO.setPageBlock(pageBlock);
+//				pageDTO.setStartPage(startPage);
+//				pageDTO.setEndPage(endPage);
+//				pageDTO.setPageCount(pageCount);
+				
+				model.addAttribute("clientList", clientList);
+				model.addAttribute("pageDTO", pageDTO);
+				
 		return "client/client";
 	}
 	
@@ -58,7 +108,7 @@ public class ClientController {
 		System.out.println("ClientController clientPro()");
 		System.out.println(clientDTO);
 		
-		String id = (String)session.getAttribute("id");
+//		String id = (String)session.getAttribute("id");
 		//clientDTO.setName("");
 		
 		clientService.insertClient(clientDTO);
@@ -84,49 +134,124 @@ public class ClientController {
 		
 		model.addAttribute("clientDList", clientDList);
 		
-		
-		
 		return "client/clientDetailPopup";
 	}
 	
-	//거래처 상세페이지
-	@PostMapping("/clientDetailPopupUpdate")
-	public String clientDetailPopupUpdate(HttpServletRequest request, Model model) {
-		System.out.println("ClientController clientDetailPopupUpdate");
-		
+	//거래처 상세페이지 수정
+	@PostMapping("/clientDetailUpdate")
+	public String clientDetailUpdate(HttpServletRequest request, Model model, Authentication authentication) {
+		System.out.println("ClientController clientDetailUpdate");
 		ClientDTO clientDTO = new ClientDTO();
+		System.out.println(clientDTO);
 		
-		ClientDTO clientDTO2 = clientService.getClientDetailUpdate(clientDTO);
-		if(clientDTO2 != null) {
-			clientService.updateClient(clientDTO);
-			return "redirect:client/client";
-		}else {
-			return "redirect:/client/clientDetailPopup";
-		}	
+		//클라이언트 정보 업데이트를 위해 필요한 데이터 수집
+		String clientCode = request.getParameter("clientCode");
+		String clientType = request.getParameter("clientType");
+		String clientName = request.getParameter("clientName");
+		String businessNumber = request.getParameter("businessNumber");
+		String clientCEO = request.getParameter("clientCEO");
+		int clientTelNumber = (Integer.parseInt(request.getParameter("clientTelNumber")));
+		int clientFaxNumber = (Integer.parseInt(request.getParameter("clientFaxNumber")));
+		String clientBusinessType = request.getParameter("clientBusinessType");
+		String clientCategory = request.getParameter("clientCategory");
+		String clientBasicAddress = request.getParameter("clientBasicAddress");
+		String clientEmail = request.getParameter("clientEmail");
+		String clientNote = request.getParameter("clientNote");
+		
+		//ClientDTO 객체에 데이터 설정
+		clientDTO.setClientCode(clientCode);
+		clientDTO.setClientType(clientType);
+		clientDTO.setClientName(clientName);
+		clientDTO.setBusinessNumber(businessNumber);
+		clientDTO.setClientCEO(clientCEO);
+		clientDTO.setClientTelNumber(clientTelNumber);
+		clientDTO.setClientFaxNumber(clientFaxNumber);
+		clientDTO.setClientBusinessType(clientBusinessType);
+		clientDTO.setClientCategory(clientCategory);
+		clientDTO.setClientBasicAddress(clientBasicAddress);
+		clientDTO.setClientEmail(clientEmail);
+		clientDTO.setClientNote(clientNote);
+		
+		System.out.println(clientDTO);
+		
+		String username = authentication.getName();
+		clientDTO.setName(username);	
+		// 클라이언트 정보 업데이트
+		clientService.updateClient(clientDTO);
+		// 수정된 클라이언트의 페이지로 리다이렉트
+		return "redirect:/client/clientDetailPopup?clientCode="+clientCode;
+//		return "OK";
 		
 	}
 	
-	// 작업지시 등록
-		@PostMapping("/insertClient")
-		public String insertClient(ClientDTO clientDTO) {
-			System.out.println("ClientController insertClient()");
-			
-			System.out.println(clientDTO);
-			clientService.insertClient(clientDTO);
-			
-			return "client/clientAddPopup";
-		}
-	
+	//거래처 등록 Pro
+	@PostMapping("/insertClientPro")
+	public String insertClientPro(HttpServletRequest request, ClientDTO clientDTO, Authentication authentication) {
+		System.out.println("ClientController insertClientPro()");
+		System.out.println(clientDTO);
+		
+		//클라이언트 정보 업데이트를 위해 필요한 데이터 수집
+				String clientCode = request.getParameter("clientCode");
+				String clientType = request.getParameter("clientType");
+				String clientName = request.getParameter("clientName");
+				String businessNumber = request.getParameter("businessNumber");
+				String clientCEO = request.getParameter("clientCEO");
+				int clientTelNumber = (Integer.parseInt(request.getParameter("clientTelNumber")));
+				int clientFaxNumber = (Integer.parseInt(request.getParameter("clientFaxNumber")));
+				String clientBusinessType = request.getParameter("clientBusinessType");
+				String clientCategory = request.getParameter("clientCategory");
+				String clientBasicAddress = request.getParameter("clientBasicAddress");
+				String clientEmail = request.getParameter("clientEmail");
+				String clientNote = request.getParameter("clientNote");
+				
+				//ClientDTO 객체에 데이터 설정
+				clientDTO.setClientCode(clientCode);
+				clientDTO.setClientType(clientType);
+				clientDTO.setClientName(clientName);
+				clientDTO.setBusinessNumber(businessNumber);
+				clientDTO.setClientCEO(clientCEO);
+				clientDTO.setClientTelNumber(clientTelNumber);
+				clientDTO.setClientFaxNumber(clientFaxNumber);
+				clientDTO.setClientBusinessType(clientBusinessType);
+				clientDTO.setClientCategory(clientCategory);
+				clientDTO.setClientBasicAddress(clientBasicAddress);
+				clientDTO.setClientEmail(clientEmail);
+				clientDTO.setClientNote(clientNote);
+		
+		String username = authentication.getName();
+		clientDTO.setName(username);	
+		// 거래처 입력
+		clientService.insertClient(clientDTO);
+		
+		return "redirect:/client/client";
+	}
 	
 	//거래처 등록 팝업
 	@GetMapping("/clientAddPopup")
-	public String clientAddPopup(ClientDTO clientDTO, HttpSession session) {
+	public String clientAddPopup(ClientDTO clientDTO, Model model, Authentication authentication) {
 		System.out.println("ClientController clientAddPopup()");
 		System.out.println(clientDTO);
-		clientService.insertClient(clientDTO);
 		
-		return "client/clientAddPopup";
+		// clientCode 생성
+		Integer clientLastNum = clientService.getClinetLastNum();
 		
+		String clientCode;
+		if (clientLastNum == null) {
+			clientCode = "CL001";
+		}else {
+			int nextNum = clientLastNum + 1;
+			if(nextNum < 10) {
+				clientCode = String.format("CL00%d", nextNum);
+			}else if (nextNum < 100) {
+				clientCode = String.format("CL0%d", nextNum);
+			}else {
+				clientCode = String.format("CL%d", nextNum);
+			}
+		}
+		clientDTO.setClientCode(clientCode);
+		model.addAttribute("clientDTO", clientDTO);
+		
+		return "client/clientAddPopup";	
 		
 	}
 	

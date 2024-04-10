@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.itwillbs.dao.ClientDAO;
 import com.itwillbs.domain.ClientDTO;
+import com.itwillbs.domain.PageDTO;
 
 @Service
 public class ClientService {
@@ -17,7 +18,23 @@ public class ClientService {
 	//
 	public void insertClient(ClientDTO clientDTO) {
 		System.out.println("ClientServie insertClient()");
+		String clientCode;
 		
+		// clientCode 생성
+//		Integer clientLastNum = clientDAO.getClinetLastNum();
+//		if (clientLastNum == null) {
+//			clientCode = "CL001";
+//		}else {
+//			int nextNum = clientLastNum + 1;
+//			if (nextNum < 10) {
+//				clientCode = String.format("CL00%00d", nextNum);
+//			}else if (nextNum < 100) {
+//				clientCode = String.format("CL0%d", nextNum);
+//			}else {
+//				clientCode = String.format("CL%d", nextNum);
+//			}
+//		}
+//		clientDTO.setClientCode(clientCode);
 		clientDAO.insertClient(clientDTO);
 	}
 	
@@ -54,8 +71,29 @@ public class ClientService {
 		System.out.println("ClientServie updateClient()");
 		clientDAO.updateClient(clientDTO);
 	}
+
+	public Integer getClinetLastNum() {
+		System.out.println("ClientServie getClinetLastNum()");
+		return clientDAO.getClinetLastNum();
+	}
+
+	public List<ClientDTO> getClientPList(PageDTO pageDTO) {
+		System.out.println("ClientServie getClinetLastNum()");
+		
+		int startRow = (pageDTO.getCurrentPage() - 1) * pageDTO.getPageSize() + 1;
+		int EndRow = startRow + pageDTO.getPageSize() - 1;
+		
+		pageDTO.setStartRow(startRow -1);
+		pageDTO.setEndRow(EndRow);
+		
+		return clientDAO.getClientPList(pageDTO);
+	}
+
+	public int getClientCount(PageDTO pageDTO) {
+		System.out.println("ClientServie getClientCount()");
+		return clientDAO.getClientCount(pageDTO);
+	}
 	
-	//상세페이지 수정2
 
 
 

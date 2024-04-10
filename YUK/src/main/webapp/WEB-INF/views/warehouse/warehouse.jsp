@@ -5,8 +5,10 @@
 <html>
 <head>
     <meta charset="UTF-8">
-<!--     <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
-<!--     <title>YOGIYUK</title> -->
+    <meta name="_csrf" content="${_csrf.token}"/>
+	<meta name="_csrf_header" content="${_csrf.headerName}"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YOGIYUK</title>
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/bootstrap.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/vendors/chartjs/Chart.min.css">
@@ -77,6 +79,7 @@
                 <th>구역(섹터)</th>
                 <th>지역</th>
                 <th>전화번호</th>
+                <th style="width: 0px;"></th>
               </tr>
             </thead>
             <tbody>
@@ -89,10 +92,66 @@
                 <td>${warehouseDTO.warehouseArea }</td>
                 <td>${warehouseDTO.warehouseLocal }</td>
                 <td>${warehouseDTO.warehouseTelNumber }</td>
+                <td></td>
               </tr>
               </c:forEach>
             </tbody>
           </table>
+          
+           <!-- 			페이징 시작 -->
+<nav aria-label="Page navigation example">
+
+	<ul class="pagination pagination-primary justify-content-end">
+	
+	<c:if test="${pageDTO.startPage > 1}">
+		<li class="page-tiem">
+			<a class="page-link" href="${pageContext.request.contextPath}/bound/outBound?pageNum=${pageDTO.startPage - 1}
+			&search9=${pageDTO.search9}&search10=${pageDTO.search10}&search11=${pageDTO.search11}&search12=${pageDTO.search12}
+			&select1=${pageDTO.select1}">
+			<span aria-hidden="true">
+				<i data-feather="chevron-left"></i></span></a>
+		</li>
+	</c:if>
+	
+	<c:if test="${pageDTO.startPage <= 1}">
+		<li class="page-item disabled">
+			<a class="page-link" href="#" tabindex="-1" aria-disabled="true">
+			<span aria-hidden="true">
+				<i data-feather="chevron-left"></i></span></a>
+        </li>
+    </c:if>
+
+	<c:forEach var="i" begin="${pageDTO.startPage}" end="${pageDTO.endPage}" step="1">
+		<li class="page-item ${pageDTO.currentPage == i ? 'active' : ''}">
+			<a class="page-link" href="${pageContext.request.contextPath}/warehouse/warehouse?pageNum=${i}
+			&search9=${pageDTO.search9}&search10=${pageDTO.search10}&search11=${pageDTO.search11}&search12=${pageDTO.search12}
+			&select1=${pageDTO.select1}">${i}</a>
+		</li>
+	</c:forEach>
+
+	<c:if test="${pageDTO.endPage < pageDTO.pageCount}">
+		<li class="page-item">
+			<a class="page-link" href="${pageContext.request.contextPath}/warehouse/warehouse?pageNum=${pageDTO.endPage + 1}
+			&search9=${pageDTO.search9}&search10=${pageDTO.search10}&search11=${pageDTO.search11}&search12=${pageDTO.search12}
+			&select1=${pageDTO.select1}">
+			<span aria-hidden="true">
+				<i data-feather="chevron-right"></i></span></a>
+		</li>
+	</c:if>
+	
+    <c:if test="${pageDTO.endPage >= pageDTO.pageCount}">
+		<li class="page-item disabled">
+			<a class="page-link" href="#">
+			<span aria-hidden="true">
+				<i data-feather="chevron-right"></i></span></a>
+		</li>
+    </c:if>
+	
+	</ul>
+
+</nav>
+<!-- 			페이징 끝 -->  
+          
           </form>
         </div>
       </div>
@@ -164,8 +223,8 @@
         const rowId = table.rows.length; // 행 ID로 사용될 값
         
         // 각 열에 대한 셀과 입력 필드 생성
-        const fields = ['warehouseCode', 'warehouseName','productVol', 'warehouseMvol', 'warehouseArea','warehouseLocal','warehouseTelNumber'];
-        const exampleData = ['${warehouseDTO.warehouseCode}', '','','','','',''];
+        const fields = ['warehouseCode', 'warehouseName','productVol', 'warehouseMvol', 'warehouseArea','warehouseLocal','warehouseTelNumber','${_csrf.parameterName}'];
+        const exampleData = ['${warehouseDTO.warehouseCode}', '','','','','','','${_csrf.token}'];
 
         fields.forEach((field, index) => {
             const cell = newRow.insertCell(index);
@@ -342,7 +401,7 @@
     function makeRowEditable(row) {
         isDelMode = false;
         originalHTML = {}; // 현재 행에 대한 원본 HTML 저장을 위해 객체 초기화
-        const cellIndex = [0, 1, 2, 3, 4, 5, 6]; // 수정할 열 인덱스 (2열과 5열)
+        const cellIndex = [0, 1, 2, 3, 4, 5, 6, 7]; // 수정할 열 인덱스 (2열과 5열)
         cellIndex.forEach((index) => {
             const cell = row.cells[index];
             originalHTML[index] = cell.innerHTML; // 수정 전 원본 HTML을 저장
@@ -411,6 +470,14 @@
                 cell.innerHTML = '';
                 cell.appendChild(input);
             }
+			else if (index === 7) {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = '${_csrf.parameterName}';
+                input.className = 'form-control';
+                input.value = '${_csrf.token}';
+                cell.appendChild(input);
+            }
         });
     }
 </script>
@@ -437,11 +504,15 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (target.tagName === 'TR') {
                         const firstColumnValue = target.cells[0].textContent || target.cells[0].innerText; // 첫 번째 열 값
                         
+                        var token = document.querySelector('meta[name="_csrf"]').getAttribute('content');
+                        var header = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
+                        
                         // 서버로 첫 번째 열 값을 POST 요청으로 전송
                         fetch('${pageContext.request.contextPath}/warehouse/warehouseDeletePro', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
+                                [header]: token // CSRF 토큰 추가
                             },
                             body: JSON.stringify({ warehouseCode: firstColumnValue }) // 서버에 전송할 데이터
                         })

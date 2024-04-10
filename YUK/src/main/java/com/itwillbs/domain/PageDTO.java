@@ -32,6 +32,12 @@ public class PageDTO {
 	private String search7;
 	private String search8;
 	
+	//warehouse 검색어 추가
+	private String search9;
+	private String search10;
+	private String search11;
+	private String search12;
+	
 	//검색 옵션 추가
 	private String select1; //출고, 자재입고
 	private String select2; //제품입고
@@ -202,6 +208,33 @@ public class PageDTO {
 	public void setPageCount(int pageCount) {
 		this.pageCount = pageCount;
 	}
+	
+	
+	public String getSearch9() {
+		return search9;
+	}
+	public void setSearch9(String search9) {
+		this.search9 = search9;
+	}
+	public String getSearch10() {
+		return search10;
+	}
+	public void setSearch10(String search10) {
+		this.search10 = search10;
+	}
+	public String getSearch11() {
+		return search11;
+	}
+	public void setSearch11(String search11) {
+		this.search11 = search11;
+	}
+	public String getSearch12() {
+		return search12;
+	}
+	public void setSearch12(String search12) {
+		this.search12 = search12;
+	}
+	
 	
 	
 }

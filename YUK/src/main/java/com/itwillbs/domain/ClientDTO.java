@@ -16,7 +16,7 @@ public class ClientDTO {
 	private String clientCategory;           //거래처 종목
 	private String clientNote;               //거래처 참고
 	private String clientEmail;              //거래처 이메일
-	
+	private String name;
 	
 	@Override
 	public String toString() {
@@ -25,7 +25,7 @@ public class ClientDTO {
 				+ clientZipNumber + ", clientBasicAddress=" + clientBasicAddress + ", clientDetailAddress="
 				+ clientDetailAddress + ", clientTelNumber=" + clientTelNumber + ", clientFaxNumber=" + clientFaxNumber
 				+ ", clientBusinessType=" + clientBusinessType + ", clientCategory=" + clientCategory + ", clientNote="
-				+ clientNote + ", clientEmail=" + clientEmail + "]";
+				+ clientNote + ", clientEmail=" + clientEmail + ", name=" + name + "]";
 	}
 	
 	public String getClientCode() {
@@ -112,6 +112,11 @@ public class ClientDTO {
 	public void setClientEmail(String clientEmail) {
 		this.clientEmail = clientEmail;
 	}
-	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
 	
 }

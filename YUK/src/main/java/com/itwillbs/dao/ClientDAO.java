@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.itwillbs.domain.ClientDTO;
+import com.itwillbs.domain.PageDTO;
 
 @Repository
 public class ClientDAO {
@@ -16,6 +17,7 @@ public class ClientDAO {
 	private static final String namespace = "com.itwillbs.mappers.clientMapper";
 	
 	public void insertClient(ClientDTO clientDTO) {
+		System.out.println(clientDTO);
 		sqlSession.insert(namespace + ".insertClient", clientDTO);		
 	}
 	
@@ -41,6 +43,21 @@ public class ClientDAO {
 	public void updateClient(ClientDTO clientDTO) {
 		System.out.println("clientDAO updateClient()");
 		sqlSession.update(namespace+".updateClient",clientDTO);
+	}
+
+	public Integer getClinetLastNum() {
+		System.out.println("clientDAO getClinetLastNum()");
+		return sqlSession.selectOne(namespace + ".getClinetLastNum");
+	}
+
+	public List<ClientDTO> getClientPList(PageDTO pageDTO) {
+		System.out.println("clientDAO getClientPList()");
+		return sqlSession.selectList(namespace + ".getClientPList", pageDTO);
+	}
+
+	public int getClientCount(PageDTO pageDTO) {
+		System.out.println("clientDAO getClientCount()");
+		return sqlSession.selectOne(namespace + ".getClientCount", pageDTO);
 	}
 
 	

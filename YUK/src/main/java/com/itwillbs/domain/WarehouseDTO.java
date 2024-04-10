@@ -13,6 +13,8 @@ public class WarehouseDTO {
 	private int prodcutVol;			     //적재량
 	private int productType;			 //품목구분
 	private int realAmount;              //실사량
+	private String name;
+	
 	
 	@Override
 	public String toString() {
@@ -20,7 +22,7 @@ public class WarehouseDTO {
 				+ warehouseArea + ", warehouseMvol=" + warehouseMvol + ", warehouseLocal=" + warehouseLocal
 				+ ", warehouseTelNumber=" + warehouseTelNumber + ", productCode=" + productCode + ", productName="
 				+ productName + ", prodcutVol=" + prodcutVol + ", productType=" + productType + ", realAmount="
-				+ realAmount + "]";
+				+ realAmount + ", name=" + name + "]";
 	}
 	
 	
@@ -89,6 +91,12 @@ public class WarehouseDTO {
 	}
 	public void setRealAmount(int realAmount) {
 		this.realAmount = realAmount;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 }	
