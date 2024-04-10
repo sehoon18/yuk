@@ -30,6 +30,9 @@
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 	<script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
 	
+	<!-- 	엑셀파일저장 -->
+	<script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+	
 	<style>
 	tbody tr:hover {
 	   	background-color:#e4e8ff;
@@ -88,6 +91,8 @@
 				<button onclick="openPopup()" class="btn btn-info" >
 					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg> 추가
 				</button>
+				<button id="exportExcel" onclick="excelDown()" class="btn btn-info">내보내기</button>
+				<button onclick="saveExcel()">엑셀로 저장</button>
             </div>
                 <table class='table .table-bordered' id="table1">
                     <thead>
@@ -312,5 +317,71 @@
 	        });
 	});
 	</script>
+	
+	<script>
+// 	function excelDown() {
+// 	    if (confirm("엑셀파일로 저장하시겠습니까?") == true) {
+// 	        var myTable = $("#table1");
+// 	        var rows = $("table > tbody > tr").length;
+// 	        var columns = $("table > thead > tr > th").length;
+// 	        if (rows < 2) {
+// 	            alert("엑셀파일로 저장할 데이터가 없습니다.");
+// 	            return;
+// 	        }
+	        
+// 	        var csrfParameterName = '${_csrf.parameterName}';
+// 	        var csrfToken = '${_csrf.token}';
+	        
+// 	        var dataParam = tableToJson(myTable);
+// 	        var myTitle = dataParam[0].toString();
+// 	        var myContents = dataParam[1];
+// 	        var name = "Table To Excel Example";
+// 	        var form = "<form action='${pageContext.request.contextPath}/production/excelDown.do' method='post'>";
+// 	        form += "<input type='hidden' name='title' value='" + myTitle + "' />";
+// 	        form += "<input type='hidden' name='contents' value='" + myContents + "' />";
+// 	        form += "<input type='hidden' name='name' value='" + name + "' />";
+// 	        form += "<input type='hidden' name='rows' value='" + rows + "' />";
+// 	        form += "<input type='hidden' name='columns' value='" + columns + "' />";
+// 	        form += "<input type='hidden' name='" + csrfParameterName + "' value='" + csrfToken + "' />";
+// 	        form += "</form>";
+	                
+// 	        jQuery(form).appendTo("body").submit().remove();
+// 	    }
+// 	}
+	</script>
+	<script>
+// 	function tableToJson(table) {
+// 	    var myRows = [];
+// 	    var title = [];
+// 	    var $headers = $("th");
+// 	    $("th").each(function(index, item) {
+// 	        title[index] = $(item).html();
+// 	    });
+	 
+// 	    var $rows = $("tbody tr").each(
+// 	            function(index) {
+// 	                $cells = $(this).find("td");
+// 	                myRows[index] = {};
+// 	                $cells.each(function(cellIndex) {
+// 	                    myRows[index][$($headers[cellIndex]).html()] = $(
+// 	                            this).html();
+// 	                });
+// 	            });
+	 
+// 	    var myObj = {};
+// 	    myObj = myRows;
+	 
+// 	    var myJson = JSON.stringify(myObj);
+// 	    return [ title, myJson ];
+// 	}
+	</script>
+	
+<script>
+function saveExcel() {
+  var wb = XLSX.utils.table_to_book(document.getElementById('table1'), {sheet:"Sheet1", raw:true});
+  XLSX.writeFile(wb, '파일명.xlsx');
+}
+</script>
+
 </body>
 </html>
