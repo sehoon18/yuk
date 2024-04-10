@@ -65,13 +65,17 @@ import com.itwillbs.domain.ProductionDTO;
 		public int getContractCount(PageDTO pageDTO) {
 			return sqlSession.selectOne(namespace + ".getContractCount", pageDTO);
 		}
-		public List<OrdercontractDTO> getProList(PageDTO pageDTO) {
-			return sqlSession.selectOne(namespace + ".getProList", pageDTO);
+		public List<OrdercontractDTO> getClientList(PageDTO pageDTO) {
+			System.out.println("OrdercontractDAO getClientList()");
+			return sqlSession.selectList(namespace + ".getClientList", pageDTO);
 		}
 		public List<OrdercontractDTO> getOrderList2(PageDTO pageDTO) {
 			System.out.println("OrdercontractDAO getOrderList2()");
 			return sqlSession.selectList(namespace + ".getOrderList2", pageDTO);
 		}
-		
+		public List<OrdercontractDTO> getContractList2(PageDTO pageDTO) {
+			System.out.println("OrdercontractDAO getContractList2()");
+			return sqlSession.selectList(namespace + ".getContractList2", pageDTO);
+		}
 		
 }

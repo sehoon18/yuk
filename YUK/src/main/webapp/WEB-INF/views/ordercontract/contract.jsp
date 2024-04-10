@@ -87,7 +87,13 @@
      	<td ><fmt:formatDate value="${OrdercontractDTO.con_date}" pattern="yyyy.MM.dd"/></td> 
      	<td ><fmt:formatDate value="${OrdercontractDTO.con_due_date}" pattern="yyyy.MM.dd"/></td> 
 <%--     	<td >${OrdercontractDTO.user_id}</td> --%> 
-    	<td >${OrdercontractDTO.con_info_status}</td>
+<%--     	<td >${OrdercontractDTO.con_info_status}</td> --%>
+    	<c:if test="${OrdercontractDTO.con_info_status  == 0 }">
+            <td><button class="btn icon icon-left btn-success" disabled><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>수주진행</button></td>
+		</c:if>
+		<c:if test="${OrdercontractDTO.con_info_status  == 2 }">
+            <td><button class="btn icon icon-left btn-success" disabled><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>출고완료</button></td>
+		</c:if>
 		<td ><input type="button" value="상세" onclick="popup('${OrdercontractDTO.con_cd}');" /></td>
 	</tr> 
 

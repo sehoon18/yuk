@@ -17,9 +17,6 @@ import com.itwillbs.domain.ProductionDTO;
 		@Inject
 		OrdercontractDAO ordercontractDAO;
 		
-//		public List<OrdercontractDTO> getOrderList(OrdercontractDTO ordercontractDTO , PageDTO pageDTO) {
-//			return ordercontractDAO.getOrderList(ordercontractDTO);
-//		}
 		public List<OrdercontractDTO> getOrderList(PageDTO pageDTO) {
 			
 			int startRow = (pageDTO.getCurrentPage() - 1) * pageDTO.getPageSize() + 1;
@@ -27,13 +24,10 @@ import com.itwillbs.domain.ProductionDTO;
 			
 			pageDTO.setStartRow(startRow -1);
 			pageDTO.setEndRow(EndRow);
-//			
+		
 			return ordercontractDAO.getOrderList(pageDTO);
 		}
-//		public List<OrdercontractDTO> getContractList(OrdercontractDTO ordercontractDTO) {
-//			
-//			return ordercontractDAO.getContractList(ordercontractDTO);
-//		}
+
 		public List<OrdercontractDTO> getContractList(PageDTO pageDTO) {
 			
 			int startRow = (pageDTO.getCurrentPage() - 1) * pageDTO.getPageSize() + 1;
@@ -41,21 +35,39 @@ import com.itwillbs.domain.ProductionDTO;
 			
 			pageDTO.setStartRow(startRow -1);
 			pageDTO.setEndRow(EndRow);
-//			
+		
 			return ordercontractDAO.getContractList(pageDTO);
 		}
-			public List<OrdercontractDTO> getOrderList2(PageDTO pageDTO) {
-			int currentPage = pageDTO.getCurrentPage();
+			public List<OrdercontractDTO> getContractList2(PageDTO pageDTO) {
+//			int currentPage = pageDTO.getCurrentPage();
 			int startRow = (pageDTO.getCurrentPage() - 1) * pageDTO.getPageSize() + 1;
 			int EndRow = startRow + pageDTO.getPageSize() - 1;
 			
 			pageDTO.setStartRow(startRow -1);
 			pageDTO.setEndRow(EndRow);
 			
-			return ordercontractDAO.getOrderList2(pageDTO);
+			return ordercontractDAO.getContractList2(pageDTO);
 		}
-		
-		
+			public List<OrdercontractDTO> getOrderList2(PageDTO pageDTO) {
+//				int currentPage = pageDTO.getCurrentPage();
+				int startRow = (pageDTO.getCurrentPage() - 1) * pageDTO.getPageSize() + 1;
+				int EndRow = startRow + pageDTO.getPageSize() - 1;
+				
+				pageDTO.setStartRow(startRow -1);
+				pageDTO.setEndRow(EndRow);
+				
+				return ordercontractDAO.getOrderList2(pageDTO);
+			}
+			public List<OrdercontractDTO> getClientList(PageDTO pageDTO) {
+//				int currentPage = pageDTO.getCurrentPage();
+				int startRow = (pageDTO.getCurrentPage() - 1) * pageDTO.getPageSize() + 1;
+				int EndRow = startRow + pageDTO.getPageSize() - 1;
+				
+				pageDTO.setStartRow(startRow -1);
+				pageDTO.setEndRow(EndRow);
+				
+				return ordercontractDAO.getClientList(pageDTO);
+			}
 		public void insertOrder(OrdercontractDTO ordercontractDTO) {
 			
 			Integer ordLastNum = ordercontractDAO.getOrdLastNum();

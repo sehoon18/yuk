@@ -77,7 +77,7 @@
                     </thead>
                     <tbody>
                      <c:forEach var="OrdercontractDTO" items="${OrderList}"> 
-<%--    <tr onclick="location.href='${pageContext.request.contextPath}/Admin/content?n_num=${OrderDTO.n_num}'">  --%>
+
 <tr>
      	<td >${OrdercontractDTO.ord_cd}</td> 
      	<td >${OrdercontractDTO.cli_name}</td> 
@@ -88,7 +88,12 @@
      	<td ><fmt:formatDate value="${OrdercontractDTO.ord_date}" pattern="yyyy.MM.dd"/></td> 
      	<td ><fmt:formatDate value="${OrdercontractDTO.ord_due_date}" pattern="yyyy.MM.dd"/></td> 
     	<td >${OrdercontractDTO.user_id}</td>
-    	<td >${OrdercontractDTO.ord_info_status}</td>
+    	<c:if test="${OrdercontractDTO.ord_info_status  == 0 }">
+            <td><button type="button" class="btn btn-danger"disabled><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>발주진행</button></td>
+		</c:if>
+		<c:if test="${OrdercontractDTO.ord_info_status  == 2 }">
+            <td><button class="btn icon icon-left btn-success" disabled><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>입고완료</button></td>
+		</c:if>
 		<td ><input type="button" value="상세"  onclick="popup('${OrdercontractDTO.ord_cd}');" /></td>
 	</tr> 									 		
 
@@ -100,7 +105,7 @@
     <ul class="pagination pagination-primary justify-content-end">
         <c:if test="${pageDTO.startPage > 1}">
             <li class="page-item">
-                <a class="page-link" href="${pageContext.request.contextPath}/production/line?pageNum=${pageDTO.startPage - 1}">Previous</a>
+                <a class="page-link" href="${pageContext.request.contextPath}/ordercontract/order?pageNum=${pageDTO.startPage - 1}">Previous</a>
             </li>
         </c:if>
         
@@ -112,13 +117,13 @@
         
         <c:forEach var="i" begin="${pageDTO.startPage}" end="${pageDTO.endPage}" step="1">
             <li class="page-item ${pageDTO.currentPage == i ? 'active' : ''}">
-                <a class="page-link" href="${pageContext.request.contextPath}/production/line?pageNum=${i}">${i}</a>
+                <a class="page-link" href="${pageContext.request.contextPath}/ordercontract/order?pageNum=${i}">${i}</a>
             </li>
         </c:forEach>
         
         <c:if test="${pageDTO.endPage < pageDTO.pageCount}">
             <li class="page-item">
-                <a class="page-link" href="${pageContext.request.contextPath}/production/line?pageNum=${pageDTO.endPage + 1}">Next</a>
+                <a class="page-link" href="${pageContext.request.contextPath}/ordercontract/order?pageNum=${pageDTO.endPage + 1}">Next</a>
             </li>
         </c:if>
         
