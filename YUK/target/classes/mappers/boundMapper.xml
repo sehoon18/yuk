@@ -9,11 +9,11 @@
 	select m.mib_cd, m.ord_cd, pr.pro_type, pr.pro_name, o.ord_vol,
 	w.wh_name, m.mib_info_status, m.mib_date, u.user_name
 	from MINBOUND m
-	join ORDERS o
+	left join ORDERS o
 	on m.ord_cd = o.ord_cd
-	join PRODUCT pr
+	left join PRODUCT pr
 	on pr.pro_cd = o.pro_cd
-	join WAREHOUSE w
+	left join WAREHOUSE w
 	on w.wh_cd = pr.wh_cd
 	left join USER u
 	on m.user_id = u.user_id
@@ -36,13 +36,13 @@
 	select p.pib_cd, p.per_cd, pe.actual_completion_amount, pr.pro_name, w.wh_name,
 	p.pib_info_status, p.pib_date, u.user_name
 	from PINBOUND p
-	join PERFORMANCE pe
+	left join PERFORMANCE pe
 	on p.per_cd = pe.per_cd
-	join INSTRUCTION i
+	left join INSTRUCTION i
 	on pe.ins_cd = i.ins_cd
-	join PRODUCT pr
+	left join PRODUCT pr
 	on pr.pro_cd = i.pro_cd
-	join WAREHOUSE w
+	left join WAREHOUSE w
 	on w.wh_cd = pr.wh_cd
 	left join USER u
 	on p.user_id = u.user_id
@@ -64,11 +64,11 @@
 <select id="getInBoundBoardCount" resultType="java.lang.Integer">
 	select count(m.mib_cd)
 	from MINBOUND m
-	join ORDERS o
+	left join ORDERS o
 	on m.ord_cd = o.ord_cd
-	join PRODUCT pr
+	left join PRODUCT pr
 	on pr.pro_cd = o.pro_cd
-	join WAREHOUSE w
+	left join WAREHOUSE w
 	on w.wh_cd = pr.wh_cd
 	left join USER u
 	on m.user_id = u.user_id
@@ -88,13 +88,13 @@
 <select id="getInBoundBoardCount2" resultType="java.lang.Integer">
 	select count(p.pib_cd)
 	from PINBOUND p
-	join PERFORMANCE pe
+	left join PERFORMANCE pe
 	on p.per_cd = pe.per_cd
-	join INSTRUCTION i
+	left join INSTRUCTION i
 	on pe.ins_cd = i.ins_cd
-	join PRODUCT pr
+	left join PRODUCT pr
 	on pr.pro_cd = i.pro_cd
-	join WAREHOUSE w
+	left join WAREHOUSE w
 	on w.wh_cd = pr.wh_cd
 	left join USER u
 	on p.user_id = u.user_id
@@ -218,11 +218,11 @@
 <select id="getOutBoundBoardList" resultType="com.itwillbs.domain.BoundDTO">
 	select o.*, c.*, pr.*, w.*, u.*
 	from OUTBOUND o
-	join CONTRACT c
+	left join CONTRACT c
 	on o.con_cd = c.con_cd
-	join PRODUCT pr
+	left join PRODUCT pr
 	on pr.pro_cd = c.pro_cd
-	join WAREHOUSE w
+	left join WAREHOUSE w
 	on w.wh_cd = pr.wh_cd
 	left join USER u
 	on o.user_id = u.user_id
@@ -244,11 +244,11 @@
 <select id="getOutBoundBoardCount" resultType="java.lang.Integer">
 	select count(o.ob_cd)
 	from OUTBOUND o
-	join CONTRACT c
+	left join CONTRACT c
 	on o.con_cd = c.con_cd
-	join PRODUCT pr
+	left join PRODUCT pr
 	on pr.pro_cd = c.pro_cd
-	join WAREHOUSE w
+	left join WAREHOUSE w
 	on w.wh_cd = pr.wh_cd
 	left join USER u
 	on o.user_id = u.user_id
