@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.itwillbs.domain.PageDTO;
 import com.itwillbs.domain.ProductDTO;
+import com.itwillbs.domain.ProductionDTO;
 
 
 @Repository
@@ -22,17 +23,10 @@ public class ProductDAO {
 		return sqlSession.selectList(namespace + ".getProductList",pageDTO);
 	}
 
-	public List<ProductDTO> getRequiredList(ProductDTO productDTO) {
-		return sqlSession.selectList(namespace + ".getRequiredList",productDTO);
+	public List<ProductDTO> getRequiredList(PageDTO pageDTO) {
+		return sqlSession.selectList(namespace + ".getRequiredList",pageDTO);
 	}
 
-	public List<ProductDTO> getSearchProductList(ProductDTO productDTO) {
-		return sqlSession.selectList(namespace + ".getSearchProductList",productDTO);
-	}
-
-	public List<ProductDTO> getSearchRequiredList(ProductDTO productDTO) {
-		return sqlSession.selectList(namespace + ".getSearchRequiredList",productDTO);
-	}
 
 	public void updateProduct(ProductDTO productDTO) {
 		sqlSession.update(namespace + ".updateProduct", productDTO);
@@ -70,6 +64,22 @@ public class ProductDAO {
 
 	public int getProductCount(PageDTO pageDTO) {
 		return sqlSession.selectOne(namespace + ".getProductCount", pageDTO);
+	}
+
+	public int getRequiredCount(PageDTO pageDTO) {
+		return sqlSession.selectOne(namespace + ".getRequiredCount", pageDTO);
+	}
+
+	public List<ProductionDTO> productVol(ProductDTO productDTO) {
+		return sqlSession.selectList(namespace + ".productVol", productDTO);
+	}
+
+	public List<ProductionDTO> productVol2(ProductDTO productDTO) {
+		return sqlSession.selectList(namespace + ".productVol2", productDTO);
+	}
+
+	public List<ProductionDTO> productVol3(ProductDTO productDTO) {
+		return sqlSession.selectList(namespace + ".productVol3", productDTO);
 	} 
 
 	

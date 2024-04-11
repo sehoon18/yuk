@@ -65,5 +65,10 @@ import com.itwillbs.domain.ProductionDTO;
 		public int getContractCount(OrdercontractDTO ordercontractDTO) {
 			return sqlSession.selectOne(namespace + ".getContractCount", ordercontractDTO);
 		}
-		
+		public List<OrdercontractDTO> getContractVol(OrdercontractDTO ordercontractDTO) {
+			return sqlSession.selectList(namespace + ".getContractVol", ordercontractDTO);
+		}
+		public List<OrdercontractDTO> orderVolChart(OrdercontractDTO ordercontractDTO) {
+			return sqlSession.selectList(namespace + ".orderVolChart", ordercontractDTO);
+		}
 }

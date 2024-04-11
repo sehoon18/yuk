@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
  <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+ <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,9 +33,13 @@
     <h1><b>사용자 관리</b></h1>
   	<br>
   	
-<form action="${pageContext.request.contextPath}/member/memberList" method="get">
+    
+<div class="row" id="table-bordered" style="margin-right: 20px;">
+  <div class="col-12">
+    <div class="card">
+     <div style="margin-left:20px; margin-top:20px;"  >
+    <form action="${pageContext.request.contextPath}/member/memberList" method="get">
   <div class="col-lg-2 col-3" style="display: flex; align-items: center; white-space: nowrap;">
-<!--   	flex: 0 1 auto; 속성은 사원번호 텍스트가 필요한 만큼의 공간만 차지 -->
   <div style="flex: 0 1 auto; margin-right: 10px;"><b>아이디</b></div>
   <input type="text" id="first-name" class="form-control" name="search1" style="flex: 1 1 auto; width: auto;">
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>사용자명</b> &nbsp;&nbsp;
@@ -43,24 +48,17 @@
   <button class="btn btn-primary btn-sm" type="submit">조회</button>
 </div>
 </form>
-<br>
-    
-
-    
-<div class="row" id="table-bordered" style="margin-right: 20px;">
-  <div class="col-12">
-    <div class="card">
+</div>
      <form id="dataForm" class="insertMember" action="${pageContext.request.contextPath}/member/memberInsert" method="post">
-      <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
       <div class="card-header" style="text-align:right;">
-        <h4 class="card-title" style="text-align:left;">사원관리 <b>총 ${memberList.size()}명</b></h4>
-        <c:if test="${memberDTO.permission == 0}">
+      <sec:authorize access="hasAnyRole('ROLE_ADMIN')">
         		<button type="button" onclick="addTableRow()" class='btn btn-primary' id="addrow">➕ 추가</button>
 			    <button type="button" onclick="modTableRow()" class='btn btn-primary' id="modify">↪️ 수정</button>
 			    <button type="button" onclick="delTableRow()" class='btn btn-primary' id="delete">⚠️ 삭제</button>
 			    <button type="submit" class='btn btn-primary' id="submitrow" disabled>💾 저장</button>
-			    </c:if>
+			    </sec:authorize>
       </div>
+      <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
       <div class="card-content">
         <div class="table-responsive">
           <table class="table table-bordered mb-0" id="table1">
@@ -104,25 +102,15 @@
                </c:forEach>
             </tbody>
           </table>
-        </div>
-      </div>
-    </form>
-    </div>
-  </div>
-</div>
-
-</div>    
-
-<!-- 페이징 시작 -->
-<nav aria-label="Page navigation example">
+          <!-- 페이징 시작 -->
+<nav aria-label="Page navigation example"  style="margin-top:10px; margin-right: 10px;">
 	
     <ul class="pagination pagination-primary justify-content-end">
 		
 	<c:if test="${pageDTO.startPage > 1}">
 		<li class="page-item">
 			<a class="page-link" href="${pageContext.request.contextPath}/member/memberList?pageNum=${pageDTO.startPage - 1}
-			&search1=${pageDTO.search1}&search2=${pageDTO.search2}
-			&select1=${pageDTO.select1}">
+			&search1=${pageDTO.search1}&search2=${pageDTO.search2}">
 			<span aria-hidden="true">
 				<i data-feather="chevron-left"></i></span></a>
 		</li>
@@ -139,16 +127,14 @@
 	<c:forEach var="i" begin="${pageDTO.startPage}" end="${pageDTO.endPage}" step="1">
 		<li class="page-item ${pageDTO.currentPage == i ? 'active' : ''}">
 			<a class="page-link" href="${pageContext.request.contextPath}/member/memberList?pageNum=${i}
-			&search1=${pageDTO.search1}&search2=${pageDTO.search2}
-			&select1=${pageDTO.select1}">${i}</a>
+			&search1=${pageDTO.search1}&search2=${pageDTO.search2}">${i}</a>
 		</li>
 	</c:forEach>
 
 	<c:if test="${pageDTO.endPage < pageDTO.pageCount}">
 		<li class="page-item">
 			<a class="page-link" href="${pageContext.request.contextPath}/member/memberList?pageNum=${pageDTO.endPage + 1}
-			&search1=${pageDTO.search1}&search2=${pageDTO.search2}
-			&select1=${pageDTO.select1}">
+			&search1=${pageDTO.search1}&search2=${pageDTO.search2}">
 			<span aria-hidden="true">
 				<i data-feather="chevron-right"></i></span></a>
 		</li>
@@ -166,25 +152,14 @@
 	
 </nav>
 <!-- 페이징 끝 -->
+        </div>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
 
-
-
-<!-- <nav aria-label="Page navigation example"> -->
-<!-- 	<ul class="pagination pagination-primary" style="justify-content:center;"> -->
-<!-- 		<li class="page-item"> -->
-<!-- 			<a class="page-link" href="#"> -->
-<!-- 		<span aria-hidden="true"><i data-feather="chevron-left"></i></span> -->
-<!-- 			</a> -->
-<!-- 		</li> -->
-<!-- 			<li class="page-item"><a class="page-link" href="">1</a></li> -->
-<!-- 			<li class="page-item active"><a class="page-link" href="">2</a></li> -->
-<!-- 			<li class="page-item"><a class="page-link" href="">3</a></li> -->
-<!-- 			<li class="page-item"><a class="page-link" href=""> -->
-<!-- 		<span aria-hidden="true"><i data-feather="chevron-right"></i></span> -->
-<!-- 			</a> -->
-<!-- 		</li> -->
-<!-- 	</ul> -->
-<!-- </nav> -->
+</div>    
 
 
     <script src="${pageContext.request.contextPath}/resources/assets/js/feather-icons/feather.min.js"></script>
@@ -278,6 +253,7 @@ window.onload = function() {
                 input = document.createElement("input");
                 input.type = "hidden";
                 input.className = "form-control";
+                cell.style.display = 'none';
             }
             else {
                 input = document.createElement("input");

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,9 +30,16 @@
     <div style="margin-left: 20px;">
     <h1><b>품목 관리</b></h1>
   	<br>
-  <form action="${pageContext.request.contextPath}/product/productMain">
+
+    
+
+    
+<div class="row" id="table-bordered" style="margin-right: 20px;">
+  <div class="col-12">
+    <div class="card">
+    <div style="margin-left:20px; margin-top:20px;"  >
+      <form action="${pageContext.request.contextPath}/product/productMain">
   <div class="col-lg-2 col-3" style="display: flex; align-items: center; white-space: nowrap;">
-<!--   	flex: 0 1 auto; 속성은 사원번호 텍스트가 필요한 만큼의 공간만 차지 -->
   <div style="flex: 0 1 auto; margin-right: 10px;"><b>품목코드</b></div>
   <input type="text" id="productCode" class="form-control" name="search1" style="flex: 1 1 auto; width: auto; background-color: white;" placeholder="품목코드를 선택하세요" onclick="productPopUp();" readonly>
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>품명</b> &nbsp;&nbsp;
@@ -39,7 +47,7 @@
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
    <b>품목구분</b>
    &nbsp;&nbsp;
-  <select class="form-select" id="basicSelect" name="search5" style="width: 100px;">
+  <select class="form-select" id="basicSelect" name="select1" style="width: 100px;">
 	<option value="100">전체</option>
 	<option value="0">완제품</option>
 	<option value="1">식자재</option>
@@ -49,20 +57,26 @@
   <button class="btn btn-primary btn-sm" type="submit">조회</button>
 </div>
 </form>
-<br>
-    
+</div>
 
-    
-<div class="row" id="table-bordered" style="margin-right: 20px;">
-  <div class="col-12">
-    <div class="card">
+
+<sec:authorize access="hasAnyRole('ROLE_PRODUCTION', 'ROLE_BOUND', 'ROLE_OC', 'ROLE_NONE')">
+</sec:authorize>
+
         <form id="dataForm" class="insertProduct" action="${pageContext.request.contextPath}/product/productInsertPro" method="post">
       <div class="card-header" style="text-align:right;">
-        <h4 class="card-title" style="text-align:left;">품목 목록 <b>총 ${productList.size()}건</b></h4>
+     	 <sec:authorize access="hasAnyRole('ROLE_PRODUCT', 'ROLE_ADMIN')">
 			    <button type="button" onclick="addTableRow()" class='btn btn-primary' id="addrow">➕ 추가</button>
 			    <button type="button" onclick="modTableRow()" class='btn btn-primary' id="modify">↪️ 수정</button>
 			    <button type="button" onclick="delTableRow()" class='btn btn-primary' id="delete">⚠️ 삭제</button>
 			    <button type="submit" class='btn btn-primary' id="submitrow" disabled>💾 저장</button>
+		 </sec:authorize>
+		 <sec:authorize access="hasAnyRole('ROLE_PRODUCTION', 'ROLE_BOUND', 'ROLE_OC', 'ROLE_NONE')">
+			    <button type="button" onclick="accessError()" class='btn btn-primary' id="addrow">➕ 추가</button>
+			    <button type="button" onclick="accessError()" class='btn btn-primary' id="modify">↪️ 수정</button>
+			    <button type="button" onclick="accessError()" class='btn btn-primary' id="delete">⚠️ 삭제</button>
+			    <button type="submit" class='btn btn-primary' id="submitrow" disabled>💾 저장</button>
+		 </sec:authorize>	    
       </div>
       <div class="card-content">
         <div class="table-responsive">
@@ -97,27 +111,17 @@
               </tr>
               </c:forEach>
             </tbody>
+            
           </table>
-          
-        </div>
-      </div>
-</form>
-    </div>
-  </div>
-</div>
-    
-</div>    
-
-<!-- 페이징 시작 -->
-<nav aria-label="Page navigation example">
+              <!-- 페이징 시작 -->
+<nav aria-label="Page navigation example" style="margin-top:10px; margin-right: 10px;">
 	
     <ul class="pagination pagination-primary justify-content-end">
 		
 	<c:if test="${pageDTO.startPage > 1}">
 		<li class="page-item">
 			<a class="page-link" href="${pageContext.request.contextPath}/product/productMain?pageNum=${pageDTO.startPage - 1}
-			&search1=${pageDTO.search1}&search2=${pageDTO.search2}
-			&select1=${pageDTO.select1}">
+			&search1=${pageDTO.search1}&search2=${pageDTO.search2}">
 			<span aria-hidden="true">
 				<i data-feather="chevron-left"></i></span></a>
 		</li>
@@ -134,16 +138,14 @@
 	<c:forEach var="i" begin="${pageDTO.startPage}" end="${pageDTO.endPage}" step="1">
 		<li class="page-item ${pageDTO.currentPage == i ? 'active' : ''}">
 			<a class="page-link" href="${pageContext.request.contextPath}/product/productMain?pageNum=${i}
-			&search1=${pageDTO.search1}&search2=${pageDTO.search2}&search5=${pageDTO.search5}
-			&select1=${pageDTO.select1}">${i}</a>
+			&search1=${pageDTO.search1}&search2=${pageDTO.search2}&select1=${pageDTO.select1}">${i}</a>
 		</li>
 	</c:forEach>
 
 	<c:if test="${pageDTO.endPage < pageDTO.pageCount}">
 		<li class="page-item">
 			<a class="page-link" href="${pageContext.request.contextPath}/product/productMain?pageNum=${pageDTO.endPage + 1}
-			&search1=${pageDTO.search1}&search2=${pageDTO.search2}&search5=${pageDTO.search5}
-			&select1=${pageDTO.select1}">
+			&search1=${pageDTO.search1}&search2=${pageDTO.search2}&select1=${pageDTO.select1}">
 			<span aria-hidden="true">
 				<i data-feather="chevron-right"></i></span></a>
 		</li>
@@ -161,6 +163,16 @@
 	
 </nav>
 <!-- 페이징 끝 -->
+        </div>
+      </div>
+</form>
+    </div>
+  </div>
+</div>
+
+</div>    
+
+
 
 
 
@@ -177,7 +189,7 @@
 	<script>
 	
 	function productPopUp(){
-		window.open("${pageContext.request.contextPath}/product/productPopUp", "" , "width=1500px, height=1000px , left=100px; , top=100px;");
+		window.open("${pageContext.request.contextPath}/product/productPopUp", "" , "width=1000px, height=800px , left=100px; , top=100px;");
 	}
 	</script>
 	
@@ -200,7 +212,7 @@
         // 각 열에 대한 셀과 입력 필드 생성
         const fields = ['productCode', 'productName', 'productPrice', 'productOrigin', 'productType','${_csrf.parameterName}'];
         const exampleData = ['${productionDTO.productCode}', '', '', '', '0','${_csrf.token}'];
-
+        
         fields.forEach((field, index) => {
             const cell = newRow.insertCell(index);
             let input;
@@ -221,7 +233,7 @@
                 input.type = "text";
                 input.className = "form-control";
                 
-            } else if(field === 'productCode'){
+            } else if(field === 'productCode'){	
                 input = document.createElement("input");
                 input.type = "text";
                 input.className = "form-control";
@@ -231,7 +243,8 @@
                 input = document.createElement("input");
                 input.type = "hidden";
                 input.className = "form-control";
-            }
+                cell.style.display = 'none';
+            } 
             else {
                 input = document.createElement("input");
                 input.type = "text";
@@ -584,6 +597,25 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 </script>
+    
+<script>
+function accessError() {
+ Swal.fire({
+	  title: "권한이 없습니다.",
+	  icon:"error",
+	  width: 600,
+	  padding: "3em",
+	  color: "#FF0000",
+	  background: "#fff",
+	  backdrop: `
+	    rgba(ff,ff,ff,0)
+	    left top
+	    no-repeat
+	  `
+	});
+}
+</script>    
+    
     
     
 </body>

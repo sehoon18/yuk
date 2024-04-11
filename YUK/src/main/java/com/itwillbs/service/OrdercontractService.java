@@ -123,6 +123,12 @@ import com.itwillbs.domain.ProductionDTO;
 			
 			return ordercontractDAO.getContractCount(ordercontractDTO);
 		}
+		public List<OrdercontractDTO> getContractVol(OrdercontractDTO ordercontractDTO) {
+			 return ordercontractDAO.getContractVol(ordercontractDTO);
+		}
+		public List<OrdercontractDTO> orderVolChart(OrdercontractDTO ordercontractDTO) {
+			return ordercontractDAO.orderVolChart(ordercontractDTO);
+		}
 		
 		
 		

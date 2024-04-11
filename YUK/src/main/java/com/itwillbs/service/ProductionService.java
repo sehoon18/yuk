@@ -307,10 +307,9 @@ public class ProductionService {
 		return productionDAO.getLine(productionDTO);
 	}
 
-	public List<ProductionDTO> getInsVol(ProductionDTO productionDTO) {
-		System.out.println("productionService getInsVol()");
-		return productionDAO.getInsVol(productionDTO);
+	public List<ProductionDTO> performanceAmount(ProductionDTO productionDTO) {
+		return productionDAO.performanceAmount(productionDTO);
+	}
 
-}
 
 }

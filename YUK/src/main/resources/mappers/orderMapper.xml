@@ -146,4 +146,18 @@ order by CON_CD desc
 	LIMIT 1
 </select>
 
+<select id="getContractVol" resultType="com.itwillbs.domain.OrdercontractDTO">
+	select p.PRO_NAME "pro_name", c.CON_VOL "con_vol" , c.CON_DATE "con_date"
+	from CONTRACT c join PRODUCT p	
+</select>
+
+<select id="orderVolChart" resultType="com.itwillbs.domain.OrdercontractDTO">
+	select p.PRO_NAME "pro_name", o.ORD_DATE "ord_date", o.ORD_VOL "ord_vol"
+	from ORDERS o join PRODUCT p
+</select>
+
+
+
+
+
 </mapper>

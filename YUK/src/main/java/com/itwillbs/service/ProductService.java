@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.itwillbs.dao.ProductDAO;
 import com.itwillbs.domain.PageDTO;
 import com.itwillbs.domain.ProductDTO;
+import com.itwillbs.domain.ProductionDTO;
 
 @Service
 public class ProductService {
@@ -19,17 +20,10 @@ public class ProductService {
 		return productDAO.getProductList(pageDTO);
 	}
 
-	public List<ProductDTO> getRequiredList(ProductDTO productDTO) {
-		return productDAO.getRequiredList(productDTO);
+	public List<ProductDTO> getRequiredList(PageDTO pageDTO) {
+		return productDAO.getRequiredList(pageDTO);
 	}
 
-	public List<ProductDTO> getSearchProductList(ProductDTO productDTO) {
-		return productDAO.getSearchProductList(productDTO);
-	}
-
-	public List<ProductDTO> getSearchRequiredList(ProductDTO productDTO) {
-		return productDAO.getSearchRequiredList(productDTO);
-	}
 
 	public void updateProduct(ProductDTO productDTO) {
 		productDAO.updateProduct(productDTO);
@@ -103,6 +97,22 @@ public class ProductService {
 
 	public int getProductCount(PageDTO pageDTO) {
 		return productDAO.getProductCount(pageDTO);
+	}
+
+	public int getRequiredCount(PageDTO pageDTO) {
+		return productDAO.getRequiredCount(pageDTO);
+	}
+
+	public List<ProductionDTO> productVol(ProductDTO productDTO) {
+		return productDAO.productVol(productDTO);
+	}
+
+	public List<ProductionDTO> productVol2(ProductDTO productDTO) {
+		return productDAO.productVol2(productDTO);
+	}
+
+	public List<ProductionDTO> productVol3(ProductDTO productDTO) {
+		return productDAO.productVol3(productDTO);
 	}
 	
 	
