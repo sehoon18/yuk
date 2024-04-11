@@ -432,8 +432,8 @@ document.addEventListener('DOMContentLoaded', function() {
         if (isDelMode) {
             let target = e.target;
             Swal.fire({
-                title: "Are you sure?",
-                text: "You won't be able to revert this!",
+                title: "삭제 확인",
+                text: "정말로 삭제하시겠습니까?",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",

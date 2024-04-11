@@ -126,10 +126,11 @@
 	      
 <!--	품목 소요량 테이블 끝 -->
 
-							<div class="col-12 d-flex justify-content-end">
-							</div>
                         </div>
 						</form>
+							<div style="text-align: center;">
+							<button onclick="printPage()" class="btn icon icon-left btn-light"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>인쇄</button>
+							</div>
                     </div>
                 </div>
             </div>
@@ -186,8 +187,8 @@
             
             // SweetAlert로 삭제 확인 요청
             Swal.fire({
-                title: "Are you sure?",
-                text: "You won't be able to revert this!",
+                title: "삭제 확인",
+                text: "작업지시를 삭제하시겠습니까?",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
@@ -304,5 +305,12 @@
 	    }
 	  }
 	</script>
+	
+	<script>
+	function printPage(){
+	    window.print();
+	}
+	</script>
+	
 </body>
 </html>

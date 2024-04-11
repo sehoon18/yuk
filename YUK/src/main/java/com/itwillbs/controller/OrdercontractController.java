@@ -273,8 +273,8 @@ public class OrdercontractController {
 		public String deleteContract( HttpServletRequest request,OrdercontractDTO ordercontractDTO) {
 			System.out.println("OrdercontractController deletecontract()");
 			System.out.println(ordercontractDTO);
-			String con_cd = request.getParameter("con_cd");
-			ordercontractDTO.setCon_cd(con_cd);
+//			String con_cd = request.getParameter("con_cd");
+//			ordercontractDTO.setCon_cd(con_cd);
 			ordercontractService.deleteContract(ordercontractDTO);
 			ordercontractService.deleteOb(ordercontractDTO);
 			System.out.println(ordercontractDTO);

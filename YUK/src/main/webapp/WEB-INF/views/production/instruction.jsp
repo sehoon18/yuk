@@ -235,8 +235,8 @@
 	    event.stopPropagation();
 	    
 	    Swal.fire({
-	        title: "Are you sure?",
-	        text: "You won't be able to revert this!",
+	        title: "상태 변경 알림",
+	        text: "작업상태를 완료로 변경하시겠습니까?",
 	        icon: "warning",
 	        showCancelButton: true,
 	        confirmButtonColor: "#3085d6",
