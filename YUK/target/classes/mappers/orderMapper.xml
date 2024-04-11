@@ -267,7 +267,7 @@ order by CON_CD desc
 
 <select id="getObLastNum" resultType="java.lang.Integer">
 	SELECT REGEXP_REPLACE(OB_CD, '[^0-9]', '') AS numbers_only
-	FROM PINBOUND
+	FROM OUTBOUND
 	ORDER BY numbers_only DESC
 	LIMIT 1
 </select>

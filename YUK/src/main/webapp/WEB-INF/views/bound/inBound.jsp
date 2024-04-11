@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -105,10 +106,9 @@
             		<b>~</b>&nbsp;&nbsp;&nbsp;
             		<input type="text" id="endDate" class="form-control" name="search4" placeholder="기간을 선택하세요">
             		<input type="submit" value="조회" class="btn btn-primary">
-            		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" >
             		</form>
             	</div>
-                    <table class='table table-striped' id="table1">
+                    <table class='table table-bordered mb-0' id="mibTable">
                     <thead>
                         <tr>
                             <th>자재입고 코드</th>
@@ -149,7 +149,12 @@
     		<td>
     		<c:choose>
     		<c:when test="${boundDTO.mib_info_status == 0 }">
+    		<sec:authorize access="hasAnyRole('ROLE_BOUND', 'ROLE_ADMIN')">
 			<button type=button class="btn icon icon-left btn-danger" onclick="statusSwitch1(event, '${boundDTO.mib_cd}')">입고처리</button>
+			</sec:authorize>
+			<sec:authorize access="hasAnyRole('ROLE_PRODUCT', 'ROLE_PRODUCTION', 'ROLE_OC', 'ROLE_NONE')">
+			<button type=button class="btn icon icon-left btn-danger" onclick="accessError()">입고처리</button>
+			</sec:authorize>
             </c:when>
     		<c:when test="${boundDTO.mib_info_status == 1 }">
             <button type=button class="btn icon icon-left btn-success">입고완료</button>
@@ -160,8 +165,9 @@
     	</c:forEach>
                     </tbody>
                 </table>
+                
 <!-- 페이징 시작 -->
-<nav aria-label="Page navigation example">
+<nav aria-label="Page navigation example" style="padding: 10px 0px;">
 	
     <ul class="pagination pagination-primary justify-content-end">
 		
@@ -171,7 +177,7 @@
 			&search1=${pageDTO.search1}&search2=${pageDTO.search2}&search3=${pageDTO.search3}&search4=${pageDTO.search4}
 			&select1=${pageDTO.select1}">
 			<span aria-hidden="true">
-				<i data-feather="chevron-left"></i></span></a>
+				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-left"><polyline points="15 18 9 12 15 6"></polyline></svg></span></a>
 		</li>
 	</c:if>
 	
@@ -179,7 +185,7 @@
 		<li class="page-item disabled">
 			<a class="page-link" href="#" tabindex="-1" aria-disabled="true">
 			<span aria-hidden="true">
-				<i data-feather="chevron-left"></i></span></a>
+				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-left"><polyline points="15 18 9 12 15 6"></polyline></svg></span></a>
         </li>
     </c:if>
 
@@ -197,7 +203,7 @@
 			&search1=${pageDTO.search1}&search2=${pageDTO.search2}&search3=${pageDTO.search3}&search4=${pageDTO.search4}
 			&select1=${pageDTO.select1}">
 			<span aria-hidden="true">
-				<i data-feather="chevron-right"></i></span></a>
+				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg></span></a>
 		</li>
 	</c:if>
 	
@@ -205,7 +211,7 @@
 		<li class="page-item disabled">
 			<a class="page-link" href="#">
 			<span aria-hidden="true">
-				<i data-feather="chevron-right"></i></span></a>
+				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg></span></a>
 		</li>
     </c:if>
     
@@ -233,10 +239,9 @@
             		<b>~</b>&nbsp;&nbsp;&nbsp;
             		<input type="text" id="endDate2" class="form-control" name="search8" placeholder="기간을 선택하세요">
             		<input type="submit" value="조회" class="btn btn-primary">
-            		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" >
             		</form>
             	</div>
-                    <table class='table table-striped' id="table1">
+                    <table class='table table-bordered mb-0' id="pibTable">
                     <thead>
                         <tr>
                             <th>제품입고 코드</th>
@@ -271,7 +276,12 @@
     		<td>
     		<c:choose>
     		<c:when test="${boundDTO.pib_info_status == 0 }">
+    		<sec:authorize access="hasAnyRole('ROLE_BOUND', 'ROLE_ADMIN')">
 			<button type=button class="btn icon icon-left btn-danger" onclick="statusSwitch2(event, '${boundDTO.pib_cd}')">입고처리</button>
+			</sec:authorize>
+			<sec:authorize access="hasAnyRole('ROLE_PRODUCT', 'ROLE_PRODUCTION', 'ROLE_OC', 'ROLE_NONE')">
+			<button type=button class="btn icon icon-left btn-danger" onclick="accessError()">입고처리</button>
+			</sec:authorize>
             </c:when>
     		<c:when test="${boundDTO.pib_info_status == 1 }">
             <button type=button class="btn icon icon-left btn-success">입고완료</button>
@@ -282,8 +292,9 @@
     	</c:forEach>
                     </tbody>
                 </table>
+                
 <!-- 페이징 시작 -->
-<nav aria-label="Page navigation example">
+<nav aria-label="Page navigation example" style="padding: 10px 0px;">
 	
     <ul class="pagination pagination-primary justify-content-end">
 		
@@ -293,7 +304,7 @@
 			&search5=${pageDTO.search5}&search6=${pageDTO.search6}&search7=${pageDTO.search7}&search8=${pageDTO.search8}
 			&select2=${pageDTO.select2}">
 			<span aria-hidden="true">
-				<i data-feather="chevron-left"></i></span></a>
+				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-left"><polyline points="15 18 9 12 15 6"></polyline></svg></span></a>
 		</li>
 	</c:if>
 	
@@ -301,7 +312,7 @@
 		<li class="page-item disabled">
 			<a class="page-link" href="#" tabindex="-1" aria-disabled="true">
 			<span aria-hidden="true">
-				<i data-feather="chevron-left"></i></span></a>
+				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-left"><polyline points="15 18 9 12 15 6"></polyline></svg></span></a>
         </li>
     </c:if>
 
@@ -319,7 +330,7 @@
 			&search5=${pageDTO.search5}&search6=${pageDTO.search6}&search7=${pageDTO.search7}&search8=${pageDTO.search8}
 			&select2=${pageDTO.select2}">
 			<span aria-hidden="true">
-				<i data-feather="chevron-right"></i></span></a>
+				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg></span></a>
 		</li>
 	</c:if>
 	
@@ -327,7 +338,7 @@
 		<li class="page-item disabled">
 			<a class="page-link" href="#">
 			<span aria-hidden="true">
-				<i data-feather="chevron-right"></i></span></a>
+				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg></span></a>
 		</li>
     </c:if>
     
@@ -352,6 +363,23 @@
     <script src="${pageContext.request.contextPath}/resources/assets/js/main.js"></script>
     
     <script type="text/javascript">
+    
+	//권한 없을 시
+	function accessError() {
+ 		Swal.fire({
+		  title: "권한이 없습니다.",
+		  icon:"error",
+		  width: 600,
+		  padding: "3em",
+		  color: "#FF0000",
+		  background: "#fff",
+		  backdrop: `
+		    rgba(ff,ff,ff,0)
+		    left top
+		    no-repeat
+		  `
+		});
+	}
     
 	//자재 입고 처리 버튼
   	function statusSwitch1(event, mib_cd) {
