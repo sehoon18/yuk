@@ -49,7 +49,7 @@
 	        <div class="card-body" style="padding: 5px;">
 	          <!-- Table with outer spacing -->
 	          <div class="table-responsive">
-	            <table class="table">
+	           <table class="table table-bordered mb-0" id="table1" style="text-align: center;">
 	              <thead>
 	                <tr>
 	                  <th>거래처명</th>
@@ -72,35 +72,31 @@
 	      </div>
 	      </div>
 	      <!-- 			페이징 시작 -->
-<nav aria-label="Page navigation example">
+<nav aria-label="Page navigation example" style="padding: 10px 0px;">
     <ul class="pagination pagination-primary justify-content-end">
         <c:if test="${pageDTO.startPage > 1}">
             <li class="page-item">
-                <a class="page-link" href="${pageContext.request.contextPath}/popup/clientpop?pageNum=${pageDTO.startPage - 1}">Previous</a>
+                <a class="page-link" href="${pageContext.request.contextPath}/popup/clientpop?pageNum=${pageDTO.startPage - 1}&search1=${pageDTO.search1}&search2=${pageDTO.search2}&search5=${pageDTO.search0}"><span aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-left"><polyline points="15 18 9 12 15 6"></polyline></svg></span></a>
             </li>
         </c:if>
-        
         <c:if test="${pageDTO.startPage <= 1}">
             <li class="page-item disabled">
-                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                <a class="page-link" href="#" tabindex="-1" aria-disabled="true"><span aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-left"><polyline points="15 18 9 12 15 6"></polyline></svg></span></a>
             </li>
         </c:if>
-        
         <c:forEach var="i" begin="${pageDTO.startPage}" end="${pageDTO.endPage}" step="1">
             <li class="page-item ${pageDTO.currentPage == i ? 'active' : ''}">
-                <a class="page-link" href="${pageContext.request.contextPath}/popup/clientpop?pageNum=${i}">${i}</a>
+                <a class="page-link" href="${pageContext.request.contextPath}/popup/clientpop?pageNum=${i}&search1=${pageDTO.search1}&search2=${pageDTO.search2}&search5=${pageDTO.search0}">${i}</a>
             </li>
         </c:forEach>
-        
         <c:if test="${pageDTO.endPage < pageDTO.pageCount}">
             <li class="page-item">
-                <a class="page-link" href="${pageContext.request.contextPath}/popup/clientpop?pageNum=${pageDTO.endPage + 1}">Next</a>
+                <a class="page-link" href="${pageContext.request.contextPath}/popup/clientpop?pageNum=${pageDTO.endPage + 1}&search1=${pageDTO.search1}&search2=${pageDTO.search2}&search5=${pageDTO.search0}"><span aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg></span></a>
             </li>
         </c:if>
-        
         <c:if test="${pageDTO.endPage >= pageDTO.pageCount}">
             <li class="page-item disabled">
-                <a class="page-link" href="#">Next</a>
+                <a class="page-link" href="#"><span aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg></span></a>
             </li>
         </c:if>
     </ul>

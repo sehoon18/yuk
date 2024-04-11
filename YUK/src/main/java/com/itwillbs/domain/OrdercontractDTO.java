@@ -26,8 +26,14 @@ public class OrdercontractDTO {
 	private int ord_info_status;
 	private int con_info_status;
 	private int pro_type;
-	
-	@Override
+	private String cli_ceo;
+	private String cli_business_type;
+	private String cli_category;
+	private String cli_basic_address;
+	private int cli_tel_number;
+	private int cli_fax_number;
+    
+   @Override
 	public String toString() {
 		return "OrdercontractDTO [ord_cd=" + ord_cd + ", cli_cd=" + cli_cd + ", con_cd=" + con_cd + ", pro_cd=" + pro_cd
 				+ ", user_id=" + user_id + ", mib_cd=" + mib_cd + ", ob_cd=" + ob_cd + ", ord_vol=" + ord_vol
@@ -35,9 +41,11 @@ public class OrdercontractDTO {
 				+ pro_price + ", con_vol=" + con_vol + ", ord_date=" + ord_date + ", ord_due_date=" + ord_due_date
 				+ ", ord_pay_date=" + ord_pay_date + ", con_date=" + con_date + ", con_due_date=" + con_due_date
 				+ ", con_pay_date=" + con_pay_date + ", ord_info_status=" + ord_info_status + ", con_info_status="
-				+ con_info_status + "]";
+				+ con_info_status + ", pro_type=" + pro_type + ", cli_ceo=" + cli_ceo + ", cli_business_type="
+				+ cli_business_type + ", cli_category=" + cli_category + ", cli_basic_address=" + cli_basic_address
+				+ ", cli_tel_number=" + cli_tel_number + ", cli_fax_number=" + cli_fax_number + "]";
 	}
-	
+   
 	public String getMib_cd() {
 		return mib_cd;
 	}
@@ -209,6 +217,54 @@ public class OrdercontractDTO {
 
 	public void setPro_type(int pro_type) {
 		this.pro_type = pro_type;
+	}
+
+	public String getCli_ceo() {
+		return cli_ceo;
+	}
+
+	public void setCli_ceo(String cli_ceo) {
+		this.cli_ceo = cli_ceo;
+	}
+
+	public String getCli_business_type() {
+		return cli_business_type;
+	}
+
+	public void setCli_business_type(String cli_business_type) {
+		this.cli_business_type = cli_business_type;
+	}
+
+	public String getCli_category() {
+		return cli_category;
+	}
+
+	public void setCli_category(String cli_category) {
+		this.cli_category = cli_category;
+	}
+
+	public String getCli_basic_address() {
+		return cli_basic_address;
+	}
+
+	public void setCli_basic_address(String cli_basic_address) {
+		this.cli_basic_address = cli_basic_address;
+	}
+
+	public int getCli_tel_number() {
+		return cli_tel_number;
+	}
+
+	public void setCli_tel_number(int cli_tel_number) {
+		this.cli_tel_number = cli_tel_number;
+	}
+
+	public int getCli_fax_number() {
+		return cli_fax_number;
+	}
+
+	public void setCli_fax_number(int cli_fax_number) {
+		this.cli_fax_number = cli_fax_number;
 	}
 	
 	

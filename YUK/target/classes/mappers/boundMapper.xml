@@ -9,11 +9,11 @@
 	select m.mib_cd, m.ord_cd, pr.pro_type, pr.pro_name, o.ord_vol,
 	w.wh_name, m.mib_info_status, m.mib_date, u.user_name
 	from MINBOUND m
-	join ORDERS o
+	left join ORDERS o
 	on m.ord_cd = o.ord_cd
-	join PRODUCT pr
+	left join PRODUCT pr
 	on pr.pro_cd = o.pro_cd
-	join WAREHOUSE w
+	left join WAREHOUSE w
 	on w.wh_cd = pr.wh_cd
 	left join USER u
 	on m.user_id = u.user_id
