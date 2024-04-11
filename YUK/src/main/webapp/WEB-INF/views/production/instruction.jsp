@@ -66,7 +66,7 @@
             <div class="card-body">
             <div class="card-header" style="text-align: right;">
             <form action="${pageContext.request.contextPath}/production/instruction" method="get">
-				<div class="col-lg-2 col-3" style="display: flex; align-items: center; white-space: nowrap;">
+				<div class="col-lg-2 col-3" style="display: flex; align-items: center; white-space: nowrap; margin-bottom: 4px;">
 				<div style="flex: 0 1 auto; margin-right: 10px;"><b>작업지시코드</b></div>
 					<input type="text" id="instructionCode" class="form-control" name="search1" style="flex: 1 1 auto; width: auto; background-color: white;" placeholder="지시코드를 입력하세요">
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>품목코드</b> &nbsp;&nbsp;
@@ -91,10 +91,9 @@
 				<button onclick="openPopup()" class="btn btn-info" >
 					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg> 추가
 				</button>
-				<button id="exportExcel" onclick="excelDown()" class="btn btn-info">내보내기</button>
-				<button onclick="saveExcel()">엑셀로 저장</button>
+				<button onclick="saveExcel()" class="btn btn-info">💿엑셀저장</button>
             </div>
-                <table class='table .table-bordered' id="table1">
+                <table class='table table-bordered mb-0' id="table1">
                     <thead>
                         <tr>
                             <th>작업지시코드</th>
@@ -128,48 +127,48 @@
                             </c:if>
                             </td>
 							<c:if test="${productionDTO.instractionStatus == 0 }">
-                            <td><button class="btn icon icon-left btn-success" onclick="statusSwitch(event, '${productionDTO.instructionCode}')"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>완료</button></td>
+                            <td><button class="btn icon icon-left btn-success" onclick="statusSwitch(event, '${productionDTO.instructionCode}')"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>확인</button></td>
                             </c:if>
 							<c:if test="${productionDTO.instractionStatus == 1 }">
                             <td><button class="btn icon icon-left btn-success" onclick="statusSwitch(event, '${productionDTO.instructionCode}')"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>완료</button></td>
                             </c:if>
 							<c:if test="${productionDTO.instractionStatus == 2 }">
-                            <td><button class="btn icon icon-left btn-success" onclick="statusSwitch(event, '${productionDTO.instructionCode}')" disabled><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>완료</button></td>
+                            <td><button class="btn icon icon-left btn-outline-success" onclick="statusSwitch(event, '${productionDTO.instructionCode}')" disabled><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>완료</button></td>
 							</c:if>
                         </tr>
                         </c:forEach>
 	                    </tbody>
                 </table>
 <!-- 			페이징 시작 -->
-<nav aria-label="Page navigation example">
+<nav aria-label="Page navigation example" style="padding: 10px 0px;">
     <ul class="pagination pagination-primary justify-content-end">
         <c:if test="${pageDTO.startPage > 1}">
             <li class="page-item">
-                <a class="page-link" href="${pageContext.request.contextPath}/production/instruction?pageNum=${pageDTO.startPage - 1}&search1=${pageDTO.search1}&search2=${pageDTO.search2}&search3=${pageDTO.search3}&search4=${pageDTO.search4}&search5=${pageDTO.search5}">Previous</a>
+                <a class="page-link" href="${pageContext.request.contextPath}/production/instruction?pageNum=${pageDTO.startPage - 1}&search1=${pageDTO.search1}&search2=${pageDTO.search2}&search3=${pageDTO.search3}&search4=${pageDTO.search4}&search5=${pageDTO.search0}"><span aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-left"><polyline points="15 18 9 12 15 6"></polyline></svg></span></a>
             </li>
         </c:if>
         
         <c:if test="${pageDTO.startPage <= 1}">
             <li class="page-item disabled">
-                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                <a class="page-link" href="#" tabindex="-1" aria-disabled="true"><span aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-left"><polyline points="15 18 9 12 15 6"></polyline></svg></span></a>
             </li>
         </c:if>
         
         <c:forEach var="i" begin="${pageDTO.startPage}" end="${pageDTO.endPage}" step="1">
             <li class="page-item ${pageDTO.currentPage == i ? 'active' : ''}">
-                <a class="page-link" href="${pageContext.request.contextPath}/production/instruction?pageNum=${i}&search1=${pageDTO.search1}&search2=${pageDTO.search2}&search3=${pageDTO.search3}&search4=${pageDTO.search4}&search5=${pageDTO.search5}">${i}</a>
+                <a class="page-link" href="${pageContext.request.contextPath}/production/instruction?pageNum=${i}&search1=${pageDTO.search1}&search2=${pageDTO.search2}&search3=${pageDTO.search3}&search4=${pageDTO.search4}&search5=${pageDTO.search0}">${i}</a>
             </li>
         </c:forEach>
         
         <c:if test="${pageDTO.endPage < pageDTO.pageCount}">
             <li class="page-item">
-                <a class="page-link" href="${pageContext.request.contextPath}/production/instruction?pageNum=${pageDTO.endPage + 1}&search1=${pageDTO.search1}&search2=${pageDTO.search2}&search3=${pageDTO.search3}&search4=${pageDTO.search4}&search5=${pageDTO.search5}">Next</a>
+                <a class="page-link" href="${pageContext.request.contextPath}/production/instruction?pageNum=${pageDTO.endPage + 1}&search1=${pageDTO.search1}&search2=${pageDTO.search2}&search3=${pageDTO.search3}&search4=${pageDTO.search4}&search5=${pageDTO.search0}"><span aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg></span></a>
             </li>
         </c:if>
         
         <c:if test="${pageDTO.endPage >= pageDTO.pageCount}">
             <li class="page-item disabled">
-                <a class="page-link" href="#">Next</a>
+                <a class="page-link" href="#"><span aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg></span></a>
             </li>
         </c:if>
     </ul>
@@ -202,7 +201,7 @@
     <script src="${pageContext.request.contextPath}/resources/assets/js/main.js"></script>
     <script>
 	    var popupWidth = 900;
-	    var popupHeight = 600;
+	    var popupHeight = 450;
 	
 	    var popupX = (window.screen.width / 2) - (popupWidth / 2);
 	    var popupY= (window.screen.height / 2) - (popupHeight / 2) - 100;
@@ -319,69 +318,11 @@
 	</script>
 	
 	<script>
-// 	function excelDown() {
-// 	    if (confirm("엑셀파일로 저장하시겠습니까?") == true) {
-// 	        var myTable = $("#table1");
-// 	        var rows = $("table > tbody > tr").length;
-// 	        var columns = $("table > thead > tr > th").length;
-// 	        if (rows < 2) {
-// 	            alert("엑셀파일로 저장할 데이터가 없습니다.");
-// 	            return;
-// 	        }
-	        
-// 	        var csrfParameterName = '${_csrf.parameterName}';
-// 	        var csrfToken = '${_csrf.token}';
-	        
-// 	        var dataParam = tableToJson(myTable);
-// 	        var myTitle = dataParam[0].toString();
-// 	        var myContents = dataParam[1];
-// 	        var name = "Table To Excel Example";
-// 	        var form = "<form action='${pageContext.request.contextPath}/production/excelDown.do' method='post'>";
-// 	        form += "<input type='hidden' name='title' value='" + myTitle + "' />";
-// 	        form += "<input type='hidden' name='contents' value='" + myContents + "' />";
-// 	        form += "<input type='hidden' name='name' value='" + name + "' />";
-// 	        form += "<input type='hidden' name='rows' value='" + rows + "' />";
-// 	        form += "<input type='hidden' name='columns' value='" + columns + "' />";
-// 	        form += "<input type='hidden' name='" + csrfParameterName + "' value='" + csrfToken + "' />";
-// 	        form += "</form>";
-	                
-// 	        jQuery(form).appendTo("body").submit().remove();
-// 	    }
-// 	}
+	function saveExcel() {
+	  var wb = XLSX.utils.table_to_book(document.getElementById('table1'), {sheet:"Sheet1", raw:true});
+	  XLSX.writeFile(wb, '작업지시서.xlsx');
+	}
 	</script>
-	<script>
-// 	function tableToJson(table) {
-// 	    var myRows = [];
-// 	    var title = [];
-// 	    var $headers = $("th");
-// 	    $("th").each(function(index, item) {
-// 	        title[index] = $(item).html();
-// 	    });
-	 
-// 	    var $rows = $("tbody tr").each(
-// 	            function(index) {
-// 	                $cells = $(this).find("td");
-// 	                myRows[index] = {};
-// 	                $cells.each(function(cellIndex) {
-// 	                    myRows[index][$($headers[cellIndex]).html()] = $(
-// 	                            this).html();
-// 	                });
-// 	            });
-	 
-// 	    var myObj = {};
-// 	    myObj = myRows;
-	 
-// 	    var myJson = JSON.stringify(myObj);
-// 	    return [ title, myJson ];
-// 	}
-	</script>
-	
-<script>
-function saveExcel() {
-  var wb = XLSX.utils.table_to_book(document.getElementById('table1'), {sheet:"Sheet1", raw:true});
-  XLSX.writeFile(wb, '파일명.xlsx');
-}
-</script>
 
 </body>
 </html>

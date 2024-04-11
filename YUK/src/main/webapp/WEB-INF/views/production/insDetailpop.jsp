@@ -99,7 +99,7 @@
 	        <div class="card-body" style="padding: 5px;">
 	          <!-- Table with outer spacing -->
 	          <div class="table-responsive">
-	            <table class="table">
+	            <table class="table table-bordered mb-0">
 	              <thead>
 	                <tr>
 	                  <th>소요량코드</th>

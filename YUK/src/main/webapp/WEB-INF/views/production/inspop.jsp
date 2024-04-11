@@ -32,7 +32,7 @@
             <div class="col-12" >
                 <div class="card" style="box-shadow: none;">
 		  			<div class="card-header" style="margin-top: 30px;">
-                        <h3 class="card-title">생산실적 등록</h3>
+                        <h3 class="card-title">작업지시 등록</h3>
                     <hr>
                     </div>
                     <div class="card-content">
@@ -76,31 +76,31 @@
 
 <!--                             ------------------------------------------- -->
 <!-- 품목 소요량 테이블 -->
-		  <div class="card-header" style="margin-top: 30px;">
-	        <h3 class="card-title" style="text-align: left;">소요량</h3>
-	      <hr>
-	      </div>
-		<div class="card-body">
-	      <div class="card-content">
-	        <div class="card-body" style="padding: 5px;">
-	          <!-- Table with outer spacing -->
-	          <div class="table-responsive">
-	            <table class="table" id="reqTable">
-	              <thead>
-	                <tr>
-	                  <th>품목코드</th>
-	                  <th>품명</th>
-	                  <th>수량</th>
-	                  <th>재고량</th>
-	                </tr>
-	              </thead>
-	              <tbody>
-	              </tbody>
-	            </table>
-	          </div>
-	        </div>
-	      </div>
-	      </div>
+<!-- 		  <div class="card-header" style="margin-top: 30px;"> -->
+<!-- 	        <h3 class="card-title" style="text-align: left;">소요량</h3> -->
+<!-- 	      <hr> -->
+<!-- 	      </div> -->
+<!-- 		<div class="card-body"> -->
+<!-- 	      <div class="card-content"> -->
+<!-- 	        <div class="card-body" style="padding: 5px;"> -->
+<!-- 	          Table with outer spacing -->
+<!-- 	          <div class="table-responsive"> -->
+<!-- 	            <table class="table table-bordered mb-0" id="reqTable"> -->
+<!-- 	              <thead> -->
+<!-- 	                <tr> -->
+<!-- 	                  <th>품목코드</th> -->
+<!-- 	                  <th>품명</th> -->
+<!-- 	                  <th>수량</th> -->
+<!-- 	                  <th>재고량</th> -->
+<!-- 	                </tr> -->
+<!-- 	              </thead> -->
+<!-- 	              <tbody> -->
+<!-- 	              </tbody> -->
+<!-- 	            </table> -->
+<!-- 	          </div> -->
+<!-- 	        </div> -->
+<!-- 	      </div> -->
+<!-- 	      </div> -->
 	      
 <!--	품목 소요량 테이블 끝 -->
 
