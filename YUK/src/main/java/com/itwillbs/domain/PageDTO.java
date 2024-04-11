@@ -45,11 +45,17 @@ public class PageDTO {
 	private String search7;
 	private String search8;
 	
-	//warehouse 검색어 추가
-	private String search9;
-	private String search10;
-	private String search11;
-	private String search12;
+	//검색어 추가
+	private String warehouseCode; 
+	private String warehouseName;
+	private String warehouseLocal;
+	private String productCode;
+	private String productName;
+	private String productType;
+	private String clientCode;
+	private String clientName;
+
+	
 	
 	//검색 옵션 추가
 	private String select1; //출고, 자재입고
@@ -223,31 +229,53 @@ public class PageDTO {
 	}
 	
 	
-	public String getSearch9() {
-		return search9;
+	public String getWarehouseCode() {
+		return warehouseCode;
 	}
-	public void setSearch9(String search9) {
-		this.search9 = search9;
+	public void setWarehouseCode(String warehouseCode) {
+		this.warehouseCode = warehouseCode;
 	}
-	public String getSearch10() {
-		return search10;
+	public String getWarehouseName() {
+		return warehouseName;
 	}
-	public void setSearch10(String search10) {
-		this.search10 = search10;
+	public void setWarehouseName(String warehouseName) {
+		this.warehouseName = warehouseName;
 	}
-	public String getSearch11() {
-		return search11;
+	public String getWarehouseLocal() {
+		return warehouseLocal;
 	}
-	public void setSearch11(String search11) {
-		this.search11 = search11;
+	public void setWarehouseLocal(String warehouseLocal) {
+		this.warehouseLocal = warehouseLocal;
 	}
-	public String getSearch12() {
-		return search12;
+	public String getProductCode() {
+		return productCode;
 	}
-	public void setSearch12(String search12) {
-		this.search12 = search12;
+	public void setProductCode(String productCode) {
+		this.productCode = productCode;
 	}
-	
-	
+	public String getProductName() {
+		return productName;
+	}
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+	public String getProductType() {
+		return productType;
+	}
+	public void setProductType(String productType) {
+		this.productType = productType;
+	}
+	public String getClientCode() {
+		return clientCode;
+	}
+	public void setClientCode(String clientCode) {
+		this.clientCode = clientCode;
+	}
+	public String getClientName() {
+		return clientName;
+	}
+	public void setClientName(String clientName) {
+		this.clientName = clientName;
+	}
 	
 }
