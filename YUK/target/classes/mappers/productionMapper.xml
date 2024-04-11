@@ -395,5 +395,12 @@ values(#{lineCode}, #{name}, #{lineStatus}, #{lineName}, #{update})
 	from INSTRUCTION
 </select>
 
+<select id="performanceAmount" resultType="com.itwillbs.domain.ProductionDTO">
+select  i.INS_CD "instructionCode" , p1.PRO_NAME "productName" ,i.INS_VOL "insVol" , p.ACTUAL_COMPLETION_AMOUNT "perACA" ,p.PER_DATE "perDate" , (((i.INS_VOL -p.ACTUAL_COMPLETION_AMOUNT)/i.INS_VOL)*100) "defectRate"
+from PERFORMANCE p join PRODUCT p1
+join INSTRUCTION i
+where PRO_TYPE = 0
+</select>
+
 
 </mapper>

@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/bootstrap.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/bootstrap.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/vendors/chartjs/Chart.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/app.css">
@@ -14,7 +14,7 @@
     background-color: #e4e8ff;
     }
     </style>
-    
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
 </head>
 <body>
    <div style="margin-left: 20px; margin-top: 50px;">
@@ -86,8 +86,7 @@
 	<c:if test="${pageDTO.startPage > 1}">
 		<li class="page-item">
 			<a class="page-link" href="${pageContext.request.contextPath}/product/productPopUp?pageNum=${pageDTO.startPage - 1}
-			&search1=${pageDTO.search1}&search2=${pageDTO.search2}
-			&select1=${pageDTO.select1}">
+			&search1=${pageDTO.search1}&search2=${pageDTO.search2}">
 			<span aria-hidden="true">
 				<i data-feather="chevron-left"></i></span></a>
 		</li>
@@ -104,16 +103,14 @@
 	<c:forEach var="i" begin="${pageDTO.startPage}" end="${pageDTO.endPage}" step="1">
 		<li class="page-item ${pageDTO.currentPage == i ? 'active' : ''}">
 			<a class="page-link" href="${pageContext.request.contextPath}/product/productPopUp?pageNum=${i}
-			&search1=${pageDTO.search1}&search2=${pageDTO.search2}
-			&select1=${pageDTO.select1}">${i}</a>
+			&search1=${pageDTO.search1}&search2=${pageDTO.search2}">${i}</a>
 		</li>
 	</c:forEach>
 
 	<c:if test="${pageDTO.endPage < pageDTO.pageCount}">
 		<li class="page-item">
 			<a class="page-link" href="${pageContext.request.contextPath}/product/productPopUp?pageNum=${pageDTO.endPage + 1}
-			&search1=${pageDTO.search1}&search2=${pageDTO.search2}
-			&select1=${pageDTO.select1}">
+			&search1=${pageDTO.search1}&search2=${pageDTO.search2}">
 			<span aria-hidden="true">
 				<i data-feather="chevron-right"></i></span></a>
 		</li>
@@ -158,6 +155,10 @@
         window.close();
     }
 </script>
+
+<script>
+  feather.replace();
+</script> 
 
 </body>
 </html>

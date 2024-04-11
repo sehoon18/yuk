@@ -144,6 +144,12 @@ import com.itwillbs.domain.PageDTO;
 			
 			return ordercontractDAO.getContractCount(pageDTO);
 		}
+		public List<OrdercontractDTO> getContractVol(OrdercontractDTO ordercontractDTO) {
+			 return ordercontractDAO.getContractVol(ordercontractDTO);
+		}
+		public List<OrdercontractDTO> orderVolChart(OrdercontractDTO ordercontractDTO) {
+			return ordercontractDAO.orderVolChart(ordercontractDTO);
+		}
 		
 		public void insertMib(OrdercontractDTO ordercontractDTO) {
 			//mib_cd 생성

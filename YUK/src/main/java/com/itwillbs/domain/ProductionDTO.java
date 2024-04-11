@@ -50,6 +50,9 @@ public class ProductionDTO {
 	private String proName1;
 	private String proName2;
 	private int vol;
+	private String defectRate;
+	
+	
 	
 	@Override
 	public String toString() {
@@ -60,9 +63,11 @@ public class ProductionDTO {
 				+ contractDueDate + ", contractDate=" + contractDate + ", conInfoStatus=" + conInfoStatus
 				+ ", paymentDate=" + paymentDate + ", productName=" + productName + ", productCode=" + productCode
 				+ ", productVol=" + productVol + ", perCode=" + perCode + ", perVol=" + perVol + ", perDate=" + perDate
-				+ ", perNote=" + perNote + ", perACA=" + perACA + ", perGood=" + perGood + "]";
+				+ ", perNote=" + perNote + ", perACA=" + perACA + ", perGood=" + perGood + ", reqCode=" + reqCode
+				+ ", pProCode=" + pProCode + ", mProCode=" + mProCode + ", reqVol=" + reqVol + ", pibCode=" + pibCode
+				+ ", pibStatus=" + pibStatus + ", proName1=" + proName1 + ", proName2=" + proName2 + ", vol=" + vol
+				+ ", defectRate=" + defectRate + "]";
 	}
-	
 	// ���ΰ��� getter/setter
 	public String getLineCode() {
 		return lineCode;
@@ -296,6 +301,14 @@ public class ProductionDTO {
 
 	public void setProName2(String proName2) {
 		this.proName2 = proName2;
+	}
+
+	public String getDefectRate() {
+		return defectRate;
+	}
+
+	public void setDefectRate(String defectRate) {
+		this.defectRate = defectRate;
 	}
 	
 }

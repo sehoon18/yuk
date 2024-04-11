@@ -14,15 +14,23 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.itwillbs.domain.OrdercontractDTO;
 import com.itwillbs.domain.ProductDTO;
 import com.itwillbs.domain.ProductionDTO;
+import com.itwillbs.service.OrdercontractService;
+import com.itwillbs.service.ProductService;
 import com.itwillbs.service.ProductionService;
 
 @RestController
 public class AjaxController {
 	@Inject
 	ProductionService productionService; 
-
+	@Inject
+    OrdercontractService ordercontractService;
+	@Inject
+	ProductService productService;
+	
+	
 	@GetMapping("/production/lineNameCheck")
 	public ResponseEntity<String> lcCheck(ProductionDTO productionDTO){
 		System.out.println(productionDTO);
@@ -114,12 +122,54 @@ public class AjaxController {
 		}
 	}
 	
-	@GetMapping("/production/mainJson")
-	public ResponseEntity<List<ProductionDTO>> mainJson(ProductionDTO productionDTO) {
-		List<ProductionDTO> InsVolList = productionService.getInsVol(productionDTO);
-		ResponseEntity<List<ProductionDTO>> entity = new ResponseEntity<List<ProductionDTO>>(InsVolList, HttpStatus.OK);
+	//불량률 - 메인
+	@GetMapping("/production/performanceAmount")
+	public ResponseEntity<List<ProductionDTO>> performanceAmount(ProductionDTO productionDTO) {
+		List<ProductionDTO> performanceAmount = productionService.performanceAmount(productionDTO);
+		ResponseEntity<List<ProductionDTO>> entity = new ResponseEntity<List<ProductionDTO>>(performanceAmount, HttpStatus.OK);
 		return entity;
 	}
+	
+	//완제품 재고량 - 메인
+	@GetMapping("/product/productVol")
+	public ResponseEntity<List<ProductionDTO>> productVol(ProductDTO productDTO) {
+		List<ProductionDTO> productVol = productService.productVol(productDTO);
+		ResponseEntity<List<ProductionDTO>> entity = new ResponseEntity<List<ProductionDTO>>(productVol, HttpStatus.OK);
+		return entity;
+	}
+	//식자재 재고량 - 메인
+		@GetMapping("/product/productVol2")
+		public ResponseEntity<List<ProductionDTO>> productVol2(ProductDTO productDTO) {
+			List<ProductionDTO> productVol2 = productService.productVol2(productDTO);
+			ResponseEntity<List<ProductionDTO>> entity = new ResponseEntity<List<ProductionDTO>>(productVol2, HttpStatus.OK);
+			return entity;
+	}
+	//포장자재 재고량 - 메인
+		@GetMapping("/product/productVol3")
+		public ResponseEntity<List<ProductionDTO>> productVol3(ProductDTO productDTO) {
+			List<ProductionDTO> productVol3 = productService.productVol3(productDTO);
+			ResponseEntity<List<ProductionDTO>> entity = new ResponseEntity<List<ProductionDTO>>(productVol3, HttpStatus.OK);
+			return entity;
+				}
+	
+	//수주량 - 메인
+	@GetMapping("/contract/contractVolChart")
+	public ResponseEntity<List<OrdercontractDTO>> contractVolChart(OrdercontractDTO ordercontractDTO) {
+		System.out.println(ordercontractDTO);
+		List<OrdercontractDTO> contractVolChart = ordercontractService.getContractVol(ordercontractDTO);
+		ResponseEntity<List<OrdercontractDTO>> entity = new ResponseEntity<List<OrdercontractDTO>>(contractVolChart, HttpStatus.OK);
+		return entity;
+	}
+		
+	//발주량 - 메인
+	@GetMapping("/order/orderVolChart")
+	public ResponseEntity<List<OrdercontractDTO>> orderVolChart(OrdercontractDTO ordercontractDTO) {
+		System.out.println(ordercontractDTO);
+		List<OrdercontractDTO> orderVolChart = ordercontractService.orderVolChart(ordercontractDTO);
+		ResponseEntity<List<OrdercontractDTO>> entity = new ResponseEntity<List<OrdercontractDTO>>(orderVolChart, HttpStatus.OK);
+		return entity;
+	}
+		
 	
 	
 }

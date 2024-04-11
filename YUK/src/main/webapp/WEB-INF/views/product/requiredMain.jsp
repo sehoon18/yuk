@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -37,17 +38,24 @@
     <div style="margin-left: 20px;">
     <h1><b>소요량 관리</b></h1>
   	<br>
-  <form action="${pageContext.request.contextPath}/product/requiredMain">
+  
+    
+
+    
+<div class="row" id="table-bordered" style="margin-right: 20px;">
+  <div class="col-12">
+    <div class="card">
+    <div style="margin-left:20px; margin-top:20px;"  >
+    <form action="${pageContext.request.contextPath}/product/requiredMain">
   <div class="col-lg-2 col-3" style="display: flex; align-items: center; white-space: nowrap;">
-<!--   	flex: 0 1 auto; 속성은 사원번호 텍스트가 필요한 만큼의 공간만 차지 -->
   <div style="flex: 0 1 auto; margin-right: 10px;"><b>소요량코드</b></div>
-  <input type="text" id="requiredCode" class="form-control" name="requiredCode" style="flex: 1 1 auto; width: auto; background-color: white;" placeholder="소요량코드를 선택하세요" onclick="requiredPopUp();" readonly>
+  <input type="text" id="requiredCode" class="form-control" name="search1" style="flex: 1 1 auto; width: auto; background-color: white;" placeholder="소요량코드를 선택하세요" onclick="requiredPopUp();" readonly>
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>완제품명</b> &nbsp;&nbsp;
-  <input type="text" id="productName" class="form-control" name="productName" style="flex: 1 1 auto; width: auto;" placeholder="완제품명을 입력하세요">
+  <input type="text" id="productName" class="form-control" name="search2" style="flex: 1 1 auto; width: auto;" placeholder="완제품명을 입력하세요">
    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
    <b>품목구분</b>
    &nbsp;&nbsp;
-  <select class="form-select" id="basicSelect" name="productType" style="width: 100px;" >
+  <select class="form-select" id="basicSelect" name="select1" style="width: 100px;" >
 	<option value="100">전체</option>
 	<option value="1">식자재</option>
 	<option value="2">포장자재</option>
@@ -56,23 +64,22 @@
   <button class="btn btn-primary btn-sm" type="submit">조회</button>
 </div>
 </form>
-<br>
-    
-
-    
-<div class="row" id="table-bordered" style="margin-right: 20px;">
-  <div class="col-12">
-    <div class="card">
+    </div>
      <form id="dataForm" class="insertRequired" action="${pageContext.request.contextPath}/product/requiredInsert" method="post">
       <div class="card-header" style="text-align:right;">
-        <h4 class="card-title" style="text-align:left;">소요량 목록 <b>총 ${requiredList.size()}건</b></h4>
-        <c:if test="${memberDTO.permission == 0 || memberDTO.permission == 1}">
-     		    <button type="button" onclick="addTableRow()" class='btn btn-primary' id="addrow">➕ 추가</button>
+       <sec:authorize access="hasAnyRole('ROLE_PRODUCT', 'ROLE_ADMIN')">
+			    <button type="button" onclick="addTableRow()" class='btn btn-primary' id="addrow">➕ 추가</button>
 			    <button type="button" onclick="modTableRow()" class='btn btn-primary' id="modify">↪️ 수정</button>
 			    <button type="button" onclick="delTableRow()" class='btn btn-primary' id="delete">⚠️ 삭제</button>
 			    <button type="submit" class='btn btn-primary' id="submitrow" disabled>💾 저장</button>
-			    </c:if>
-      </div>
+		 </sec:authorize>
+		 <sec:authorize access="hasAnyRole('ROLE_PRODUCTION', 'ROLE_BOUND', 'ROLE_OC', 'ROLE_NONE')">
+			    <button type="button" onclick="accessError()" class='btn btn-primary' id="addrow">➕ 추가</button>
+			    <button type="button" onclick="accessError()" class='btn btn-primary' id="modify">↪️ 수정</button>
+			    <button type="button" onclick="accessError()" class='btn btn-primary' id="delete">⚠️ 삭제</button>
+			    <button type="submit" class='btn btn-primary' id="submitrow" disabled>💾 저장</button>
+		 </sec:authorize>
+		 </div>
       <div class="card-content">
         <div class="table-responsive">
           <table class="table table-bordered mb-0" id="table1">
@@ -111,6 +118,56 @@
               </c:forEach>
             </tbody>
           </table>
+          <!-- 페이징 시작 -->
+<nav aria-label="Page navigation example"  style="margin-top:10px; margin-right: 10px;">
+	
+    <ul class="pagination pagination-primary justify-content-end">
+		
+	<c:if test="${pageDTO.startPage > 1}">
+		<li class="page-item">
+			<a class="page-link" href="${pageContext.request.contextPath}/product/requiredMain?pageNum=${pageDTO.startPage - 1}
+			&search1=${pageDTO.search1}&search2=${pageDTO.search2}">
+			<span aria-hidden="true">
+				<i data-feather="chevron-left"></i></span></a>
+		</li>
+	</c:if>
+	
+	<c:if test="${pageDTO.startPage <= 1}">
+		<li class="page-item disabled">
+			<a class="page-link" href="#" tabindex="-1" aria-disabled="true">
+			<span aria-hidden="true">
+				<i data-feather="chevron-left"></i></span></a>
+        </li>
+    </c:if>
+
+	<c:forEach var="i" begin="${pageDTO.startPage}" end="${pageDTO.endPage}" step="1">
+		<li class="page-item ${pageDTO.currentPage == i ? 'active' : ''}">
+			<a class="page-link" href="${pageContext.request.contextPath}/product/requiredMain?pageNum=${i}
+			&search1=${pageDTO.search1}&search2=${pageDTO.search2}&select1=${pageDTO.select1}">${i}</a>
+		</li>
+	</c:forEach>
+
+	<c:if test="${pageDTO.endPage < pageDTO.pageCount}">
+		<li class="page-item">
+			<a class="page-link" href="${pageContext.request.contextPath}/product/requiredMain?pageNum=${pageDTO.endPage + 1}
+			&search1=${pageDTO.search1}&search2=${pageDTO.search2}&select1=${pageDTO.select1}">
+			<span aria-hidden="true">
+				<i data-feather="chevron-right"></i></span></a>
+		</li>
+	</c:if>
+	
+    <c:if test="${pageDTO.endPage >= pageDTO.pageCount}">
+		<li class="page-item disabled">
+			<a class="page-link" href="#">
+			<span aria-hidden="true">
+				<i data-feather="chevron-right"></i></span></a>
+		</li>
+    </c:if>
+    
+	</ul>
+	
+</nav>
+<!-- 페이징 끝 -->
         </div>
       </div>
       </form>
@@ -120,22 +177,7 @@
     
 </div>    
 
-<nav aria-label="Page navigation example">
-	<ul class="pagination pagination-primary" style="justify-content:center;">
-		<li class="page-item">
-			<a class="page-link" href="#">
-		<span aria-hidden="true"><i data-feather="chevron-left"></i></span>
-			</a>
-		</li>
-			<li class="page-item"><a class="page-link" href="">1</a></li>
-			<li class="page-item active"><a class="page-link" href="">2</a></li>
-			<li class="page-item"><a class="page-link" href="">3</a></li>
-			<li class="page-item"><a class="page-link" href="">
-		<span aria-hidden="true"><i data-feather="chevron-right"></i></span>
-			</a>
-		</li>
-	</ul>
-</nav>
+
 
 
 
@@ -174,7 +216,11 @@
 	function receiveReq2(productCode,productName,productType){
 		document.getElementById("productCode1").value = productCode;
 		document.getElementById("productName2").value = productName;
-		document.getElementById("productType").value = productType;
+// 		document.getElementById("productType").value = productType;
+		if(productType === "1" || productType === 1) { // 문자열 "1" 또는 숫자 1인 경우를 모두 고려
+	        document.getElementById("productType").value = "식자재";
+	    } 
+		
 	}
 	</script>
 	
@@ -241,7 +287,7 @@ function addTableRow() {
            input.type = "text";
            input.id = "productType";
            input.name = "productType";
-       input.className = "form-control";
+      	   input.className = "form-control";
            input.readOnly = true; // 입력 필드를 읽기 전용으로 설정
        }else if(field === 'requiredVol'){
            input = document.createElement("input");
@@ -252,13 +298,14 @@ function addTableRow() {
            input = document.createElement("input");
            input.type = "hidden";
            input.className = "form-control";
+           cell.style.display = 'none';
        }
         else {
             input = document.createElement("input");
            input.type = "text";
             input.className = "form-control";
        }
-
+       
         input.name = field;
         input.value = exampleData[index];
         cell.appendChild(input);

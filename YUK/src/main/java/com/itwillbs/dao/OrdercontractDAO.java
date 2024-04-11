@@ -112,4 +112,10 @@ import com.itwillbs.domain.PageDTO;
 		public OrdercontractDTO getContractform(OrdercontractDTO ordercontractDTO) {
 			return sqlSession.selectOne(namespace+".getContractform",ordercontractDTO);
 		}
+		public List<OrdercontractDTO> getContractVol(OrdercontractDTO ordercontractDTO) {
+			return sqlSession.selectList(namespace + ".getContractVol", ordercontractDTO);
+		}
+		public List<OrdercontractDTO> orderVolChart(OrdercontractDTO ordercontractDTO) {
+			return sqlSession.selectList(namespace + ".orderVolChart", ordercontractDTO);
+		}
 }

@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.itwillbs.domain.MemberDTO;
 import com.itwillbs.domain.PageDTO;
 import com.itwillbs.domain.ProductDTO;
 import com.itwillbs.service.ProductService;
@@ -205,13 +204,8 @@ public class ProductController {
 	// --------  소요량 관리 -----------
 	
 	@GetMapping("/requiredMain")
-	public String requiredMain(Model model, HttpServletRequest request,HttpSession session) {
+	public String requiredMain(Model model, HttpServletRequest request,PageDTO pageDTO) {
 		System.out.println("ProductController requiredMain()");
-		
-//		Integer permission = (Integer)session.getAttribute("permission");
-//		memberDTO.setPermission(permission);
-		MemberDTO memberDTO = new MemberDTO();
-		model.addAttribute("memberDTO", memberDTO);
 		
 		
 		ProductDTO productDTO = new ProductDTO();
@@ -235,48 +229,107 @@ public class ProductController {
 				
 				productDTO.setRequiredCode(requiredCode);
 				model.addAttribute("productDTO", productDTO);
-		requiredCode = request.getParameter("requiredCode");
-		productDTO.setRequiredCode(requiredCode);
-		String productName = request.getParameter("productName");
-		productDTO.setProductName(productName);
-		String requiredTypeParam = request.getParameter("productType");
-		int productType = 100;
-		if(requiredTypeParam != null && !requiredTypeParam.isEmpty()) {
-			try {
-				productType = Integer.parseInt(requiredTypeParam);
-			} catch (NumberFormatException e) {
-				e.printStackTrace();
-			}
-		}
-		productDTO.setProductType(productType);
-		List<ProductDTO> requiredList;
-		if(requiredCode == null && productName == null && requiredTypeParam == null ) {
-			requiredList = productService.getRequiredList(productDTO);
-		}else {
-			requiredList = productService.getSearchRequiredList(productDTO);
-		}
-		model.addAttribute("requiredList",requiredList);
+				
+				// 검색 기능
+				pageDTO.setSearch1(request.getParameter("search1"));
+				pageDTO.setSearch2(request.getParameter("search2"));
+				String productType = (String)request.getParameter("search5");
+				System.out.println(pageDTO);
+				int productType1 = 100;
+				if(productType == null) {
+					productType1 = 100;
+				} else {
+					productType1 = Integer.parseInt(request.getParameter("search5"));
+				}
+				pageDTO.setSearch0(productType1);
+
+				// 페이징
+				int pageSize = 10;
+				String pageNum = request.getParameter("pageNum");
+				if(pageNum == null) {
+					pageNum="1";
+				}
+				
+				int currentPage = Integer.parseInt(pageNum);
+				
+				pageDTO.setPageSize(pageSize);
+				pageDTO.setPageNum(pageNum);
+				pageDTO.setCurrentPage(currentPage);
+				
+				List<ProductDTO> requiredList = productService.getRequiredList(pageDTO);
+				
+				int count =  productService.getRequiredCount(pageDTO);
+				int pageBlock = 10;
+				int startPage = (currentPage - 1) / pageBlock * pageBlock + 1;
+				int endPage = startPage + pageBlock -1;
+				int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);
+				
+				if(endPage > pageCount) {
+					endPage = pageCount;
+				}
+				
+				pageDTO.setCount(pageCount);
+				pageDTO.setPageBlock(pageBlock);
+				pageDTO.setStartPage(startPage);
+				pageDTO.setEndPage(endPage);
+				pageDTO.setPageCount(pageCount);
+				
+				model.addAttribute("requiredList", requiredList);
+				model.addAttribute("pageDTO", pageDTO);
 		return "product/requiredMain";
 	}
 	//소요량 팝업
 	@GetMapping("/requiredPopUp")
-	public String requiredPopUp(Model model, HttpServletRequest request) {
+	public String requiredPopUp(Model model, HttpServletRequest request,PageDTO pageDTO) {
 		System.out.println("ProductController requiredPopUp()");
 		
-		ProductDTO productDTO = new ProductDTO();
 		
-		String requiredCode = request.getParameter("requiredCode");
-		productDTO.setRequiredCode(requiredCode);
-		String productName = request.getParameter("productName");
-		productDTO.setProductName(productName);
-		
-		List<ProductDTO> requiredList;
-		if(requiredCode == "" && productName == "") {
-			requiredList = productService.getRequiredList(productDTO);
-		}else {
-			requiredList = productService.getSearchRequiredList(productDTO);
+		// 검색 기능
+		pageDTO.setSearch1(request.getParameter("search1"));
+		pageDTO.setSearch2(request.getParameter("search2"));
+		String productType = (String)request.getParameter("search5");
+		System.out.println(pageDTO);
+		int productType1 = 100;
+		if(productType == null) {
+			productType1 = 100;
+		} else {
+			productType1 = Integer.parseInt(request.getParameter("search5"));
 		}
-		model.addAttribute("requiredList",requiredList);
+		pageDTO.setSearch0(productType1);
+
+		// 페이징
+		int pageSize = 10;
+		String pageNum = request.getParameter("pageNum");
+		if(pageNum == null) {
+			pageNum="1";
+		}
+		
+		int currentPage = Integer.parseInt(pageNum);
+		
+		pageDTO.setPageSize(pageSize);
+		pageDTO.setPageNum(pageNum);
+		pageDTO.setCurrentPage(currentPage);
+		
+		List<ProductDTO> requiredList = productService.getRequiredList(pageDTO);
+		
+		int count =  productService.getRequiredCount(pageDTO);
+		int pageBlock = 10;
+		int startPage = (currentPage - 1) / pageBlock * pageBlock + 1;
+		int endPage = startPage + pageBlock -1;
+		int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);
+		
+		if(endPage > pageCount) {
+			endPage = pageCount;
+		}
+		
+		pageDTO.setCount(pageCount);
+		pageDTO.setPageBlock(pageBlock);
+		pageDTO.setStartPage(startPage);
+		pageDTO.setEndPage(endPage);
+		pageDTO.setPageCount(pageCount);
+		
+		model.addAttribute("requiredList", requiredList);
+		model.addAttribute("pageDTO", pageDTO);
 		return "product/requiredPopUp";
 	}
 	
@@ -310,46 +363,113 @@ public class ProductController {
 		
 		return "redirect:/product/requiredMain";
 	}
-//	//소요량 추가 -> 완제품 선택 팝업
-//	@GetMapping("/requiredInsertPopUp1")
-//	public String requiredInsertPopUp1(Model model, HttpServletRequest request) {
-//		System.out.println("ProductController requiredInsertPopUp1()");
-//		
-//		ProductDTO productDTO = new ProductDTO();
-//		String productCode = request.getParameter("productCode");
-//		productDTO.setProductCode(productCode);
-//		String productName = request.getParameter("productName");
-//		productDTO.setProductName(productName);
-//		List<ProductDTO> productList;
-//		if(productCode == "" && productName == ""){
-//			productList = productService.getProductList(productDTO);
-//		}else {
-//			productList = productService.getSearchProductList(productDTO);
-//		}
-//		model.addAttribute("productList", productList);
-//		return "product/requiredInsertPopUp1";
-//	}
+	//소요량 추가 -> 완제품 선택 팝업
+	@GetMapping("/requiredInsertPopUp1")
+	public String requiredInsertPopUp1(Model model, HttpServletRequest request,PageDTO pageDTO) {
+		System.out.println("ProductController requiredInsertPopUp1()");
+		
+		// 검색 기능
+				pageDTO.setSearch1(request.getParameter("search1"));
+				pageDTO.setSearch2(request.getParameter("search2"));
+				String productType = (String)request.getParameter("search5");
+				System.out.println(pageDTO);
+				int productType1 = 100;
+				if(productType == null) {
+					productType1 = 100;
+				} else {
+					productType1 = Integer.parseInt(request.getParameter("search5"));
+				}
+				pageDTO.setSearch0(productType1);
+
+				// 페이징
+				int pageSize = 10;
+				String pageNum = request.getParameter("pageNum");
+				if(pageNum == null) {
+					pageNum="1";
+				}
+				
+				int currentPage = Integer.parseInt(pageNum);
+				
+				pageDTO.setPageSize(pageSize);
+				pageDTO.setPageNum(pageNum);
+				pageDTO.setCurrentPage(currentPage);
+				
+				List<ProductDTO> productList = productService.getProductList(pageDTO);
+				
+				int count =  productService.getProductCount(pageDTO);
+				int pageBlock = 10;
+				int startPage = (currentPage - 1) / pageBlock * pageBlock + 1;
+				int endPage = startPage + pageBlock -1;
+				int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);
+				
+				if(endPage > pageCount) {
+					endPage = pageCount;
+				}
+				
+				pageDTO.setCount(pageCount);
+				pageDTO.setPageBlock(pageBlock);
+				pageDTO.setStartPage(startPage);
+				pageDTO.setEndPage(endPage);
+				pageDTO.setPageCount(pageCount);
+				
+				model.addAttribute("productList", productList);
+				model.addAttribute("pageDTO", pageDTO);
+		return "product/requiredInsertPopUp1";
+	}
 	
-//	//소요량 추가 ->자재 팝업
-//		@GetMapping("/requiredInsertPopUp2")
-//		public String requiredInsertPopUp2(Model model, HttpServletRequest request) {
-//			System.out.println("ProductController requiredInsertPopUp2()");
-//			
-//			ProductDTO productDTO = new ProductDTO();
-//			
-//			String productCode = request.getParameter("productCode");
-//			productDTO.setProductCode(productCode);
-//			String productName = request.getParameter("productName");
-//			productDTO.setProductName(productName);
-//			List<ProductDTO> productList;
-//			if(productCode == "" && productName == ""){
-//				productList = productService.getProductList(productDTO);
-//			}else {
-//				productList = productService.getSearchProductList(productDTO);
-//			}
-//			model.addAttribute("productList", productList);
-//			return "product/requiredInsertPopUp2";
-//		}
+	//소요량 추가 ->자재 팝업
+		@GetMapping("/requiredInsertPopUp2")
+		public String requiredInsertPopUp2(Model model, HttpServletRequest request,PageDTO pageDTO) {
+			System.out.println("ProductController requiredInsertPopUp2()");
+			
+			// 검색 기능
+			pageDTO.setSearch1(request.getParameter("search1"));
+			pageDTO.setSearch2(request.getParameter("search2"));
+			String productType = (String)request.getParameter("search5");
+			System.out.println(pageDTO);
+			int productType1 = 100;
+			if(productType == null) {
+				productType1 = 100;
+			} else {
+				productType1 = Integer.parseInt(request.getParameter("search5"));
+			}
+			pageDTO.setSearch0(productType1);
+
+			// 페이징
+			int pageSize = 10;
+			String pageNum = request.getParameter("pageNum");
+			if(pageNum == null) {
+				pageNum="1";
+			}
+			
+			int currentPage = Integer.parseInt(pageNum);
+			
+			pageDTO.setPageSize(pageSize);
+			pageDTO.setPageNum(pageNum);
+			pageDTO.setCurrentPage(currentPage);
+			
+			List<ProductDTO> productList = productService.getProductList(pageDTO);
+			
+			int count =  productService.getProductCount(pageDTO);
+			int pageBlock = 10;
+			int startPage = (currentPage - 1) / pageBlock * pageBlock + 1;
+			int endPage = startPage + pageBlock -1;
+			int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);
+			
+			if(endPage > pageCount) {
+				endPage = pageCount;
+			}
+			
+			pageDTO.setCount(pageCount);
+			pageDTO.setPageBlock(pageBlock);
+			pageDTO.setStartPage(startPage);
+			pageDTO.setEndPage(endPage);
+			pageDTO.setPageCount(pageCount);
+			
+			model.addAttribute("productList", productList);
+			model.addAttribute("pageDTO", pageDTO);
+			return "product/requiredInsertPopUp2";
+		}
 	
 	
 }

@@ -16,6 +16,9 @@
 	<if test="search2 != '' and search2 != null ">
 	and PRO_NAME like concat('%', #{search2}, '%')
 	</if>
+	<if test="select1 == 0">and PRO_TYPE = 0</if>
+	<if test="select1 == 1">and PRO_TYPE = 1</if>
+	<if test="select1 == 2">and PRO_TYPE = 2</if>
 	</where>
 	order by p.PRO_CD desc
     limit #{startRow}, #{pageSize}
@@ -51,34 +54,42 @@
 	order by PRO_CD desc
 </select>
 
+<select id="getRequiredCount" resultType="java.lang.Integer">
+	select count(*)
+	from PRODUCT p1 join REQUIRED r 
+	on p1.PRO_CD = r.PP_CD 
+	join PRODUCT p2
+	on r.MP_CD = p2.PRO_CD
+	<where>
+	<if test="search1 != '' and search1 != null"  >
+	r.REQ_CD like concat('%', #{search1}, '%')
+	</if>
+	<if test="search2 != '' and search2 != null ">
+	and p1.PRO_NAME like concat('%', #{search2}, '%')
+	</if>
+	</where>
+</select>
+
 <select id="getRequiredList" resultType="com.itwillbs.domain.ProductDTO">
 	select r.REQ_CD "requiredCode",p1.PRO_CD "productCode",p1.PRO_NAME "productName",r.MP_CD "materialProductCode",p2.PRO_NAME "productPName",p2.PRO_TYPE "productType",r.REQ_VOL "requiredVol"
 	from PRODUCT p1 join REQUIRED r 
 	on p1.PRO_CD = r.PP_CD 
 	join PRODUCT p2
 	on r.MP_CD = p2.PRO_CD
+	<where>
+	<if test="search1 != '' and search1 != null"  >
+	r.REQ_CD like concat('%', #{search1}, '%')
+	</if>
+	<if test="search2 != '' and search2 != null ">
+	and p1.PRO_NAME like concat('%', #{search2}, '%')
+	</if>
+	<if test="select1 == 1">and p2.PRO_TYPE = 1</if>
+	<if test="select1 == 2">and p2.PRO_TYPE = 2</if>
+	</where>
 	order by REQ_CD desc
+    limit #{startRow}, #{pageSize}
 </select>
 
-<select id="getSearchRequiredList" resultType="com.itwillbs.domain.ProductDTO">
-	select r.REQ_CD "requiredCode",p1.PRO_CD "productCode",p1.PRO_NAME "productName",r.MP_CD "materialProductCode",p2.PRO_NAME "productPName",p2.PRO_TYPE "productType",r.REQ_VOL "requiredVol"
-	from PRODUCT p1 join REQUIRED r
-	on p1.PRO_CD = r.PP_CD 
-	join PRODUCT p2 
-	on r.MP_CD = p2.PRO_CD 
-<where>
-<if test="requiredCode != '' and requiredCode != null">
-	r.REQ_CD like concat('%', #{requiredCode}, '%')
-</if>
-<if test="productName != '' and productName != null">
-	and p1.PRO_NAME like concat('%', #{productName}, '%')
-</if>
-<if test="productType != '' and productType != null and productType != 100">
-	and p2.PRO_TYPE = #{productType}
-</if>
-</where>	
-	order by REQ_CD desc
-</select>
 
 <select id="getProductLastNum" resultType="java.lang.Integer">
 	SELECT REGEXP_REPLACE(PRO_CD, '[^0-9]', '') AS numbers_only
@@ -128,5 +139,23 @@ values(#{requiredCode}, #{productCode}, #{ materialProductCode}, #{requiredVol})
 	from REQUIRED
 	WHERE REQ_CD = #{requiredCode}
 </delete>
+
+<select id="productVol" resultType="com.itwillbs.domain.ProductDTO">
+select PRO_NAME "productName" , PRO_VOL "prodcutVol"
+from PRODUCT
+where PRO_TYPE = 0;
+</select>
+
+<select id="productVol2" resultType="com.itwillbs.domain.ProductDTO">
+select PRO_NAME "productName" , PRO_VOL "prodcutVol"
+from PRODUCT
+where PRO_TYPE = 1
+</select>
+
+<select id="productVol3" resultType="com.itwillbs.domain.ProductDTO">
+select PRO_NAME "productName" , PRO_VOL "prodcutVol"
+from PRODUCT
+where PRO_TYPE = 2
+</select>
 
 </mapper>

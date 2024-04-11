@@ -189,5 +189,9 @@ public class ProductionDAO {
 		System.out.println("productionDAO getInsVol()");
 		return sqlSession.selectList(namespace + ".getInsVol",productionDTO);
 	}
+	
+	public List<ProductionDTO> performanceAmount(ProductionDTO productionDTO) {
+		return sqlSession.selectList(namespace + ".performanceAmount",productionDTO);
+	}
 
 }

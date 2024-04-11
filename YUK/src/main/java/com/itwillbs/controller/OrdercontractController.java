@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -301,5 +302,21 @@ public class OrdercontractController {
 			return ResponseEntity.ok().body("{\"message\": \"등록 성공!\"}");
 //			return "ordercontract/contract";
 		}
+		
+//		@GetMapping("/orders")
+//		public String showOrders(Model model,OrdercontractDTO ordercontractDTO) {
+//			List<OrdercontractDTO> orderList = ordercontractService.getOrderList(ordercontractDTO);
+//			model.addAttribute("OrderList", orderList);
+//			System.out.println(orderList);
+//		    return "popup/orderpop"; // JSP 파일의 경로 (View의 이름)
+//		}
+//		@GetMapping("/contracts")
+//		public String showContracts(Model model,OrdercontractDTO ordercontractDTO) {
+//			List<OrdercontractDTO> contractList = ordercontractService.getContractList(ordercontractDTO);
+//			model.addAttribute("ContractList", contractList);
+//			System.out.println(contractList);
+//		    return "popup/orderpop"; // JSP 파일의 경로 (View의 이름)
+//		}
+//	
 		
 }
