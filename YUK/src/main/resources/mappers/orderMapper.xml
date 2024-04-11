@@ -145,7 +145,7 @@ order by ORD_CD desc
     </where>
    
 order by pro_cd desc 
-<!-- limit #{startRow},#{pageSize} -->
+limit #{startRow},#{pageSize}
 </select>
 <select id="getContractList2" resultType="com.itwillbs.domain.OrdercontractDTO">
     select PRO_NAME "pro_name", PRO_CD "pro_cd" , PRO_TYPE "pro_type", PRO_PRICE "pro_price"
@@ -163,7 +163,7 @@ order by pro_cd desc
      </where>
         
      order by pro_cd desc 
-<!-- limit #{startRow},#{pageSize} -->
+limit #{startRow},#{pageSize}
 </select>
 <select id="getClientList" resultType="com.itwillbs.domain.OrdercontractDTO">
     select CLI_CD "cli_cd", CLI_NAME "cli_name" 
@@ -177,7 +177,7 @@ order by pro_cd desc
 	</if>
      </where>
      order by cli_cd desc 
-<!-- limit #{startRow},#{pageSize} -->
+limit #{startRow},#{pageSize}
 </select>
 
 <select id="getSearchContractList" resultType="com.itwillbs.domain.OrdercontractDTO">
@@ -215,6 +215,7 @@ order by CON_CD desc
 	ORDER BY numbers_only DESC
 	LIMIT 1
 </select>
+
 
 <select id="getContractCount" resultType="java.lang.Integer">
 	select count(*)
@@ -270,6 +271,79 @@ order by CON_CD desc
 	FROM OUTBOUND
 	ORDER BY numbers_only DESC
 	LIMIT 1
+</select>
+
+<select id="getContractCount2" resultType="java.lang.Integer">
+    select count(*)    
+    from PRODUCT 
+  <where>
+      pro_type = 0
+      <if test="search1 != '' and search1 != null"  >
+		and PRO_CD like concat('%', #{search1}, '%')
+	</if>
+	<if test="search2 != '' and search2 != null ">
+		and PRO_NAME like concat('%', #{search2}, '%')
+	</if>
+	 </where>
+      order by pro_cd desc 
+</select>
+
+<select id="getOrderCount2" resultType="java.lang.Integer">
+     select count(*)    
+    from PRODUCT
+  <where>
+      pro_type != 0
+<!--       OR pro_type = 2 -->
+	<if test="search1 != '' and search1 != null"  >
+		and PRO_CD like concat('%', #{search1}, '%')
+	</if>
+	<if test="search2 != '' and search2 != null ">
+		and PRO_NAME like concat('%', #{search2}, '%')
+	</if>
+	<if test="search5 != '' and search5 != null and search5 != 4">
+		and PRO_TYPE like concat('%', #{search5}, '%')
+	</if>
+    </where>
+   order by pro_cd desc 
+</select>
+
+<select id="getClientCount" resultType="java.lang.Integer">
+     select count(*)    
+    from CLIENT
+  	<where>
+      <if test="search1 != '' and search1 != null"  >
+		and CLI_CD like concat('%', #{search1}, '%')
+	</if>
+	<if test="search2 != '' and search2 != null ">
+		and CLI_NAME like concat('%', #{search2}, '%')
+	</if>
+	</where>
+  order by cli_cd desc 
+</select>
+
+<select id="getContractform" resultType="com.itwillbs.domain.OrdercontractDTO">
+select c.CON_CD "con_cd", p.PRO_NAME "pro_name",p.PRO_CD "pro_cd", cl.CLI_NAME "cli_name",cl.CLI_CD"cli_cd", c.CON_VOL "con_vol",p.PRO_PRICE "pro_price",
+cl.CLI_CEO "cli_ceo",cl.CLI_BUSINESS_TYPE "cli_business_type",cl.CLI_CATEGORY "cli_category",cl.CLI_BASIC_ADDRESS "cli_basic_address",
+cl.CLI_TEL_NUMBER "cli_tel_number",cl.CLI_FAX_NUMBER "cli_fax_number",c.CON_DATE "con_date",c.CON_PAY_DATE "con_pay_date"
+
+from CONTRACT c join PRODUCT p
+on c.pro_cd = p.pro_cd 
+join CLIENT cl 
+on cl.cli_cd = c.cli_cd
+where c.con_cd = #{con_cd}
+
+</select>
+<select id="getOrderform" resultType="com.itwillbs.domain.OrdercontractDTO">
+select o.ORD_CD "ord_cd", p.PRO_NAME "pro_name",p.PRO_CD "pro_cd", cl.CLI_NAME "cli_name",cl.CLI_CD"cli_cd", o.ORD_VOL "ord_vol",p.PRO_PRICE "pro_price",
+cl.CLI_CEO "cli_ceo",cl.CLI_BUSINESS_TYPE "cli_business_type",cl.CLI_CATEGORY "cli_category",cl.CLI_BASIC_ADDRESS "cli_basic_address",
+cl.CLI_TEL_NUMBER "cli_tel_number",cl.CLI_FAX_NUMBER "cli_fax_number",o.ORD_DATE "ord_date",o.ORD_PAY_DATE "ord_pay_date"
+
+from ORDERS o join PRODUCT p
+on o.pro_cd = p.pro_cd 
+join CLIENT cl 
+on cl.cli_cd = o.cli_cd
+where o.ord_cd = #{ord_cd}
+
 </select>
 
 </mapper>

@@ -1,11 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>    
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="_csrf" content="${_csrf.token}"/>
+	<meta name="_csrf_header" content="${_csrf.headerName}"/>
 <title>요기육</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/bootstrap.css">
     
@@ -80,13 +83,13 @@
                                    <div class="col-md-14 col-13">
                                         <div class="form-group">
                                             <label for="email-id-column">납품일자</label>
-                                            <input type="DATE" id="ord_due_date" class="form-control" name="ord_due_date" placeholder="2024-00-00" value="${ordercontractDTO.ord_due_date}">
+                                            <input type="DATE" id="ord_due_date" class="form-control" name="ord_due_date" placeholder="2024-00-00" value="${dueDateString}">
                                         </div>
                                     </div>
                                     <div class="col-md-14 col-13">
                                         <div class="form-group">
                                             <label for="email-id-column">결제일자</label>
-                                            <input type="DATE" id="ord_pay_date" class="form-control" name="ord_pay_date" placeholder="2024-00-00" value="${ordercontractDTO.ord_pay_date}">
+                                            <input type="DATE" id="ord_pay_date" class="form-control" name="ord_pay_date" placeholder="2024-00-00" value="${payDateString}">
                                         </div>
                                     </div>
 
@@ -95,11 +98,19 @@
                             <div class="col-12 d-flex justify-content-end">
     
         <c:if test="${ordercontractDTO.ord_info_status eq 0}">
-            <button type="submit" class="btn btn-primary mr-1 mb-1">수정</button>
-            <button type="button" id="deleteOrd" class="btn btn-primary mr-1 mb-1" value="${ordercontractDTO.ord_cd}" data-ord_cd="${ordercontractDTO.ord_cd}">삭제</button>
+        <sec:authorize access="hasAnyRole('ROLE_OC', 'ROLE_ADMIN')">
+                 <button type="submit" class="btn btn-primary mr-1 mb-1">수정</button>
+                 <button type="button" id="deleteOrd" class="btn btn-primary mr-1 mb-1" value="${ordercontractDTO.ord_cd}" data-ord_cd="${ordercontractDTO.ord_cd}">삭제</button>
             <button type="reset" class="btn btn-primary mr-1 mb-1">초기화</button>
-        </c:if>
+</sec:authorize>
+<sec:authorize access="hasAnyRole('ROLE_PRODUCT', 'ROLE_BOUND', 'ROLE_PRODUCTION', 'ROLE_NONE')">
+                 <button type="button"  onclick="accessError()" class="btn btn-primary mr-1 mb-1">수정</button>
+                 <button type="button"  onclick="accessError()"class="btn btn-primary mr-1 mb-1" >삭제</button>
+            <button type="reset" class="btn btn-primary mr-1 mb-1">초기화</button>
+</sec:authorize>
+         </c:if>
         </div>
+        <input type="hidden" id="csrf" class="form-control" name="${_csrf.parameterName}" value="${_csrf.token}" >
 						</form>
                         </div>
                     </div>
@@ -167,13 +178,21 @@
 	                ord_due_date: $('#ord_due_date').val(),
 	                ord_pay_date: $('#ord_pay_date').val()
 	            }),
+	            beforeSend: function(xhr) {
+	                // CSRF 토큰과 헤더 이름 읽기
+	                var token = $('meta[name="_csrf"]').attr('content');
+	                var header = $('meta[name="_csrf_header"]').attr('content');
+	                
+	                // 요청 헤더에 CSRF 토큰 추가
+	                xhr.setRequestHeader(header, token);
+	            },
 	            success: function(response) {
 	                alert("등록 성공!");
 	                window.opener.location.reload();
 	                window.close();
 	            },
 	            error: function(xhr, status, error) {
-// 	                alert("등록 실패: " + error); // 에러 처리 부분
+	                alert("등록 실패: " + error); // 에러 처리 부분
 	            }
 	        });
 	    });
@@ -252,17 +271,53 @@
             contentType: "application/json", // 요청 컨텐츠 타입 명시 (옵션)
             dataType: "json", // 응답 데이터 타입 명시 (옵션)
             data:  JSON.stringify({ ord_cd: ord_cd }), // 서버로 전송할 데이터
-            	
+            beforeSend: function(xhr) {
+                // CSRF 토큰과 헤더 이름 읽기
+                var token = $('meta[name="_csrf"]').attr('content');
+                var header = $('meta[name="_csrf_header"]').attr('content');
+                
+                // 요청 헤더에 CSRF 토큰 추가
+                xhr.setRequestHeader(header, token);
+            },
             success: function(response) {
                 // 데이터베이스 저장 성공 후
                 window.opener.location.reload(); // 부모 창 새로고침
                 window.close(); // 팝업 창 닫기
             },
             error: function(xhr, status, error) {
-//                 alert("삭제 실패: " + error);
+                alert("삭제 실패: " + error);
             }
         });
     }
+</script>
+<script>
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    // 'pro_price' 값을 가져와서 콤마를 추가한 후 다시 설정합니다.
+    var proPriceInput = document.getElementById('pro_price');
+    var formattedPrice = numberWithCommas(proPriceInput.value);
+    proPriceInput.value = formattedPrice;
+});
+</script>
+<script>
+function accessError() {
+ Swal.fire({
+	  title: "권한이 없습니다.",
+	  icon:"error",
+	  width: 600,
+	  padding: "3em",
+	  color: "#FF0000",
+	  background: "#fff",
+	  backdrop: `
+	    rgba(ff,ff,ff,0)
+	    left top
+	    no-repeat
+	  `
+	});
+}
 </script>
 </body>
 </html>

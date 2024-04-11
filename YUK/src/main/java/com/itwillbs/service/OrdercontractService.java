@@ -194,8 +194,27 @@ import com.itwillbs.domain.PageDTO;
 		public void deleteOb(OrdercontractDTO ordercontractDTO) {
 			ordercontractDAO.deleteOb(ordercontractDTO);
 		}
+
+		public int getOrderCount2(PageDTO pageDTO) {
+			return ordercontractDAO.getOrderCount2(pageDTO);
+		}
+
+		public int getContractCount2(PageDTO pageDTO) {
+			return ordercontractDAO.getContractCount2(pageDTO);
+		}
+
+		public int getClientCount(PageDTO pageDTO) {
+			return ordercontractDAO.getClientCount(pageDTO);
+		}
 		
-		
+		public OrdercontractDTO getOrderform(OrdercontractDTO ordercontractDTO) {
+			
+			return ordercontractDAO.getOrderform(ordercontractDTO);
+		}
+		public OrdercontractDTO getContractform(OrdercontractDTO ordercontractDTO) {
+			
+			return ordercontractDAO.getContractform(ordercontractDTO);
+		}
 		
 		
 			

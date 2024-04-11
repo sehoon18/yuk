@@ -6,6 +6,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="_csrf" content="${_csrf.token}"/>
+	<meta name="_csrf_header" content="${_csrf.headerName}"/>
 <title>요기육</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/bootstrap.css">
     
@@ -25,7 +27,7 @@
 <section id="multiple-column-form" >
         <div class="row match-height" >
             <div   class="col-12">
-                <div class="card" style="box-shadow: none;">
+                <div class="card" style="box-shadow: none;" style="height:400px;">
 		  			<div class="card-header" style="margin-top: 30px;">
                         <h3 class="card-title">수주 등록</h3>
                     <hr>
@@ -86,9 +88,7 @@
                                 </div>
                                 </div>
                             
-
-
-							<div class="col-12 d-flex justify-content-end">
+								<input type="hidden" id="csrf" class="form-control" name="${_csrf.parameterName}" value="${_csrf.token}" ><div class="col-12 d-flex justify-content-end">
 							    <button type="submit" class="btn btn-primary mr-1 mb-1" >등록</button>
 							    <button type="reset" class="btn btn-light-secondary mr-1 mb-1">초기화</button>
 							</div>
@@ -160,6 +160,14 @@
 	                con_due_date: $('#con_due_date').val(),
 	                con_pay_date: $('#con_pay_date').val()
 	            }),
+	            beforeSend: function(xhr) {
+                    // CSRF 토큰과 헤더 이름 읽기
+                    var token = $('meta[name="_csrf"]').attr('content');
+                    var header = $('meta[name="_csrf_header"]').attr('content');
+                    
+                    // 요청 헤더에 CSRF 토큰 추가
+                    xhr.setRequestHeader(header, token);
+                },
 	            success: function(response) {
 	                alert("등록 성공!");
 	                window.opener.location.reload();
@@ -206,5 +214,6 @@
 	    }
 	});
 	</script>
+	
 </body>
 </html>

@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>    
-
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
+   <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 
+   <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -53,7 +54,7 @@
 	        <div class="card-body" style="padding: 5px;">
 	          <!-- Table with outer spacing -->
 	          <div class="table-responsive">
-	            <table class="table">
+	            <table class="table table-bordered mb-0" id="table1" style="text-align: center;">
 	              <thead>
 	                <tr>
 	                  <th>품목이름</th>
@@ -67,10 +68,9 @@
 					<tr>
 						<td>${OrdercontractDTO.pro_name }</td>
 						<td>${OrdercontractDTO.pro_cd }</td>
-						<td>${OrdercontractDTO.pro_price }</td>
+						<td><fmt:formatNumber value="${OrdercontractDTO.pro_price}" groupingUsed="true" maxFractionDigits="0"/></td>
 						<c:if test="${OrdercontractDTO.pro_type  == 0 }">
-                            <td><button class="btn icon icon-left btn-success" disabled><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>완제품</button></td>
-							</c:if>
+                            <td><button class="btn icon icon-left  btn-outline-success " disabled>완제품</button></td></c:if>
 					</tr>
 					</c:forEach>
 	              </tbody>
@@ -82,35 +82,31 @@
 	      </div>
 	      
 <!-- 			페이징 시작 -->
-<nav aria-label="Page navigation example">
+<nav aria-label="Page navigation example" style="padding: 10px 0px;">
     <ul class="pagination pagination-primary justify-content-end">
         <c:if test="${pageDTO.startPage > 1}">
             <li class="page-item">
-                <a class="page-link" href="${pageContext.request.contextPath}/popup/contractpop?pageNum=${pageDTO.startPage - 1}">Previous</a>
+                <a class="page-link" href="${pageContext.request.contextPath}/popup/contractpop?pageNum=${pageDTO.startPage - 1}&search1=${pageDTO.search1}&search2=${pageDTO.search2}"><span aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-left"><polyline points="15 18 9 12 15 6"></polyline></svg></span></a>
             </li>
         </c:if>
-        
         <c:if test="${pageDTO.startPage <= 1}">
             <li class="page-item disabled">
-                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                <a class="page-link" href="#" tabindex="-1" aria-disabled="true"><span aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-left"><polyline points="15 18 9 12 15 6"></polyline></svg></span></a>
             </li>
         </c:if>
-        
         <c:forEach var="i" begin="${pageDTO.startPage}" end="${pageDTO.endPage}" step="1">
             <li class="page-item ${pageDTO.currentPage == i ? 'active' : ''}">
-                <a class="page-link" href="${pageContext.request.contextPath}/popup/contractpop?pageNum=${i}">${i}</a>
+                <a class="page-link" href="${pageContext.request.contextPath}/popup/contractpop?pageNum=${i}&search1=${pageDTO.search1}&search2=${pageDTO.search2}">${i}</a>
             </li>
         </c:forEach>
-        
         <c:if test="${pageDTO.endPage < pageDTO.pageCount}">
             <li class="page-item">
-                <a class="page-link" href="${pageContext.request.contextPath}/popup/contractpop?pageNum=${pageDTO.endPage + 1}">Next</a>
+                <a class="page-link" href="${pageContext.request.contextPath}/popup/contractpop?pageNum=${pageDTO.endPage + 1}&search1=${pageDTO.search1}&search2=${pageDTO.search2}"><span aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg></span></a>
             </li>
         </c:if>
-        
         <c:if test="${pageDTO.endPage >= pageDTO.pageCount}">
             <li class="page-item disabled">
-                <a class="page-link" href="#">Next</a>
+                <a class="page-link" href="#"><span aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg></span></a>
             </li>
         </c:if>
     </ul>

@@ -149,7 +149,7 @@ public class PopupController {
 		System.out.println("PopupController orderpop()");
 		
 		
-				int pageSize = 10;
+				int pageSize = 5;
 				String pageNum = request.getParameter("pageNum");
 				if(pageNum == null) {
 					pageNum="1";
@@ -163,7 +163,7 @@ public class PopupController {
 				
 				List<OrdercontractDTO> orderList2 = ordercontractService.getOrderList2(pageDTO);
 				
-				int count =  ordercontractService.getOrderCount(pageDTO);
+				int count =  ordercontractService.getOrderCount2(pageDTO);
 				int pageBlock = 10;
 				int startPage = (currentPage - 1) / pageBlock * pageBlock + 1;
 				int endPage = startPage + pageBlock -1;
@@ -202,7 +202,7 @@ public class PopupController {
 		
 		List<OrdercontractDTO> contractList2 = ordercontractService.getContractList2(pageDTO);
 		
-		int count =  ordercontractService.getOrderCount(pageDTO);
+		int count =  ordercontractService.getContractCount2(pageDTO);
 		int pageBlock = 10;
 		int startPage = (currentPage - 1) / pageBlock * pageBlock + 1;
 		int endPage = startPage + pageBlock -1;
@@ -239,7 +239,7 @@ public class PopupController {
 		
 		List<OrdercontractDTO> clientList = ordercontractService.getClientList(pageDTO);
 		
-		int count =  ordercontractService.getOrderCount(pageDTO);
+		int count =  ordercontractService.getClientCount(pageDTO);
 		int pageBlock = 10;
 		int startPage = (currentPage - 1) / pageBlock * pageBlock + 1;
 		int endPage = startPage + pageBlock -1;
@@ -260,8 +260,6 @@ public class PopupController {
 		
 		return "popup/clientpop";
 	}
-	
-	
 	
 	@GetMapping("/whpop")
 	public String whpop(HttpServletRequest request, ProductionDTO productionDTO, Model model, PageDTO pageDTO) {
@@ -308,4 +306,21 @@ public class PopupController {
 		
 		return "popup/whpop";
 	}
+
+	@GetMapping("/orderform")
+	public String orderform(Model model,OrdercontractDTO ordercontractDTO) {
+		System.out.println("PopupController orderform()");
+		ordercontractDTO=ordercontractService.getOrderform(ordercontractDTO);
+		model.addAttribute("ordercontractDTO", ordercontractDTO);
+	    return "popup/orderform"; 
+	}
+	@GetMapping("/contractform")
+	public String contractform(Model model,OrdercontractDTO ordercontractDTO) {
+		System.out.println("PopupController contractform()");
+		ordercontractDTO=ordercontractService.getContractform(ordercontractDTO);
+		model.addAttribute("ordercontractDTO", ordercontractDTO);
+		System.out.println(ordercontractDTO);
+	    return "popup/contractform"; 
+	}
+	
 }

@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>    
-
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
+   <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 
+   <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,7 +15,7 @@
         }
 
         .container {
-            max-width: 800px;
+            max-width: 1000px;
             margin: 0 auto;
             padding: 20px;
             border: 2px solid #000;
@@ -75,29 +76,35 @@
         <div class="header">
             <h1>발주서</h1>
         </div>
-        <div class="order-info" data-items="${ContractList }">
+        <div class="order-info" >
             <table>
                 <tr>
                     <th>업체명</th>
-                    <td></td>
+                    <td>${ordercontractDTO.cli_name}</td>
                     <th>거래처대표</th>
-                    <td></td>
+                    <td>${ordercontractDTO.cli_ceo}</td>
                 </tr>
                 <tr>
                     <th>업태</th>
-                    <td></td>
+                    <td>${ordercontractDTO.cli_business_type}</td>
                     <th>종목</th>
-                    <td></td>
+                    <td>${ordercontractDTO.cli_category}</td>
                 </tr>
                 <tr> 
                     <th>주소</th>
-                    <td colspan="3"> </td>
+                    <td colspan="3">${ordercontractDTO.cli_basic_address} </td>
                 </tr>
                 <tr>
                     <th>전화번호</th>
-                    <td></td>
+                    <td>${ordercontractDTO.cli_tel_number}</td>
                     <th>FAX번호</th>
-                    <td></td>
+                    <td>${ordercontractDTO.cli_fax_number}</td>
+                </tr>
+                <tr>
+                    <th>발주일자</th>
+                    <td><fmt:formatDate value="${ordercontractDTO.ord_date}" pattern="yyyy.MM.dd"/></td>
+                    <th>결제일자</th>
+                    <td><fmt:formatDate value="${ordercontractDTO.ord_pay_date}" pattern="yyyy.MM.dd"/></td>
                 </tr>
             </table>
         </div>
@@ -113,16 +120,17 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>${OrdercontractDTO.pro_cd }</td>
-                    <td>${OrdercontractDTO.pro_name }</td>
-                    <td>${OrdercontractDTO.ord_vol }</td>
-                    <td>${OrdercontractDTO.pro_price }</td>
-                    <td>${OrdercontractDTO.pro_price*OrdercontractDTO.ord_vol }</td>
+                    <td>${ordercontractDTO.ord_cd }</td>
+                    <td>${ordercontractDTO.pro_name }</td>
+                    <td>${ordercontractDTO.ord_vol }</td>
+                    <td>${ordercontractDTO.pro_price }</td>
+                    <td><fmt:formatNumber value="${ordercontractDTO.pro_price * ordercontractDTO.ord_vol}" groupingUsed="true" maxFractionDigits="0"/></td>
                 </tr>
                 <!-- 다른 주문 항목들도 추가 -->
             </tbody>
         </table>
-        <p class="total">총금액: ${OrdercontractDTO.pro_price*OrdercontractDTO.ord_vol }</p>
+        <p class="total">총금액:<fmt:formatNumber value="${ordercontractDTO.pro_price * ordercontractDTO.ord_vol}" groupingUsed="true" maxFractionDigits="0"/></p>
+
     </div>
 </body>
 </html>

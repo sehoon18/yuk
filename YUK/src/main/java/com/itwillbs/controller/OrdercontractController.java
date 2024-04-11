@@ -1,6 +1,8 @@
 package com.itwillbs.controller;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -34,7 +36,7 @@ public class OrdercontractController {
 	//Ordercontract
 	@GetMapping("/order")
 	public String order(HttpServletRequest request,Model model,OrdercontractDTO ordercontractDTO, PageDTO pageDTO) {
-		System.out.println("MemberController order()");
+		System.out.println("OrdercontractController order()");
 		String search1 = request.getParameter("search1");
 		pageDTO.setSearch1(search1);
 		String search2 = request.getParameter("search2");
@@ -80,7 +82,7 @@ public class OrdercontractController {
 	}
 	@GetMapping("/contract")
 	public String contract(HttpServletRequest request,Model model,OrdercontractDTO ordercontractDTO, PageDTO pageDTO) {
-		System.out.println("MemberController contract()");
+		System.out.println("OrdercontractController contract()");
 		String search1 = request.getParameter("search1");
 		pageDTO.setSearch1(search1);
 		String search2 = request.getParameter("search2");
@@ -204,6 +206,7 @@ public class OrdercontractController {
 			}
 			ordercontractDTO.setOrd_cd(ord_cd);
 			model.addAttribute("ordercontractDTO", ordercontractDTO);
+//			return ResponseEntity.ok().body("{\"message\": \"등록 성공!\"}");
 			return "popup/orderaddpopup";
 		}
 		@GetMapping("/orderdeletepopup")
@@ -214,8 +217,16 @@ public class OrdercontractController {
 			
 			ordercontractDTO=ordercontractService.getOrder(ordercontractDTO);
 			
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		    String dueDateString = dateFormat.format(ordercontractDTO.getOrd_due_date());
+		    String payDateString = dateFormat.format(ordercontractDTO.getOrd_pay_date());
+		  
+		    
 			System.out.println(ordercontractDTO);
 			model.addAttribute("ordercontractDTO", ordercontractDTO);
+			 model.addAttribute("dueDateString", dueDateString);
+			 model.addAttribute("payDateString", payDateString);
+			
 			return "popup/orderdeletepopup";
 		}
 		
@@ -251,26 +262,34 @@ public class OrdercontractController {
 			ordercontractDTO.setCon_cd(con_cd);
 			
 			ordercontractDTO=ordercontractService.getContract(ordercontractDTO);
-			
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		    String dueDateString = dateFormat.format(ordercontractDTO.getCon_due_date());
+		    String payDateString = dateFormat.format(ordercontractDTO.getCon_pay_date());
+		  
+		    
 			System.out.println(ordercontractDTO);
 			model.addAttribute("ordercontractDTO", ordercontractDTO);
+			 model.addAttribute("dueDateString", dueDateString);
+			 model.addAttribute("payDateString", payDateString);
+
 			return "popup/contractdeletepopup";
 		}
 	
 		@PostMapping("/deleteOrder")
-		public String deleteOrder(  HttpServletRequest request,OrdercontractDTO ordercontractDTO) {
+		public ResponseEntity<String> deleteOrder(@RequestBody  OrdercontractDTO ordercontractDTO) {
 			System.out.println("OrdercontractController deleteorder()");
 			System.out.println(ordercontractDTO);
-			String ord_cd = request.getParameter("ord_cd");
-			ordercontractDTO.setOrd_cd(ord_cd);
+//			String ord_cd = request.getParameter("ord_cd");
+//			ordercontractDTO.setOrd_cd(ord_cd);
 			ordercontractService.deleteOrder(ordercontractDTO);
 			ordercontractService.deleteMib(ordercontractDTO);
 			System.out.println(ordercontractDTO);
 			
-			return "ordercontract/order";
+			return ResponseEntity.ok().body("{\"message\": \"등록 성공!\"}");
+//			return "ordercontract/order";
 		}
 		@PostMapping("/deleteContract")
-		public String deleteContract( HttpServletRequest request,OrdercontractDTO ordercontractDTO) {
+		public ResponseEntity<String> deleteContract(@RequestBody OrdercontractDTO ordercontractDTO) {
 			System.out.println("OrdercontractController deletecontract()");
 			System.out.println(ordercontractDTO);
 //			String con_cd = request.getParameter("con_cd");
@@ -279,22 +298,8 @@ public class OrdercontractController {
 			ordercontractService.deleteOb(ordercontractDTO);
 			System.out.println(ordercontractDTO);
 			
-//			return ResponseEntity.ok().body("{\"message\": \"등록 성공!\"}");
-			return "ordercontract/contract";
+			return ResponseEntity.ok().body("{\"message\": \"등록 성공!\"}");
+//			return "ordercontract/contract";
 		}
-//		@GetMapping("/orders")
-//		public String showOrders(Model model,OrdercontractDTO ordercontractDTO) {
-//			List<OrdercontractDTO> orderList = ordercontractService.getOrderList(ordercontractDTO);
-//			model.addAttribute("OrderList", orderList);
-//			System.out.println(orderList);
-//		    return "popup/orderpop"; // JSP 파일의 경로 (View의 이름)
-//		}
-//		@GetMapping("/contracts")
-//		public String showContracts(Model model,OrdercontractDTO ordercontractDTO) {
-//			List<OrdercontractDTO> contractList = ordercontractService.getContractList(ordercontractDTO);
-//			model.addAttribute("ContractList", contractList);
-//			System.out.println(contractList);
-//		    return "popup/orderpop"; // JSP 파일의 경로 (View의 이름)
-//		}
-//	
+		
 }

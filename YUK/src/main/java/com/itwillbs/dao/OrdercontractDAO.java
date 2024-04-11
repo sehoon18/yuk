@@ -94,6 +94,22 @@ import com.itwillbs.domain.PageDTO;
 		public Integer getObLastNum() {
 			return sqlSession.selectOne(namespace + ".getObLastNum");
 		}
-		
-		
+		public int getOrderCount2(PageDTO pageDTO) {
+			
+			return sqlSession.selectOne(namespace + ".getOrderCount2", pageDTO);
+		}
+		public int getContractCount2(PageDTO pageDTO) {
+			
+			return sqlSession.selectOne(namespace + ".getContractCount2", pageDTO);
+		}
+		public int getClientCount(PageDTO pageDTO) {
+			
+			return sqlSession.selectOne(namespace + ".getClientCount", pageDTO);
+		}
+		public OrdercontractDTO getOrderform(OrdercontractDTO ordercontractDTO) {
+			return sqlSession.selectOne(namespace+".getOrderform",ordercontractDTO);
+		}
+		public OrdercontractDTO getContractform(OrdercontractDTO ordercontractDTO) {
+			return sqlSession.selectOne(namespace+".getContractform",ordercontractDTO);
+		}
 }
