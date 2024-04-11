@@ -217,8 +217,8 @@
 		  icon:"error",
 		  width: 600,
 		  padding: "3em",
-		  color: "#000000",
-		  background: "#ffffff"
+		  color: "#FF0000",
+		  background: "#fff",
 		  backdrop: `
 		    rgba(ff,ff,ff,0)
 		    left top
