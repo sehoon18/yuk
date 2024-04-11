@@ -18,8 +18,8 @@
 	left join USER u
 	on m.user_id = u.user_id
 	<where>
-	<if test="search1 != null">m.mib_cd like CONCAT('%',#{search1},'%')</if>
-	<if test="search2 != null">and pr.pro_name like CONCAT('%',#{search2},'%')</if>
+	<if test="search1 != null and search1 != ''">m.mib_cd like CONCAT('%',#{search1},'%')</if>
+	<if test="search2 != null and search2 != ''">and pr.pro_name like CONCAT('%',#{search2},'%')</if>
 	<if test="search3 != '' and search4 != '' and search3 != null and search4 != null">
 								and m.mib_date between #{search3} and #{search4}</if>
 	<if test="search3 == '' and search4 != ''" >and m.mib_date &lt;= #{search4}</if>
@@ -47,8 +47,8 @@
 	left join USER u
 	on p.user_id = u.user_id
 	<where>
-	<if test="search5 != null">p.pib_cd like CONCAT('%',#{search5},'%')</if>
-	<if test="search6 != null">and pr.pro_name like CONCAT('%',#{search6},'%')</if>
+	<if test="search5 != null and search5 != ''">p.pib_cd like CONCAT('%',#{search5},'%')</if>
+	<if test="search6 != null and search6 != ''">and pr.pro_name like CONCAT('%',#{search6},'%')</if>
 	<if test="search7 != '' and search8 != '' and search7 != null and search8 != null">
 								and p.pib_date between #{search7} and #{search8}</if>
 	<if test="search7 == '' and search8 != ''" >and p.pib_date &lt;= #{search8}</if>
@@ -73,8 +73,8 @@
 	left join USER u
 	on m.user_id = u.user_id
 	<where>
-	<if test="search1 != null">m.mib_cd like CONCAT('%',#{search1},'%')</if>
-	<if test="search2 != null">and pr.pro_name like CONCAT('%',#{search2},'%')</if>
+	<if test="search1 != null and search1 != ''">m.mib_cd like CONCAT('%',#{search1},'%')</if>
+	<if test="search2 != null and search2 != ''">and pr.pro_name like CONCAT('%',#{search2},'%')</if>
 	<if test="search3 != '' and search4 != '' and search3 != null and search4 != null">
 								and m.mib_date between #{search3} and #{search4}</if>
 	<if test="search3 == '' and search4 != ''" >and m.mib_date &lt;= #{search4}</if>
@@ -99,8 +99,8 @@
 	left join USER u
 	on p.user_id = u.user_id
 	<where>
-	<if test="search5 != null">p.pib_cd like CONCAT('%',#{search5},'%')</if>
-	<if test="search6 != null">and pr.pro_name like CONCAT('%',#{search6},'%')</if>
+	<if test="search5 != null and search5 != ''">p.pib_cd like CONCAT('%',#{search5},'%')</if>
+	<if test="search6 != null and search6 != ''">and pr.pro_name like CONCAT('%',#{search6},'%')</if>
 	<if test="search7 != '' and search8 != '' and search7 != null and search8 != null">
 								and p.pib_date between #{search7} and #{search8}</if>
 	<if test="search7 == '' and search8 != ''" >and p.pib_date &lt;= #{search8}</if>
@@ -227,8 +227,8 @@
 	left join USER u
 	on o.user_id = u.user_id
 	<where>
-	<if test="search1 != null">o.ob_cd like CONCAT('%',#{search1},'%')</if>
-	<if test="search2 != null">and pr.pro_name like CONCAT('%',#{search2},'%')</if>
+	<if test="search1 != null and search1 != ''">o.ob_cd like CONCAT('%',#{search1},'%')</if>
+	<if test="search2 != null and search2 != ''">and pr.pro_name like CONCAT('%',#{search2},'%')</if>
 	<if test="search3 != '' and search4 != '' and search3 != null and search4 != null">
 								and o.ob_date between #{search3} and #{search4}</if>
 	<if test="search3 == '' and search4 != ''" >and o.ob_date &lt;= #{search4}</if>
@@ -253,8 +253,8 @@
 	left join USER u
 	on o.user_id = u.user_id
 	<where>
-	<if test="search1 != null">o.ob_cd like CONCAT('%',#{search1},'%')</if>
-	<if test="search2 != null">and pr.pro_name like CONCAT('%',#{search2},'%')</if>
+	<if test="search1 != null and search1 != ''">o.ob_cd like CONCAT('%',#{search1},'%')</if>
+	<if test="search2 != null and search2 != ''">and pr.pro_name like CONCAT('%',#{search2},'%')</if>
 	<if test="search3 != '' and search4 != '' and search3 != null and search4 != null">
 								and o.ob_date between #{search3} and #{search4}</if>
 	<if test="search3 == '' and search4 != ''" >and o.ob_date &lt;= #{search4}</if>
