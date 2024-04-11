@@ -6,8 +6,9 @@
 <mapper namespace="com.itwillbs.mappers.productMapper">
 
 <select id="getProductList" resultType="com.itwillbs.domain.ProductDTO">
-	select  PRO_CD "productCode", PRO_NAME "productName", PRO_TYPE "productType", PRO_ORIGIN "productOrigin", PRO_PRICE "productPrice"   
-	from PRODUCT
+	select  p.PRO_CD "productCode", p.PRO_NAME "productName", p.PRO_TYPE "productType", p.PRO_ORIGIN "productOrigin", p.PRO_PRICE "productPrice", w.WH_CD "whCode", w.WH_NAME "whName"   
+	from PRODUCT p left join WAREHOUSE w
+	on p.WH_CD = w.WH_CD
 	<where>
 	<if test="search1 != '' and search1 != null"  >
 	PRO_CD like concat('%', #{search1}, '%')
@@ -16,7 +17,7 @@
 	and PRO_NAME like concat('%', #{search2}, '%')
 	</if>
 	</where>
-	order by PRO_CD desc
+	order by p.PRO_CD desc
     limit #{startRow}, #{pageSize}
 </select>
 
@@ -87,8 +88,8 @@
 </select>
 
 <insert id="insertProduct">
-insert into PRODUCT(PRO_CD, PRO_NAME, PRO_PRICE, PRO_ORIGIN, PRO_TYPE)
-values(#{productCode}, #{productName}, #{productPrice}, #{productOrigin}, #{productType})
+insert into PRODUCT(PRO_CD, PRO_NAME, PRO_PRICE, PRO_ORIGIN, PRO_TYPE, WH_CD)
+values(#{productCode}, #{productName}, #{productPrice}, #{productOrigin}, #{productType}, #{whCode})
 </insert>
 
 <update id="updateProduct">

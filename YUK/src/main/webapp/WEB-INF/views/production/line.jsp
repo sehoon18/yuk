@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -44,14 +46,6 @@
             <div class="col-12 col-md-6 order-md-1 order-last">
                 <h3>라인 관리</h3>
             </div>
-<!--             <div class="col-12 col-md-6 order-md-2 order-first"> -->
-<!--                 <nav aria-label="breadcrumb" class='breadcrumb-header'> -->
-<!--                     <ol class="breadcrumb"> -->
-<!--                         <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li> -->
-<!--                         <li class="breadcrumb-item active" aria-current="page">Datatable</li> -->
-<!--                     </ol> -->
-<!--                 </nav> -->
-<!--             </div> -->
         </div>
     </div>
     <section class="section">
@@ -80,10 +74,18 @@
 			</div>
 			<form id="dataForm" class="insertLine" action="${pageContext.request.contextPath}/production/linePro" method="post">
             <div class="card-header" style="text-align: right; padding: 3px 22.4px 22.4px 22.4px;">
-			    <button type="button" onclick="addTableRow()" class='btn btn-primary' id="addrow">➕ 추가</button>
-			    <button type="button" onclick="modTableRow()" class='btn btn-primary' id="modify">↪️ 수정</button>
-			    <button type="button" onclick="delTableRow()" class='btn btn-primary' id="delete">⚠️ 삭제</button>
-			    <button type="submit" class='btn btn-primary' id="submitrow" disabled>💾 저장</button>
+            	<sec:authorize access="hasAnyRole('ROLE_PRODUCTION', 'ROLE_ADMIN')">
+				    <button type="button" onclick="addTableRow()" class='btn btn-primary' id="addrow">➕ 추가</button>
+				    <button type="button" onclick="modTableRow()" class='btn btn-primary' id="modify">↪️ 수정</button>
+				    <button type="button" onclick="delTableRow()" class='btn btn-primary' id="delete">⚠️ 삭제</button>
+				    <button type="submit" class='btn btn-primary' id="submitrow" disabled>💾 저장</button>
+				</sec:authorize>
+            	<sec:authorize access="hasAnyRole('ROLE_PRODUCT', 'ROLE_BOUND', 'ROLE_OC', 'ROLE_NONE')">
+				    <button type="button" onclick="accessError()" class='btn btn-primary'>➕ 추가</button>
+				    <button type="button" onclick="accessError()" class='btn btn-primary'>↪️ 수정</button>
+				    <button type="button" onclick="accessError()" class='btn btn-primary'>⚠️ 삭제</button>
+				    <button type="button" class='btn btn-primary' disabled>💾 저장</button>
+				</sec:authorize>
             </div>
 			    <table class='table table-bordered mb-0' id="table1">
 			        <thead>
@@ -191,11 +193,10 @@
         const rowId = table.rows.length; // 행 ID로 사용될 값
         var today = new Date();
 		var dateStr = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2); // 'YYYY-MM-DD' 형식으로 변환
-
-        
+		
         // 각 열에 대한 셀과 입력 필드 생성
         const fields = ['lineCode', 'lineName', 'update', 'name', 'lineStatus', '${_csrf.parameterName}'];
-        const exampleData = ['${productionDTO.lineCode}', '', dateStr, '', '0', '${_csrf.token}'];
+        const exampleData = ['${productionDTO.lineCode}', '', dateStr, '<sec:authentication property="principal.username"/>', '0', '${_csrf.token}'];
 
         fields.forEach((field, index) => {
             const cell = newRow.insertCell(index);
@@ -216,12 +217,21 @@
                 input = document.createElement("input");
                 input.type = "date";
                 input.className = "form-control";
-                
+            } else if(field === 'name'){
+                input = document.createElement("input");
+                input.type = "text";
+                input.className = "form-control";
+                input.readOnly = true; // 입력 필드를 읽기 전용으로 설정
             } else if(field === 'lineCode'){
                 input = document.createElement("input");
                 input.type = "text";
                 input.className = "form-control";
                 input.readOnly = true; // 입력 필드를 읽기 전용으로 설정
+            } else if(field === 'lineName'){
+                input = document.createElement("input");
+                input.type = "text";
+                input.className = "form-control";
+                input.id = "lineName1";
             }
             else if(field === '${_csrf.parameterName}'){
                 input = document.createElement("input");
@@ -544,35 +554,48 @@ document.addEventListener('DOMContentLoaded', function () {
 
 <script>
 // 추가 - 빈칸이 있을 때 알림
-// document.addEventListener('DOMContentLoaded', function() {
-//     var form = document.getElementById('dataForm');
+document.addEventListener('DOMContentLoaded', function() {
+    var form = document.getElementById('dataForm');
 
-//     if (form) { // 폼이 존재하는지 확인
-//         form.addEventListener('submit', function(e) {
-//             // 모든 'form-control' 클래스를 가진 입력 필드 검사
-//             var inputFields = document.querySelectorAll('.form-control');
-//             var isEmptyFieldPresent = Array.from(inputFields).some(function(input) {
-//                 return input.value.trim() === ''; // 비어있는 입력 필드가 있는지 확인
-//             });
+    if (form) { // 폼이 존재하는지 확인
+        form.addEventListener('submit', function(e) {
+            var inputField = document.querySelector('#lineName1'); // 단일 입력 필드 선택
+            if (inputField && inputField.value.trim() === '') { // 비어있는 입력 필드가 있는지 확인
+                Swal.fire({
+                    title: "빈칸을 채워주세요.",
+                    width: 600,
+                    padding: "3em",
+                    color: "#000", // 색상 값 수정
+                    background: "#fff",
+                    backdrop: `
+                        rgba(255, 255, 255, 0.4) // backdrop 색상 값 수정
+                        center
+                        no-repeat
+                    `
+                });
+                e.preventDefault(); // 폼 제출 중단
+            }
+        });
+    }
+});
+</script>
 
-//             if (isEmptyFieldPresent) { // 하나라도 비어있는 입력 필드가 있으면
-//                 Swal.fire({
-//                 	  title: "빈칸을 채워주세요.",
-//                 	  width: 600,
-//                 	  padding: "3em",
-//                 	  color: "#00ff0000",
-//                 	  background: "#fff",
-//                 	  backdrop: `
-//                 	    rgba(ff,ff,ff,0)
-//                 	    left top
-//                 	    no-repeat
-//                 	  `
-//                 	});
-//                 e.preventDefault(); // 폼 제출 중단
-//             }
-//         });
-//     }
-// });
+<script>
+function accessError() {
+ Swal.fire({
+	  title: "권한이 없습니다.",
+	  icon:"error",
+	  width: 600,
+	  padding: "3em",
+	  color: "#ff0000",
+	  background: "#fff",
+	  backdrop: `
+	    rgba(ff,ff,ff,0)
+	    left top
+	    no-repeat
+	  `
+	});
+}
 </script>
     
 </body>

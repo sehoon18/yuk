@@ -7,7 +7,9 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import com.itwillbs.dao.WarehouseDAO;
+import com.itwillbs.domain.PageDTO;
 import com.itwillbs.domain.ProductDTO;
+import com.itwillbs.domain.ProductionDTO;
 import com.itwillbs.domain.WarehouseDTO;
 
 @Service
@@ -81,6 +83,21 @@ public class WarehouseService {
 		
 		warehouseDAO.updateStock(warehouseDTO);
 		
+	}
+
+	public List<WarehouseDTO> getWhList(PageDTO pageDTO) {
+		
+		int startRow = (pageDTO.getCurrentPage() - 1) * pageDTO.getPageSize() + 1;
+		int EndRow = startRow + pageDTO.getPageSize() - 1;
+		
+		pageDTO.setStartRow(startRow -1);
+		pageDTO.setEndRow(EndRow);
+		
+		return warehouseDAO.getWhList(pageDTO);
+	}
+
+	public int getWhCount(PageDTO pageDTO) {
+		return warehouseDAO.getWhCount(pageDTO);
 	}
 
 

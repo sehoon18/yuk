@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.itwillbs.domain.OrdercontractDTO;
 import com.itwillbs.domain.PageDTO;
 import com.itwillbs.domain.ProductionDTO;
+import com.itwillbs.domain.WarehouseDTO;
 import com.itwillbs.service.OrdercontractService;
 import com.itwillbs.service.ProductionService;
+import com.itwillbs.service.WarehouseService;
 
 @Controller
 @RequestMapping("/popup/*")
@@ -23,6 +25,8 @@ public class PopupController {
 	private ProductionService productionService;
 	@Inject
 	private OrdercontractService ordercontractService;
+	@Inject
+	private WarehouseService warehouseService;
 
 	@GetMapping("/productpop")
 	public String contractpop(ProductionDTO productionDTO, Model model, PageDTO pageDTO, HttpServletRequest request) {
@@ -255,5 +259,53 @@ public class PopupController {
 		model.addAttribute("pageDTO", pageDTO);
 		
 		return "popup/clientpop";
+	}
+	
+	
+	
+	@GetMapping("/whpop")
+	public String whpop(HttpServletRequest request, ProductionDTO productionDTO, Model model, PageDTO pageDTO) {
+		System.out.println("popupcontroller/whpop()");
+
+		// 검색 기능
+		pageDTO.setSearch1(request.getParameter("search1"));
+		pageDTO.setSearch2(request.getParameter("search2"));
+
+		// 페이징
+		int pageSize = 5;
+		String pageNum = request.getParameter("pageNum");
+		if(pageNum == null) {
+			pageNum="1";
+		}
+		
+		int currentPage = Integer.parseInt(pageNum);
+		
+		pageDTO.setPageSize(pageSize);
+		pageDTO.setPageNum(pageNum);
+		pageDTO.setCurrentPage(currentPage);
+		
+		List<WarehouseDTO> whList = warehouseService.getWhList(pageDTO);
+		
+		int count =  warehouseService.getWhCount(pageDTO);
+		int pageBlock = 10;
+		int startPage = (currentPage - 1) / pageBlock * pageBlock + 1;
+		int endPage = startPage + pageBlock -1;
+		int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);
+		
+		if(endPage > pageCount) {
+			endPage = pageCount;
+		}
+		
+		pageDTO.setCount(pageCount);
+		pageDTO.setPageBlock(pageBlock);
+		pageDTO.setStartPage(startPage);
+		pageDTO.setEndPage(endPage);
+		pageDTO.setPageCount(pageCount);
+		
+		System.out.println(whList.get(0));
+		model.addAttribute("whList", whList);
+		model.addAttribute("pageDTO", pageDTO);
+		
+		return "popup/whpop";
 	}
 }

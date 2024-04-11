@@ -7,7 +7,9 @@ import javax.inject.Inject;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.itwillbs.domain.PageDTO;
 import com.itwillbs.domain.ProductDTO;
+import com.itwillbs.domain.ProductionDTO;
 import com.itwillbs.domain.WarehouseDTO;
 
 @Repository
@@ -65,6 +67,14 @@ public class WarehouseDAO {
 	public void updateStock(WarehouseDTO warehouseDTO) {
 		sqlSession.update(namespace + ".updateStock", warehouseDTO);
 		
+	}
+
+	public List<WarehouseDTO> getWhList(PageDTO pageDTO) {
+		return sqlSession.selectList(namespace + ".getWhList", pageDTO);
+	}
+
+	public int getWhCount(PageDTO pageDTO) {
+		return sqlSession.selectOne(namespace + ".getWhCount", pageDTO);
 	}
 
 

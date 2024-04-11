@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -46,16 +48,7 @@
         <div class="row">
             <div class="col-12 col-md-6 order-md-1 order-last">
                 <h3>실적 관리</h3>
-<!--                 <p class="text-subtitle text-muted">We use 'simple-datatables' made by @fiduswriter. You can check the full documentation <a href="https://github.com/fiduswriter/Simple-DataTables/wiki">here</a>.</p> -->
             </div>
-<!--             <div class="col-12 col-md-6 order-md-2 order-first"> -->
-<!--                 <nav aria-label="breadcrumb" class='breadcrumb-header'> -->
-<!--                     <ol class="breadcrumb"> -->
-<!--                         <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li> -->
-<!--                         <li class="breadcrumb-item active" aria-current="page">Datatable</li> -->
-<!--                     </ol> -->
-<!--                 </nav> -->
-<!--             </div> -->
         </div>
     </div>
     <section class="section">
@@ -149,10 +142,19 @@
 		    <h3 class="card-title" style="text-align: left;">실적입력</h3>
 		    <form id="dataForm1" class="insertLine" action="${pageContext.request.contextPath}/production/updatePer" method="post">
 		        <div style="display: flex;">
+		        <sec:authorize access="hasAnyRole('ROLE_PRODUCTION', 'ROLE_ADMIN')">
 		            <button type="button" onclick="addTableRow()" class='btn btn-primary' id="addrow" style="margin-left: 10px;">➕ 추가</button>
 		            <button type="button" onclick="modTableRow()" class='btn btn-primary' id="modify" style="margin-left: 10px;">↪️ 수정</button>
 		            <button type="button" onclick="delTableRow()" class='btn btn-primary' id="delete" style="margin-left: 10px;">⚠️ 삭제</button>
 		            <button type="submit" class='btn btn-primary' id="submitrow" disabled style="margin-left: 10px;">💾 저장</button>
+		        </sec:authorize>
+				<sec:authorize access="hasAnyRole('ROLE_PRODUCT', 'ROLE_BOUND', 'ROLE_OC', 'ROLE_NONE')">
+					<button type="button" onclick="accessError()" class='btn btn-primary' style="margin-left: 10px;">➕ 추가</button>
+		            <button type="button" onclick="accessError()" class='btn btn-primary' style="margin-left: 10px;">↪️ 수정</button>
+		            <button type="button" onclick="accessError()" class='btn btn-primary' style="margin-left: 10px;">⚠️ 삭제</button>
+		            <button type="button" class='btn btn-primary' disabled style="margin-left: 10px;">💾 저장</button>
+					
+		        </sec:authorize>
 		        </div>
 		    </form>
 		</div>
@@ -703,6 +705,23 @@
 	    modifyButton.onclick = delTableRow; // 클릭 이벤트를 canMod 함수로 변경
 	    
 	    document.getElementById('modify').disabled = false; // 삭제 버튼 다시 활성화
+	}
+	</script>
+	<script>
+	function accessError() {
+	 Swal.fire({
+		  title: "권한이 없습니다.",
+		  icon:"error",
+		  width: 600,
+		  padding: "3em",
+		  color: "#ff0000",
+		  background: "#fff",
+		  backdrop: `
+		    rgba(ff,ff,ff,0)
+		    left top
+		    no-repeat
+		  `
+		});
 	}
 	</script>
 </body>

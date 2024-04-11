@@ -15,6 +15,8 @@ public class ProductDTO {
 	private int requiredVol;			//소요량
 	private String name;
 	
+	private String whCode;
+	private String whName;
 	
 	
 	
@@ -104,6 +106,26 @@ public class ProductDTO {
 
 	public void setProductPName(String productPName) {
 		this.productPName = productPName;
+	}
+
+
+	public String getWhCode() {
+		return whCode;
+	}
+
+
+	public void setWhCode(String whCode) {
+		this.whCode = whCode;
+	}
+
+
+	public String getWhName() {
+		return whName;
+	}
+
+
+	public void setWhName(String whName) {
+		this.whName = whName;
 	}
 
 

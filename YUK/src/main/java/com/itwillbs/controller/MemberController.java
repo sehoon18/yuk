@@ -189,4 +189,6 @@ public class MemberController {
 		model.addAttribute("msg", "Access Denied");
 	}
 	
+	
+	
 }

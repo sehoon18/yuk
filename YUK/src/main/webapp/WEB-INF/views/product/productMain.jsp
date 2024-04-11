@@ -72,6 +72,8 @@
                 <th>품목코드</th>
                 <th>품명</th>
                 <th>단가</th>
+                <th>창고코드</th>
+                <th>창고명</th>
                 <th>원산지</th>
                 <th>품목구분</th>
                 <th style="display: none;"></th>
@@ -83,6 +85,8 @@
                 <td>${productDTO.productCode}</td>
                 <td>${productDTO.productName}</td>
                 <td>${productDTO.productPrice}</td>
+                <td>${productDTO.whCode}</td>
+                <td>${productDTO.whName}</td>
                 <td>${productDTO.productOrigin}</td>
                 <c:if test="${productDTO.productType == 0 }">
                 <td>완제품</td>
@@ -198,8 +202,8 @@
 
         
         // 각 열에 대한 셀과 입력 필드 생성
-        const fields = ['productCode', 'productName', 'productPrice', 'productOrigin', 'productType','${_csrf.parameterName}'];
-        const exampleData = ['${productionDTO.productCode}', '', '', '', '0','${_csrf.token}'];
+        const fields = ['productCode', 'productName', 'productPrice', 'whCode', 'whName', 'productOrigin', 'productType','${_csrf.parameterName}'];
+        const exampleData = ['${productionDTO.productCode}', '', '', '','', '', '0','${_csrf.token}'];
 
         fields.forEach((field, index) => {
             const cell = newRow.insertCell(index);
@@ -226,11 +230,28 @@
                 input.type = "text";
                 input.className = "form-control";
                 input.readOnly = true; // 입력 필드를 읽기 전용으로 설정
+            } 
+            else if(field === 'whCode'){
+            	input = document.createElement("input");
+                input.type = "text";
+                input.className = "form-control";
+                input.readOnly = true;
+                input.id = 'whCode';
+                input.addEventListener('click', openWhPopup);
+            }
+            else if(field === 'whName'){
+            	input = document.createElement("input");
+                input.type = "text";
+                input.className = "form-control";
+                input.readOnly = true;
+                input.id = 'whName';
+                input.addEventListener('click', openWhPopup);
             }
             else if(field === '${_csrf.parameterName}'){
                 input = document.createElement("input");
                 input.type = "hidden";
                 input.className = "form-control";
+                cell.style.display='none';
             }
             else {
                 input = document.createElement("input");
@@ -370,7 +391,7 @@
     function makeRowEditable(row) {
         isDelMode = false;
         originalHTML = {}; // 현재 행에 대한 원본 HTML 저장을 위해 객체 초기화
-        const cellIndex = [0, 1, 2, 3, 4, 5]; // 수정할 열 인덱스 (2열과 5열)
+        const cellIndex = [0, 1, 2, 3, 6, 7]; // 수정할 열 인덱스 (2열과 5열)
         cellIndex.forEach((index) => {
             const cell = row.cells[index];
             originalHTML[index] = cell.innerHTML; // 수정 전 원본 HTML을 저장
@@ -405,26 +426,27 @@
                 cell.appendChild(input);
             }
 	       // 4열(인덱스 3)의 경우, 텍스트 입력 필드를 생성
-			else if (index === 3) {
-                const input = document.createElement('input');
-                input.type = 'text';
-                input.name = 'productOrigin';
-                input.className = 'form-control';
-                input.value = originalText;
-                cell.innerHTML = '';
-                cell.appendChild(input);
-            }
+// 			else if (index === 3) {
+//                 const input = document.createElement('input');
+//                 input.type = 'text';
+//                 input.name = 'productOrigin';
+//                 input.className = 'form-control';
+//                 input.value = originalText;
+//                 cell.innerHTML = '';
+//                 cell.appendChild(input);
+//             }
 	       // 6열(인덱스 5)의 경우, 텍스트 입력 필드를 생성
-			else if (index === 5) {
+			else if (index === 7) {
                 const input = document.createElement('input');
                 input.type = 'hidden';
                 input.name = '${_csrf.parameterName}';
                 input.className = 'form-control';
                 input.value = '${_csrf.token}';
                 cell.appendChild(input);
+                cell.style.display='none';
             }
             // 5열(인덱스 4)의 경우, 선택 목록을 생성
-			else if (index === 4) {
+			else if (index === 6) {
                 const select = document.createElement('select');
                 select.name = 'productType';
                 select.className = 'form-select';
@@ -584,6 +606,26 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 </script>
+
+
+<script>
+  // 팝업에서 값을 받을 함수
+  function receiveValueFromPopup(whCode, whName) {
+    document.getElementById('whCode').value = whCode;
+    document.getElementById('whName').value = whName;
+  }
+
+  // 인풋 창을 클릭하면 팝업을 엽니다.
+  function openWhPopup() {
+    var popup = window.open("${pageContext.request.contextPath}/popup/whpop", "openProductPopup", "width=800,height=600");
+    
+    if (popup === null || typeof(popup) === 'undefined') {
+      alert('팝업이 차단되었습니다. 팝업 차단을 해제하고 다시 시도해주세요.');
+    }
+  }
+</script>
+
+
     
     
 </body>

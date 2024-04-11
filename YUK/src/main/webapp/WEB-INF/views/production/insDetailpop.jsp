@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <!DOCTYPE html>
 <html>
@@ -36,15 +37,29 @@
 <div style="display: flex; justify-content: space-between; align-items: center;">
     <h3 class="card-title">${productionDTO.instructionCode }</h3>
     <div>
+		<sec:authorize access="hasAnyRole('ROLE_PRODUCTION', 'ROLE_ADMIN')">
         <button type="submit" id="updateIns" class="btn btn-primary mr-1 mb-1" onclick="updateIns()" disabled>💾 저장</button>
         <c:if test="${productionDTO.instractionStatus == 0 }">
         <button type="button" id="modifyIns" class="btn btn-primary mr-1 mb-1" onclick="modifyIns()">↪️ 수정</button>
         <button type="button" id="deleteIns" class="btn btn-primary mr-1 mb-1" data-instruction-code="${productionDTO.instructionCode}">⚠️ 삭제</button>
         </c:if>
         <c:if test="${productionDTO.instractionStatus == 2 }">
-        <button type="button" id="modifyIns" class="btn btn-primary mr-1 mb-1" onclick="modifyIns()" disabled>↪️ 수정</button>
-        <button type="button" id="deleteIns" class="btn btn-primary mr-1 mb-1" data-instruction-code="${productionDTO.instructionCode}" disabled>⚠️ 삭제</button>
+        <button type="button" id="" class="btn btn-primary mr-1 mb-1" disabled>↪️ 수정</button>
+        <button type="button" id="" class="btn btn-primary mr-1 mb-1" disabled>⚠️ 삭제</button>
         </c:if>
+		</sec:authorize>
+		
+		<sec:authorize access="hasAnyRole('ROLE_PRODUCT', 'ROLE_BOUND', 'ROLE_OC', 'ROLE_NONE')">
+        <button type="submit" class="btn btn-primary mr-1 mb-1" onclick="accessError()" disabled>💾 저장</button>
+        <c:if test="${productionDTO.instractionStatus == 0 }">
+        <button type="button" class="btn btn-primary mr-1 mb-1" onclick="accessError()">↪️ 수정</button>
+        <button type="button" class="btn btn-primary mr-1 mb-1" onclick="accessError()">⚠️ 삭제</button>
+        </c:if>
+        <c:if test="${productionDTO.instractionStatus == 2 }">
+        <button type="button" class="btn btn-primary mr-1 mb-1" disabled>↪️ 수정</button>
+        <button type="button" class="btn btn-primary mr-1 mb-1" disabled>⚠️ 삭제</button>
+        </c:if>
+		</sec:authorize>
     </div>
 </div>
                     <hr>
@@ -312,5 +327,22 @@
 	}
 	</script>
 	
+	<script>
+	function accessError() {
+	 Swal.fire({
+		  title: "권한이 없습니다.",
+		  icon:"error",
+		  width: 600,
+		  padding: "3em",
+		  color: "#ff0000",
+		  background: "#fff",
+		  backdrop: `
+		    rgba(ff,ff,ff,0)
+		    left top
+		    no-repeat
+		  `
+		});
+	}
+	</script>
 </body>
 </html>

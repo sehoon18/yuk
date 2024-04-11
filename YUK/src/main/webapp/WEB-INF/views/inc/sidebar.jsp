@@ -18,6 +18,21 @@
      <h4><b><sec:authentication property="principal.username"/>  </b></h4>
      </div>
      <div style="text-align: center;">
+	<sec:authorize access="hasRole('ROLE_ADMIN')">
+	    <b>관리자</b>
+	</sec:authorize>
+	<sec:authorize access="hasRole('ROLE_BOUND')">
+	    <b>입출고</b>
+	</sec:authorize>
+	<sec:authorize access="hasRole('ROLE_PRODUCT')">
+	    <b>품목/거래처</b>
+	</sec:authorize>
+	<sec:authorize access="hasRole('ROLE_OC')">
+	    <b>수주/발주</b>
+	</sec:authorize>
+	<sec:authorize access="hasRole('ROLE_PRODUCTION')">
+	    <b>지시/실적/라인</b>
+	</sec:authorize>
 <%--      <c:if test="${sessionScope.permission == 0}"> --%>
 <!--      <b>권한 : 관리자 </b> -->
 <%--      </c:if> --%>
@@ -35,13 +50,16 @@
 <%--      </c:if> --%>
      
      </div>
+<!-- 로그아웃 -->
   	 <form action="${pageContext.request.contextPath}/member/logout" method="post">
      <div class="dropdown-item">
+     <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
      <button type="submit" style="border: none; outline:none; background: none; padding: 0; margin: 0; cursor: pointer; width: 100%;">
      <i data-feather="log-out"></i> <b>로그아웃</b>
      </button>
      </div>
      </form>
+<!-- 로그아웃 -->
                           
     <div class="sidebar-menu">
         <ul class="menu">

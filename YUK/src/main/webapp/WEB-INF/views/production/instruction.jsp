@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -88,9 +90,16 @@
 					<button class="btn btn-primary btn-sm" type="submit">조회</button>
 				</div>
 			</form>
+			<sec:authorize access="hasAnyRole('ROLE_PRODUCTION', 'ROLE_ADMIN')">
 				<button onclick="openPopup()" class="btn btn-info" >
 					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg> 추가
 				</button>
+			</sec:authorize>
+			<sec:authorize access="hasAnyRole('ROLE_PRODUCT', 'ROLE_BOUND', 'ROLE_OC', 'ROLE_NONE')">
+				<button onclick="accessError()" class="btn btn-info" >
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg> 추가
+				</button>
+			</sec:authorize>
 				<button onclick="saveExcel()" class="btn btn-info">💿엑셀저장</button>
             </div>
                 <table class='table table-bordered mb-0' id="table1">
@@ -127,13 +136,20 @@
                             </c:if>
                             </td>
 							<c:if test="${productionDTO.instractionStatus == 0 }">
-                            <td><button class="btn icon icon-left btn-success" onclick="statusSwitch(event, '${productionDTO.instructionCode}')"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>확인</button></td>
-                            </c:if>
-							<c:if test="${productionDTO.instractionStatus == 1 }">
-                            <td><button class="btn icon icon-left btn-success" onclick="statusSwitch(event, '${productionDTO.instructionCode}')"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>완료</button></td>
-                            </c:if>
+							<td>
+							<sec:authorize access="hasAnyRole('ROLE_PRODUCTION', 'ROLE_ADMIN')">
+							<button class="btn icon icon-left btn-success" onclick="statusSwitch(event, '${productionDTO.instructionCode}')"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>확인</button>
+							</sec:authorize>
+            				<sec:authorize access="hasAnyRole('ROLE_PRODUCT', 'ROLE_BOUND', 'ROLE_OC', 'ROLE_NONE')">
+							<button class="btn icon icon-left btn-success" onclick="accessError1(event)"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>확인</button>
+							</sec:authorize>
+							</td>
+							</c:if>
+<%-- 							<c:if test="${productionDTO.instractionStatus == 1 }"> --%>
+<%-- 							<td><button class="btn icon icon-left btn-success" onclick="statusSwitch(event, '${productionDTO.instructionCode}')"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>완료</button></td> --%>
+<%-- 							</c:if> --%>
 							<c:if test="${productionDTO.instractionStatus == 2 }">
-                            <td><button class="btn icon icon-left btn-outline-success" onclick="statusSwitch(event, '${productionDTO.instructionCode}')" disabled><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>완료</button></td>
+							<td><button class="btn icon icon-left btn-outline-success" disabled><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>완료</button></td>
 							</c:if>
                         </tr>
                         </c:forEach>
@@ -323,6 +339,43 @@
 	  XLSX.writeFile(wb, '작업지시서.xlsx');
 	}
 	</script>
-
+	
+	<script>
+	function accessError() {
+	 Swal.fire({
+		  title: "권한이 없습니다.",
+		  icon:"error",
+		  width: 600,
+		  padding: "3em",
+		  color: "#ff0000",
+		  background: "#fff",
+		  backdrop: `
+		    rgba(ff,ff,ff,0)
+		    left top
+		    no-repeat
+		  `
+		});
+	}
+	</script>
+	<script>
+	function accessError1(event) {
+	    // 이벤트 버블링을 막음
+	    event.stopPropagation();
+		Swal.fire({
+			  title: "권한이 없습니다.",
+			  icon:"error",
+			  width: 600,
+			  padding: "3em",
+			  color: "#ff0000",
+			  background: "#fff",
+			  backdrop: `
+			    rgba(ff,ff,ff,0)
+			    left top
+			    no-repeat
+			  `
+		});
+	}
+	</script>
+	
 </body>
 </html>

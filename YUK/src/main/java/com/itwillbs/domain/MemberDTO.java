@@ -69,7 +69,6 @@ public class MemberDTO {
 		return authList;
 	}
 
-
 	public void setAuthList(List<AuthDTO> authList) {
 		this.authList = authList;
 	}

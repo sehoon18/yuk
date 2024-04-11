@@ -143,6 +143,32 @@
   	WHERE PRO_VOL = #{productVol}
   </update>
   
- 
+  <select id="getWhList" resultType="com.itwillbs.domain.WarehouseDTO">
+	select WH_CD "warehouseCode", WH_NAME "warehouseName", WH_AREA "warehouseArea", WH_MVOL "warehouseMvol", WH_LOCAL "warehouseLocal", WH_TEL_NUMBER "warehouseTelNumber"
+	from WAREHOUSE
+  <where>
+	<if test="search1 != '' and search1 != null"  >
+	WH_CD like concat('%', #{search1}, '%')
+	</if>
+	<if test="search2 != '' and search2 != null ">
+	and WH_NAME like concat('%', #{search2}, '%')
+	</if>
+  </where>
+	order by WH_CD desc
+	limit #{startRow}, #{pageSize}
+  </select>
+  
+  <select id="getWhCount" resultType="java.lang.Integer">
+	select count(*)
+	from WAREHOUSE
+  <where>
+	<if test="search1 != '' and search1 != null"  >
+	and WH_CD like concat('%', #{search1}, '%')
+	</if>
+	<if test="search2 != '' and search2 != null ">
+	and WH_NAME like concat('%', #{search2}, '%')
+	</if>
+  </where>
+  </select>
   
   </mapper>
