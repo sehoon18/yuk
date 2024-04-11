@@ -11,18 +11,46 @@
   	values (#{warehouseCode}, #{warehouseName}, #{warehouseArea}, #{warehouseMvol}, #{warehouseLocal}, #{warehouseTelNumber})
   </insert>
   
+<!--   <select id="getWarehouseList" resultType="com.itwillbs.domain.WarehouseDTO"> -->
+<!--   	select sum(p.PRO_VOL) as "productSvol", w.WH_CD "warehouseCode", w.WH_NAME "warehouseName", w.WH_AREA "warehouseArea", w.WH_MVOL "warehouseMvol", w.WH_LOCAL "warehouseLocal", w.WH_TEL_NUMBER "warehouseTelNumber" -->
+<!--   	from WAREHOUSE w left join PRODUCT p -->
+<!--   	on w.WH_CD = p.WH_CD -->
+<!--   	<where> -->
+<!--   	<if test="warehouseCode != '' and warehouseCode != null"> -->
+<!--   	w.WH_CD like concat('%', #{warehouseCode},'%') -->
+<!--   	</if> -->
+<!--   	<if test="warehouseName != '' and warehouseName != null"> -->
+<!--   	and w.WH_NAME like concat('%', #{warehouseName}, '%') -->
+<!--   	</if> -->
+<!--   	<if test="warehouseLocal != '' and warehouseLocal != null"> -->
+<!--   	and w.WH_LOCAL like concat('%', #{warehouseLocal}, '%') -->
+<!--   	</if> -->
+<!--   	</where> -->
+<!--   	group by w.WH_CD, w.WH_NAME, w.WH_AREA, w.WH_MVOL, w.WH_LOCAL, w.WH_TEL_NUMBER -->
+<!--   	order by w.WH_CD desc -->
+<!--   	limit #{startRow}, #{pageSize} -->
+<!--   </select> -->
+  
+<!--   <select id="getWarehouseList1" resultType="map"> -->
+<!--   	select w.WH_CD "warehouseCode" -->
+<!--   	from WAREHOUSE w left join PRODUCT p -->
+<!--   	on w.WH_CD = p.WH_CD -->
+<!--   	order by w.WH_CD desc -->
+<!--   	limit #{startRow}, #{pageSize} -->
+<!--   </select> -->
+  
   <select id="getWarehouseList" resultType="map">
-  	select sum(p.PRO_VOL) as "productVol", w.WH_CD "warehouseCode", w.WH_NAME "warehouseName", w.WH_AREA "warehouseArea", w.WH_MVOL "warehouseMvol", w.WH_LOCAL "warehouseLocal", w.WH_TEL_NUMBER "warehouseTelNumber"
+	select sum(p.PRO_VOL) as "productVol", w.WH_CD "warehouseCode", w.WH_NAME "warehouseName", w.WH_AREA "warehouseArea", w.WH_MVOL "warehouseMvol", w.WH_LOCAL "warehouseLocal", w.WH_TEL_NUMBER "warehouseTelNumber"
   	from WAREHOUSE w left join PRODUCT p
   	on w.WH_CD = p.WH_CD
   	<where>
-  	<if test="warehouseCode != null">
+  	<if test="warehouseCode != '' and warehouseCode != null">
   	w.WH_CD like concat('%', #{warehouseCode},'%')
   	</if>
-  	<if test="warehouseName != null">
+  	<if test="warehouseName != '' and warehouseName != null">
   	and w.WH_NAME like concat('%', #{warehouseName}, '%')
   	</if>
-  	<if test="warehouseLocal != null">
+  	<if test="warehouseLocal != '' and warehouseLocal != null">
   	and w.WH_LOCAL like concat('%', #{warehouseLocal}, '%')
   	</if>
   	</where>
@@ -30,23 +58,21 @@
   	order by w.WH_CD desc
   </select>
   
-  <select id="getSearchWarehouseList" resultType="map">
-	select sum(p.PRO_VOL) as "productVol", w.WH_CD "warehouseCode", w.WH_NAME "warehouseName", w.WH_AREA "warehouseArea", w.WH_MVOL "warehouseMvol", w.WH_LOCAL "warehouseLocal", w.WH_TEL_NUMBER "warehouseTelNumber"
+  <select id="getWarehouseCount" resultType="java.lang.Integer">
+    select sum(p.PRO_VOL) as "productSvol", w.WH_CD "warehouseCode", w.WH_NAME "warehouseName", w.WH_AREA "warehouseArea", w.WH_MVOL "warehouseMvol", w.WH_LOCAL "warehouseLocal", w.WH_TEL_NUMBER "warehouseTelNumber"
   	from WAREHOUSE w left join PRODUCT p
   	on w.WH_CD = p.WH_CD
   	<where>
-  	<if test="warehouseCode != null">
+  	<if test="warehouseCode != '' and warehouseCode != null">
   	w.WH_CD like concat('%', #{warehouseCode},'%')
   	</if>
-  	<if test="warehouseName != null">
+  	<if test="warehouseName != '' and warehouseName != null">
   	and w.WH_NAME like concat('%', #{warehouseName}, '%')
   	</if>
-  	<if test="warehouseLocal != null">
+  	<if test="warehouseLocal != '' and warehouseLocal != null">
   	and w.WH_LOCAL like concat('%', #{warehouseLocal}, '%')
   	</if>
   	</where>
-  	group by w.WH_CD
-  	order by w.WH_CD desc
   </select>
   
   <update id="updateWarehouse">
@@ -81,66 +107,118 @@
   	values (#{warehouseCode}, #{warehouseName}, #{warehouseArea}, #{warehouseMvol}, #{warehouseLocal}, #{warehouseTelNumber})
   </insert>
   
-  <select id="getStockList" resultType="map">
-	select p.PRO_CD "productCode", p.PRO_NAME "productName", p.PRO_TYPE "productType", p.PRO_VOL "productVol", w.WH_CD "warehouseCode", w.WH_NAME "warehouseName", w.WH_AREA "warehouseArea", w.WH_MVOL "warehouseMvol"
-  	from WAREHOUSE w inner join PRODUCT p
-  	on w.WH_CD = p.WH_CD
-  	<where>
-  	<if test="productCode != null">
-  	w.WH_CD like concat('%', #{productCode},'%')
-  	</if>
-  	<if test="productName != null">
-  	and w.WH_NAME like concat('%', #{productName}, '%')
-  	</if>
-  	<if test="warehouseName != null">
-  	and w.WH_LOCAL like concat('%', #{warehouseName}, '%')
-  	</if>
-  	</where>
-  	order by p.PRO_CD desc
-  </select>
+<!--   <select id="getStockList" resultType="com.itwillbs.domain.warehouseDTO"> -->
+<!--   	select p.PRO_CD "productCode", p.PRO_NAME "productName", p.PRO_TYPE "productType", p.PRO_VOL "productVol", w.WH_CD "warehouseCode", w.WH_NAME "warehouseName", w.WH_AREA "warehouseArea", w.WH_MVOL "warehouseMvol" -->
+<!--   	from WAREHOUSE w inner join RRODUCT p -->
+<!--   	on w.WH_CD = p.WH_CD -->
+<!--   	<where> -->
+<!--   	<if test="productCode != '' and productCode != null"> -->
+<!--   	p.PRO_CD like concat('%', ) -->
+<!--   	</if> -->
+<!--   	</where> -->
   
-  <select id="getSearchStockList" resultType="map">
-  	select p.PRO_CD "productCode", p.PRO_NAME "productName", p.PRO_TYPE "productType", p.PRO_VOL "prodcutVol", w.WH_CD "warehouseCode", w.WH_NAME "warehouseName", w.WH_AREA "warehouseArea", w.WH_MVOL "warehouseMvol"
+<!--   </select> -->
+  
+  
+  
+  
+<!--   <select id="getStockList" resultType="com.itwillbs.domain.WarehouseDTO"> -->
+<!-- 	select p.PRO_CD "productCode", p.PRO_NAME "productName", p.PRO_TYPE "productType", sum(p.PRO_VOL) "productSvol", w.WH_CD "warehouseCode", w.WH_NAME "warehouseName", w.WH_AREA "warehouseArea", w.WH_MVOL "warehouseMvol" -->
+<!--   	from WAREHOUSE w inner join PRODUCT p -->
+<!--   	on w.WH_CD = p.WH_CD -->
+<!--   	<where> -->
+<!--   	<if test="productCode != '' and productCode != null"> -->
+<!--   	p.PRO_CD like concat('%', #{productCode},'%') -->
+<!--   	</if> -->
+<!--   	<if test="productName != '' and productName != null"> -->
+<!--   	and p.PRO_NAME like concat('%', #{productName}, '%') -->
+<!--   	</if> -->
+<!--   	<if test="warehouseName != '' and warehouseName != null"> -->
+<!--   	and w.WH_NAME like concat('%', #{warehouseName}, '%') -->
+<!--   	</if> -->
+<!--   	<if test="productType != '' and productType != null and productType != 100"> -->
+<!-- 	and p.PRO_TYPE = #{productType} -->
+<!--     </if> -->
+<!--   	</where> -->
+<!--   	group by p.PRO_CD -->
+<!--   	order by p.PRO_CD desc -->
+<!--   	limit #{startRow}, #{pageSize} -->
+<!--   </select> -->
+  
+  
+<!--     <select id="getStockCount" > -->
+<!--     select p.PRO_CD "productCode", p.PRO_NAME "productName", p.PRO_TYPE "productType", w.WH_CD "warehouseCode", w.WH_NAME "warehouseName", p.PRO_VOL "productVol", w.WH_AREA "warehouseArea", w.WH_MVOL "warehouseMvol" -->
+<!--   	from WAREHOUSE w inner join PRODUCT p -->
+<!--   	on w.WH_CD = p.WH_CD -->
+<!--   	<where> -->
+<!--   	<if test="productCode != '' and productCode != null"> -->
+<!--   	p.PRO_CD like concat('%', #{productCode},'%') -->
+<!--   	</if> -->
+<!--   	<if test="productName != '' and productName != null"> -->
+<!--   	and p.PRO_NAME like concat('%', #{productName}, '%') -->
+<!--   	</if> -->
+<!--   	<if test="warehouseName != '' and warehouseName != null"> -->
+<!--   	and w.WH_NAME like concat('%', #{warehouseName}, '%') -->
+<!--   	</if> -->
+<!--   	<if test="productType != '' and productType != null and productType != 100"> -->
+<!-- 	and p.PRO_TYPE = #{productType} -->
+<!--     </if> -->
+<!--   	</where> -->
+<!--   </select> -->
+  
+  	<select id="productLastNum">
+	SELECT REGEXP_REPLACE(WH_CD, '[^0-9]', '') AS numbers_only
+	FROM WAREHOUSE
+	ORDER BY numbers_only DESC
+	LIMIT 1
+	</select>
+  
+  <select id="getStockList" resultType="map">
+  	select p.PRO_CD "productCode", p.PRO_NAME "productName", p.PRO_TYPE "productType", p.PRO_VOL "productVol", w.WH_CD "warehouseCode", w.WH_NAME "warehouseName", w.WH_AREA "warehouseArea", w.WH_MVOL "warehouseMvol"
   	from WAREHOUSE w inner join PRODUCT p
   	on w.WH_CD = p.WH_CD
   	<where>
-  	<if test="productCode != null">
+  	<if test="productCode != '' and productCode != null">
   	p.PRO_CD like concat('%',#{productCode},'%' )
   	</if>
-  	<if test="productName != null">
+  	<if test="productName != '' and productName != null">
   	and p.PRO_NAME like concat('%', #{productName}, '%')
   	</if>
-  	<if test="warehouseName != null">
+  	<if test="warehouseName != '' and warehouseName != null">
   	and w.WH_NAME like concat('%', #{warehouseName}, '%')
   	</if>
-  	<if test="productType != 100">
+  	<if test="productType != '' and productType != null and productType != 100">
 	and p.PRO_TYPE = #{productType}
 	</if>
   	</where>
-  	order by w.WH_CD desc
-  </select>
-  
-  <select id="getStockCodeList" resultType="map">
-  	select p.PRO_CD "productCode", p.PRO_NAME "productName", p.PRO_VOL "prodcutVol", w.WH_CD "warehouseCode", w.WH_NAME "warehouseName", w.WH_AREA "warehouseArea", w.WH_MVOL "warehouseMvol"
-  	from WAREHOUSE w join PRODUCT p
-  	<where>
-  	<if test="productCode != null">
-  	p.PRO_CD like concat('%',#{productCode},'%' )
-  	</if>
-  	<if test="productName != null">
-  	and p.PRO_NAME like concat('%', #{productName}, '%')
-  	</if>
-  	<if test="warehouseName != null">
-  	and w.WH_NAME like concat('%', #{warehouseName}, '%')
-  	</if>
-  	</where>
   	order by p.PRO_CD desc
   </select>
+  
+<!--   <select id="getStockCodeList" resultType="com.itwillbs.domain.WarehouseDTO"> -->
+<!--   	select p.PRO_CD "productCode", p.PRO_NAME "productName", p.PRO_VOL "productVol", w.WH_CD "warehouseCode", w.WH_NAME "warehouseName", w.WH_AREA "warehouseArea", w.WH_MVOL "warehouseMvol" -->
+<!--   	from WAREHOUSE w join PRODUCT p -->
+<!--   	<where> -->
+<!--   	<if test="productCode != '' and productCode != null"> -->
+<!--   	p.PRO_CD like concat('%',#{productCode},'%' ) -->
+<!--   	</if> -->
+<!--   	<if test="productName != '' and productName != null"> -->
+<!--   	and p.PRO_NAME like concat('%', #{productName}, '%') -->
+<!--   	</if> -->
+<!--   	<if test="warehouseName != '' and warehouseName != null"> -->
+<!--   	and w.WH_NAME like concat('%', #{warehouseName}, '%') -->
+<!--   	</if> -->
+<!--   	<if test="productType != '' and productType != null and productType != 100"> -->
+<!-- 	and p.PRO_TYPE = #{productType} -->
+<!-- 	</if> -->
+<!--   	</where> -->
+<!--   	order by p.PRO_CD desc -->
+<!--   	limit #{startRow}, #{pageSize} -->
+<!--   </select> -->
   
   <update id="updateStock">
   	update PRODUCT
   	set PRO_VOL = #{productVol}
-  	WHERE PRO_VOL = #{productVol}
+  	WHERE PRO_CD = #{productCode}
   </update>
   
   <select id="getWhList" resultType="com.itwillbs.domain.WarehouseDTO">
@@ -171,4 +249,23 @@
   </where>
   </select>
   
+  <select id="getWh_stockFromWh_cd" resultType="java.lang.Integer">
+	select PRO_VOL as "productVol"
+	from PRODUCT
+	where PRO_CD = #{productCode}
+  </select>
+	
+  <select id="collectStockList" resultType="com.itwillbs.domain.WarehouseDTO">
+	select p.PRO_CD "productCode", p.PRO_VOL "productVol", w.WH_CD "warehouseCode", w.WH_MVOL "warehouseMvol"
+	from WAREHOUSE w inner join PRODUCT p
+  	on w.WH_CD = p.WH_CD
+  	where p.PRO_CD = #{productCode}
+  </select>
+ 
+  <update id="resultVol">
+	update PRODUCT
+	set PRO_VOL = #{realAmount}
+	where PRO_CD = #{productCode}
+  </update>
+ 
   </mapper>

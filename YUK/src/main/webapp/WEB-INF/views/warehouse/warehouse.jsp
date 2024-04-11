@@ -87,7 +87,7 @@
               <tr class="color" >
                 <td>${warehouseDTO.warehouseCode }</td>
                 <td>${warehouseDTO.warehouseName }</td>
-                <td>${warehouseDTO.productVol }</td>
+                <td>${warehouseDTO.productSvol }</td>
                 <td>${warehouseDTO.warehouseMvol }</td>
                 <td>${warehouseDTO.warehouseArea }</td>
                 <td>${warehouseDTO.warehouseLocal }</td>
@@ -98,58 +98,91 @@
             </tbody>
           </table>
           
-           <!-- 			페이징 시작 -->
-<nav aria-label="Page navigation example">
-
-	<ul class="pagination pagination-primary justify-content-end">
-	
-	<c:if test="${pageDTO.startPage > 1}">
-		<li class="page-tiem">
-			<a class="page-link" href="${pageContext.request.contextPath}/bound/outBound?pageNum=${pageDTO.startPage - 1}
-			&search9=${pageDTO.search9}&search10=${pageDTO.search10}&search11=${pageDTO.search11}&search12=${pageDTO.search12}
-			&select1=${pageDTO.select1}">
-			<span aria-hidden="true">
-				<i data-feather="chevron-left"></i></span></a>
-		</li>
-	</c:if>
-	
-	<c:if test="${pageDTO.startPage <= 1}">
-		<li class="page-item disabled">
-			<a class="page-link" href="#" tabindex="-1" aria-disabled="true">
-			<span aria-hidden="true">
-				<i data-feather="chevron-left"></i></span></a>
-        </li>
-    </c:if>
-
-	<c:forEach var="i" begin="${pageDTO.startPage}" end="${pageDTO.endPage}" step="1">
-		<li class="page-item ${pageDTO.currentPage == i ? 'active' : ''}">
-			<a class="page-link" href="${pageContext.request.contextPath}/warehouse/warehouse?pageNum=${i}
-			&search9=${pageDTO.search9}&search10=${pageDTO.search10}&search11=${pageDTO.search11}&search12=${pageDTO.search12}
-			&select1=${pageDTO.select1}">${i}</a>
-		</li>
-	</c:forEach>
-
-	<c:if test="${pageDTO.endPage < pageDTO.pageCount}">
-		<li class="page-item">
-			<a class="page-link" href="${pageContext.request.contextPath}/warehouse/warehouse?pageNum=${pageDTO.endPage + 1}
-			&search9=${pageDTO.search9}&search10=${pageDTO.search10}&search11=${pageDTO.search11}&search12=${pageDTO.search12}
-			&select1=${pageDTO.select1}">
-			<span aria-hidden="true">
-				<i data-feather="chevron-right"></i></span></a>
-		</li>
-	</c:if>
-	
-    <c:if test="${pageDTO.endPage >= pageDTO.pageCount}">
-		<li class="page-item disabled">
-			<a class="page-link" href="#">
-			<span aria-hidden="true">
-				<i data-feather="chevron-right"></i></span></a>
-		</li>
-    </c:if>
-	
-	</ul>
-
+          
+          <!-- 			페이징 시작 -->
+<nav aria-label="Page navigation example" style="padding: 10px 0px;">
+    <ul class="pagination pagination-primary justify-content-end">
+        <c:if test="${pageDTO.startPage > 1}">
+            <li class="page-item">
+                <a class="page-link" href="${pageContext.request.contextPath}/warehouse/warehouse?pageNum=${pageDTO.startPage - 1}&warehouseCode=${pageDTO.warehouseCode}&warehouseName=${pageDTO.warehouseName}&warehouseLocal=${pageDTO.warehouseLocal}"><span aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-left"><polyline points="15 18 9 12 15 6"></polyline></svg></span></a>
+            </li>
+        </c:if>
+        <c:if test="${pageDTO.startPage <= 1}">
+            <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1" aria-disabled="true"><span aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-left"><polyline points="15 18 9 12 15 6"></polyline></svg></span></a>
+            </li>
+        </c:if>
+        <c:forEach var="i" begin="${pageDTO.startPage}" end="${pageDTO.endPage}" step="1">
+            <li class="page-item ${pageDTO.currentPage == i ? 'active' : ''}">
+                <a class="page-link" href="${pageContext.request.contextPath}/warehouse/warehouse?pageNum=${i}&warehouseCode=${pageDTO.warehouseCode1}&warehouseName=${pageDTO.warehouseName}&warehouseLocal=${pageDTO.warehouseLocal}">${i}</a>
+            </li>
+        </c:forEach>
+        <c:if test="${pageDTO.endPage < pageDTO.pageCount}">
+            <li class="page-item">
+                <a class="page-link" href="${pageContext.request.contextPath}/production/line?pageNum=${pageDTO.endPage + 1}&warehouseCode=${pageDTO.warehouseCode}&warehouseName=${pageDTO.warehouseName}&warehouseLocal=${pageDTO.warehouseLocal}"><span aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg></span></a>
+            </li>
+        </c:if>
+        <c:if test="${pageDTO.endPage >= pageDTO.pageCount}">
+            <li class="page-item disabled">
+                <a class="page-link" href="#"><span aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg></span></a>
+            </li>
+        </c:if>
+    </ul>
 </nav>
+<!-- 			페이징 끝 -->
+          
+          
+          
+          
+           <!-- 			페이징 시작 -->
+<!-- <nav aria-label="Page navigation example"> -->
+
+<!-- 	<ul class="pagination pagination-primary justify-content-end"> -->
+	
+<%-- 	<c:if test="${pageDTO.startPage > 1}"> --%>
+<!-- 		<li class="page-tiem"> -->
+<%-- 			<a class="page-link" href="${pageContext.request.contextPath}/warehouse/warehouse?pageNum=${pageDTO.startPage - 1} --%>
+<%-- 			&warehouseCode=${pageDTO.warehouseCode}&warehouseName=${pageDTO.warehouseName}&warehouseLocal=${pageDTO.warehouseLocal}"> --%>
+<!-- 			<span aria-hidden="true"> -->
+<!-- 				<i data-feather="chevron-left"></i></span></a> -->
+<!-- 		</li> -->
+<%-- 	</c:if> --%>
+	
+<%-- 	<c:if test="${pageDTO.startPage <= 1}"> --%>
+<!-- 		<li class="page-item disabled"> -->
+<!-- 			<a class="page-link" href="#" tabindex="-1" aria-disabled="true"> -->
+<!-- 			<span aria-hidden="true"> -->
+<!-- 				<i data-feather="chevron-left"></i></span></a> -->
+<!--         </li> -->
+<%--     </c:if> --%>
+
+<%-- 	<c:forEach var="i" begin="${pageDTO.startPage}" end="${pageDTO.endPage}" step="1"> --%>
+<%-- 		<li class="page-item ${pageDTO.currentPage == i ? 'active' : ''}"> --%>
+<%-- 			<a class="page-link" href="${pageContext.request.contextPath}/warehouse/warehouse?pageNum=${i} --%>
+<%-- 			&warehouseCode=${pageDTO.warehouseCode}&warehouseName=${pageDTO.warehouseName}&warehouseLocal=${pageDTO.warehouseLocal}">${i}</a> --%>
+<!-- 		</li> -->
+<%-- 	</c:forEach> --%>
+
+<%-- 	<c:if test="${pageDTO.endPage < pageDTO.pageCount}"> --%>
+<!-- 		<li class="page-item"> -->
+<%-- 			<a class="page-link" href="${pageContext.request.contextPath}/warehouse/warehouse?pageNum=${pageDTO.endPage + 1} --%>
+<%-- 			&warehouseCode=${pageDTO.warehouseCode}&warehouseName=${pageDTO.warehouseName}&warehouseLocal=${pageDTO.warehouseLocal}"> --%>
+<!-- 			<span aria-hidden="true"> -->
+<!-- 				<i data-feather="chevron-right"></i></span></a> -->
+<!-- 		</li> -->
+<%-- 	</c:if> --%>
+	
+<%--     <c:if test="${pageDTO.endPage >= pageDTO.pageCount}"> --%>
+<!-- 		<li class="page-item disabled"> -->
+<!-- 			<a class="page-link" href="#"> -->
+<!-- 			<span aria-hidden="true"> -->
+<!-- 				<i data-feather="chevron-right"></i></span></a> -->
+<!-- 		</li> -->
+<%--     </c:if> --%>
+	
+<!-- 	</ul> -->
+
+<!-- </nav> -->
 <!-- 			페이징 끝 -->  
           
           </form>

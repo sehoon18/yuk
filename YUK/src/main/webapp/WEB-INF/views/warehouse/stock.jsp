@@ -15,7 +15,18 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/app.css">
     <link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/assets/images/favicon.svg" type="image/x-icon">
+
+<!--    처리 버튼 Swal css  -->
+	<link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
 <style>
+
+
+
+
 	.color:hover {
 		background-color: lightgray;
 	}
@@ -83,7 +94,7 @@
               </tr>
             </thead>
             <tbody>
-            <c:forEach var="warehouseDTO" items="${stockList }">
+            <c:forEach var="warehouseDTO" items="${stockList }" varStatus="status">
               <tr class="color">
                 <td>${warehouseDTO.productCode } </td>
                 <td>${warehouseDTO.productName } </td>
@@ -100,15 +111,68 @@
                 <td>${warehouseDTO.warehouseName } </td>
                 <td>${warehouseDTO.warehouseArea } </td>
                 <td>${warehouseDTO.productVol} </td>
-                <td>${warehouseDTO.realAmount }<input type="text" id="clientCode" class="form-control" name="clientCode" style="flex: 1 1 auto; width: 70px; background-color: white;"></td>
-                <td><button class="btn btn-primary btn-sm" >수정</button></td>
+                <td>${warehouseDTO.realAmount }<input type="text" id="realAmount" class="form-control" name="realAmount" style="flex: 1 1 auto; width: 70px; background-color: white;"></td>
+                <td><button type=button class="btn btn-primary btn-sm" onclick="statusSwitch(event, '${warehouseDTO.productCode}')">수정</button></td>
 
               </tr>
-              </c:forEach>
- 
-              
+              </c:forEach>   
             </tbody>
           </table>
+          
+          <!-- 			페이징 시작 -->
+<nav aria-label="Page navigation example">
+
+	<ul class="pagination pagination-primary justify-content-end">
+	
+	<c:if test="${pageDTO.startPage > 1}">
+		<li class="page-tiem">
+			<a class="page-link" href="${pageContext.request.contextPath}/warehouse/warehouse?pageNum=${pageDTO.startPage - 1}
+			&productCode=${pageDTO.productCode}&productName=${pageDTO.productName}&warehouseName=${pageDTO.warehouseName}
+			&productType=${pageDTO.productType}">
+			<span aria-hidden="true">
+				<i data-feather="chevron-left"></i></span></a>
+		</li>
+	</c:if>
+	
+	<c:if test="${pageDTO.startPage <= 1}">
+		<li class="page-item disabled">
+			<a class="page-link" href="#" tabindex="-1" aria-disabled="true">
+			<span aria-hidden="true">
+				<i data-feather="chevron-left"></i></span></a>
+        </li>
+    </c:if>
+
+	<c:forEach var="i" begin="${pageDTO.startPage}" end="${pageDTO.endPage}" step="1">
+		<li class="page-item ${pageDTO.currentPage == i ? 'active' : ''}">
+			<a class="page-link" href="${pageContext.request.contextPath}/warehouse/warehouse?pageNum=${i}
+			&warehouseCode=${pageDTO.warehouseCode}&warehouseName=${pageDTO.warehouseName}&warehouseLocal=${pageDTO.warehouseLocal}
+			&productType=${pageDTO.productType}">${i}</a>
+		</li>
+	</c:forEach>
+
+	<c:if test="${pageDTO.endPage < pageDTO.pageCount}">
+		<li class="page-item">
+			<a class="page-link" href="${pageContext.request.contextPath}/warehouse/warehouse?pageNum=${pageDTO.endPage + 1}
+			&productCode=${pageDTO.productCode}&warehouseName=${pageDTO.warehouseName}&productName=${pageDTO.productName}
+			&productType=${pageDTO.productType}">
+			<span aria-hidden="true">
+				<i data-feather="chevron-right"></i></span></a>
+		</li>
+	</c:if>
+	
+    <c:if test="${pageDTO.endPage >= pageDTO.pageCount}">
+		<li class="page-item disabled">
+			<a class="page-link" href="#">
+			<span aria-hidden="true">
+				<i data-feather="chevron-right"></i></span></a>
+		</li>
+    </c:if>
+	
+	</ul>
+
+</nav>
+<!-- 			페이징 끝 -->  
+          
         </div>
       </div>
     </div>
@@ -117,23 +181,6 @@
 <!-- Bordered table end -->
     
 </div>    
-
-<nav aria-label="Page navigation example">
-	<ul class="pagination pagination-primary" style="justify-content:center;">
-		<li class="page-item">
-			<a class="page-link" href="#">
-		<span aria-hidden="true"><i data-feather="chevron-left"></i></span>
-			</a>
-		</li>
-			<li class="page-item"><a class="page-link" href="">1</a></li>
-			<li class="page-item active"><a class="page-link" href="">2</a></li>
-			<li class="page-item"><a class="page-link" href="">3</a></li>
-			<li class="page-item"><a class="page-link" href="">
-		<span aria-hidden="true"><i data-feather="chevron-right"></i></span>
-			</a>
-		</li>
-	</ul>
-</nav>
 
 
 <!-- <nav aria-label="Page navigation example" style="margin-bottom:50px;" > -->
@@ -171,8 +218,81 @@
     	document.getElementById("productType").value=productType;
     }
     </script>
+
+<script>    
+function statusSwitch(event, productCode) {
+	alert("호출");
+    var realAmount = document.getElementById("realAmount").value; // "실사량" 입력 필드에 입력된 값을 가져옵니다.
+    
+    var csrfHeaderName = "${_csrf.headerName}"
+    var csrfTokenValue = "${_csrf.token}"
+    	 
+alert(productCode);
+    alert(realAmount);
+    //실사량 입력 값 유효성 검증
+//     if (!validateRealAmount(realAmount)){
+//     	Swal.fire({
+//     		title:"오류!"
+//     		text: "유효하지 않는 실사량입니다. 양의 숫자를 입력해주세요.",
+//     		icon: "error"
+//     	});
+//     	return; //유효하지 않을 경우, 처리를 중단 함.
+//     }
     
     
+    Swal.fire({
+        title: "실사량 변경",
+        text: "실사량 변경처리 하시겠습니까?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "수정완료",
+        cancelButtonText: "취소"
+    }).then((result) => {
+        if(result.isConfirmed){
+        	
+        	alert("확인");
+
+            $.ajax({
+                url: '${pageContext.request.contextPath}/warehouse/stockUpdatePro',
+                method: 'POST',
+                beforeSend: function(xhr){
+                	xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+                },
+                data: {
+                    productCode: productCode,
+                    realAmount: $("#realAmount").val() 
+                },
+                success: function(response){
+                 	alert("성공");
+                    Swal.fire({
+                        title: "수정 완료!",
+                        icon: "success"
+                    }).then(() =>{
+                        location.reload(); // 수정이 성공적으로 완료되면 페이지를 새로고침합니다.
+                    });
+                },
+                error: function(xhr, status, error){
+                 	alert("에러");
+                    Swal.fire({
+                        title: "처리 불가!",
+                        text: "창고 최대 보유량 초과",
+                        icon: "error"
+                    })
+                }
+            });
+        }
+    });
+};
+
+//실사량 입력 값 유효성 검증 함수
+function validateRealAmount(realAmount){
+// 	return realAmount && !isNaN(realAmount) && realAmount > 0;
+	return !isNaN(realAmount) && realAmount > 0;
+}
+</script>
+	
     
 </body>
 </html>

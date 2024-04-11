@@ -19,55 +19,87 @@ public class WarehouseDAO {
 	private static final String namespace = "com.itwillbs.mappers.warehouseMapper";
 
 	public void insertWarehouse(WarehouseDTO warehouseDTO) {
-		sqlSession.insert(namespace + ".insertWarehouse", warehouseDTO);
-		
-	}
+		System.out.println("warehouseDAO insertWarehouse()");
+		sqlSession.insert(namespace + ".insertWarehouse", warehouseDTO);		
+	}//insertWarehouse()
 
-	public List<WarehouseDTO> getWarehouseList() {	
-		return sqlSession.selectList(namespace + ".getWarehouseList");
-	}
-
-	public void insertStock(WarehouseDTO warehouseDTO) {
-		sqlSession.insert(namespace + ".insertStock", warehouseDTO);
-		
-	}
-
-	public List<WarehouseDTO> getStockList() {
-		return sqlSession.selectList(namespace + ".getStockList");
-	}
-
-	public List<WarehouseDTO> getStockCodeList() {
-		return sqlSession.selectList(namespace + ".getStockCodeList");
-	}
-
-	public List<WarehouseDTO> getSearchStockList(WarehouseDTO warehouseDTO) {
-		return sqlSession.selectList(namespace + ".getSearchStockList", warehouseDTO);
-		
-	}
-
-	public List<WarehouseDTO> getSearchWarehouseList(WarehouseDTO warehouseDTO) {
-		return sqlSession.selectList(namespace + ".getSearchWarehouseList", warehouseDTO);
-	}
+	
+	public List<WarehouseDTO> getWarehouseList(PageDTO pageDTO) {
+		System.out.println("warehouseDAO getWarehouseList()");
+		return sqlSession.selectList(namespace + ".getWarehouseList", pageDTO);
+	}//getWarehouseList1()
+	
 
 	public void updateWarehouse(WarehouseDTO warehouseDTO) {
-		sqlSession.update(namespace + ".updateWarehouse", warehouseDTO);
-		
-	}
+		System.out.println("warehouseDAO updateWarehouse()");
+		sqlSession.update(namespace + ".updateWarehouse", warehouseDTO);	
+	}//updateWarehouse()
 
 	public void deleteWarehouse(WarehouseDTO warehouseDTO) {
-		sqlSession.delete(namespace + ".deleteWarehouse", warehouseDTO);
-		
-	}
+		System.out.println("warehouseDAO deleteWarehouse()");
+		sqlSession.delete(namespace + ".deleteWarehouse", warehouseDTO);		
+	}//deleteWarehouse()
 
 	public Integer getWarehouseLastNum() {
 		System.out.println("warehouseDAO getWarehouseLastNum()");
 		return sqlSession.selectOne(namespace + ".getWarehouseLastNum");
-	}
+	}//getWarehouseLastNum()
 
 	public void updateStock(WarehouseDTO warehouseDTO) {
-		sqlSession.update(namespace + ".updateStock", warehouseDTO);
-		
-	}
+		System.out.println("warehouseDAO updateStock()");
+		sqlSession.update(namespace + ".updateStock", warehouseDTO);	
+	}//updateStock()
+
+	public int getWarehouseCount(PageDTO pageDTO) {
+		System.out.println("warehouseDAO getWarehouseCount()");
+		return sqlSession.selectOne(namespace + ".getWarehouseCount", pageDTO);
+	}//getWarehouseCount()
+
+	
+  //-------------------------------------------------------------------------
+	
+	
+
+
+	public void insertStock(WarehouseDTO warehouseDTO) {
+		System.out.println("warehouseDAO insertStock()");
+		sqlSession.insert(namespace + ".insertStock", warehouseDTO);	
+	}//insertStock()
+
+	public List<WarehouseDTO> getStockList(PageDTO pageDTO) {
+		System.out.println("warehouseDAO getStockList()");
+		return sqlSession.selectList(namespace + ".getStockList", pageDTO);
+	}//getStockList()
+
+
+	public WarehouseDTO collectStockList(WarehouseDTO warehouseDTO) {
+		System.out.println("warehouseDAO collectStockList()");
+		return sqlSession.selectOne(namespace + ".collectStockList", warehouseDTO);
+	}//collectStockList()
+
+	public int getWh_stockFromWh_cd(WarehouseDTO warehouseDTO) {
+		System.out.println("warehouseDAO getWh_stockFromWh_cd()");
+		return sqlSession.selectOne(namespace + ".getWh_stockFromWh_cd", warehouseDTO);
+	}//getWh_stockFromWh_cd()
+
+	public void resultVol(WarehouseDTO warehouseDTO) {
+		System.out.println("warehouseDAO resultVol()");
+		System.out.println(warehouseDTO);
+		sqlSession.update(namespace + ".resultVol", warehouseDTO);
+	}//resultVol()
+
+	public int getStockCount(PageDTO pageDTO) {
+		System.out.println("warehouseDAO getStockCount()");
+		return sqlSession.selectOne(namespace + ".getStockCount", pageDTO);
+	}//getStockCount()
+
+
+	public Integer getProductLastNum() {
+		System.out.println("warehouseDAO getProductLastNum()");
+		return sqlSession.selectOne(namespace + ".getProductLastNum");
+	}//getProductLastNum()
+
+	
 
 	public List<WarehouseDTO> getWhList(PageDTO pageDTO) {
 		return sqlSession.selectList(namespace + ".getWhList", pageDTO);
