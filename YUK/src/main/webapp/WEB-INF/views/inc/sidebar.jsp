@@ -33,21 +33,6 @@
 	<sec:authorize access="hasRole('ROLE_PRODUCTION')">
 	    <b>지시/실적/라인</b>
 	</sec:authorize>
-<%--      <c:if test="${sessionScope.permission == 0}"> --%>
-<!--      <b>권한 : 관리자 </b> -->
-<%--      </c:if> --%>
-<%--      <c:if test="${sessionScope.permission == 1}"> --%>
-<!--      <b>권한 : 품목/거래처/소요량 </b> -->
-<%--      </c:if> --%>
-<%--      <c:if test="${sessionScope.permission == 2}"> --%>
-<!--      <b>권한 : 입고/출고/재고/창고 </b> -->
-<%--      </c:if> --%>
-<%--      <c:if test="${sessionScope.permission == 3}"> --%>
-<!--      <b>권한 : 수주/발주 </b> -->
-<%--      </c:if> --%>
-<%--      <c:if test="${sessionScope.permission == 4}"> --%>
-<!--      <b>권한 : 작업/실적/라인 </b> -->
-<%--      </c:if> --%>
      
      </div>
 <!-- 로그아웃 -->
@@ -168,9 +153,9 @@
                     <a href="${pageContext.request.contextPath}/member/memberList" class='sidebar-link'>
                      <i data-feather="user"></i> 
                         <span>사용자 리스트</span>
-                        </a>
-                        
-            </li>
+                   	</a>
+             </li>
+            	
 <%--             </c:if> --%>
         </ul>
        
@@ -185,7 +170,6 @@
                 <a class="sidebar-toggler" href="#"><span class="navbar-toggler-icon"></span></a>
             </nav>
      
-    
     
     
     

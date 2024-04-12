@@ -51,7 +51,7 @@ public class ProductionDTO {
 	private String proName2;
 	private int vol;
 	private String defectRate;
-	
+	private String userName;
 	
 	
 	@Override
@@ -309,6 +309,12 @@ public class ProductionDTO {
 
 	public void setDefectRate(String defectRate) {
 		this.defectRate = defectRate;
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 	
 }

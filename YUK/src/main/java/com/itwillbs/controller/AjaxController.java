@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.itwillbs.domain.MemberDTO;
 import com.itwillbs.domain.OrdercontractDTO;
 import com.itwillbs.domain.ProductDTO;
 import com.itwillbs.domain.ProductionDTO;
+import com.itwillbs.service.MemberService;
 import com.itwillbs.service.OrdercontractService;
 import com.itwillbs.service.ProductService;
 import com.itwillbs.service.ProductionService;
@@ -29,6 +31,8 @@ public class AjaxController {
     OrdercontractService ordercontractService;
 	@Inject
 	ProductService productService;
+	@Inject
+	MemberService memberService;
 	
 	
 	@GetMapping("/production/lineNameCheck")
@@ -170,6 +174,32 @@ public class AjaxController {
 		return entity;
 	}
 		
+	@GetMapping("/member/idCheck")
+	public ResponseEntity<String> idCheck(MemberDTO memberDTO){
+		String id = memberDTO.getId();
+		MemberDTO memberDTO2 = memberService.checkMember(id);
+		String result = "";
+		if(memberDTO2 != null) {
+			result = "iddup";
+		} else {
+			result = "idok";
+		}
+		ResponseEntity<String> entity = new ResponseEntity<String>(result, HttpStatus.OK);
+		return entity;
+	}
 	
+	@GetMapping("/member/pNumberCheck")
+	public ResponseEntity<String> pNumberCheck(MemberDTO memberDTO){
+		String phone = memberDTO.getPhone();
+		MemberDTO memberDTO2 = memberService.pNumberCheck(phone);
+		String result = "";
+		if(memberDTO2 != null) {
+			result = "pdup";
+		} else {
+			result = "pok";
+		}
+		ResponseEntity<String> entity = new ResponseEntity<String>(result, HttpStatus.OK);
+		return entity;
+	}
 	
 }

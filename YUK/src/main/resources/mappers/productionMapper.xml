@@ -11,23 +11,24 @@ values(#{lineCode}, #{name}, #{lineStatus}, #{lineName}, #{update})
 </insert>
 
 <select id="getLineList" resultType="com.itwillbs.domain.ProductionDTO">
-	select LINE_CD "lineCode", USER_ID "name", LINE_STATUS "lineStatus", LINE_NAME "lineName", LINE_DATE "update"
-	from LINE
+	select l.LINE_CD "lineCode", l.USER_ID "name", l.LINE_STATUS "lineStatus", l.LINE_NAME "lineName", l.LINE_DATE "update", u.USER_NAME "userName"
+	from LINE l left join USER u
+	on l.USER_ID = u.USER_ID
 	<where>
 	<if test="search1 != '' and search1 != null"  >
-	LINE_CD like concat('%', #{search1}, '%')
+	l.LINE_CD like concat('%', #{search1}, '%')
 	</if>
 	<if test="search2 != '' and search2 != null ">
-	and LINE_NAME like concat('%', #{search2}, '%')
+	and l.LINE_NAME like concat('%', #{search2}, '%')
 	</if>
 	<if test="search5 != '' and search5 != null and search5 != 4">
-	and LINE_STATUS like concat('%', #{search5}, '%')
+	and l.LINE_STATUS like concat('%', #{search5}, '%')
 	</if>
 	<if test="search5 == 0">
-	and LINE_STATUS = 0
+	and l.LINE_STATUS = 0
 	</if>
 	</where>
-	order by LINE_CD desc
+	order by l.LINE_CD desc
     limit #{startRow}, #{pageSize}
 </select>
 

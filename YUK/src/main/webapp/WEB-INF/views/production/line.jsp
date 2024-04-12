@@ -95,7 +95,7 @@
 			                <th style="width: 180px;">등록일자</th>
 			                <th style="width: 180px;">등록자</th>
 			                <th style="width: 150px; text">라인상태</th>
-			                <th style="width: 0px; text"></th>
+			                <th style="display: none"></th>
 			            </tr>
 			        </thead>
 			        <tbody>
@@ -104,7 +104,7 @@
                             <td>${productionDTO.lineCode }</td>
                             <td>${productionDTO.lineName }</td>
                             <td>${productionDTO.update }</td>
-                            <td>${productionDTO.name }</td>
+                            <td>${productionDTO.userName }</td>
                             <td>
                             <c:if test="${productionDTO.lineStatus == 0 }">
 							<font color="BLUE">대기</font>
@@ -116,7 +116,7 @@
 							<font color="gray">정비</font>
                             </c:if>
                             </td>
-                            <td>
+                            <td style="display: none">
                             </td>
                         </tr>
                         </c:forEach>
@@ -196,7 +196,7 @@
 		
         // 각 열에 대한 셀과 입력 필드 생성
         const fields = ['lineCode', 'lineName', 'update', 'name', 'lineStatus', '${_csrf.parameterName}'];
-        const exampleData = ['${productionDTO.lineCode}', '', dateStr, '<sec:authentication property="principal.username"/>', '0', '${_csrf.token}'];
+        const exampleData = ['${productionDTO.lineCode}', '', dateStr, '${productionDTO.name}', '0', '${_csrf.token}'];
 
         fields.forEach((field, index) => {
             const cell = newRow.insertCell(index);
@@ -237,6 +237,7 @@
                 input = document.createElement("input");
                 input.type = "hidden";
                 input.className = "form-control";
+                cell.style.display='none';
             }
             else {
                 input = document.createElement("input");
@@ -397,6 +398,7 @@
                 input.name = 'lineName';
                 input.className = 'form-control';
                 input.value = originalText;
+                input.id = "lineName1";
                 cell.innerHTML = '';
                 cell.appendChild(input);
             }
@@ -408,6 +410,7 @@
                 input.className = 'form-control';
                 input.value = '${_csrf.token}';
                 cell.appendChild(input);
+                cell.style.display='none';
             }
             // 5열(인덱스 4)의 경우, 선택 목록을 생성
 			else if (index === 4) {
@@ -475,8 +478,8 @@ document.addEventListener('DOMContentLoaded', function() {
                             if(response.ok) {
                                 tbody.removeChild(target); // 서버에서 성공적으로 처리되면 행 삭제
                                 Swal.fire(
-                                    "Deleted!",
-                                    "Your file has been deleted.",
+                                    "삭제완료!",
+                                    "삭제가 완료되었습니다.",
                                     "success"
                                 );
                                 isDelMode = true; // 삭제 모드 비활성화

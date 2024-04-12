@@ -69,7 +69,7 @@
 			    <button type="button" onclick="addTableRow()" class='btn btn-primary' id="addrow">➕ 추가</button>
 			    <button type="button" onclick="modTableRow()" class='btn btn-primary' id="modify">↪️ 수정</button>
 			    <button type="button" onclick="delTableRow()" class='btn btn-primary' id="delete">⚠️ 삭제</button>
-			    <button type="submit" class='btn btn-primary' id="submitrow" disabled>💾 저장</button>
+			    <button type="submit" class='btn btn-primary' onclick="ckadd()" id="submitrow" disabled>💾 저장</button>
 		 </sec:authorize>
 		 <sec:authorize access="hasAnyRole('ROLE_PRODUCTION', 'ROLE_BOUND', 'ROLE_OC', 'ROLE_NONE')">
 			    <button type="button" onclick="accessError()" class='btn btn-primary' id="addrow">➕ 추가</button>
@@ -83,13 +83,13 @@
           <table class="table table-bordered mb-0" id="table1">
             <thead>
               <tr>
-                <th>품목코드</th>
-                <th>품명</th>
-                <th>단가</th>
-                <th>창고코드</th>
-                <th>창고명</th>
-                <th>원산지</th>
-                <th>품목구분</th>
+                <th style="width: 140px;">품목코드</th>
+                <th style="width: 250px;">품명</th>
+                <th style="width: 140px;">단가</th>
+                <th style="width: 140px;">창고코드</th>
+                <th style="width: 140px;">창고명</th>
+                <th style="width: 140px;">원산지</th>
+                <th style="width: 140px;">품목구분</th>
                 <th style="display: none;"></th>
               </tr>
             </thead>
@@ -215,7 +215,7 @@
         
         // 각 열에 대한 셀과 입력 필드 생성
         const fields = ['productCode', 'productName', 'productPrice', 'whCode', 'whName', 'productOrigin', 'productType','${_csrf.parameterName}'];
-        const exampleData = ['${productionDTO.productCode}', '', '', '','', '', '0','${_csrf.token}'];
+        const exampleData = ['${productDTO.productCode}', '', '', '창고 선택하기','', '', '0','${_csrf.token}'];
 
         fields.forEach((field, index) => {
             const cell = newRow.insertCell(index);
@@ -230,18 +230,21 @@
                     const optionElement = document.createElement("option");
                     optionElement.value = index;
                     optionElement.textContent = option;
+		            input.name = 'productType'; 
                     input.appendChild(optionElement);
                 });
             } else if(field === 'productOrigin'){
                 input = document.createElement("input");
                 input.type = "text";
                 input.className = "form-control";
-                
+	            input.name = 'productOrigin'; 
+	            
             } else if(field === 'productCode'){	
                 input = document.createElement("input");
                 input.type = "text";
                 input.className = "form-control";
                 input.readOnly = true; // 입력 필드를 읽기 전용으로 설정
+
             } 
             else if(field === 'whCode'){
             	input = document.createElement("input");
@@ -250,6 +253,8 @@
                 input.readOnly = true;
                 input.id = 'whCode';
                 input.addEventListener('click', openWhPopup);
+	            input.name = 'whCode'; 
+
             }
             else if(field === 'whName'){
             	input = document.createElement("input");
@@ -403,7 +408,7 @@
     function makeRowEditable(row) {
         isDelMode = false;
         originalHTML = {}; // 현재 행에 대한 원본 HTML 저장을 위해 객체 초기화
-        const cellIndex = [0, 1, 2, 3, 6, 7]; // 수정할 열 인덱스 (2열과 5열)
+        const cellIndex = [0, 1, 2, 3, 5, 6, 7]; // 수정할 열 인덱스 (2열과 5열)
         cellIndex.forEach((index) => {
             const cell = row.cells[index];
             originalHTML[index] = cell.innerHTML; // 수정 전 원본 HTML을 저장
@@ -438,15 +443,15 @@
                 cell.appendChild(input);
             }
 	       // 4열(인덱스 3)의 경우, 텍스트 입력 필드를 생성
-// 			else if (index === 3) {
-//                 const input = document.createElement('input');
-//                 input.type = 'text';
-//                 input.name = 'productOrigin';
-//                 input.className = 'form-control';
-//                 input.value = originalText;
-//                 cell.innerHTML = '';
-//                 cell.appendChild(input);
-//             }
+			else if (index === 5) {
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.name = 'productOrigin';
+                input.className = 'form-control';
+                input.value = originalText;
+                cell.innerHTML = '';
+                cell.appendChild(input);
+            }
 	       // 6열(인덱스 5)의 경우, 텍스트 입력 필드를 생성
 			else if (index === 7) {
                 const input = document.createElement('input');
@@ -581,43 +586,6 @@ function canMod2() {
 }
 </script>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    var form = document.getElementById('dataForm');
-
-    if (form) { // 폼이 존재하는지 확인
-        form.addEventListener('submit', function(e) {
-            // 폼 제출 시 빈칸을 채워야 하는 입력 필드를 확인
-            if (isEditMode || isDelMode) {
-                // 수정 모드나 삭제 모드일 때는 폼 제출을 막지 않음
-                return;
-            }
-
-            // 모든 'form-control' 클래스를 가진 입력 필드 검사
-            var inputFields = document.querySelectorAll('.form-control');
-            var isEmptyFieldPresent = Array.from(inputFields).some(function(input) {
-                return input.value.trim() === ''; // 비어있는 입력 필드가 있는지 확인
-            });
-
-            if (isEmptyFieldPresent) { // 하나라도 비어있는 입력 필드가 있으면
-                Swal.fire({
-                	  title: "빈칸을 채워주세요.",
-                	  width: 600,
-                	  padding: "3em",
-                	  color: "#00ff0000",
-                	  background: "#fff",
-                	  backdrop: `
-                	    rgba(ff,ff,ff,0)
-                	    left top
-                	    no-repeat
-                	  `
-                	});
-                e.preventDefault(); // 폼 제출 중단
-            }
-        });
-    }
-});
-</script>
 
 
 <script>
@@ -637,8 +605,6 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 </script>
 
-
-    
 <script>
 function accessError() {
  Swal.fire({
@@ -656,8 +622,6 @@ function accessError() {
 	});
 }
 </script>    
-    
-    
     
 </body>
 </html>

@@ -71,4 +71,12 @@ public class MemberService {
 		return memberDAO.getMemberCount(pageDTO);
 	}
 
+	public MemberDTO checkMember(String id) {
+		return memberDAO.checkMember(id);
+	}
+
+	public MemberDTO pNumberCheck(String phone) {
+		return memberDAO.pNumberCheck(phone);
+	}
+
 }

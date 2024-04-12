@@ -97,8 +97,16 @@ order by USER_ID
 	<result property="auth" column="auth"/>
 </resultMap>
 
+<select id="checkMember" resultType="com.itwillbs.domain.MemberDTO">
+select user_id "id", user_name "name"
+from USER
+where user_id = #{id}
+</select>
 
-
-
+<select id="pNumberCheck" resultType="com.itwillbs.domain.MemberDTO">
+select user_phone "phone"
+from USER
+where user_phone = #{phone}
+</select>
 
 </mapper>

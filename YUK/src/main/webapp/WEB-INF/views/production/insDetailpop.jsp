@@ -121,15 +121,17 @@
 	                  <th>제품명</th>
 	                  <th>원자재명</th>
 	                  <th>소요량</th>
+	                  <th>원자재 소비량</th>
 	                </tr>
 	              </thead>
 	              <tbody>
-					<c:forEach var="productionDTO" items="${reqList }">
+					<c:forEach var="reqDTO" items="${reqList }">
 					<tr>
-						<td>${productionDTO.reqCode }</td>
-						<td>${productionDTO.proName1}(${productionDTO.pProCode })</td>
-						<td>${productionDTO.proName2}(${productionDTO.mProCode })</td>
-						<td>${productionDTO.reqVol }</td>
+						<td>${reqDTO.reqCode }</td>
+						<td>${reqDTO.proName1}(${reqDTO.pProCode })</td>
+						<td>${reqDTO.proName2}(${reqDTO.mProCode })</td>
+						<td>${reqDTO.reqVol }</td>
+						<td>${reqDTO.reqVol*productionDTO.insVol }</td>
 					</tr>
 					</c:forEach>
 	              </tbody>

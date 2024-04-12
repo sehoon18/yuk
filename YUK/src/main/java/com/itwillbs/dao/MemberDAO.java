@@ -51,4 +51,12 @@ public class MemberDAO {
 		return sqlSession.selectOne(namespace + ".getMemberCount", pageDTO);
 	}
 
+	public MemberDTO checkMember(String id) {
+		return sqlSession.selectOne(namespace + ".checkMember", id);
+	}
+
+	public MemberDTO pNumberCheck(String phone) {
+		return sqlSession.selectOne(namespace + ".pNumberCheck", phone);
+	}
+
 }

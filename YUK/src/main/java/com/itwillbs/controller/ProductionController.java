@@ -18,16 +18,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.itwillbs.domain.MemberDTO;
 import com.itwillbs.domain.PageDTO;
 import com.itwillbs.domain.ProductDTO;
 import com.itwillbs.domain.ProductionDTO;
+import com.itwillbs.service.MemberService;
 import com.itwillbs.service.ProductionService;
 
 @Controller
 @RequestMapping("/production/*")
 public class ProductionController {
 	@Inject
-	private ProductionService productionService; 
+	private ProductionService productionService;
+	@Inject 
+	private MemberService memberService;
 
 	@GetMapping("/test")
 	public String test(ProductionDTO productionDTO, Model model) {
@@ -54,10 +58,14 @@ public class ProductionController {
 	
 	// 라인 페이지
 	@GetMapping("/line")
-	public String line(ProductionDTO productionDTO, Model model, HttpServletRequest request, PageDTO pageDTO) {
+	public String line(ProductionDTO productionDTO, Model model, HttpServletRequest request, PageDTO pageDTO, Authentication authentication, MemberDTO memberDTO) {
 		System.out.println("ProductionController line()");
 		System.out.println(productionDTO);
 
+		String username = authentication.getName();
+		memberDTO = memberService.checkMember(username);
+		productionDTO.setName(memberDTO.getName());
+		
 		// lineCode 생성
 		Integer lineLastNum = productionService.getLineLastNum();
 		String lineCode;

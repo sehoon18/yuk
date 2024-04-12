@@ -18,6 +18,9 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/app.css">
     <link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/assets/images/favicon.svg" type="image/x-icon">
+    
+    	<!-- 	jquery -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <style>
 		tbody tr:hover {
 		    background-color:#e4e8ff;
@@ -233,6 +236,8 @@ window.onload = function() {
                 input = document.createElement("input");
                 input.type = "text";
                 input.className = "form-control";
+                input.id = "id";
+                
             }
             else if(field === 'name'){
                 input = document.createElement("input");
@@ -248,6 +253,7 @@ window.onload = function() {
                 input = document.createElement("input");
                 input.type = "text";
                 input.className = "form-control";
+                input.id = "phone";
             }
             else if(field === '${_csrf.parameterName}'){
                 input = document.createElement("input");
@@ -582,6 +588,44 @@ document.addEventListener('DOMContentLoaded', function() {
     
     
     
-    
+<script>
+$(function(){
+    $('#dataForm').submit(function(e){
+        e.preventDefault(); // 기본 폼 제출 막기
+
+        var form = this; // 현재 폼을 변수에 저장
+
+        // 아이디 체크
+        $.ajax({
+            type: 'get',
+            url: '${pageContext.request.contextPath}/member/idCheck',
+            data: {'id' : $('#id').val()},
+            dataType: 'text',
+            success: function(result){
+                if(result === "iddup"){
+                    alert("아이디 중복");
+                } else {
+                    // 아이디가 중복되지 않은 경우에만 전화번호 체크 실행
+                    $.ajax({
+                        type: 'get',
+                        url: '${pageContext.request.contextPath}/member/pNumberCheck',
+                        data: {'phone' : $('#phone').val()},
+                        dataType: 'text',
+                        success: function(result){
+                            if(result === "pdup"){
+                                alert("사용중인 연락처입니다.");
+                            } else {
+                                // 아이디와 전화번호 모두 중복되지 않은 경우에만 폼 제출
+                                form.submit();
+                            }
+                        }
+                    });
+                }
+            }
+        });
+    });
+});
+
+</script>
 </body>
 </html>

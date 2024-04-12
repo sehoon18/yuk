@@ -51,16 +51,7 @@
         <div class="row">
             <div class="col-12 col-md-6 order-md-1 order-last">
                 <h3>작업지시</h3>
-<!--                 <p class="text-subtitle text-muted">We use 'simple-datatables' made by @fiduswriter. You can check the full documentation <a href="https://github.com/fiduswriter/Simple-DataTables/wiki">here</a>.</p> -->
             </div>
-<!--             <div class="col-12 col-md-6 order-md-2 order-first"> -->
-<!--                 <nav aria-label="breadcrumb" class='breadcrumb-header'> -->
-<!--                     <ol class="breadcrumb"> -->
-<!--                         <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li> -->
-<!--                         <li class="breadcrumb-item active" aria-current="page">Datatable</li> -->
-<!--                     </ol> -->
-<!--                 </nav> -->
-<!--             </div> -->
         </div>
     </div>
     <section class="section">
@@ -217,7 +208,7 @@
     <script src="${pageContext.request.contextPath}/resources/assets/js/main.js"></script>
     <script>
 	    var popupWidth = 900;
-	    var popupHeight = 450;
+	    var popupHeight = 500;
 	
 	    var popupX = (window.screen.width / 2) - (popupWidth / 2);
 	    var popupY= (window.screen.height / 2) - (popupHeight / 2) - 100;
@@ -231,14 +222,14 @@
     </script>
     
     <script>
-	    var popupWidth = 900;
-	    var popupHeight = 600;
+	    var popupWidth1 = 900;
+	    var popupHeight1 = 780;
 	
-	    var popupX = (window.screen.width / 2) - (popupWidth / 2);
-	    var popupY= (window.screen.height / 2) - (popupHeight / 2) - 100;
+	    var popupX1 = (window.screen.width / 2) - (popupWidth1 / 2);
+	    var popupY1= (window.screen.height / 2) - (popupHeight1 / 2) - 100;
 	    
 	    function openDetailpop(instructionCode) {
-	      var popup = window.open("${pageContext.request.contextPath}/production/insDetailpop?instructionCode="+ instructionCode, "insDetailpop", 'status=no, height=' + popupHeight  + ', width=' + popupWidth  + ', left='+ popupX + ', top='+ popupY);
+	      var popup = window.open("${pageContext.request.contextPath}/production/insDetailpop?instructionCode="+ instructionCode, "insDetailpop", 'status=no, height=' + popupHeight1  + ', width=' + popupWidth1  + ', left='+ popupX1 + ', top='+ popupY1);
 	      
 	      if (popup === null || typeof(popup) === 'undefined') {
 	      }
