@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,7 +23,7 @@
 
 <style>
 	.color:hover{
-		background-color: lightgray;
+		background-color: #e4e8ff;
 	}
 	
 	
@@ -33,12 +35,17 @@
     
     <div style="margin-left: 20px;">
     <h1><b>창고 관리</b></h1>
-  	<br>
-
-<form action="${pageContext.request.contextPath}/warehouse/warehouse">  	
+  	<br> 
+    
+<!--     Bordered table start -->
+<div class="row" id="table-bordered" style="margin-right: 20px;">
+  <div class="col-12">
+    <div class="card">
+    <br>
+    <form action="${pageContext.request.contextPath}/warehouse/warehouse">  	
   <div class="col-lg-2 col-3" style="display: flex; align-items: center; white-space: nowrap;">
 <!--   	flex: 0 1 auto; 속성은 사원번호 텍스트가 필요한 만큼의 공간만 차지 -->
-  <div style="flex: 0 1 auto; margin-right: 10px;"><b>창고코드</b></div>
+  <div style="flex: 0 1 auto; margin-right: 10px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>창고코드</b></div>
   <input type="text" id="warehouseCode" class="form-control" name="warehouseCode" style="flex: 1 1 auto; width: auto; background-color: white;" onclick="warehouseCodePopup()" readonly placeholder="창고코드를 선택하세요.">
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>창고명</b> &nbsp;&nbsp;
   <input type="text" id="warehouseName" class="form-control" name="warehouseName" style="flex: 1 1 auto; width: auto;" placeholder="창고명을 입력하세요.">
@@ -48,26 +55,26 @@
   <button class="btn btn-primary btn-sm" type="submit">조회</button>
 </div>
 </form>
-<br>
-    
-    
-<!--     Bordered table start -->
-<div class="row" id="table-bordered" style="margin-right: 20px;">
-  <div class="col-12">
-    <div class="card">
       <div class="card-header">
         <h4 class="card-title"><b>총 ${warehouseList.size() }건</b></h4>
       </div>
       <div class="card-content">
         <!-- table bordered -->
         <div class="table-responsive">
-        
         <form id="dataForm" class="insertWarehouse" action="${pageContext.request.contextPath}/warehouse/warehouseInsertPro" method="post">
             <div class="card-header" style="text-align: right;">
+		 <sec:authorize access="hasAnyRole('ROLE_PRODUCT', 'ROLE_ADMIN')">
 			    <button type="button" onclick="addTableRow()" class='btn btn-primary' id="addrow">➕ 추가</button>
 			    <button type="button" onclick="modTableRow()" class='btn btn-primary' id="modify">↪️ 수정</button>
 			    <button type="button" onclick="delTableRow()" class='btn btn-primary' id="delete">⚠️ 삭제</button>
 			    <button type="submit" class='btn btn-primary' id="submitrow" disabled>💾 저장</button>
+		 </sec:authorize>
+		 <sec:authorize access="hasAnyRole('ROLE_PRODUCTION', 'ROLE_BOUND', 'ROLE_OC', 'ROLE_NONE')">
+			    <button type="button" onclick="accessError()" class='btn btn-primary' id="addrow">➕ 추가</button>
+			    <button type="button" onclick="accessError()" class='btn btn-primary' id="modify">↪️ 수정</button>
+			    <button type="button" onclick="accessError()" class='btn btn-primary' id="delete">⚠️ 삭제</button>
+			    <button type="submit" class='btn btn-primary' id="submitrow" disabled>💾 저장</button>
+		 </sec:authorize>	    
             </div>
           <table class="table table-bordered mb-0" id="table1">
             <thead>
@@ -114,12 +121,12 @@
         </c:if>
         <c:forEach var="i" begin="${pageDTO.startPage}" end="${pageDTO.endPage}" step="1">
             <li class="page-item ${pageDTO.currentPage == i ? 'active' : ''}">
-                <a class="page-link" href="${pageContext.request.contextPath}/warehouse/warehouse?pageNum=${i}&warehouseCode=${pageDTO.warehouseCode1}&warehouseName=${pageDTO.warehouseName}&warehouseLocal=${pageDTO.warehouseLocal}">${i}</a>
+                <a class="page-link" href="${pageContext.request.contextPath}/warehouse/warehouse?pageNum=${i}&warehouseCode=${pageDTO.warehouseCode}&warehouseName=${pageDTO.warehouseName}&warehouseLocal=${pageDTO.warehouseLocal}">${i}</a>
             </li>
         </c:forEach>
         <c:if test="${pageDTO.endPage < pageDTO.pageCount}">
             <li class="page-item">
-                <a class="page-link" href="${pageContext.request.contextPath}/production/line?pageNum=${pageDTO.endPage + 1}&warehouseCode=${pageDTO.warehouseCode}&warehouseName=${pageDTO.warehouseName}&warehouseLocal=${pageDTO.warehouseLocal}"><span aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg></span></a>
+                <a class="page-link" href="${pageContext.request.contextPath}/warehouse/warehouse?pageNum=${pageDTO.endPage + 1}&warehouseCode=${pageDTO.warehouseCode}&warehouseName=${pageDTO.warehouseName}&warehouseLocal=${pageDTO.warehouseLocal}"><span aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg></span></a>
             </li>
         </c:if>
         <c:if test="${pageDTO.endPage >= pageDTO.pageCount}">
@@ -195,22 +202,22 @@
     
 </div>    
 
-<nav aria-label="Page navigation example">
-	<ul class="pagination pagination-primary" style="justify-content:center;">
-		<li class="page-item">
-			<a class="page-link" href="#">
-		<span aria-hidden="true"><i data-feather="chevron-left"></i></span>
-			</a>
-		</li>
-			<li class="page-item"><a class="page-link" href="">1</a></li>
-			<li class="page-item active"><a class="page-link" href="">2</a></li>
-			<li class="page-item"><a class="page-link" href="">3</a></li>
-			<li class="page-item"><a class="page-link" href="">
-		<span aria-hidden="true"><i data-feather="chevron-right"></i></span>
-			</a>
-		</li>
-	</ul>
-</nav>
+<!-- <nav aria-label="Page navigation example"> -->
+<!-- 	<ul class="pagination pagination-primary" style="justify-content:center;"> -->
+<!-- 		<li class="page-item"> -->
+<!-- 			<a class="page-link" href="#"> -->
+<!-- 		<span aria-hidden="true"><i data-feather="chevron-left"></i></span> -->
+<!-- 			</a> -->
+<!-- 		</li> -->
+<!-- 			<li class="page-item"><a class="page-link" href="">1</a></li> -->
+<!-- 			<li class="page-item active"><a class="page-link" href="">2</a></li> -->
+<!-- 			<li class="page-item"><a class="page-link" href="">3</a></li> -->
+<!-- 			<li class="page-item"><a class="page-link" href=""> -->
+<!-- 		<span aria-hidden="true"><i data-feather="chevron-right"></i></span> -->
+<!-- 			</a> -->
+<!-- 		</li> -->
+<!-- 	</ul> -->
+<!-- </nav> -->
 
 
 <!-- <nav aria-label="Page navigation example" style="margin-bottom:50px;" > -->
@@ -257,7 +264,7 @@
         
         // 각 열에 대한 셀과 입력 필드 생성
         const fields = ['warehouseCode', 'warehouseName','productVol', 'warehouseMvol', 'warehouseArea','warehouseLocal','warehouseTelNumber','${_csrf.parameterName}'];
-        const exampleData = ['${warehouseDTO.warehouseCode}', '','','','','','','${_csrf.token}'];
+        const exampleData = ['${warehouseDTO.warehouseCode}', '','0','','','','','${_csrf.token}'];
 
         fields.forEach((field, index) => {
             const cell = newRow.insertCell(index);
@@ -284,6 +291,7 @@
                 	input = document.createElement("input");
                 	input.type = "text";
                 	input.className = "form-control";
+                	input.readOnly = true;
                 
             }else if(field === 'warehouseMvol'){
                 input = document.createElement("input");
@@ -463,6 +471,7 @@
                 input.type = 'text';
                 input.name = 'productVol';
                 input.className = 'form-control';
+                input.readOnly = true;
                 input.value = originalText;
                 cell.innerHTML = '';
                 cell.appendChild(input);
@@ -472,7 +481,7 @@
                 input.type = 'text';
                 input.name = 'warehouseMvol';
                 input.className = 'form-control';
-                input.value = originalText;
+                input.value = '0';
                 cell.innerHTML = '';
                 cell.appendChild(input);
             }
@@ -522,7 +531,8 @@ document.addEventListener('DOMContentLoaded', function() {
         if (isDelMode) {
             let target = e.target;
             Swal.fire({
-                title: "삭제 하시겠습니까?",
+                title: "삭제 확인",
+                text: "정말로 삭제하시겠습니까?",		
                 icon: "주의",
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
@@ -649,6 +659,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
-    
+</script>    
 </body>
 </html>

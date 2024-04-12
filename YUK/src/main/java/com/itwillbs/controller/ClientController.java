@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.itwillbs.domain.ClientDTO;
 import com.itwillbs.domain.PageDTO;
+import com.itwillbs.domain.WarehouseDTO;
 import com.itwillbs.service.ClientService;
 
 @Controller
@@ -34,71 +36,78 @@ public class ClientController {
 	public String client(Model model, HttpServletRequest request, PageDTO pageDTO) {
 		System.out.println("ClientController client()");
 		
-		ClientDTO clientDTO = new ClientDTO();
+		//검색어 가져오기
+		String clientCode = request.getParameter("productCode");
+		String clientName = request.getParameter("productName");
 		
-		// 검색어 가져오기
-		String clientCode = request.getParameter("clientCode");
-		clientDTO.setClientCode(clientCode);
-		String clientName = request.getParameter("clientName");
-		clientDTO.setClientName(clientName);
-		
-		List<ClientDTO> clientList;
-	
-		if(clientCode == null && clientName == null) {
-			clientList = clientService.getClientList();
-		}else {
-			clientList = clientService.getSearchClientList(clientDTO);
+		// 한화면에 보여줄 글개수 설정
+		int pageSize = 10;
+		// pageNum 에 파라미터값을 가져오기
+		String pageNum = request.getParameter("pageNum");
+		// pageNum이 없으면 "1"로 설정
+		if(pageNum == null) {
+		pageNum = "1";
 		}
-				model.addAttribute("clientList", clientList);
+		// pageNum => 정수형 변경
+		int currentPage = Integer.parseInt(pageNum);
+							
+		// pageDTO 저장 
+		pageDTO.setPageSize(pageSize);
+		pageDTO.setPageNum(pageNum);
+		pageDTO.setCurrentPage(currentPage);
+							
+		//검색어 추가
+		pageDTO.setProductCode(clientCode);
+		pageDTO.setProductName(clientName);
+							
+		List<ClientDTO> clientList = clientService.getClientList(pageDTO);
+						
+		//페이징 작업
+		//전체 글개수 구하기 int 리턴할형 count = getStockList()
+		int count = clientService.getClientCount(pageDTO);
+		//한 화면에 보여줄 페이지 개수 설정
+		int pageBlock = 10;
+		//한 화면에 보여줄 시작페이지 구하기
+		int startPage = (currentPage - 1)/pageBlock*pageBlock+1;
+		//한 화면에 보여줄 끝페이지 구하기
+		int endPage = startPage + pageBlock - 1;
+		//전체 페이지개수 구하기
+		int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);
+		//끝페이지, 전체 페이지수 비교 => 끝페이지가 크면 전체 페이지로 변경
+		if(endPage > pageCount) {
+		endPage = pageCount;
+		}
+							
+		//pageDTO 저장
+		pageDTO.setCount(count); //전체글개수 ${pageDTO.count}
+		pageDTO.setPageBlock(pageBlock);
+		pageDTO.setStartPage(startPage);
+		pageDTO.setEndPage(endPage);
+		pageDTO.setPageCount(pageCount);
 				
-				// clientCode 생성
-				Integer clientLastNum = clientService.getClinetLastNum();
+		//model 저장
+		model.addAttribute("pageDTO", pageDTO);
+		model.addAttribute("clientList", clientList);
+		
+		ClientDTO clientDTO = new ClientDTO();
 				
-				if (clientLastNum == null) {
-					clientCode = "CL001";
-				}else {
-					int nextNum = clientLastNum + 1;
-					if(nextNum < 10) {
-						clientCode = String.format("CL00%d", nextNum);
-					}else if (nextNum < 100) {
-						clientCode = String.format("CL0%d", nextNum);
-					}else {
-						clientCode = String.format("CL%d", nextNum);
-					}
-				}		
+		// clientCode 생성
+		Integer clientLastNum = clientService.getClinetLastNum();
 				
-				//페이징
-//				int pageSize = 10;
-//				String pageNum = request.getParameter("pageNum");
-//				if(pageNum == null) {
-//					pageNum="1";
-//				}
-//				int currentPage = Integer.parseInt(pageNum);
-//				
-//				pageDTO.setPageSize(pageSize);
-//				pageDTO.setPageNum(pageNum);
-//				pageDTO.setCurrentPage(currentPage);
-//				
-//				List<ClientDTO> clientPList = clientService.getClientPList(pageDTO);
-//				
-//				int count = clientService.getClientCount(pageDTO);
-//				int pageBlock = 10;
-//				int startPage = (currentPage - 1) / pageBlock * pageBlock + 1;
-//				int endPage = startPage + pageBlock -1;
-//				int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);
-//				
-//				if(endPage > pageCount) {
-//					endPage = pageCount;
-//				}
-//				
-//				pageDTO.setCount(pageCount);
-//				pageDTO.setPageBlock(pageBlock);
-//				pageDTO.setStartPage(startPage);
-//				pageDTO.setEndPage(endPage);
-//				pageDTO.setPageCount(pageCount);
-				
-				model.addAttribute("clientList", clientList);
-				model.addAttribute("pageDTO", pageDTO);
+		if (clientLastNum == null) {
+			clientCode = "CL001";
+		}else {
+			int nextNum = clientLastNum + 1;
+			if(nextNum < 10) {
+				clientCode = String.format("CL00%d", nextNum);
+			}else if (nextNum < 100) {
+				clientCode = String.format("CL0%d", nextNum);
+			}else {
+				clientCode = String.format("CL%d", nextNum);
+			}
+		}		
+		clientDTO.setClientCode(clientCode);		
+							
 				
 		return "client/client";
 	}
@@ -257,29 +266,95 @@ public class ClientController {
 	
 	//거래처코드 조회
 	@GetMapping("/clientCodePopup")
-	public String clientCodePopup(Model model, HttpServletRequest request) {
+	public String clientCodePopup(ClientDTO clientDTO, PageDTO pageDTO, Model model, HttpServletRequest request) {
 		System.out.println("ClientController clientCodePopup()");
-		ClientDTO clientDTO = new ClientDTO();
 		System.out.println(clientDTO);
 		
-		// 검색어 가져오기
-		String clientCode = request.getParameter("clientCode");
-		clientDTO.setClientCode(clientCode);
-		String clientName = request.getParameter("clientName");
-		clientDTO.setClientName(clientName);
-		
-		List<ClientDTO> clientList;
-		
-		if(clientCode == null && clientName == null) {
-			clientList = clientService.getClientList();
-		}else {
-			clientList = clientService.getSearchClientList(clientDTO);
+		//검색어 가져오기
+		String clientCode = request.getParameter("productCode");
+		String clientName = request.getParameter("productName");
+				
+		// 한화면에 보여줄 글개수 설정
+		int pageSize = 10;
+		// pageNum 에 파라미터값을 가져오기
+		String pageNum = request.getParameter("pageNum");
+		// pageNum이 없으면 "1"로 설정
+		if(pageNum == null) {
+		pageNum = "1";
 		}
-		
+		// pageNum => 정수형 변경
+		int currentPage = Integer.parseInt(pageNum);
+									
+		// pageDTO 저장 
+		pageDTO.setPageSize(pageSize);
+		pageDTO.setPageNum(pageNum);
+		pageDTO.setCurrentPage(currentPage);
+									
+		//검색어 추가
+		pageDTO.setProductCode(clientCode);
+		pageDTO.setProductName(clientName);
+									
+		List<ClientDTO> clientList = clientService.getClientList(pageDTO);
+								
+		//페이징 작업
+		//전체 글개수 구하기 int 리턴할형 count = getStockList()
+		int count = clientService.getClientCount(pageDTO);
+		//한 화면에 보여줄 페이지 개수 설정
+		int pageBlock = 10;
+		//한 화면에 보여줄 시작페이지 구하기
+		int startPage = (currentPage - 1)/pageBlock*pageBlock+1;
+		//한 화면에 보여줄 끝페이지 구하기
+		int endPage = startPage + pageBlock - 1;
+		//전체 페이지개수 구하기
+		int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);
+		//끝페이지, 전체 페이지수 비교 => 끝페이지가 크면 전체 페이지로 변경
+		if(endPage > pageCount) {
+		endPage = pageCount;
+		}
+									
+		//pageDTO 저장
+		pageDTO.setCount(count); //전체글개수 ${pageDTO.count}
+		pageDTO.setPageBlock(pageBlock);
+		pageDTO.setStartPage(startPage);
+		pageDTO.setEndPage(endPage);
+		pageDTO.setPageCount(pageCount);
+						
+		//model 저장
+		model.addAttribute("pageDTO", pageDTO);
 		model.addAttribute("clientList", clientList);
-		
-		
+						
+		// clientCode 생성
+		Integer clientLastNum = clientService.getClinetLastNum();
+						
+		if (clientLastNum == null) {
+			clientCode = "CL001";
+		}else {
+			int nextNum = clientLastNum + 1;
+			if(nextNum < 10) {
+				clientCode = String.format("CL00%d", nextNum);
+			}else if (nextNum < 100) {
+				clientCode = String.format("CL0%d", nextNum);
+			}else {
+				clientCode = String.format("CL%d", nextNum);
+			}
+		}		
+		clientDTO.setClientCode(clientCode);		
+	
 		return "client/clientCodePopup";
 	}
 	
+	@PostMapping("/clientDeletePro")
+	@ResponseBody
+	public String clientDeletePro(ClientDTO clientDTO, Authentication authentication) {
+		System.out.println("ClientController clientDeletePro()");
+		System.out.println(clientDTO);
+	
+		String username = authentication.getName();
+		clientDTO.setName(username);	
+		
+		clientService.deleteClient(clientDTO);
+		
+		return "redirect:/client/client";
+	
+}
 }

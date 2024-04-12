@@ -21,8 +21,8 @@ public class ClientDAO {
 		sqlSession.insert(namespace + ".insertClient", clientDTO);		
 	}
 	
-	public List<ClientDTO> getClientList() {
-		return sqlSession.selectList(namespace + ".getClientList");
+	public List<ClientDTO> getClientList(PageDTO pageDTO) {
+		return sqlSession.selectList(namespace + ".getClientList", pageDTO);
 	}
 
 	public List<ClientDTO> getSearchClientList(ClientDTO clientDTO) {
@@ -50,14 +50,14 @@ public class ClientDAO {
 		return sqlSession.selectOne(namespace + ".getClinetLastNum");
 	}
 
-	public List<ClientDTO> getClientPList(PageDTO pageDTO) {
-		System.out.println("clientDAO getClientPList()");
-		return sqlSession.selectList(namespace + ".getClientPList", pageDTO);
-	}
-
 	public int getClientCount(PageDTO pageDTO) {
 		System.out.println("clientDAO getClientCount()");
 		return sqlSession.selectOne(namespace + ".getClientCount", pageDTO);
+	}
+
+	public void deleteClient(ClientDTO clientDTO) {
+		System.out.println("clientDAO deleteClient()");
+		sqlSession.delete(namespace+".deleteClient",clientDTO);
 	}
 
 	

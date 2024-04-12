@@ -39,10 +39,24 @@ public class ClientService {
 	}
 	
 	//
-	public List<ClientDTO> getClientList() {
+	public List<ClientDTO> getClientList(PageDTO pageDTO) {
 		System.out.println("ClientServie getClientList()");
 		
-		return clientDAO.getClientList();
+		// 시작하는 행번호 구하기
+		int currentPage = pageDTO.getCurrentPage();
+		int pageSize = pageDTO.getPageSize();
+								
+		int startRow = (currentPage - 1) * pageSize + 1;
+								
+		// 끝나는 행번호 구하기
+		int endRow = startRow + pageSize - 1;
+								
+		// pageDTO에 저장
+		// boardMapper => limit 시작행-1,개수
+		pageDTO.setStartRow(startRow - 1);
+		pageDTO.setEndRow(endRow);
+		
+		return clientDAO.getClientList(pageDTO);
 	}
 	
 	//
@@ -72,29 +86,34 @@ public class ClientService {
 		clientDAO.updateClient(clientDTO);
 	}
 
-	public Integer getClinetLastNum() {
-		System.out.println("ClientServie getClinetLastNum()");
-		return clientDAO.getClinetLastNum();
-	}
 
-	public List<ClientDTO> getClientPList(PageDTO pageDTO) {
-		System.out.println("ClientServie getClinetLastNum()");
-		
-		int startRow = (pageDTO.getCurrentPage() - 1) * pageDTO.getPageSize() + 1;
-		int EndRow = startRow + pageDTO.getPageSize() - 1;
-		
-		pageDTO.setStartRow(startRow -1);
-		pageDTO.setEndRow(EndRow);
-		
-		return clientDAO.getClientPList(pageDTO);
-	}
+//	public List<ClientDTO> getClientPList(PageDTO pageDTO) {
+//		System.out.println("ClientServie getClinetLastNum()");
+//		
+//		int startRow = (pageDTO.getCurrentPage() - 1) * pageDTO.getPageSize() + 1;
+//		int EndRow = startRow + pageDTO.getPageSize() - 1;
+//		
+//		pageDTO.setStartRow(startRow -1);
+//		pageDTO.setEndRow(EndRow);
+//		
+//		return clientDAO.getClientPList(pageDTO);
+//	}
 
 	public int getClientCount(PageDTO pageDTO) {
 		System.out.println("ClientServie getClientCount()");
 		return clientDAO.getClientCount(pageDTO);
 	}
 	
+	public Integer getClinetLastNum() {
+		System.out.println("ClientServie getClinetLastNum()");
+		return clientDAO.getClinetLastNum();
+	}
 
+	public void deleteClient(ClientDTO clientDTO) {
+		System.out.println("ClientServie deleteClient()");
+		clientDAO.deleteClient(clientDTO);
+		
+	}
 
 
 	
