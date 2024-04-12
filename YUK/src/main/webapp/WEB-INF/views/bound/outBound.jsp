@@ -10,7 +10,7 @@
     <meta name="_csrf" content="${_csrf.token}"/>
 	<meta name="_csrf_header" content="${_csrf.headerName}"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>출고 관리</title>
+    <title>요기육</title>
     
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/bootstrap.css">
     
@@ -39,14 +39,14 @@
     }
     
     .form-control{
-    width: auto;
+    width: 170px;
     display:inline-block;
     margin-left: 5px;
     margin-right: 20px;
     }
     
     #basicSelect{
-    width: 100px;
+    width: 90px;
     display:inline-block;
     padding: 2px;
     padding-left: 10px;
@@ -57,6 +57,10 @@
     th{
     font-size: 15px !important;
     }
+    
+    tbody tr:hover {
+	background-color:#e4e8ff;
+	}
     
     </style>
     
@@ -71,7 +75,7 @@
     <section class="section">
         <div class="card">
             <div class="card-body">
-            	<div class="row">
+            	<div class="row" style="margin-left: 1px; margin-right: 1px;">
             <div class="searchArea">
             	<form action="${pageContext.request.contextPath}/bound/outBound" method="get">
             	<b>진행구분</b>
@@ -81,9 +85,9 @@
             		<option value="com">출고완료</option>
             	</select>
             	<b>출고 코드</b>
-            	<input type="text" class="form-control" name="search1">
+            	<input type="text" class="form-control" name="search1" placeholder="출고코드를 입력하세요">
             	<b>품명</b>
-            	<input type="text" class="form-control" name="search2">
+            	<input type="text" class="form-control" name="search2" placeholder="품명을 입력하세요">
             	<b>제품출고 일자</b>
             	<input type="text" id="startDate" class="form-control" name="search3" placeholder="기간을 선택하세요">
             	<b>~</b>&nbsp;&nbsp;&nbsp;
@@ -91,7 +95,7 @@
             	<input type="submit" value="조회" class="btn btn-primary">
             	</form>
             </div>
-                <table class='table table-bordered mb-0' id="obTable">
+                <table class='table table-bordered mb-0' id="obTable" style="text-align: center;">
                     <thead>
                         <tr>
                             <th>출고 코드</th>

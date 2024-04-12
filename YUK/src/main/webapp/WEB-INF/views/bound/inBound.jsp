@@ -10,7 +10,7 @@
     <meta name="_csrf" content="${_csrf.token}"/>
 	<meta name="_csrf_header" content="${_csrf.headerName}"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>입고 관리</title>
+    <title>요기육</title>
     
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/bootstrap.css">
     
@@ -39,14 +39,14 @@
     }
     
     .form-control{
-    width: auto;
+    width: 170px;
     display:inline-block;
     margin-left: 5px;
     margin-right: 20px;
     }
     
     #basicSelect{
-    width: 100px;
+    width: 90px;
     display:inline-block;
     padding: 2px;
     padding-left: 10px;
@@ -58,8 +58,13 @@
     font-size: 15px !important;
     }
     
-    li{
-    a:hover {background: #efefef;border-color: #efefef;}
+    tbody tr:hover {
+	background-color:#e4e8ff;
+	}
+    
+    #myTab > li{
+    a:hover {background: #e4e8ff;
+    		 border-color: #e4e8ff;}
     }
     
     </style>
@@ -98,9 +103,9 @@
             			<option value="com">입고완료</option>
             		</select>
             		<b>자재입고 코드</b>
-            		<input type="text" class="form-control" name="search1">
+            		<input type="text" class="form-control" name="search1" placeholder="입고코드를 입력하세요">
             		<b>자재품명</b>
-            		<input type="text" class="form-control" name="search2">
+            		<input type="text" class="form-control" name="search2" placeholder="품명을 입력하세요">
             		<b>자재입고 일자</b>
             		<input type="text" id="startDate" class="form-control" name="search3" placeholder="기간을 선택하세요">
             		<b>~</b>&nbsp;&nbsp;&nbsp;
@@ -108,7 +113,7 @@
             		<input type="submit" value="조회" class="btn btn-primary">
             		</form>
             	</div>
-                    <table class='table table-bordered mb-0' id="mibTable">
+                    <table class='table table-bordered mb-0' id="mibTable" style="text-align: center;">
                     <thead>
                         <tr>
                             <th>자재입고 코드</th>
@@ -231,9 +236,9 @@
             			<option value="pib_com">입고완료</option>
             		</select>
             		<b>제품입고 코드</b>
-            		<input type="text" class="form-control" name="search5">
+            		<input type="text" class="form-control" name="search5" placeholder="입고코드를 입력하세요">
             		<b>제품명</b>
-            		<input type="text" class="form-control" name="search6">
+            		<input type="text" class="form-control" name="search6" placeholder="품명을 입력하세요">
             		<b>제품입고 일자</b>
             		<input type="text" id="startDate2" class="form-control" name="search7" placeholder="기간을 선택하세요">
             		<b>~</b>&nbsp;&nbsp;&nbsp;
@@ -241,7 +246,7 @@
             		<input type="submit" value="조회" class="btn btn-primary">
             		</form>
             	</div>
-                    <table class='table table-bordered mb-0' id="pibTable">
+                    <table class='table table-bordered mb-0' id="pibTable" style="text-align: center;">
                     <thead>
                         <tr>
                             <th>제품입고 코드</th>
