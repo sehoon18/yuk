@@ -41,13 +41,13 @@
             <div>
                 <form action="${pageContext.request.contextPath}/ordercontract/contract" method="get" style="display: flex;">
                      <div class="col-lg-2 col-3" style="display: flex; align-items: center; white-space: nowrap; margin-bottom: 4px;">
-				<div style="flex: 0 1 auto; margin-right: 10px;"><b>발주코드</b></div>
-                       <input type="text" id="first-name" class="form-control" name="search1" style="width: auto;">
+				<div style="flex: 0 1 auto; margin-right: 10px;"><b>수주코드</b></div>
+                       <input type="text" id="first-name" class="form-control" name="search1" style="width: auto;" placeholder="수주코드를 입력해주세요.">
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>거래처명</b>&nbsp;&nbsp;
-                     <input type="text" id="first-name" class="form-control" name="search2" style="width: auto;">
+                     <input type="text" id="first-name" class="form-control" name="search2" style="width: auto;" placeholder="거래처명을 입력해주세요.">
                     
                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <b>품명</b>&nbsp;&nbsp;
-                       <input type="text" id="first-name" class="form-control" name="search3" style="width: auto;">
+                       <input type="text" id="first-name" class="form-control" name="search3" style="width: auto;" placeholder="품명을 입력해주세요.">
                     &nbsp;&nbsp;
                     <button class="btn btn-primary btn-sm" type="submit"  >조회</button>
                     </div>
@@ -95,7 +95,7 @@
      	<td ><fmt:formatDate value="${OrdercontractDTO.con_due_date}" pattern="yyyy.MM.dd"/></td> 
 
     	<c:if test="${OrdercontractDTO.con_info_status  == 0 }">
-            <td><button class="btn icon icon-left  btn-outline-danger" disabled>발주진행</button></td>
+            <td><button class="btn icon icon-left  btn-outline-danger" disabled>수주진행</button></td>
 		</c:if>
 		<c:if test="${OrdercontractDTO.con_info_status  == 2 }">
             <td><button class="btn icon icon-left  btn-outline-success " disabled>입고완료</button></td>
