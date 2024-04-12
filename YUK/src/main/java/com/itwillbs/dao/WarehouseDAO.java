@@ -94,18 +94,18 @@ public class WarehouseDAO {
 	}//getStockCount()
 
 
-//	public Integer getProductLastNum() {
-//		System.out.println("warehouseDAO getProductLastNum()");
-//		return sqlSession.selectOne(namespace + ".getProductLastNum");
-//	}//getProductLastNum()
+	public Integer getProductLastNum() {
+		System.out.println("warehouseDAO getProductLastNum()");
+		return sqlSession.selectOne(namespace + ".getProductLastNum");
+	}//getProductLastNum()
 
-//	public List<WarehouseDTO> getWhList(PageDTO pageDTO) {
-//		return sqlSession.selectList(namespace + ".getWhList", pageDTO);
-//	}
+	public List<WarehouseDTO> getWhList(PageDTO pageDTO) {
+		return sqlSession.selectList(namespace + ".getWhList", pageDTO);
+	}
 
-//	public int getWhCount(PageDTO pageDTO) {
-//		return sqlSession.selectOne(namespace + ".getWhCount", pageDTO);
-//	}
+	public int getWhCount(PageDTO pageDTO) {
+		return sqlSession.selectOne(namespace + ".getWhCount", pageDTO);
+	}
 
 
 	public int getSvolFromPro_cd(WarehouseDTO warehouseDTO) {
