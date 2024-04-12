@@ -132,6 +132,7 @@
                              
 							<div class="col-12 d-flex justify-content-center">
 							    <button type="button"class="btn btn-primary mr-1 mb-1" onclick="enableInputs()">수정</button>&nbsp;&nbsp;&nbsp;&nbsp;
+							    <button type="button"class="btn btn-primary mr-1 mb-1" onclick="deleteClient()">삭제</button>&nbsp;&nbsp;&nbsp;&nbsp;
 							    
 <!-- 							    <button type="reset" class="btn btn-light-secondary mr-1 mb-1">초기화</button> -->
 							</div>
@@ -195,17 +196,19 @@ function enableInputs() {
     var submitButton = document.createElement("button");
     submitButton.setAttribute("type", "submit");
     submitButton.setAttribute("class", "btn btn-primary mr-1 mb-1");
-    submitButton.innerHTML = "수정완료";
+    submitButton.setAttribute("id", "submitBtn"); // 버튼에 고유한 id 추가
 
-//     var form = document.getElementById("clientDetailUpdateBtn");
-    var form = document.getElementById("clientDetailForm");
-//     form.innerHTML = "";
-    
-    var buttonContainer = document.createElement("div");
-    buttonContainer.setAttribute("class", "col-12 d-flex justify-content-center");
-    buttonContainer.appendChild(submitButton);
-	
-    form.appendChild(buttonContainer);
+    if (!document.getElementById("submitBtn")) { // id가 submitBtn인 요소가 없을 때만 버튼을 추가
+        submitButton.innerHTML = "수정완료";
+
+        var form = document.getElementById("clientDetailForm");
+
+        var buttonContainer = document.createElement("div");
+        buttonContainer.setAttribute("class", "col-12 d-flex justify-content-center");
+        buttonContainer.appendChild(submitButton);
+
+        form.appendChild(buttonContainer);
+    }
 }
 </script>
 
@@ -253,8 +256,36 @@ function updateClient(clientCode) {
         }
     });
 }
- 
-</script>	
+</script>
+
+<script>
+function deleteClient() {
+    var confirmDelete = confirm("정말 삭제하시겠습니까?");
+    if (confirmDelete) {
+        var clientCode = $("#clientCode").val(); // 삭제할 클라이언트 코드 가져오기
+        
+        // Ajax를 사용하여 서버에 삭제 요청 보내기
+        $.ajax({
+            url: "${pageContext.request.contextPath}/client/clientDeletePro", // 삭제를 처리하는 서버 URL
+            method: "POST", // HTTP 요청 메서드 (POST 사용)
+            data: { 'clientCode': clientCode }, // 서버에 전송할 데이터 (여기서는 삭제할 클라이언트 코드)
+            success: function(response) {
+                // 삭제 성공 시 알림창 띄우기
+                alert("클라이언트가 성공적으로 삭제되었습니다.");
+                // 페이지 리로드 및 팝업 창 닫기
+                window.opener.location.reload(); // 부모 창 새로고침
+                window.close(); // 팝업 창 닫기
+            },
+            error: function(xhr, status, error) {
+                // 오류 발생 시 알림창 띄우기
+                alert("클라이언트 삭제 중 오류가 발생했습니다.");
+                console.error(xhr, status, error);
+            }
+        });
+    }
+}
+</script>
+
 		
 </body>
 </html>

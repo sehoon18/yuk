@@ -46,11 +46,11 @@
                                         <div class="form-group">
                                             <label for="first-name-column">거래처유형*&nbsp;&nbsp;</label>
 
-                            <input class="form-check-input" type="radio" name="clientType" id="clientType1">
+                            <input class="form-check-input" type="radio" name="clientType" id="clientType1" checked>
                             <label class="form-check-label" for="flexRadioDefault1">납품처</label>
 
                         
-                            <input class="form-check-input" type="radio" name="clientType" id="clientType2">
+                            <input class="form-check-input" type="radio" name="clientType" id="clientType2" checked>
                             <label class="form-check-label" for="flexRadioDefault1">납입처</label>
                        		 
                        		 </div>
@@ -156,7 +156,7 @@ function sample5_execDaumPostcode() {
          var addr = data.address; // 최종 주소 변수
 
          // 주소 정보를 해당 필드에 넣는다.
-         document.getElementById("clientAddress").value = addr;
+         document.getElementById("clientBasicAddress").value = addr;
      }
  }).open();
 }
@@ -212,8 +212,9 @@ function clientPopupForm(){
 	            {'name': name}
 	        }, // 서버로 전송할 데이터
 	        success: function(response) {
-	        	
-	            window.close(); // 팝업 창 닫기
+	        	alert("등록 성공!");
+	        	window.opener.location.reload();
+                window.close();
 	        }
 	    });
 	}

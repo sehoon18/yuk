@@ -45,11 +45,6 @@ public class WarehouseDAO {
 		return sqlSession.selectOne(namespace + ".getWarehouseLastNum");
 	}//getWarehouseLastNum()
 
-	public void updateStock(WarehouseDTO warehouseDTO) {
-		System.out.println("warehouseDAO updateStock()");
-		sqlSession.update(namespace + ".updateStock", warehouseDTO);	
-	}//updateStock()
-
 	public int getWarehouseCount(PageDTO pageDTO) {
 		System.out.println("warehouseDAO getWarehouseCount()");
 		return sqlSession.selectOne(namespace + ".getWarehouseCount", pageDTO);
@@ -65,6 +60,11 @@ public class WarehouseDAO {
 		System.out.println("warehouseDAO insertStock()");
 		sqlSession.insert(namespace + ".insertStock", warehouseDTO);	
 	}//insertStock()
+	
+	public void updateStock(WarehouseDTO warehouseDTO) {
+		System.out.println("warehouseDAO updateStock()");
+		sqlSession.update(namespace + ".updateStock", warehouseDTO);	
+	}//updateStock()	
 
 	public List<WarehouseDTO> getStockList(PageDTO pageDTO) {
 		System.out.println("warehouseDAO getStockList()");
@@ -94,22 +94,47 @@ public class WarehouseDAO {
 	}//getStockCount()
 
 
-	public Integer getProductLastNum() {
-		System.out.println("warehouseDAO getProductLastNum()");
-		return sqlSession.selectOne(namespace + ".getProductLastNum");
-	}//getProductLastNum()
+//	public Integer getProductLastNum() {
+//		System.out.println("warehouseDAO getProductLastNum()");
+//		return sqlSession.selectOne(namespace + ".getProductLastNum");
+//	}//getProductLastNum()
 
-	
+//	public List<WarehouseDTO> getWhList(PageDTO pageDTO) {
+//		return sqlSession.selectList(namespace + ".getWhList", pageDTO);
+//	}
 
-	public List<WarehouseDTO> getWhList(PageDTO pageDTO) {
-		return sqlSession.selectList(namespace + ".getWhList", pageDTO);
+//	public int getWhCount(PageDTO pageDTO) {
+//		return sqlSession.selectOne(namespace + ".getWhCount", pageDTO);
+//	}
+
+
+	public int getSvolFromPro_cd(WarehouseDTO warehouseDTO) {
+		System.out.println("WarehouseDAO getSvolFromPro_cd()");
+		return sqlSession.selectOne(namespace+".getSvolFromPro_cd", warehouseDTO);
+	}//getSvolFromPro_cd()
+
+
+	public int getMvolFromPro_cd(WarehouseDTO warehouseDTO) {
+		System.out.println("WarehouseDAO getMvolFromPro_cd()");
+		return sqlSession.selectOne(namespace+".getMvolFromPro_cd", warehouseDTO);
+	}//getMvolFromPro_cd()
+
+
+	public int getPvolFromPro_cd(WarehouseDTO warehouseDTO) {
+		System.out.println("WarehouseDAO getPvolFromPro_cd()");
+		return sqlSession.selectOne(namespace+".getPvolFromPro_cd", warehouseDTO);
+	}//getPvolFromPro_cd()
+
+
+	public WarehouseDTO getWarehouse(WarehouseDTO warehouseDTO) {
+		System.out.println("WarehouseDAO getWarehouse()");
+		return sqlSession.selectOne(namespace + ".getWarehouse", warehouseDTO);
 	}
 
-	public int getWhCount(PageDTO pageDTO) {
-		return sqlSession.selectOne(namespace + ".getWhCount", pageDTO);
-	}
-
-
+	public WarehouseDTO getWarehouseList2(WarehouseDTO warehouseDTO) {
+		System.out.println("warehouseDAO getWarehouseList2()");
+		return sqlSession.selectOne(namespace + ".getWarehouseList2", warehouseDTO);
+	}//getWarehouseList2()
 
 
 

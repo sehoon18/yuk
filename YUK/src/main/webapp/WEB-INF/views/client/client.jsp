@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/assets/images/favicon.svg" type="image/x-icon">
 <style>
 .color:hover {
-	background-color: lightgray;
+	background-color: #e4e8ff;
 }
 </style>    
 </head>
@@ -26,11 +26,15 @@
     <div style="margin-left: 20px;">
     <h1><b>거래처 관리</b></h1>
   	<br>
-  	
-  	<form action="${pageContext.request.contextPath}/client/client" >
+<!--     Bordered table start -->
+<div class="row" id="table-bordered" style="margin-right: 20px;">
+  <div class="col-12">
+    <div class="card">
+    <br>
+    <form action="${pageContext.request.contextPath}/client/client" >
   <div class="col-lg-2 col-3" style="display: flex; align-items: center; white-space: nowrap;">
 <!--   	flex: 0 1 auto; 속성은 사원번호 텍스트가 필요한 만큼의 공간만 차지 -->
-  <div style="flex: 0 1 auto; margin-right: 10px;"><b>거래처코드</b></div>
+  <div style="flex: 0 1 auto; margin-right: 10px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>거래처코드</b></div>
   <input type="text" id="clientCode" class="form-control" name="clientCode" style="flex: 1 1 auto; width: auto; background-color: white;" onclick="clientCodePopup()" readonly placeholder="거래처코드를 선택하세요.">
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>거래처명</b> &nbsp;&nbsp;
   <input type="text" id="clientName" class="form-control" name="clientName" style="flex: 1 1 auto; width: auto;" placeholder="거래처명을 입력하세요.">
@@ -38,14 +42,6 @@
   <button class="btn btn-primary btn-sm" type="submit">조회</button>
 </div>
 </form>
-<br>
-    
-
-    
-<!--     Bordered table start -->
-<div class="row" id="table-bordered" style="margin-right: 20px;">
-  <div class="col-12">
-    <div class="card">
       <div class="card-header" >
         <h4 class="card-title"><b>총 ${clientList.size() }건</b></h4>
       </div>
@@ -85,41 +81,77 @@
             </tbody>           
           </table>
           
-         <!-- 			페이징 시작 -->
-<nav aria-label="Page navigation example">
+          
+          
+  <!-- 			페이징 시작 -->
+<nav aria-label="Page navigation example" style="padding: 10px 0px;">
     <ul class="pagination pagination-primary justify-content-end">
         <c:if test="${pageDTO.startPage > 1}">
             <li class="page-item">
-                <a class="page-link" href="${pageContext.request.contextPath}/client/client?pageNum=${pageDTO.startPage - 1}">Previous</a>
+                <a class="page-link" href="${pageContext.request.contextPath}/client/client?pageNum=${pageDTO.startPage - 1}&clientCode=${pageDTO.clientCode}&clientName=${pageDTO.clinetName}"><span aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-left"><polyline points="15 18 9 12 15 6"></polyline></svg></span></a>
             </li>
         </c:if>
-        
         <c:if test="${pageDTO.startPage <= 1}">
             <li class="page-item disabled">
-                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                <a class="page-link" href="#" tabindex="-1" aria-disabled="true"><span aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-left"><polyline points="15 18 9 12 15 6"></polyline></svg></span></a>
             </li>
         </c:if>
-        
         <c:forEach var="i" begin="${pageDTO.startPage}" end="${pageDTO.endPage}" step="1">
             <li class="page-item ${pageDTO.currentPage == i ? 'active' : ''}">
-                <a class="page-link" href="${pageContext.request.contextPath}/client/client?pageNum=${i}">${i}</a>
+                <a class="page-link" href="${pageContext.request.contextPath}/client/client?pageNum=${i}&clientCode=${pageDTO.clientCode}&clientName=${pageDTO.clientName}">${i}</a>
             </li>
         </c:forEach>
-        
         <c:if test="${pageDTO.endPage < pageDTO.pageCount}">
             <li class="page-item">
-                <a class="page-link" href="${pageContext.request.contextPath}/client/client?pageNum=${pageDTO.endPage + 1}">Next</a>
+                <a class="page-link" href="${pageContext.request.contextPath}/client/client?pageNum=${pageDTO.endPage + 1}&clientCode=${pageDTO.clientCode}&clientName=${pageDTO.clientName}"><span aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg></span></a>
             </li>
         </c:if>
-        
         <c:if test="${pageDTO.endPage >= pageDTO.pageCount}">
             <li class="page-item disabled">
-                <a class="page-link" href="#">Next</a>
+                <a class="page-link" href="#"><span aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg></span></a>
             </li>
         </c:if>
     </ul>
 </nav>
-<!-- 			페이징 끝 -->  
+<!-- 			페이징 끝 -->        
+          
+          
+          
+         <!-- 			페이징 시작 -->
+<!-- <nav aria-label="Page navigation example"> -->
+<!--     <ul class="pagination pagination-primary justify-content-end"> -->
+<%--         <c:if test="${pageDTO.startPage > 1}"> --%>
+<!--             <li class="page-item"> -->
+<%--                 <a class="page-link" href="${pageContext.request.contextPath}/client/client?pageNum=${pageDTO.startPage - 1}">Previous</a> --%>
+<!--             </li> -->
+<%--         </c:if> --%>
+        
+<%--         <c:if test="${pageDTO.startPage <= 1}"> --%>
+<!--             <li class="page-item disabled"> -->
+<!--                 <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a> -->
+<!--             </li> -->
+<%--         </c:if> --%>
+        
+<%--         <c:forEach var="i" begin="${pageDTO.startPage}" end="${pageDTO.endPage}" step="1"> --%>
+<%--             <li class="page-item ${pageDTO.currentPage == i ? 'active' : ''}"> --%>
+<%--                 <a class="page-link" href="${pageContext.request.contextPath}/client/client?pageNum=${i}">${i}</a> --%>
+<!--             </li> -->
+<%--         </c:forEach> --%>
+        
+<%--         <c:if test="${pageDTO.endPage < pageDTO.pageCount}"> --%>
+<!--             <li class="page-item"> -->
+<%--                 <a class="page-link" href="${pageContext.request.contextPath}/client/client?pageNum=${pageDTO.endPage + 1}">Next</a> --%>
+<!--             </li> -->
+<%--         </c:if> --%>
+        
+<%--         <c:if test="${pageDTO.endPage >= pageDTO.pageCount}"> --%>
+<!--             <li class="page-item disabled"> -->
+<!--                 <a class="page-link" href="#">Next</a> -->
+<!--             </li> -->
+<%--         </c:if> --%>
+<!--     </ul> -->
+<!-- </nav> -->
+<!-- <!-- 			페이징 끝 -->
           
         </div>
       </div>
@@ -130,22 +162,22 @@
     
 </div>    
 
-<nav aria-label="Page navigation example">
-	<ul class="pagination pagination-primary" style="justify-content:center;">
-		<li class="page-item">
-			<a class="page-link" href="#">
-		<span aria-hidden="true"><i data-feather="chevron-left"></i></span>
-			</a>
-		</li>
-			<li class="page-item"><a class="page-link" href="">1</a></li>
-			<li class="page-item active"><a class="page-link" href="">2</a></li>
-			<li class="page-item"><a class="page-link" href="">3</a></li>
-			<li class="page-item"><a class="page-link" href="">
-		<span aria-hidden="true"><i data-feather="chevron-right"></i></span>
-			</a>
-		</li>
-	</ul>
-</nav>
+<!-- <nav aria-label="Page navigation example"> -->
+<!-- 	<ul class="pagination pagination-primary" style="justify-content:center;"> -->
+<!-- 		<li class="page-item"> -->
+<!-- 			<a class="page-link" href="#"> -->
+<!-- 		<span aria-hidden="true"><i data-feather="chevron-left"></i></span> -->
+<!-- 			</a> -->
+<!-- 		</li> -->
+<!-- 			<li class="page-item"><a class="page-link" href="">1</a></li> -->
+<!-- 			<li class="page-item active"><a class="page-link" href="">2</a></li> -->
+<!-- 			<li class="page-item"><a class="page-link" href="">3</a></li> -->
+<!-- 			<li class="page-item"><a class="page-link" href=""> -->
+<!-- 		<span aria-hidden="true"><i data-feather="chevron-right"></i></span> -->
+<!-- 			</a> -->
+<!-- 		</li> -->
+<!-- 	</ul> -->
+<!-- </nav> -->
 
 
 <!-- <nav aria-label="Page navigation example" style="margin-bottom:50px;" > -->

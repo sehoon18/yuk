@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.itwillbs.domain.PageDTO;
+import com.itwillbs.domain.ProductionDTO;
 import com.itwillbs.domain.WarehouseDTO;
 import com.itwillbs.service.WarehouseService;
 
@@ -30,7 +32,7 @@ public class WarehouseController {
 	
 	//재고 관리
 	@GetMapping("/stock")
-	public String stock(Model model, HttpServletRequest request, PageDTO pageDTO, WarehouseDTO warehouseDTO) {
+	public String stock(Model model, HttpServletRequest request) {
 		System.out.println("WarehouseController stock()");
 		
 		//검색어 가져오기
@@ -41,21 +43,23 @@ public class WarehouseController {
 		String productType = request.getParameter("productType");
 		
 		// 한화면에 보여줄 글개수 설정
-//		int pageSize = 10;
-//		// pageNum 에 파라미터값을 가져오기
-//		String pageNum = request.getParameter("pageNum");
-//		// pageNum이 없으면 "1"로 설정
-//		if(pageNum == null) {
-//		pageNum = "1";
-//		}
-//		// pageNum => 정수형 변경
-//		int currentPage = Integer.parseInt(pageNum);
-//					
-//		// pageDTO 저장 
-//		pageDTO.setPageSize(pageSize);
-//		pageDTO.setPageNum(pageNum);
-//		pageDTO.setCurrentPage(currentPage);
-//					
+		int pageSize = 10;
+		// pageNum 에 파라미터값을 가져오기
+		String pageNum = request.getParameter("pageNum");
+		// pageNum이 없으면 "1"로 설정
+		if(pageNum == null) {
+		pageNum = "1";
+		}
+		// pageNum => 정수형 변경
+		int currentPage = Integer.parseInt(pageNum);
+					
+		PageDTO pageDTO = new PageDTO();
+		
+		// pageDTO 저장 
+		pageDTO.setPageSize(pageSize);
+		pageDTO.setPageNum(pageNum);
+		pageDTO.setCurrentPage(currentPage);
+					
 		//검색어 추가
 		pageDTO.setProductCode(productCode);
 		pageDTO.setProductName(productName);
@@ -65,49 +69,49 @@ public class WarehouseController {
 					
 		List<WarehouseDTO> stockList = warehouseService.getStockList(pageDTO);
 				
-//		//페이징 작업
-//		//전체 글개수 구하기 int 리턴할형 count = getStockList()
-//		int count = warehouseService.getStockCount(pageDTO);
-//		//한 화면에 보여줄 페이지 개수 설정
-//		int pageBlock = 10;
-//		//한 화면에 보여줄 시작페이지 구하기
-//		int startPage = (currentPage - 1)/pageBlock*pageBlock+1;
-//		//한 화면에 보여줄 끝페이지 구하기
-//		int endPage = startPage + pageBlock - 1;
-//		//전체 페이지개수 구하기
-//		int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);
-//		//끝페이지, 전체 페이지수 비교 => 끝페이지가 크면 전체 페이지로 변경
-//		if(endPage > pageCount) {
-//		endPage = pageCount;
-//		}
-////					
-////		//pageDTO 저장
-//		pageDTO.setCount(count); //전체글개수 ${pageDTO.count}
-//		pageDTO.setPageBlock(pageBlock);
-//		pageDTO.setStartPage(startPage);
-//		pageDTO.setEndPage(endPage);
-//		pageDTO.setPageCount(pageCount);
-////		
-////		//model 저장
-//		model.addAttribute("pageDTO", pageDTO);
+		//페이징 작업
+		//전체 글개수 구하기 int 리턴할형 count = getStockList()
+		int count = warehouseService.getStockCount(pageDTO);
+		//한 화면에 보여줄 페이지 개수 설정
+		int pageBlock = 10;
+		//한 화면에 보여줄 시작페이지 구하기
+		int startPage = (currentPage - 1)/pageBlock*pageBlock+1;
+		//한 화면에 보여줄 끝페이지 구하기
+		int endPage = startPage + pageBlock - 1;
+		//전체 페이지개수 구하기
+		int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);
+		//끝페이지, 전체 페이지수 비교 => 끝페이지가 크면 전체 페이지로 변경
+		if(endPage > pageCount) {
+		endPage = pageCount;
+		}
+					
+		//pageDTO 저장
+		pageDTO.setCount(count); //전체글개수 ${pageDTO.count}
+		pageDTO.setPageBlock(pageBlock);
+		pageDTO.setStartPage(startPage);
+		pageDTO.setEndPage(endPage);
+		pageDTO.setPageCount(pageCount);
+		
+		//model 저장
+		model.addAttribute("pageDTO", pageDTO);
 		model.addAttribute("stockList",stockList);
 		
 		// ProductCode 생성
-//					Integer productLastNum = warehouseService.getProductLastNum();
-//					
-//					if (productLastNum == null) {
-//						productCode = "CL001";
-//					}else {
-//						int nextNum = productLastNum + 1;
-//						if(nextNum < 10) {
-//							productCode = String.format("CL00%d", nextNum);
-//						}else if (nextNum < 100) {
-//							productCode = String.format("CL0%d", nextNum);
-//						}else {
-//							productCode = String.format("CL%d", nextNum);
-//						}
-//					}
-//					warehouseDTO.setProductCode(productCode);
+//		Integer productLastNum = warehouseService.getProductLastNum();
+					
+//		if (productLastNum == null) {
+//			productCode = "CL001";
+//		}else {
+//			int nextNum = productLastNum + 1;
+//			if(nextNum < 10) {
+//				productCode = String.format("CL00%d", nextNum);
+//			}else if (nextNum < 100) {
+//				productCode = String.format("CL0%d", nextNum);
+//			}else {
+//				productCode = String.format("CL%d", nextNum);
+//			}
+//		}
+//		warehouseDTO.setProductCode(productCode);
 
 		return "warehouse/stock";
 		}//stock()
@@ -124,7 +128,7 @@ public class WarehouseController {
 	
 		//재고코드 조회
 		@GetMapping("/stockCodePopup")
-		public String stockCodePopup(HttpServletRequest request, PageDTO pageDTO, Model model, WarehouseDTO warehouseDTO) {
+		public String stockCodePopup(HttpServletRequest request, PageDTO pageDTO, Model model) {
 			System.out.println("WarehouseController stockCodePopup()");
 			
 			//검색어 가져오기
@@ -136,25 +140,25 @@ public class WarehouseController {
 		
 			
 			// 한화면에 보여줄 글개수 설정
-//			int pageSize = 10;
+			int pageSize = 10;
 //			// pageNum 에 파라미터값을 가져오기
-//			String pageNum = request.getParameter("pageNum");
+			String pageNum = request.getParameter("pageNum");
 ////			// pageNum이 없으면 "1"로 설정
-//			if(pageNum == null) {
-//			pageNum = "1";
-//			}
+			if(pageNum == null) {
+			pageNum = "1";
+			}
 //			// pageNum => 정수형 변경
-//			int currentPage = Integer.parseInt(pageNum);
+			int currentPage = Integer.parseInt(pageNum);
 ////						
 ////			// pageDTO 저장 
-//			pageDTO.setPageSize(pageSize);
-//			pageDTO.setPageNum(pageNum);
-//			pageDTO.setCurrentPage(currentPage);
+			pageDTO.setPageSize(pageSize);
+			pageDTO.setPageNum(pageNum);
+			pageDTO.setCurrentPage(currentPage);
 ////						
 ////			//검색어 추가
 			pageDTO.setProductCode(productCode);
-		pageDTO.setProductName(productName);
-		pageDTO.setWarehouseName(warehouseName);
+			pageDTO.setProductName(productName);
+			pageDTO.setWarehouseName(warehouseName);
 //			//검색 옵션
 			pageDTO.setProductType(productType);
 ////						
@@ -162,29 +166,29 @@ public class WarehouseController {
 ////					
 ////			//페이징 작업
 ////			//전체 글개수 구하기 int 리턴할형 count = getStockList()
-//			int count = warehouseService.getStockCount(pageDTO);
+			int count = warehouseService.getStockCount(pageDTO);
 //			//한 화면에 보여줄 페이지 개수 설정
-//			int pageBlock = 10;
+			int pageBlock = 10;
 ////			//한 화면에 보여줄 시작페이지 구하기
-//			int startPage = (currentPage - 1)/pageBlock*pageBlock+1;
+			int startPage = (currentPage - 1)/pageBlock*pageBlock+1;
 ////			//한 화면에 보여줄 끝페이지 구하기
-//			int endPage = startPage + pageBlock - 1;
+			int endPage = startPage + pageBlock - 1;
 ////			//전체 페이지개수 구하기
-//			int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);
+			int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);
 ////			//끝페이지, 전체 페이지수 비교 => 끝페이지가 크면 전체 페이지로 변경
-//			if(endPage > pageCount) {
-//			endPage = pageCount;
-//			}
+			if(endPage > pageCount) {
+			endPage = pageCount;
+			}
 ////						
 ////			//pageDTO 저장
-//			pageDTO.setCount(count); //전체글개수 ${pageDTO.count}
-//			pageDTO.setPageBlock(pageBlock);
-//			pageDTO.setStartPage(startPage);
-//			pageDTO.setEndPage(endPage);
-//			pageDTO.setPageCount(pageCount);
-////			
+			pageDTO.setCount(count); //전체글개수 ${pageDTO.count}
+			pageDTO.setPageBlock(pageBlock);
+			pageDTO.setStartPage(startPage);
+			pageDTO.setEndPage(endPage);
+			pageDTO.setPageCount(pageCount);
+			
 ////			//model 저장
-//			model.addAttribute("pageDTO", pageDTO);
+			model.addAttribute("pageDTO", pageDTO);
 			model.addAttribute("stockList",stockList);
 			
 			// ProductCode 생성
@@ -209,17 +213,16 @@ public class WarehouseController {
 		
 		@PostMapping("/stockUpdatePro")
 		@ResponseBody
-		public String stockUpdatePro(WarehouseDTO warehouseDTO, Authentication authentication) {
+		public ResponseEntity<?> stockUpdatePro(WarehouseDTO warehouseDTO, Authentication authentication) {
 			System.out.println("ProductController stockUpdatePro()");
 			System.out.println(warehouseDTO);
 			
-//			String username = authentication.getName();
-//			warehouseDTO.setName(username);	
+			String username = authentication.getName();
+			warehouseDTO.setName(username);	
 //			warehouseService.updateStock(warehouseDTO);
 			
-			warehouseService.stockUpdatePro(warehouseDTO);
-			
-			return "OK";
+//			return "OK";
+			return warehouseService.stockUpdatePro(warehouseDTO);
 		}//stockUpdatePro()
 	
 	//------------------------------------------------------------------------------------------------	
@@ -418,26 +421,44 @@ public class WarehouseController {
 	
 	
 	@PostMapping("/warehouseUpdatePro")
-	public String warehouseUpdatePro(WarehouseDTO warehouseDTO, Authentication authentication) {
+	public String warehouseUpdatePro(WarehouseDTO warehouseDTO, Authentication authentication, RedirectAttributes redirectAttributes) {
 		System.out.println("ProductController warehouseUpdatePro()");
+		System.out.println(warehouseDTO);
+		
+//		String username = authentication.getName();
+//		warehouseDTO.setName(username);	
+//		
+//		WarehouseDTO warehouseDTO2 = warehouseService.getWarehouse(warehouseDTO);
+//		System.out.println(warehouseDTO);
+//		if(warehouseDTO2.getProductSvol() == 0) {
+			warehouseService.updateWarehouse(warehouseDTO);
+//			return "redirect:/warehouse/warehouse";
+//		}else {
+//			redirectAttributes.addFlashAttribute("errorMessage", "현재 보유량이 0인 창고는 삭제가 불가능합니다.");
+			return "redirect:/warehouse/warehouse";
+		
+	}//warehouseUpdatePro()
+	
+	
+	@PostMapping("/warehouseDeletePro")
+	public ResponseEntity<?> warehouseDeletePro(@RequestBody WarehouseDTO warehouseDTO, Authentication authentication, RedirectAttributes redirectAttributes) {
+		System.out.println("ProductionController warehouseDeletePro()");
 		System.out.println(warehouseDTO);
 		
 		String username = authentication.getName();
 		warehouseDTO.setName(username);	
-		warehouseService.updateWarehouse(warehouseDTO);
 		
-		return "redirect:/warehouse/warehouse";
-	}//warehouseUpdatePro()
-	
-	@PostMapping("/warehouseDeletePro")
-	public String warehouseDeletePro(@RequestBody WarehouseDTO warehouseDTO) {
-		System.out.println("ProductionController warehouseDeletePro()");
-		System.out.println(warehouseDTO);
-		
-		warehouseService.deleteWarehouse(warehouseDTO);
-		
-		return "redirect:/warehouse/warehouse";
+		WarehouseDTO warehouseDTO2 = warehouseService.getWarehouseList2(warehouseDTO);
+		System.out.println(warehouseDTO2);
+		if(warehouseDTO2.getProductSvol() == 0) {
+			warehouseService.deleteWarehouse(warehouseDTO2);
+			return ResponseEntity.ok().body("{\"message\":\"success\"}");
+		}else {
+			redirectAttributes.addFlashAttribute("errorMessage", "현재 보유량이 존재하는 창고는 삭제가 불가능합니다.");
+			return ResponseEntity.badRequest().body("{\"message\":\"Operation not allowed\"}");
+
 	}//warehouseDeletePro()
+		
 	
 	
-}
+	}}
