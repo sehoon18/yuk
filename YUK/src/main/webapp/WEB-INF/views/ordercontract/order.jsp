@@ -37,33 +37,30 @@
 <div class="main-content container-fluid" width="1392px" height="1000px">
     <div class="page-title">
         <h3><a href="${pageContext.request.contextPath}/ordercontract/order">발주관리</a></h3>
-        <h5><a href="${pageContext.request.contextPath}/ordercontract/order">조회페이지</a></h5>
     </div>
     <div class="card">
         <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
             <div>
                 <form action="${pageContext.request.contextPath}/ordercontract/order" method="get" style="display: flex;">
-                    <div style="margin-right: 10px;">
-                        <b>발주코드</b>
-                        <input type="text" id="first-name" class="form-control" name="search1" style="width: auto;">
+                    <div class="col-lg-2 col-3" style="display: flex; align-items: center; white-space: nowrap; margin-bottom: 4px;">
+				<div style="flex: 0 1 auto; margin-right: 10px;"><b>발주코드</b></div>
+                       <input type="text" id="first-name" class="form-control" name="search1" style="width: auto;" placeholder="발주코드를 입력해주세요.">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>거래처명</b>&nbsp;&nbsp;
+                     <input type="text" id="first-name" class="form-control" name="search2" style="width: auto;" placeholder="거래처명을 입력해주세요.">
+                    
+                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <b>품명</b>&nbsp;&nbsp;
+                       <input type="text" id="first-name" class="form-control" name="search3" style="width: auto;" placeholder="품명을 입력해주세요.">
+                    &nbsp;&nbsp;
+                    <button class="btn btn-primary btn-sm" type="submit"  >조회</button>
                     </div>
-                    <div style="margin-right: 10px;">
-                        <b>거래처명</b>
-                        <input type="text" id="first-name" class="form-control" name="search2" style="width: auto;">
-                    </div>
-                    <div style="margin-right: 10px;">
-                        <b>품명</b>
-                        <input type="text" id="first-name" class="form-control" name="search3" style="width: auto;">
-                    </div>
-                    <button class="btn btn-primary btn-sm" type="submit" style="height:36px !important; margin-top:22px !important;" >조회</button>
                 </form>
             </div>
             <div>
            <sec:authorize access="hasAnyRole('ROLE_OC', 'ROLE_ADMIN')">
-                <button class="btn btn-primary btn-sm" type="submit" onclick="addpopup();" style="margin-top:22px !important;">등록</button>
+                <button class="btn btn-primary btn-sm" type="submit" onclick="addpopup();" >등록</button>
 </sec:authorize>
 <sec:authorize access="hasAnyRole('ROLE_PRODUCT', 'ROLE_BOUND', 'ROLE_PRODUCTION', 'ROLE_NONE')">
-                <button class="btn btn-primary btn-sm" type="submit" onclick="accessError();" style="margin-top:22px !important;">등록</button>
+                <button class="btn btn-primary btn-sm" type="submit" onclick="accessError();" >등록</button>
 </sec:authorize>
 <!--                 <button class="btn btn-primary btn-sm" type="submit" style="margin-top:22px !important;">저장</button> -->
             </div>
@@ -116,7 +113,7 @@
     <ul class="pagination pagination-primary justify-content-end">
         <c:if test="${pageDTO.startPage > 1}">
             <li class="page-item">
-                <a class="page-link" href="${pageContext.request.contextPath}/ordercontract/order?pageNum=${pageDTO.startPage - 1}&search1=${pageDTO.search1}&search2=${pageDTO.search2}&search5=${pageDTO.search0}"><span aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="` feather-chevron-left"><polyline points="15 18 9 12 15 6"></polyline></svg></span></a>
+                <a class="page-link" href="${pageContext.request.contextPath}/ordercontract/order?pageNum=${pageDTO.startPage - 1}&search1=${pageDTO.search1}&search2=${pageDTO.search2}&search3=${pageDTO.search3}"><span aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-left"><polyline points="15 18 9 12 15 6"></polyline></svg></span></a>
             </li>
         </c:if>
         <c:if test="${pageDTO.startPage <= 1}">
@@ -126,12 +123,12 @@
         </c:if>
         <c:forEach var="i" begin="${pageDTO.startPage}" end="${pageDTO.endPage}" step="1">
             <li class="page-item ${pageDTO.currentPage == i ? 'active' : ''}">
-                <a class="page-link" href="${pageContext.request.contextPath}/ordercontract/order?pageNum=${i}&search1=${pageDTO.search1}&search2=${pageDTO.search2}&search5=${pageDTO.search0}">${i}</a>
+                <a class="page-link" href="${pageContext.request.contextPath}/ordercontract/order?pageNum=${i}&search1=${pageDTO.search1}&search2=${pageDTO.search2}&search3=${pageDTO.search3}">${i}</a>
             </li>
         </c:forEach>
         <c:if test="${pageDTO.endPage < pageDTO.pageCount}">
             <li class="page-item">
-                <a class="page-link" href="${pageContext.request.contextPath}/ordercontract/order?pageNum=${pageDTO.endPage + 1}&search1=${pageDTO.search1}&search2=${pageDTO.search2}&search5=${pageDTO.search0}"><span aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg></span></a>
+                <a class="page-link" href="${pageContext.request.contextPath}/ordercontract/order?pageNum=${pageDTO.endPage + 1}&search1=${pageDTO.search1}&search2=${pageDTO.search2}&search3=${pageDTO.search3}"><span aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg></span></a>
             </li>
         </c:if>
         <c:if test="${pageDTO.endPage >= pageDTO.pageCount}">
@@ -141,10 +138,10 @@
         </c:if>
     </ul>
 </nav>
-<!-- 페이징 끝 -->
+<!-- 			페이징 끝 -->
             </div>
          </div>
-</div>
+
 
             <footer>
                 <div class="footer clearfix mb-0 text-muted">
@@ -162,7 +159,7 @@
 	  // 인풋 창을 클릭하면 팝업을 엽니다.
 	  function popup(event, ord_cd) {
 		    event.stopPropagation();
-        var popup = window.open("${pageContext.request.contextPath}/ordercontract/orderdeletepopup?ord_cd="+ord_cd, "popup", "width=1600,height=600");
+        var popup = window.open("${pageContext.request.contextPath}/ordercontract/orderdeletepopup?ord_cd="+ord_cd, "popup", "width=1600,height=400");
         
 	    if (popup === null || typeof(popup) === 'undefined') {
 	      alert('팝업이 차단되었습니다. 팝업 차단을 해제하고 다시 시도해주세요.');
@@ -180,7 +177,7 @@
 	<script>
 	  // 인풋 창을 클릭하면 팝업을 엽니다.
 	  function addpopup() {
-	    var popup = window.open("${pageContext.request.contextPath}/popup/orderaddpopup", "addpopup", "width=1600,height=600");
+	    var popup = window.open("${pageContext.request.contextPath}/popup/orderaddpopup", "addpopup", "width=1600,height=400");
 	    
 	    if (popup === null || typeof(popup) === 'undefined') {
 	      alert('팝업이 차단되었습니다. 팝업 차단을 해제하고 다시 시도해주세요.');

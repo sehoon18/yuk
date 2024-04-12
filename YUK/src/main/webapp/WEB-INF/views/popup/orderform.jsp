@@ -69,6 +69,18 @@
             font-weight: bold;
             font-size: 20px;
         }
+        @media print {
+    body * {
+        visibility: hidden; /* 기본적으로 모든 요소를 인쇄하지 않음 */
+    }
+    .container, .container * {
+        visibility: visible; /* container 클래스를 가진 요소와 그 자식 요소만 인쇄 */
+    }
+    .container {
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
     </style>
 </head>
 <body>
@@ -129,8 +141,19 @@
                 <!-- 다른 주문 항목들도 추가 -->
             </tbody>
         </table>
+        <div>
         <p class="total">총금액:<fmt:formatNumber value="${ordercontractDTO.pro_price * ordercontractDTO.ord_vol}" groupingUsed="true" maxFractionDigits="0"/></p>
-
+        </div>
+        </div>
+       <div style="text-align:center; margin: 10px 0;">
+        <button onclick="printPage()" class="btn btn-dark" style="margin-right: 10px;">페이지 인쇄</button>
+       
     </div>
 </body>
+<script>
+function printPage() {
+    window.print();
+}
+</script>
+
 </html>

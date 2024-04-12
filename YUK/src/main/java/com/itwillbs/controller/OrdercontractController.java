@@ -37,7 +37,7 @@ public class OrdercontractController {
 	//Ordercontract
 	@GetMapping("/order")
 	public String order(HttpServletRequest request,Model model,OrdercontractDTO ordercontractDTO, PageDTO pageDTO) {
-		System.out.println("OrdercontractController order()");
+		System.out.println("OrdercontractController orderList()");
 		String search1 = request.getParameter("search1");
 		pageDTO.setSearch1(search1);
 		String search2 = request.getParameter("search2");
@@ -83,7 +83,7 @@ public class OrdercontractController {
 	}
 	@GetMapping("/contract")
 	public String contract(HttpServletRequest request,Model model,OrdercontractDTO ordercontractDTO, PageDTO pageDTO) {
-		System.out.println("OrdercontractController contract()");
+		System.out.println("OrdercontractController contractList()");
 		String search1 = request.getParameter("search1");
 		pageDTO.setSearch1(search1);
 		String search2 = request.getParameter("search2");
@@ -255,6 +255,7 @@ public class OrdercontractController {
 			model.addAttribute("ordercontractDTO", ordercontractDTO);
 			return "popup/contractaddpopup";
 		}
+		
 		@GetMapping("/contractdeletepopup")
 		public String contractdeletepopup(HttpServletRequest request,OrdercontractDTO ordercontractDTO, Model model) {
 			System.out.println("OrdercontractController contractdeletepopup()");
@@ -280,43 +281,25 @@ public class OrdercontractController {
 		public ResponseEntity<String> deleteOrder(@RequestBody  OrdercontractDTO ordercontractDTO) {
 			System.out.println("OrdercontractController deleteorder()");
 			System.out.println(ordercontractDTO);
-//			String ord_cd = request.getParameter("ord_cd");
-//			ordercontractDTO.setOrd_cd(ord_cd);
+
 			ordercontractService.deleteOrder(ordercontractDTO);
 			ordercontractService.deleteMib(ordercontractDTO);
 			System.out.println(ordercontractDTO);
 			
 			return ResponseEntity.ok().body("{\"message\": \"등록 성공!\"}");
-//			return "ordercontract/order";
+
 		}
 		@PostMapping("/deleteContract")
 		public ResponseEntity<String> deleteContract(@RequestBody OrdercontractDTO ordercontractDTO) {
 			System.out.println("OrdercontractController deletecontract()");
 			System.out.println(ordercontractDTO);
-//			String con_cd = request.getParameter("con_cd");
-//			ordercontractDTO.setCon_cd(con_cd);
+
 			ordercontractService.deleteContract(ordercontractDTO);
 			ordercontractService.deleteOb(ordercontractDTO);
 			System.out.println(ordercontractDTO);
 			
 			return ResponseEntity.ok().body("{\"message\": \"등록 성공!\"}");
-//			return "ordercontract/contract";
+
 		}
-		
-//		@GetMapping("/orders")
-//		public String showOrders(Model model,OrdercontractDTO ordercontractDTO) {
-//			List<OrdercontractDTO> orderList = ordercontractService.getOrderList(ordercontractDTO);
-//			model.addAttribute("OrderList", orderList);
-//			System.out.println(orderList);
-//		    return "popup/orderpop"; // JSP 파일의 경로 (View의 이름)
-//		}
-//		@GetMapping("/contracts")
-//		public String showContracts(Model model,OrdercontractDTO ordercontractDTO) {
-//			List<OrdercontractDTO> contractList = ordercontractService.getContractList(ordercontractDTO);
-//			model.addAttribute("ContractList", contractList);
-//			System.out.println(contractList);
-//		    return "popup/orderpop"; // JSP 파일의 경로 (View의 이름)
-//		}
-//	
-		
+	
 }

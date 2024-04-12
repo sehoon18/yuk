@@ -72,7 +72,7 @@
 					<tr>
 						<td>${OrdercontractDTO.pro_name }</td>
 						<td>${OrdercontractDTO.pro_cd }</td>
-						<td><fmt:formatNumber value="${OrdercontractDTO.pro_price}" groupingUsed="true" maxFractionDigits="0"/></td>
+						<td>${OrdercontractDTO.pro_price}</td>
 						<c:if test="${OrdercontractDTO.pro_type  == 1 }">
                             <td><button class="btn icon icon  btn-outline-danger" disabled>
 <!--                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg> -->

@@ -239,13 +239,13 @@
             var ord_cd= $('#deleteOrd').val(); // instructionCode 값을 얻습니다.
             // SweetAlert로 삭제 확인 요청
             Swal.fire({
-                title: "Are you sure?",
-                text: "You won't be able to revert this!",
+                title: "삭제 하시겠습니까?",
+                text: "삭제하면 되돌릴 수 없습니다.",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, delete it!"
+                confirmButtonText: "delete"
             }).then((result) => {
                 if (result.isConfirmed) {
                     // 사용자가 확인을 눌렀을 경우, deleteIns 함수에 instructionCode 값을 전달하여 호출합니다.
@@ -290,18 +290,7 @@
         });
     }
 </script>
-<script>
-function numberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
 
-document.addEventListener("DOMContentLoaded", function() {
-    // 'pro_price' 값을 가져와서 콤마를 추가한 후 다시 설정합니다.
-    var proPriceInput = document.getElementById('pro_price');
-    var formattedPrice = numberWithCommas(proPriceInput.value);
-    proPriceInput.value = formattedPrice;
-});
-</script>
 <script>
 function accessError() {
  Swal.fire({

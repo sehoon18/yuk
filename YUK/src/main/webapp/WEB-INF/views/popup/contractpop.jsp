@@ -68,7 +68,7 @@
 					<tr>
 						<td>${OrdercontractDTO.pro_name }</td>
 						<td>${OrdercontractDTO.pro_cd }</td>
-						<td><fmt:formatNumber value="${OrdercontractDTO.pro_price}" groupingUsed="true" maxFractionDigits="0"/></td>
+						<td>${OrdercontractDTO.pro_price}</td>
 						<c:if test="${OrdercontractDTO.pro_type  == 0 }">
                             <td><button class="btn icon icon-left  btn-outline-success " disabled>완제품</button></td></c:if>
 					</tr>

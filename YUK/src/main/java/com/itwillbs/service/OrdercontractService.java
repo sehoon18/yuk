@@ -38,7 +38,6 @@ import com.itwillbs.domain.PageDTO;
 			return ordercontractDAO.getContractList(pageDTO);
 		}
 			public List<OrdercontractDTO> getContractList2(PageDTO pageDTO) {
-//			int currentPage = pageDTO.getCurrentPage();
 			int startRow = (pageDTO.getCurrentPage() - 1) * pageDTO.getPageSize() + 1;
 			int EndRow = startRow + pageDTO.getPageSize() - 1;
 			

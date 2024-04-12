@@ -39,31 +39,31 @@
                                     <div class="col-md-15 col-1">	
                                         <div class="form-group">
                                             <label for="first-name-column">품목코드</label>
-                                            <input type="text" id="pro_cd" class="form-control" placeholder="PRO_CD" name="pro_cd">
+                                            <input type="text" id="pro_cd" class="form-control" placeholder="품목코드를 선택해주세요." name="pro_cd">
                                         </div>
                                     </div>
                                     <div class="col-md-15 col-1">
                                         <div class="form-group">
                                             <label for="last-name-column">품목이름</label>
-                                            <input type="text" id="pro_name" class="form-control" onclick="openPopup()" placeholder="PRO_NAME" name="pro_name">
+                                            <input type="text" id="pro_name" class="form-control" onclick="openPopup()" placeholder="품목이름을 입력해주세요." name="pro_name">
                                         </div>
                                     </div>
                                     <div class="col-md-15 col-1">
                                         <div class="form-group">
                                             <label for="city-column">거래처코드</label>
-                                            <input type="text" id="cli_cd" class="form-control" placeholder="CLI_CD" name="cli_cd">
+                                            <input type="text" id="cli_cd" class="form-control" placeholder="거래처코드를 선택해주세요." name="cli_cd">
                                         </div>
                                     </div>
                                    <div class="col-md-15 col-1">
                                         <div class="form-group">
                                             <label for="country-floating">거래처명</label>
-                                            <input type="text" id="cli_name" class="form-control" name="cli_name"  onclick="openPopup2()" placeholder="CLI_NAME">
+                                            <input type="text" id="cli_name" class="form-control" name="cli_name"  onclick="openPopup2()" placeholder="거래처이름을 입력해주세요.">
                                         </div>
                                     </div>
                                     <div class="col-md-15 col-1">
                                         <div class="form-group">
                                             <label for="company-column">수주량</label>
-                                            <input type="text" id="con_vol" class="form-control" name="con_vol" placeholder="CON_VOL">
+                                            <input type="text" id="con_vol" class="form-control" name="con_vol" placeholder="수량을 입력해주세요.">
                                         </div>
                                     </div>
                                    <div class="col-md-15 col-1">
