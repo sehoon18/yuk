@@ -28,10 +28,10 @@ values(#{con_cd}, #{cli_cd}, #{pro_cd},#{con_vol}, #{con_date}, #{con_due_date},
 	o.ORD_CD like concat('%', #{search1}, '%')
 	</if>
 	<if test="search2 != '' and search2 != null ">
-	and p.PRO_NAME like concat('%', #{search2}, '%')
+	and c.CLI_NAME like concat('%', #{search2}, '%')
 	</if>
 	<if test="search3 != '' and search3 != null ">
-	and c.CLI_NAME like concat ('%', #{search3}, '%')
+	and p.PRO_NAME like concat('%', #{search3}, '%')
 	</if>
 	</where>
 </select>
