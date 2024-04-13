@@ -217,7 +217,7 @@
 	//권한 없을 시
 	function accessError() {
  		Swal.fire({
-		  title: "권한이 없습니다.",
+		  title: "<style='color:#000000'>권한이 없습니다.",
 		  icon:"error",
 		  width: 600,
 		  padding: "3em",
@@ -234,7 +234,8 @@
 	//제품 출고 처리 버튼
   	function statusSwitch(event, ob_cd) {
 	Swal.fire({
-			title: "출고처리",
+			title: "<style='color:#000000'>출고처리",
+			background: "#fff",
 			text: "출고 처리하시겠습니까? 처리 후 복구 불가합니다.",
 			icon: "warning",
 			showCancelButton: true,

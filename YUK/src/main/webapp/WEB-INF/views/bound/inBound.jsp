@@ -372,7 +372,7 @@
 	//권한 없을 시
 	function accessError() {
  		Swal.fire({
-		  title: "권한이 없습니다.",
+		  title: "<style='color:#000000'>권한이 없습니다.",
 		  icon:"error",
 		  width: 600,
 		  padding: "3em",
@@ -389,8 +389,9 @@
 	//자재 입고 처리 버튼
   	function statusSwitch1(event, mib_cd) {
 	Swal.fire({
-			title: "입고처리",
+			title: "<style='color:#000000'>입고처리",
 			text: "입고 처리하시겠습니까? 처리 후 복구 불가합니다.",
+			background: "#fff",
 			icon: "warning",
 			showCancelButton: true,
 			confirmButtonColor: "#3085d6",
@@ -434,8 +435,9 @@
 	//제품 입고 처리 버튼
 	function statusSwitch2(event, pib_cd) {
 	Swal.fire({
-		title: "입고처리",
+		title: "<style='color:#000000'>입고처리",
 		text: "입고 처리하시겠습니까? 처리 후 복구 불가합니다.",
+		background: "#fff",
 		icon: "warning",
 		showCancelButton: true,
 		confirmButtonColor: "#3085d6",
