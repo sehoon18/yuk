@@ -6,11 +6,15 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -148,38 +152,38 @@ public class ClientController {
 	
 	//거래처 상세페이지 수정
 	@PostMapping("/clientDetailUpdate")
-	public String clientDetailUpdate(HttpServletRequest request, Model model, Authentication authentication) {
+	public String clientDetailUpdate(ClientDTO clientDTO, Model model, Authentication authentication) {
 		System.out.println("ClientController clientDetailUpdate");
-		ClientDTO clientDTO = new ClientDTO();
+//		ClientDTO clientDTO = new ClientDTO();
 		System.out.println(clientDTO);
 		
 		//클라이언트 정보 업데이트를 위해 필요한 데이터 수집
-		String clientCode = request.getParameter("clientCode");
-		String clientType = request.getParameter("clientType");
-		String clientName = request.getParameter("clientName");
-		String businessNumber = request.getParameter("businessNumber");
-		String clientCEO = request.getParameter("clientCEO");
-		int clientTelNumber = (Integer.parseInt(request.getParameter("clientTelNumber")));
-		int clientFaxNumber = (Integer.parseInt(request.getParameter("clientFaxNumber")));
-		String clientBusinessType = request.getParameter("clientBusinessType");
-		String clientCategory = request.getParameter("clientCategory");
-		String clientBasicAddress = request.getParameter("clientBasicAddress");
-		String clientEmail = request.getParameter("clientEmail");
-		String clientNote = request.getParameter("clientNote");
+//		String clientCode = request.getParameter("clientCode");
+//		String clientType = request.getParameter("clientType");
+//		String clientName = request.getParameter("clientName");
+//		String businessNumber = request.getParameter("businessNumber");
+//		String clientCEO = request.getParameter("clientCEO");
+//		int clientTelNumber = (Integer.parseInt(request.getParameter("clientTelNumber")));
+//		int clientFaxNumber = (Integer.parseInt(request.getParameter("clientFaxNumber")));
+//		String clientBusinessType = request.getParameter("clientBusinessType");
+//		String clientCategory = request.getParameter("clientCategory");
+//		String clientBasicAddress = request.getParameter("clientBasicAddress");
+//		String clientEmail = request.getParameter("clientEmail");
+//		String clientNote = request.getParameter("clientNote");
 		
 		//ClientDTO 객체에 데이터 설정
-		clientDTO.setClientCode(clientCode);
-		clientDTO.setClientType(clientType);
-		clientDTO.setClientName(clientName);
-		clientDTO.setBusinessNumber(businessNumber);
-		clientDTO.setClientCEO(clientCEO);
-		clientDTO.setClientTelNumber(clientTelNumber);
-		clientDTO.setClientFaxNumber(clientFaxNumber);
-		clientDTO.setClientBusinessType(clientBusinessType);
-		clientDTO.setClientCategory(clientCategory);
-		clientDTO.setClientBasicAddress(clientBasicAddress);
-		clientDTO.setClientEmail(clientEmail);
-		clientDTO.setClientNote(clientNote);
+//		clientDTO.setClientCode(clientCode);
+//		clientDTO.setClientType(clientType);
+//		clientDTO.setClientName(clientName);
+//		clientDTO.setBusinessNumber(businessNumber);
+//		clientDTO.setClientCEO(clientCEO);
+//		clientDTO.setClientTelNumber(clientTelNumber);
+//		clientDTO.setClientFaxNumber(clientFaxNumber);
+//		clientDTO.setClientBusinessType(clientBusinessType);
+//		clientDTO.setClientCategory(clientCategory);
+//		clientDTO.setClientBasicAddress(clientBasicAddress);
+//		clientDTO.setClientEmail(clientEmail);
+//		clientDTO.setClientNote(clientNote);
 		
 		System.out.println(clientDTO);
 		
@@ -188,51 +192,52 @@ public class ClientController {
 		// 클라이언트 정보 업데이트
 		clientService.updateClient(clientDTO);
 		// 수정된 클라이언트의 페이지로 리다이렉트
-		return "redirect:/client/client?clientCode="+clientCode;
+//		return "redirect:/client/client?clientCode="+clientCode;
+		return "redirect:/client/clientDetailPopup?clientCode="+clientDTO.getClientCode();
 //		return "OK";
-		
 	}
 	
 	//거래처 등록 Pro
 		@PostMapping("/insertClientPro")
-		public String insertClientPro(HttpServletRequest request, ClientDTO clientDTO, Authentication authentication) {
+		public ResponseEntity<String> insertClientPro(@RequestBody ClientDTO clientDTO, Authentication authentication) {
 			System.out.println("ClientController insertClientPro()");
 			System.out.println(clientDTO);
 			
 			//클라이언트 정보 업데이트를 위해 필요한 데이터 수집
-					String clientCode = request.getParameter("clientCode");
-					String clientType = request.getParameter("clientType");
-					String clientName = request.getParameter("clientName");
-					String businessNumber = request.getParameter("businessNumber");
-					String clientCEO = request.getParameter("clientCEO");
-					int clientTelNumber = (Integer.parseInt(request.getParameter("clientTelNumber")));
-					int clientFaxNumber = (Integer.parseInt(request.getParameter("clientFaxNumber")));
-					String clientBusinessType = request.getParameter("clientBusinessType");
-					String clientCategory = request.getParameter("clientCategory");
-					String clientBasicAddress = request.getParameter("clientBasicAddress");
-					String clientEmail = request.getParameter("clientEmail");
-					String clientNote = request.getParameter("clientNote");
+//					String clientCode = request.getParameter("clientCode");
+//					String clientType = request.getParameter("clientType");
+//					String clientName = request.getParameter("clientName");
+//					String businessNumber = request.getParameter("businessNumber");
+//					String clientCEO = request.getParameter("clientCEO");
+//					int clientTelNumber = (Integer.parseInt(request.getParameter("clientTelNumber")));
+//					int clientFaxNumber = (Integer.parseInt(request.getParameter("clientFaxNumber")));
+//					String clientBusinessType = request.getParameter("clientBusinessType");
+//					String clientCategory = request.getParameter("clientCategory");
+//					String clientBasicAddress = request.getParameter("clientBasicAddress");
+//					String clientEmail = request.getParameter("clientEmail");
+//					String clientNote = request.getParameter("clientNote");
 					
 					//ClientDTO 객체에 데이터 설정
-					clientDTO.setClientCode(clientCode);
-					clientDTO.setClientType(clientType);
-					clientDTO.setClientName(clientName);
-					clientDTO.setBusinessNumber(businessNumber);
-					clientDTO.setClientCEO(clientCEO);
-					clientDTO.setClientTelNumber(clientTelNumber);
-					clientDTO.setClientFaxNumber(clientFaxNumber);
-					clientDTO.setClientBusinessType(clientBusinessType);
-					clientDTO.setClientCategory(clientCategory);
-					clientDTO.setClientBasicAddress(clientBasicAddress);
-					clientDTO.setClientEmail(clientEmail);
-					clientDTO.setClientNote(clientNote);
+//					clientDTO.setClientCode(clientCode);
+//					clientDTO.setClientType(clientType);
+//					clientDTO.setClientName(clientName);
+//					clientDTO.setBusinessNumber(businessNumber);
+//					clientDTO.setClientCEO(clientCEO);
+//					clientDTO.setClientTelNumber(clientTelNumber);
+//					clientDTO.setClientFaxNumber(clientFaxNumber);
+//					clientDTO.setClientBusinessType(clientBusinessType);
+//					clientDTO.setClientCategory(clientCategory);
+//					clientDTO.setClientBasicAddress(clientBasicAddress);
+//					clientDTO.setClientEmail(clientEmail);
+//					clientDTO.setClientNote(clientNote);
 			
 			String username = authentication.getName();
 			clientDTO.setName(username);	
 			// 거래처 입력
 			clientService.insertClient(clientDTO);
 			
-			return "redirect:/client/clientAddPopup";
+//			return "redirect:/client/clientAddPopup";
+			return ResponseEntity.ok().body("{\"message\":\"success\"}");
 		}
 		
 		//거래처 등록 팝업

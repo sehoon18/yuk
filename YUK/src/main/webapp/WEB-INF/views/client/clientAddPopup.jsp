@@ -31,7 +31,7 @@
     
     </style>
     
- <script type="text/javascript" src="${pageContext.request.contextPath }/resources/script/jquery-3.7.1.min.js"></script>   
+<%--  <script type="text/javascript" src="${pageContext.request.contextPath }/resources/script/jquery-3.7.1.min.js"></script>    --%>
     
 </head>
 <body>
@@ -127,16 +127,16 @@
                                             <label for="email-id-column">비고</label>
                                             <input type="text" id="clientNote" class="form-control" name="clientNote" placeholder=""
                                             style="height:30px">
-                                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" >
                                         </div>
                                     </div>
+                                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" >
                           
 
                                 </div>
                                 </div>
                             
 							<div class="col-12 d-flex justify-content-center" id="btn">
-							    <button type="submit" class="btn btn-primary mr-1 mb-1" onclick="insertClientPro()">등록</button>
+							    <button type="button" class="btn btn-primary mr-1 mb-1" onclick="insertClientPro()">등록</button>
 							</div>
 						</form>
                         </div>
@@ -183,57 +183,99 @@ function checkAddressInput(address) {
 </script>
 
 <script>
-function insertClientPro(){
-	//각 필수 입력 필드 값
-	var clientCode = document.getElementById("clientCode").value;
-	var clientType = document.getElementById("clientType").value;
-	var clientName = document.getElementById("clientName").value;
-	var businessNumber = document.getElementById("businessNumber").value;
-	var clientCEO = document.getElementById("clientCEO").value;
-	var clientTelNumber = document.getElementById("clientTelNumber").value;
-	var clientFaxNumber = document.getElementById("clientFaxNumber").value;
-	var clientBusinessType = document.getElementById("clientBusinessType").value;
-	var clientCategory = document.getElementById("clientCategory").value;
-	var clientBasicAddress = document.getElementById("clientBasicAddress").value;
-	var clientEmail = document.getElementById("clientEmail").value;
-	var clientNote = document.getElementById("clientNote").value;
-	var name = document.getElementById("name").value;
-	
-	 $.ajax({
-	        url: "${pageContext.request.contextPath}/client/clientAddPopup", // 클라이언트 처리하는 URL로 변경해야 함
-	        data:  { 
-	            {'clientCode': clientCode},
-	            {'clientType': clientType},
-	            {'clientName': clientName},
-	            {'businessNumber': businessNumber},
-	            {'clientCEO': clientCEO},
-	            {'clientTelNumber': clientTelNumber},
-	            {'clientFaxNumber': clientFaxNumber},
-	            {'clientBusinessType': clientBusinessType},
-	            {'clientCategory': clientCategory},
-	            {'clientBasicAddress': clientBasicAddress},
-	            {'clientEmail': clientEmail},
-	            {'clientNote': clientNote},
-	            {'name': name}
-	        }, // 서버로 전송할 데이터
-	        beforeSend: function(xhr) {
-                // CSRF 토큰과 헤더 이름 읽기
-                var token = $('meta[name="_csrf"]').attr('content');
-                var header = $('meta[name="_csrf_header"]').attr('content');
-                
-                // 요청 헤더에 CSRF 토큰 추가
-                xhr.setRequestHeader(header, token);
-            },
-	        success: function(response) {
-	        	alert("등록 성공!");
-	        	window.opener.location.reload();
-                window.close();
-	        }
-	    });
-	}
+function insertClientPro() {
+//     // 각 필수 입력 필드 값
+//     var clientCode = document.getElementById("clientCode").value;
+// //     var clientType = document.getElementById("clientType").value;
+// 	var clientType = document.querySelector('input[name="clientType"]:checked').value;
+//     var clientName = document.getElementById("clientName").value;
+//     var businessNumber = document.getElementById("businessNumber").value;
+//     var clientCEO = document.getElementById("clientCEO").value;
+//     var clientTelNumber = document.getElementById("clientTelNumber").value;
+//     var clientFaxNumber = document.getElementById("clientFaxNumber").value;
+//     var clientBusinessType = document.getElementById("clientBusinessType").value;
+//     var clientCategory = document.getElementById("clientCategory").value;
+//     var clientBasicAddress = document.getElementById("clientBasicAddress").value;
+//     var clientEmail = document.getElementById("clientEmail").value;
+//     var clientNote = document.getElementById("clientNote").value;
+// //     var name = document.getElementById("name").value;
 
+//     $.ajax({
+//         url: "${pageContext.request.contextPath}/client/insertClientPro", // 클라이언트 처리하는 URL로 변경해야 함. contextPath는 서버 설정에 따라 자동으로 적용될 수 있습니다.
+//         type: "POST", // 요청 방식 명시
+//         data: {
+//             'clientCode': clientCode,
+//             'clientType': clientType,
+//             'clientName': clientName,
+//             'businessNumber': businessNumber,
+//             'clientCEO': clientCEO,
+//             'clientTelNumber': clientTelNumber,
+//             'clientFaxNumber': clientFaxNumber,
+//             'clientBusinessType': clientBusinessType,
+//             'clientCategory': clientCategory,
+//             'clientBasicAddress': clientBasicAddress,
+//             'clientEmail': clientEmail,
+//             'clientNote': clientNote
+// //             'name': name
+//         }, // 서버로 전송할 데이터
+//         beforeSend: function(xhr) {
+//             // CSRF 토큰과 헤더 이름 읽기
+//             var token = $('meta[name="_csrf"]').attr('content');
+//             var header = $('meta[name="_csrf_header"]').attr('content');
+            
+//             // 요청 헤더에 CSRF 토큰 추가
+//             xhr.setRequestHeader(header, token);
+//         },
+//         success: function(response) {
+//             alert("등록 성공!");
+//             window.opener.location.reload();
+//             window.close();
+//         }
+//     });
+// }
 </script>
 
+<script>
+function insertClientPro() {
+    // 객체 데이터를 JSON 문자열로 변환
+    var data = JSON.stringify({
+        'clientCode': $('#clientCode').val(),
+        'clientType': $('input[name="clientType"]:checked').val(),
+        'clientName': $('#clientName').val(),
+        'businessNumber': $('#businessNumber').val(),
+        'clientCategory': $('#clientCategory').val(),
+        'clientBasicAddress': $('#clientBasicAddress').val(),
+        'clientEmail': $('#clientEmail').val(),
+        'clientNote': $('#clientNote').val(),
+        'clientCEO': $('#clientCEO').val(),
+        'clientTelNumber': $('#clientTelNumber').val(),
+        'clientFaxNumber': $('#clientFaxNumber').val(),
+        'clientBusinessType': $('#clientBusinessType').val()
+    });
 
+    var token = $('meta[name="_csrf"]').attr('content');
+    var header = $('meta[name="_csrf_header"]').attr('content');
+
+    $.ajax({
+        url: "${pageContext.request.contextPath}/client/insertClientPro",
+        type: "POST",
+        data: data,
+        contentType: "application/json", // JSON 데이터를 보내기 때문에 contentType을 application/json으로 설정
+        processData: false,
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader(header, token);
+        },
+        success: function(response) {
+            alert("등록 성공!");
+            window.opener.location.reload();
+            window.close();
+        },
+        error: function(xhr, status, error) {
+            alert("등록 실패: " + error);
+        }
+    });
+}
+
+</script>
 </body>
 </html>

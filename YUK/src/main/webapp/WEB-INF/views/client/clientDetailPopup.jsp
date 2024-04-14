@@ -285,7 +285,7 @@ function updateClient(clientCode) {
         },
         success: function(response) {
             // 클라이언트 정보 수정이 성공한 경우
-            window.close(); // 팝업 창 닫기
+            location.reload(); // 현재 페이지 새로고침
         },
         error: function(xhr, status, error) {
             // 오류 발생 시 처리
