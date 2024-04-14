@@ -79,7 +79,7 @@
   	update WAREHOUSE w
   	left join PRODUCT p
   	on w.WH_CD = p.WH_CD
-  	SET w.WH_CD = #{warehouseCode}, w.WH_NAME = #{warehouseName}, w.WH_AREA = #{warehouseArea}, w.WH_MVOL = #{warehouseMvol}, w.WH_LOCAL = #{warehouseLocal}, w.WH_TEL_NUMBER = #{warehouseTelNumber}, sum(p.PRO_VOL) = #{productSvol}
+  	SET w.WH_CD = #{warehouseCode}, w.WH_NAME = #{warehouseName}, w.WH_AREA = #{warehouseArea}, w.WH_MVOL = #{warehouseMvol}, w.WH_LOCAL = #{warehouseLocal}, w.WH_TEL_NUMBER = #{warehouseTelNumber}
     where w.WH_CD = #{warehouseCode};  
   </update>
   
