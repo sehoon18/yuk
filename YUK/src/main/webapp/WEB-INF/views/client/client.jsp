@@ -1,22 +1,36 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-<!--     <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
-<!--     <title>YOGIYUK</title> -->
+    <meta name="_csrf" content="${_csrf.token}"/>
+	<meta name="_csrf_header" content="${_csrf.headerName}"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YOGIYUK</title>
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/bootstrap.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/vendors/chartjs/Chart.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/assets/css/app.css">
     <link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/assets/images/favicon.svg" type="image/x-icon">
+    
+    <!--    처리 버튼 Swal css  -->
+	<link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+    
 <style>
 .color:hover {
 	background-color: #e4e8ff;
 }
+
+.table-container {
+    overflow-x: auto; /* 가로 스크롤바 활성화 */
+    white-space: nowrap; /* 테이블 내용이 한 줄로 표시되도록 설정 */
+}
+
 </style>    
 </head>
 <body>
@@ -42,16 +56,20 @@
   <button class="btn btn-primary btn-sm" type="submit">조회</button>
 </div>
 </form>
-      <div class="card-header" >
-        <h4 class="card-title"><b>총 ${clientList.size() }건</b></h4>
-      </div>
+<br>
       <div class="card-content">
         <!-- table bordered -->
         <div class="table-responsive">
         <div style="text-align: right; margin-right:30px;">
+<sec:authorize access="hasAnyRole('ROLE_BOUND', 'ROLE_ADMIN')">        
 <button class="btn btn-primary btn-sm" type="button" onclick="clientAddPopup()">등록</button>
+</sec:authorize>
+<sec:authorize access="hasAnyRole('ROLE_PRODUCT', 'ROLE_PRODUCTION', 'ROLE_OC', 'ROLE_NONE')">
+<button class="btn btn-primary btn-sm" type="button" onclick="accessError()">등록</button>
+</sec:authorize>       					
 </div>
 <br>
+		  <div class="table-responsive table-container">
           <table class="table table-bordered mb-0">
             <thead>
               <tr>
@@ -80,7 +98,7 @@
               </c:forEach>
             </tbody>           
           </table>
-          
+          </div>
           
           
   <!-- 			페이징 시작 -->
@@ -202,6 +220,25 @@
     <script src="${pageContext.request.contextPath}/resources/assets/vendors/apexcharts/apexcharts.min.js"></script>
     <script src="${pageContext.request.contextPath}/resources/assets/js/pages/dashboard.js"></script>
     <script src="${pageContext.request.contextPath}/resources/assets/js/main.js"></script>
+    
+    <script>
+    //권한 없을 시
+    function accessError() {
+        Swal.fire({
+         title: "<style='color:#000000'>권한이 없습니다.",
+         icon:"error",
+         width: 600,
+         padding: "3em",
+         color: "#FF0000",
+         background: "#fff",
+         backdrop: `
+           rgba(ff,ff,ff,0)
+           left top
+           no-repeat
+         `
+       });
+    }
+    </script>
     
     <script>
     function clientDetailPopup(clientCode) {

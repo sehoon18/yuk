@@ -46,9 +46,7 @@
 <div class="row" id="table-bordered" style="margin-right: 20px;">
   <div class="col-12">
     <div class="card">
-      <div class="card-header">
-        <h4 class="card-title"><b>총 ${warehouseList.size() }건</b></h4>
-      </div>
+    <br>
       <div class="card-content">
         <!-- table bordered -->
         <div class="table-responsive">

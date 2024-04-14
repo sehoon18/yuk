@@ -55,21 +55,18 @@
   <button class="btn btn-primary btn-sm" type="submit">조회</button>
 </div>
 </form>
-      <div class="card-header">
-        <h4 class="card-title"><b>총 ${warehouseList.size() }건</b></h4>
-      </div>
       <div class="card-content">
         <!-- table bordered -->
         <div class="table-responsive">
         <form id="dataForm" class="insertWarehouse" action="${pageContext.request.contextPath}/warehouse/warehouseInsertPro" method="post">
             <div class="card-header" style="text-align: right;">
-		 <sec:authorize access="hasAnyRole('ROLE_PRODUCT', 'ROLE_ADMIN')">
+		 <sec:authorize access="hasAnyRole('ROLE_BOUND', 'ROLE_ADMIN')">
 			    <button type="button" onclick="addTableRow()" class='btn btn-primary' id="addrow">➕ 추가</button>
 			    <button type="button" onclick="modTableRow()" class='btn btn-primary' id="modify">↪️ 수정</button>
 			    <button type="button" onclick="delTableRow()" class='btn btn-primary' id="delete">⚠️ 삭제</button>
 			    <button type="submit" class='btn btn-primary' id="submitrow" disabled>💾 저장</button>
 		 </sec:authorize>
-		 <sec:authorize access="hasAnyRole('ROLE_PRODUCTION', 'ROLE_BOUND', 'ROLE_OC', 'ROLE_NONE')">
+		 <sec:authorize access="hasAnyRole('ROLE_PRODUCT', 'ROLE_PRODUCTION', 'ROLE_OC', 'ROLE_NONE')">
 			    <button type="button" onclick="accessError()" class='btn btn-primary' id="addrow">➕ 추가</button>
 			    <button type="button" onclick="accessError()" class='btn btn-primary' id="modify">↪️ 수정</button>
 			    <button type="button" onclick="accessError()" class='btn btn-primary' id="delete">⚠️ 삭제</button>
@@ -86,7 +83,7 @@
                 <th>구역(섹터)</th>
                 <th>지역</th>
                 <th>전화번호</th>
-                <th style="width: 0px;"></th>
+                <th style="display: none;"></th>
               </tr>
             </thead>
             <tbody>
@@ -99,7 +96,7 @@
                 <td>${warehouseDTO.warehouseArea }</td>
                 <td>${warehouseDTO.warehouseLocal }</td>
                 <td>${warehouseDTO.warehouseTelNumber }</td>
-                <td></td>
+                <td style="display: none"></td>
               </tr>
               </c:forEach>
             </tbody>
@@ -244,6 +241,25 @@
     <script src="${pageContext.request.contextPath}/resources/assets/js/main.js"></script>
     
     <script>
+  //권한 없을 시
+    function accessError() {
+        Swal.fire({
+         title: "<style='color:#000000'>권한이 없습니다.",
+         icon:"error",
+         width: 600,
+         padding: "3em",
+         color: "#FF0000",
+         background: "#fff",
+         backdrop: `
+           rgba(ff,ff,ff,0)
+           left top
+           no-repeat
+         `
+       });
+    }
+    </script>
+    
+    <script>
     function warehouseCodePopup(){window.open("${pageContext.request.contextPath}/warehouse/warehouseCodePopup","","width=1300, height=700, left=100, top=50");}
     </script>
     
@@ -263,7 +279,7 @@
         const rowId = table.rows.length; // 행 ID로 사용될 값
         
         // 각 열에 대한 셀과 입력 필드 생성
-        const fields = ['warehouseCode', 'warehouseName','productVol', 'warehouseMvol', 'warehouseArea','warehouseLocal','warehouseTelNumber','${_csrf.parameterName}'];
+        const fields = ['warehouseCode', 'warehouseName','productSvol', 'warehouseMvol', 'warehouseArea','warehouseLocal','warehouseTelNumber','${_csrf.parameterName}'];
         const exampleData = ['${warehouseDTO.warehouseCode}', '','0','','','','','${_csrf.token}'];
 
         fields.forEach((field, index) => {
@@ -287,7 +303,7 @@
                     input.type = "text";
                     input.className = "form-control";
                     
-                } else if(field === 'productVol'){
+                } else if(field === 'productSvol'){
                 	input = document.createElement("input");
                 	input.type = "text";
                 	input.className = "form-control";
@@ -302,8 +318,12 @@
                 input = document.createElement("input");
                 input.type = "text";
                 input.className = "form-control";
-            }
-            
+            } else if(field === '${_csrf.parameterName}'){
+                input = document.createElement("input");
+                input.type = "hidden";
+                input.className = "form-control";
+                cell.style.display='none';
+            }           
             else {
                 input = document.createElement("input");
                 input.type = "text";
@@ -408,8 +428,23 @@
             // 폼의 action 속성을 새로운 주소로 변경합니다.
             form.action = '${pageContext.request.contextPath}/warehouse/warehouseUpdatePro'; // 새로운 주소로 변경
 
+            var productSvol = Number(form.elements["productSvol"].value);
+            var warehouseMvol = Number(form.elements["warehouseMvol"].value);
+//             alert(productSvol);
+//             alert(warehouseMvol);
+            
+            if(productSvol <= warehouseMvol){
             // 폼을 수동으로 전송합니다.
             form.submit();
+            }else{
+            	Swal.fire({
+            		icon:"error",
+            		width:530,
+            		title:"에러발생!",
+            		text:"창고 최대 보유량이 현재 보유량보다 작을 수 없습니다."
+            	});
+            	event.preventDefault();
+            };
         };
     }
 
@@ -469,7 +504,7 @@
 			else if (index === 2) {
                 const input = document.createElement('input');
                 input.type = 'text';
-                input.name = 'productVol';
+                input.name = 'productSvol';
                 input.className = 'form-control';
                 input.readOnly = true;
                 input.value = originalText;
@@ -481,7 +516,7 @@
                 input.type = 'text';
                 input.name = 'warehouseMvol';
                 input.className = 'form-control';
-                input.value = '0';
+                input.value = originalText;
                 cell.innerHTML = '';
                 cell.appendChild(input);
             }
@@ -518,7 +553,7 @@
                 input.name = '${_csrf.parameterName}';
                 input.className = 'form-control';
                 input.value = '${_csrf.token}';
-                cell.appendChild(input);
+                cell.style.display='none';
             }
         });
     }
@@ -533,11 +568,12 @@ document.addEventListener('DOMContentLoaded', function() {
             Swal.fire({
                 title: "삭제 확인",
                 text: "정말로 삭제하시겠습니까?",		
-                icon: "주의",
+                icon: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, delete it!"
+                confirmButtonText: "삭제",
+                cancelButtonText: "취소"
             }).then((result) => {
                 if (result.isConfirmed) {
                     // 삭제 승인 후 행의 첫 번째 열 값 가져오기
@@ -568,10 +604,12 @@ document.addEventListener('DOMContentLoaded', function() {
                                 isDelMode = true; // 삭제 모드 비활성화
                             } else {
                                 // 서버 처리 실패 시
-                                Swal.fire(
-                                    "에러발생!",
-                                    "삭제 할 수 없습니다.",
-                                );
+                            	Swal.fire({
+                                    icon:"error",
+                                    width: 520,
+                                     title:"에러발생!",
+                                     text:"현재 보유량이 존재하는 창고는 삭제가 불가능합니다."
+                                 });
                             }
                         })
                         .catch((error) => {

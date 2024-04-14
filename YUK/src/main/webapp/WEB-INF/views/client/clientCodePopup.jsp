@@ -17,6 +17,11 @@
 .color:hover {
 	background-color: lightgray;
 }
+
+.table-container {
+    overflow-x: auto; /* 가로 스크롤바 활성화 */
+    white-space: nowrap; /* 테이블 내용이 한 줄로 표시되도록 설정 */
+}
 </style>    
 </head>
 <body>
@@ -43,12 +48,11 @@
 <div class="row" id="table-bordered" style="margin-right: 20px;">
   <div class="col-12">
     <div class="card">
-      <div class="card-header">
-        <h4 class="card-title">총 건</h4>
-      </div>
       <div class="card-content">
         <!-- table bordered -->
         <div class="table-responsive">
+        <br>
+        <div class="table-responsive table-container">
           <table class="table table-bordered mb-0">
             <thead>
               <tr>
@@ -77,7 +81,7 @@
               </c:forEach>
             </tbody>
           </table>
-          
+          </div>
           <!-- 			페이징 시작 -->
 <nav aria-label="Page navigation example" style="padding: 10px 0px;">
     <ul class="pagination pagination-primary justify-content-end">

@@ -57,9 +57,7 @@
 <div class="row" id="table-bordered" style="margin-right: 20px;">
   <div class="col-12">
     <div class="card">
-      <div class="card-header">
-        <h4 class="card-title">총건</h4>
-      </div>
+    <br>
       <div class="card-content">
         <!-- table bordered -->
         <div class="table-responsive">

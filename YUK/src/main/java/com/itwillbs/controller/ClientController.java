@@ -113,13 +113,13 @@ public class ClientController {
 	}
 	
 	@PostMapping("/clientPro")
-	public String clientPro(ClientDTO clientDTO, HttpSession session) {
+	public String clientPro(ClientDTO clientDTO,HttpServletRequest request, HttpSession session, Authentication authentication) {
 		System.out.println("ClientController clientPro()");
 		System.out.println(clientDTO);
 		
-//		String id = (String)session.getAttribute("id");
-		//clientDTO.setName("");
-		
+		String clientCode = request.getParameter("clientCode");
+		clientDTO.setClientCode(clientCode);
+				
 		clientService.insertClient(clientDTO);
 		
 		return "redirect:/client/client";
@@ -188,81 +188,82 @@ public class ClientController {
 		// 클라이언트 정보 업데이트
 		clientService.updateClient(clientDTO);
 		// 수정된 클라이언트의 페이지로 리다이렉트
-		return "redirect:/client/clientDetailPopup?clientCode="+clientCode;
+		return "redirect:/client/client?clientCode="+clientCode;
 //		return "OK";
 		
 	}
 	
 	//거래처 등록 Pro
-	@PostMapping("/insertClientPro")
-	public String insertClientPro(HttpServletRequest request, ClientDTO clientDTO, Authentication authentication) {
-		System.out.println("ClientController insertClientPro()");
-		System.out.println(clientDTO);
-		
-		//클라이언트 정보 업데이트를 위해 필요한 데이터 수집
-				String clientCode = request.getParameter("clientCode");
-				String clientType = request.getParameter("clientType");
-				String clientName = request.getParameter("clientName");
-				String businessNumber = request.getParameter("businessNumber");
-				String clientCEO = request.getParameter("clientCEO");
-				int clientTelNumber = (Integer.parseInt(request.getParameter("clientTelNumber")));
-				int clientFaxNumber = (Integer.parseInt(request.getParameter("clientFaxNumber")));
-				String clientBusinessType = request.getParameter("clientBusinessType");
-				String clientCategory = request.getParameter("clientCategory");
-				String clientBasicAddress = request.getParameter("clientBasicAddress");
-				String clientEmail = request.getParameter("clientEmail");
-				String clientNote = request.getParameter("clientNote");
-				
-				//ClientDTO 객체에 데이터 설정
-				clientDTO.setClientCode(clientCode);
-				clientDTO.setClientType(clientType);
-				clientDTO.setClientName(clientName);
-				clientDTO.setBusinessNumber(businessNumber);
-				clientDTO.setClientCEO(clientCEO);
-				clientDTO.setClientTelNumber(clientTelNumber);
-				clientDTO.setClientFaxNumber(clientFaxNumber);
-				clientDTO.setClientBusinessType(clientBusinessType);
-				clientDTO.setClientCategory(clientCategory);
-				clientDTO.setClientBasicAddress(clientBasicAddress);
-				clientDTO.setClientEmail(clientEmail);
-				clientDTO.setClientNote(clientNote);
-		
-		String username = authentication.getName();
-		clientDTO.setName(username);	
-		// 거래처 입력
-		clientService.insertClient(clientDTO);
-		
-		return "redirect:/client/client";
-	}
-	
-	//거래처 등록 팝업
-	@GetMapping("/clientAddPopup")
-	public String clientAddPopup(ClientDTO clientDTO, Model model, Authentication authentication) {
-		System.out.println("ClientController clientAddPopup()");
-		System.out.println(clientDTO);
-		
-		// clientCode 생성
-		Integer clientLastNum = clientService.getClinetLastNum();
-		
-		String clientCode;
-		if (clientLastNum == null) {
-			clientCode = "CL001";
-		}else {
-			int nextNum = clientLastNum + 1;
-			if(nextNum < 10) {
-				clientCode = String.format("CL00%d", nextNum);
-			}else if (nextNum < 100) {
-				clientCode = String.format("CL0%d", nextNum);
-			}else {
-				clientCode = String.format("CL%d", nextNum);
-			}
+		@PostMapping("/insertClientPro")
+		public String insertClientPro(HttpServletRequest request, ClientDTO clientDTO, Authentication authentication) {
+			System.out.println("ClientController insertClientPro()");
+			System.out.println(clientDTO);
+			
+			//클라이언트 정보 업데이트를 위해 필요한 데이터 수집
+					String clientCode = request.getParameter("clientCode");
+					String clientType = request.getParameter("clientType");
+					String clientName = request.getParameter("clientName");
+					String businessNumber = request.getParameter("businessNumber");
+					String clientCEO = request.getParameter("clientCEO");
+					int clientTelNumber = (Integer.parseInt(request.getParameter("clientTelNumber")));
+					int clientFaxNumber = (Integer.parseInt(request.getParameter("clientFaxNumber")));
+					String clientBusinessType = request.getParameter("clientBusinessType");
+					String clientCategory = request.getParameter("clientCategory");
+					String clientBasicAddress = request.getParameter("clientBasicAddress");
+					String clientEmail = request.getParameter("clientEmail");
+					String clientNote = request.getParameter("clientNote");
+					
+					//ClientDTO 객체에 데이터 설정
+					clientDTO.setClientCode(clientCode);
+					clientDTO.setClientType(clientType);
+					clientDTO.setClientName(clientName);
+					clientDTO.setBusinessNumber(businessNumber);
+					clientDTO.setClientCEO(clientCEO);
+					clientDTO.setClientTelNumber(clientTelNumber);
+					clientDTO.setClientFaxNumber(clientFaxNumber);
+					clientDTO.setClientBusinessType(clientBusinessType);
+					clientDTO.setClientCategory(clientCategory);
+					clientDTO.setClientBasicAddress(clientBasicAddress);
+					clientDTO.setClientEmail(clientEmail);
+					clientDTO.setClientNote(clientNote);
+			
+			String username = authentication.getName();
+			clientDTO.setName(username);	
+			// 거래처 입력
+			clientService.insertClient(clientDTO);
+			
+			return "redirect:/client/clientAddPopup";
 		}
-		clientDTO.setClientCode(clientCode);
-		model.addAttribute("clientDTO", clientDTO);
 		
-		return "client/clientAddPopup";	
-		
-	}
+		//거래처 등록 팝업
+		@GetMapping("/clientAddPopup")
+		public String clientAddPopup(ClientDTO clientDTO, Model model, Authentication authentication) {
+			System.out.println("ClientController clientAddPopup()");
+			System.out.println(clientDTO);
+			
+			// clientCode 생성
+			Integer clientLastNum = clientService.getClinetLastNum();
+			
+			String clientCode;
+			if (clientLastNum == null) {
+				clientCode = "CL001";
+			}else {
+				int nextNum = clientLastNum + 1;
+				if(nextNum < 10) {
+					clientCode = String.format("CL00%d", nextNum);
+				}else if (nextNum < 100) {
+					clientCode = String.format("CL0%d", nextNum);
+				}else {
+					clientCode = String.format("CL%d", nextNum);
+				}
+			}
+			clientDTO.setClientCode(clientCode);
+			model.addAttribute("clientDTO", clientDTO);
+			
+			return "client/clientAddPopup";	
+			
+		}
+
 	
 	//거래처코드 조회
 	@GetMapping("/clientCodePopup")

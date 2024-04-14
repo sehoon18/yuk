@@ -68,9 +68,7 @@
   <button class="btn btn-primary btn-sm" type="submit">조회</button>
   </div>
 </form>
-      <div class="card-header">
-        <h4 class="card-title"><b>총 ${stockList.size() }건</b></h4>
-      </div>        
+<br><br>
       <div class="card-content">
         <!-- table bordered -->
         <div class="table-responsive">
@@ -248,6 +246,25 @@
     <script src="${pageContext.request.contextPath}/resources/assets/js/main.js"></script>
     
     <script>
+  //권한 없을 시
+    function accessError() {
+        Swal.fire({
+         title: "<style='color:#000000'>권한이 없습니다.",
+         icon:"error",
+         width: 600,
+         padding: "3em",
+         color: "#FF0000",
+         background: "#fff",
+         backdrop: `
+           rgba(ff,ff,ff,0)
+           left top
+           no-repeat
+         `
+       });
+    }
+    </script>
+    
+    <script>
     function stockCodePopup(){window.open("${pageContext.request.contextPath}/warehouse/stockCodePopup","","width=1300, height=700, left=100, top=50");}
     </script>
     
@@ -268,8 +285,8 @@ function statusSwitch(event, productCode) {
   var realAmountValue = realAmountInput.value; // realAmountInput 요소의 값을 가져옵니다.
     var csrfHeaderName = "${_csrf.headerName}"
     var csrfTokenValue = "${_csrf.token}"
-  alert(productCode);
-    alert(realAmountValue);
+  //alert(productCode);
+    //alert(realAmountValue);
     //실사량 입력 값 유효성 검증
 //     if (!validateRealAmount(realAmount)){
 //      Swal.fire({
