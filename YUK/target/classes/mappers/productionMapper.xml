@@ -391,16 +391,15 @@ values(#{lineCode}, #{name}, #{lineStatus}, #{lineName}, #{update})
 	where PER_CD = #{perCode}
 </select>
 
-<select id="getInsVol" resultType="com.itwillbs.domain.ProductionDTO">
-	select INS_VOL "insVol", INS_CD "instructionCode"
-	from INSTRUCTION
-</select>
 
 <select id="performanceAmount" resultType="com.itwillbs.domain.ProductionDTO">
-select  i.INS_CD "instructionCode" , p1.PRO_NAME "productName" ,i.INS_VOL "insVol" , p.ACTUAL_COMPLETION_AMOUNT "perACA" ,p.PER_DATE "perDate" , (((i.INS_VOL -p.ACTUAL_COMPLETION_AMOUNT)/i.INS_VOL)*100) "defectRate"
-from PERFORMANCE p join PRODUCT p1
-join INSTRUCTION i
-where PRO_TYPE = 0
+	select  p1.PRO_CD "productCode" ,p1.PRO_NAME "productName", FLOOR(AVG(((i.INS_VOL -p.ACTUAL_COMPLETION_AMOUNT)/i.INS_VOL)*100)) "defectRate"
+	from PERFORMANCE p INNER JOIN INSTRUCTION i
+	on p.INS_CD = i.INS_CD
+	INNER JOIN PRODUCT p1
+	on i.PRO_CD = p1.PRO_CD
+	where p1.PRO_TYPE = 0
+	GROUP BY p1.PRO_CD
 </select>
 
 

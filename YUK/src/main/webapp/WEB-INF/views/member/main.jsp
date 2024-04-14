@@ -12,72 +12,62 @@
     <link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/assets/images/favicon.svg" type="image/x-icon">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    	
-    	<style>
-        .chart-container {
-        display: inline-block;
-        }
-        .chart-box {
-        display: inline-block;
-    	justify-content: center; /* 가로 방향 중앙 정렬 */
-    	align-items: center; /* 세로 방향 중앙 정렬 */
-        width:540px;
-        height:360px;
-        background-color: lightblue;
-        }
-        	canvas {
-    display: block; /* 또는 'inline-block' 등 */
-    margin: auto; /* 가로 방향 중앙 정렬을 위해 */
-}
-        	
+  <style>
 
-        
-    </style>
-    	
-    	
-    	
-</head>
+
+  
+  .chart-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3열 구성 */
+    grid-template-rows: repeat(2, 1fr); /* 2행 구성 */
+    gap: 20px; 
+    width: 100%; 
+    padding: 20px; 
+  }
+
+  @media (max-width: 768px) {
+    .chart-container {
+      grid-template-columns: 1fr; /* 1열로 변경 */
+    }
+  }
+@media (max-width: 1024px) {
+  .chart-container {
+    grid-template-columns: repeat(2, 1fr); /* 2열로 변경 */
+  }
+}
+  .chart-box {
+  	background: linear-gradient(to bottom, #cfd9df, #e2ebf0); 
+    box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.08); 
+    border-radius: 12px; 
+    border: 1px solid #b1c4d4; 
+    width: 100%;
+    height: 390px; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  canvas {
+    display: block;
+    margin: auto;
+  }
+</style>
+
 <body>
+
 <!-- 사이드바 -->
 <jsp:include page="../inc/sidebar.jsp" />
 <!-- 사이드바 -->
 
-<!-- 생산 실적 그래프 -->
-<div class="chart-container" >
-<hr>
-<br>
-    <div class="chart-box">
-        <canvas id="performanceAmount1" ></canvas>
-    </div>
-    
-    <!--     수주 -->
-    <div class="chart-box">
-        <canvas id="contractVolChart" style="margin-top: 50px;"></canvas>
-    </div>
-    
-<!--     발주 -->
-    <div class="chart-box">
-        <canvas id="orderVolChart" style="margin-top: 50px;"></canvas>
-    </div>
-    
-<br>
-<br>
-<!--     완제품 재고  -->
-    <div class="chart-box">
-        <canvas id="productVolChart" ></canvas>
-    </div>
-    
-    <!--     식자재 재고  -->
-    <div class="chart-box">
-        <canvas id="productVolChart2" ></canvas>
-        </div>
-        
-    <!--     포장자재 재고  -->
-    <div class="chart-box">
-        <canvas id="productVolChart3" ></canvas>
-        </div>
 
-        
+
+<div class="chart-container">
+  <div class="chart-box"><canvas id="performanceAmount"></canvas></div>
+  <div class="chart-box"><canvas id="contractVolChart"></canvas></div>
+  <div class="chart-box"><canvas id="orderVolChart"></canvas></div>
+  <div class="chart-box"><canvas id="productVolChart"></canvas></div>
+  <div class="chart-box"><canvas id="productVolChart2"></canvas></div>
+  <div class="chart-box"><canvas id="productVolChart3"></canvas></div>
 </div>
     
 
@@ -101,9 +91,11 @@ $(document).ready(function() {
             var sname=[];
             var ssales = [];
             for (var i in result) {
-                sname.push(result[i].perDate);
+                sname.push(result[i].productName);
                 ssales.push(result[i].defectRate);
             }
+            
+            
             var data = {
                 labels: sname,
                 datasets: [{
@@ -114,14 +106,15 @@ $(document).ready(function() {
                 }],
             };
         	var myJ = new Chart(document.getElementById("performanceAmount"), {
-            	type: 'polarArea',
+            	type: 'doughnut',
             	data: data,
             	options: {
               		legend: { display: true },
               		title: {
                 		display: true,
-                		text: '불량률'
-              			}
+                		text: '불량률(%)'
+              		}
+              		
             	}
         	
         	});
@@ -130,6 +123,13 @@ $(document).ready(function() {
     });
 });
 </script>
+
+
+
+
+
+
+
 
 <!--  수주량 -->
 <script>
@@ -188,7 +188,8 @@ $(document).ready(function() {
                 data: data,
                 options: {
                     plugins: {
-                        legend: { display: true },
+                        legend: { display: true 
+                        },
                         title: {
                             display: true,
                             text: '수주량'
@@ -217,6 +218,9 @@ $(document).ready(function() {
     });
 });
 </script>
+
+
+
 
 
 <!-- 발주량 -->
@@ -307,7 +311,7 @@ $(document).ready(function() {
 </script>
 
 
-<!--  재고량 -->
+<!-- 완제품 재고량 -->
    <script>
 $(document).ready(function() {
     $.ajax({
@@ -333,7 +337,15 @@ $(document).ready(function() {
             	type: 'bar',
             	data: data,
             	options: {
-//             		indexAxis: 'y' ,
+            		 scales: {
+         		        yAxes: [{
+         		            ticks: {
+         		                min: 0, 
+         		                max: 1000, 
+         		                stepSize: 100 //간격 조절
+         		            }
+         		        }]
+         		    },
               		legend: { display: true },
               		title: {
                 		display: true,
@@ -374,7 +386,15 @@ $(document).ready(function() {
             	type: 'bar',
             	data: data,
             	options: {
-//             		indexAxis: 'y' ,
+            		 scales: {
+         		        yAxes: [{
+         		            ticks: {
+         		                min: 0, 
+         		                max: 1000, 
+         		                stepSize: 100 //간격 조절
+         		            }
+         		        }]
+         		    },
               		legend: { display: true },
               		title: {
                 		display: true,
@@ -415,7 +435,15 @@ $(document).ready(function() {
             	type: 'bar',
             	data: data,
             	options: {
-//             		indexAxis: 'y' ,
+            		 scales: {
+            		        yAxes: [{
+            		            ticks: {
+            		                min: 0, 
+            		                max: 1000, 
+            		                stepSize: 100 //간격 조절
+            		            }
+            		        }]
+            		    },
               		legend: { display: true },
               		title: {
                 		display: true,
@@ -429,7 +457,6 @@ $(document).ready(function() {
     });
 });
 </script>
-
 
 
 

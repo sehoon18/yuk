@@ -64,7 +64,7 @@
     <script src="${pageContext.request.contextPath}/resources/assets/js/app.js"></script>
     <script src="${pageContext.request.contextPath}/resources/assets/js/main.js"></script>
  <script>
-     var message = '${message}';
+     var message = '${errorMessage}';
     
     if (message) {
         alert(message);

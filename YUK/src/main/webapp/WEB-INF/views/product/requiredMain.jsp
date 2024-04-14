@@ -28,6 +28,7 @@
     .custom-placeholder::placeholder {
         color: black; /* 플레이스홀더 글자 색상 */
     }
+    
 	</style>
     	<script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>   
 </head>
@@ -216,11 +217,7 @@
 	function receiveReq2(productCode,productName,productType){
 		document.getElementById("productCode1").value = productCode;
 		document.getElementById("productName2").value = productName;
-// 		document.getElementById("productType").value = productType;
-		if(productType === "1" || productType === 1) { // 문자열 "1" 또는 숫자 1인 경우를 모두 고려
-	        document.getElementById("productType").value = "식자재";
-	    } 
-		
+		document.getElementById("productType").value = productType;
 	}
 	</script>
 	
@@ -293,6 +290,7 @@ function addTableRow() {
            input = document.createElement("input");
             input.type = "text";
             input.className = "form-control";
+            input.id = "requiredVol";
         }
        else if(field === '${_csrf.parameterName}'){
            input = document.createElement("input");
@@ -579,31 +577,35 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (form) { // 폼이 존재하는지 확인
         form.addEventListener('submit', function(e) {
-            // 폼 제출 시 빈칸을 채워야 하는 입력 필드를 확인
-            if (isEditMode || isDelMode) {
-                // 수정 모드나 삭제 모드일 때는 폼 제출을 막지 않음
-                return;
-            }
-
-            // 모든 'form-control' 클래스를 가진 입력 필드 검사
-            var inputFields = document.querySelectorAll('.form-control');
-            var isEmptyFieldPresent = Array.from(inputFields).some(function(input) {
-                return input.value.trim() === ''; // 비어있는 입력 필드가 있는지 확인
+            // 모든 입력 필드에 대한 참조를 배열로 생성
+            var inputFields = [
+                document.querySelector('#productCode'),
+                document.querySelector('#productName1'),
+                document.querySelector('#productCode1'),
+                document.querySelector('#productName2'),
+                document.querySelector('#productType'),
+                document.querySelector('#requiredVol')
+            ];
+            
+            // 비어 있는 입력 필드가 있는지 순회하면서 확인
+            var isEmptyFieldFound = inputFields.some(function(field) {
+                return !field.value.trim(); // 공백만 있는 경우도 비어 있는 것으로 간주
             });
 
-            if (isEmptyFieldPresent) { // 하나라도 비어있는 입력 필드가 있으면
+            if (isEmptyFieldFound) { // 비어 있는 입력 필드가 하나라도 있는 경우
                 Swal.fire({
-                	  title: "빈칸을 채워주세요.",
-                	  width: 600,
-                	  padding: "3em",
-                	  color: "#00ff0000",
-                	  background: "#fff",
-                	  backdrop: `
-                	    rgba(ff,ff,ff,0)
-                	    left top
-                	    no-repeat
-                	  `
-                	});
+                    title: "빈칸을 채워주세요.",
+                    width: 600,
+                    padding: "3em",
+                    color: "#00ff0000",
+                    background: "#fff", // background 예시, 실제 경로로 수정 필요
+                    backdrop: `
+                    	 rgba(ff,ff,ff,0)
+                        url("/images/nyan-cat.gif")
+                        left top
+                        no-repeat
+                    `
+                });
                 e.preventDefault(); // 폼 제출 중단
             }
         });

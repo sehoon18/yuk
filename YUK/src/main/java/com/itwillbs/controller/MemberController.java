@@ -35,10 +35,12 @@ public class MemberController {
 //		System.out.println(error);
 //		System.out.println(logout);
 		
-		if(error != null) {
-			model.addAttribute("error", "LoginError");
-		}
-		if(logout != null) {
+		// 아이디나 비밀번호가 일치하지 않을 때
+	    if(error != null) {
+	        model.addAttribute("errorMessage", "아이디 또는 비밀번호가 일치하지 않습니다.");
+	    }
+	    // 로그아웃 시
+	    if(logout != null) {
 			model.addAttribute("login", "login");
 		}
 	}
@@ -67,7 +69,7 @@ public class MemberController {
 	}
 
 	@PostMapping("/memberInsert")
-	public String memberInsert(MemberDTO memberDTO, Authentication authentication) {
+	public String memberInsert(MemberDTO memberDTO, Authentication authentication,RedirectAttributes redirectAttributes) {
 		System.out.println("MemberController memberInsert()");
 		System.out.println(memberDTO);
 		

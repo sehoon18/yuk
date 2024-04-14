@@ -238,7 +238,7 @@
                 input.type = "text";
                 input.className = "form-control";
 	            input.name = 'productOrigin'; 
-	            
+                input.id = 'productOrigin';
             } else if(field === 'productCode'){	
                 input = document.createElement("input");
                 input.type = "text";
@@ -269,6 +269,18 @@
                 input.type = "hidden";
                 input.className = "form-control";
                 cell.style.display='none';
+            }
+            else if(field === 'productName'){	
+                input = document.createElement("input");
+                input.type = "text";
+                input.className = "form-control";
+                input.id = 'productName';
+            }
+            else if(field === 'productPrice'){	
+                input = document.createElement("input");
+                input.type = "text";
+                input.className = "form-control";
+                input.id = 'productPrice';
             }
             else {
                 input = document.createElement("input");
@@ -586,7 +598,47 @@ function canMod2() {
 }
 </script>
 
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var form = document.getElementById('dataForm');
 
+    if (form) { // 폼이 존재하는지 확인
+        form.addEventListener('submit', function(e) {
+            // 모든 입력 필드에 대한 참조를 배열로 생성
+            var inputFields = [
+                document.querySelector('#productName'),
+                document.querySelector('#productPrice'),
+                document.querySelector('#whCode'),
+                document.querySelector('#whName'),
+                document.querySelector('#productOrigin')
+            ];
+            
+            // 비어 있는 입력 필드가 있는지 순회하면서 확인
+            var isEmptyFieldFound = inputFields.some(function(field) {
+                return !field.value.trim(); // 공백만 있는 경우도 비어 있는 것으로 간주
+            });
+
+            if (isEmptyFieldFound) { // 비어 있는 입력 필드가 하나라도 있는 경우
+                Swal.fire({
+                    title: "빈칸을 채워주세요.",
+                    width: 600,
+                    padding: "3em",
+                    color: "#00ff0000",
+                    background: "#fff", // background 예시, 실제 경로로 수정 필요
+                    backdrop: `
+                    	 rgba(ff,ff,ff,0)
+                        rgba(0,0,123,0.4)
+                        url("/images/nyan-cat.gif")
+                        left top
+                        no-repeat
+                    `
+                });
+                e.preventDefault(); // 폼 제출 중단
+            }
+        });
+    }
+});
+</script>
 
 <script>
   // 팝업에서 값을 받을 함수
@@ -597,7 +649,7 @@ function canMod2() {
 
   // 인풋 창을 클릭하면 팝업을 엽니다.
   function openWhPopup() {
-    var popup = window.open("${pageContext.request.contextPath}/popup/whpop", "openProductPopup", "width=800,height=600");
+    var popup = window.open("${pageContext.request.contextPath}/popup/whpop", "openProductPopup", "width=1000,height=640");
     
     if (popup === null || typeof(popup) === 'undefined') {
       alert('팝업이 차단되었습니다. 팝업 차단을 해제하고 다시 시도해주세요.');

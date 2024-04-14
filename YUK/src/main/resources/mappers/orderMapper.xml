@@ -346,12 +346,16 @@ where o.ord_cd = #{ord_cd}
 
 <select id="getContractVol" resultType="com.itwillbs.domain.OrdercontractDTO">
 	select p.PRO_NAME "pro_name", c.CON_VOL "con_vol" , c.CON_DATE "con_date"
-	from CONTRACT c join PRODUCT p	
+	from CONTRACT c join PRODUCT p
+	ON c.PRO_CD = p.PRO_CD
+ORDER BY p.PRO_NAME, c.CON_DATE	
 </select>
 
 <select id="orderVolChart" resultType="com.itwillbs.domain.OrdercontractDTO">
 	select p.PRO_NAME "pro_name", o.ORD_DATE "ord_date", o.ORD_VOL "ord_vol"
 	from ORDERS o join PRODUCT p
+	ON o.PRO_CD = p.PRO_CD
+ORDER BY p.PRO_NAME , o.ORD_DATE
 </select>
 
 

@@ -22,7 +22,11 @@
 	
 	<!-- 	jquery -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    
+     <style>
+		tbody tr:hover {
+		    background-color:#e4e8ff;
+		}
+	</style>
 </head>
 <body>
 <section id="multiple-column-form" >
