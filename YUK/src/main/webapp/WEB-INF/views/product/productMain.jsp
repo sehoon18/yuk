@@ -599,45 +599,45 @@ function canMod2() {
 </script>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    var form = document.getElementById('dataForm');
+// document.addEventListener('DOMContentLoaded', function() {
+//     var form = document.getElementById('dataForm');
 
-    if (form) { // 폼이 존재하는지 확인
-        form.addEventListener('submit', function(e) {
-            // 모든 입력 필드에 대한 참조를 배열로 생성
-            var inputFields = [
-                document.querySelector('#productName'),
-                document.querySelector('#productPrice'),
-                document.querySelector('#whCode'),
-                document.querySelector('#whName'),
-                document.querySelector('#productOrigin')
-            ];
+//     if (form) { // 폼이 존재하는지 확인
+//         form.addEventListener('submit', function(e) {
+//             // 모든 입력 필드에 대한 참조를 배열로 생성
+//             var inputFields = [
+//                 document.querySelector('#productName'),
+//                 document.querySelector('#productPrice'),
+//                 document.querySelector('#whCode'),
+//                 document.querySelector('#whName'),
+//                 document.querySelector('#productOrigin')
+//             ];
             
-            // 비어 있는 입력 필드가 있는지 순회하면서 확인
-            var isEmptyFieldFound = inputFields.some(function(field) {
-                return !field.value.trim(); // 공백만 있는 경우도 비어 있는 것으로 간주
-            });
+//             // 비어 있는 입력 필드가 있는지 순회하면서 확인
+//             var isEmptyFieldFound = inputFields.some(function(field) {
+//                 return !field.value.trim(); // 공백만 있는 경우도 비어 있는 것으로 간주
+//             });
 
-            if (isEmptyFieldFound) { // 비어 있는 입력 필드가 하나라도 있는 경우
-                Swal.fire({
-                    title: "빈칸을 채워주세요.",
-                    width: 600,
-                    padding: "3em",
-                    color: "#00ff0000",
-                    background: "#fff", // background 예시, 실제 경로로 수정 필요
-                    backdrop: `
-                    	 rgba(ff,ff,ff,0)
-                        rgba(0,0,123,0.4)
-                        url("/images/nyan-cat.gif")
-                        left top
-                        no-repeat
-                    `
-                });
-                e.preventDefault(); // 폼 제출 중단
-            }
-        });
-    }
-});
+//             if (isEmptyFieldFound) { // 비어 있는 입력 필드가 하나라도 있는 경우
+//                 Swal.fire({
+//                     title: "빈칸을 채워주세요.",
+//                     width: 600,
+//                     padding: "3em",
+//                     color: "#00ff0000",
+//                     background: "#fff", // background 예시, 실제 경로로 수정 필요
+//                     backdrop: `
+//                     	 rgba(ff,ff,ff,0)
+//                         rgba(0,0,123,0.4)
+//                         url("/images/nyan-cat.gif")
+//                         left top
+//                         no-repeat
+//                     `
+//                 });
+//                 e.preventDefault(); // 폼 제출 중단
+//             }
+//         });
+//     }
+// });
 </script>
 
 <script>
