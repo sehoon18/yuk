@@ -137,8 +137,7 @@
         <c:forEach var="boundDTO" items="${inBoundBoardList}">
     	<tr>
    			<td>${boundDTO.mib_cd}</td>
-    		<td>${boundDTO.ord_cd}</td>
-<%--     		ord_cd에 링크 경로 발주서 onClick="location.href='${pageContext.request.contextPath}/폴더/파일?ord_cd=${DTO파일.ord_cd }'" --%>
+    		<td onclick="formpopup('${boundDTO.ord_cd}')">${boundDTO.ord_cd}</td>
     	    <td>
     	    <c:if test="${boundDTO.pro_type == 1}">식자재</c:if>
     	    <c:if test="${boundDTO.pro_type == 2}">포장자재</c:if>
@@ -387,6 +386,12 @@
 		  var wb = XLSX.utils.table_to_book(document.getElementById('pibTable'), {sheet:"Sheet1", raw:true});
 		  XLSX.writeFile(wb, '제품입고.xlsx');
 		}
+	
+	  function formpopup(ord_cd) {
+		  var popup = window.open("${pageContext.request.contextPath}/popup/orderform?ord_cd="+ord_cd, "formpopup", "width=1200,height=600");
+		  if (popup === null || typeof(popup) === 'undefined') {
+		      }
+		    }   
     
 	//권한 없을 시
 	function accessError() {

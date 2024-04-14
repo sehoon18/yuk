@@ -118,8 +118,7 @@
         <c:forEach var="boundDTO" items="${outBoundBoardList}">
     	<tr>
    			<td>${boundDTO.ob_cd}</td>
-    		<td>${boundDTO.con_cd}</td>
-    		<%-- con_cd에 링크 경로 수주서 onClick="location.href='${pageContext.request.contextPath}/폴더/파일?con_cd=${DTO파일.con_cd }'" --%>
+    		<td onclick="formpopup('${boundDTO.con_cd}')">${boundDTO.con_cd}</td>
     		<td>${boundDTO.pro_name}</td>
     		<td>${boundDTO.con_vol}</td>
     		<td>${boundDTO.wh_name}</td>
@@ -224,6 +223,12 @@
 		  var wb = XLSX.utils.table_to_book(document.getElementById('obTable'), {sheet:"Sheet1", raw:true});
 		  XLSX.writeFile(wb, '제품출고.xlsx');
 		}
+	
+	function formpopup(con_cd) {
+	    var popup = window.open("${pageContext.request.contextPath}/popup/contractform?con_cd="+con_cd, "formpopup", "width=1200,height=600");
+	    if (popup === null || typeof(popup) === 'undefined') {
+	    }
+	  }
     
 	//권한 없을 시
 	function accessError() {
