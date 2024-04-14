@@ -26,6 +26,8 @@
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />  
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 	<script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
+		<!-- 	엑셀파일저장 -->
+	<script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
 	
     <style>
     
@@ -112,6 +114,9 @@
             		<input type="text" id="endDate" class="form-control" name="search4" placeholder="기간을 선택하세요">
             		<input type="submit" value="조회" class="btn btn-primary">
             		</form>
+            		<br>
+            		<button onclick="saveExcel1()" class="btn btn-info" style="float: right;">💿엑셀저장</button>
+            		<br>
             	</div>
                     <table class='table table-bordered mb-0' id="mibTable" style="text-align: center;">
                     <thead>
@@ -245,6 +250,9 @@
             		<input type="text" id="endDate2" class="form-control" name="search8" placeholder="기간을 선택하세요">
             		<input type="submit" value="조회" class="btn btn-primary">
             		</form>
+            		<br>
+            		<button onclick="saveExcel2()" class="btn btn-info" style="float: right;">💿엑셀저장</button>
+            		<br>
             	</div>
                     <table class='table table-bordered mb-0' id="pibTable" style="text-align: center;">
                     <thead>
@@ -366,8 +374,19 @@
     <script src="${pageContext.request.contextPath}/resources/assets/js/app.js"></script>
     
     <script src="${pageContext.request.contextPath}/resources/assets/js/main.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/assets/js/vendors.js"></script>
     
     <script type="text/javascript">
+    
+	function saveExcel1() {
+		  var wb = XLSX.utils.table_to_book(document.getElementById('mibTable'), {sheet:"Sheet1", raw:true});
+		  XLSX.writeFile(wb, '자재입고.xlsx');
+		}
+	
+	function saveExcel2() {
+		  var wb = XLSX.utils.table_to_book(document.getElementById('pibTable'), {sheet:"Sheet1", raw:true});
+		  XLSX.writeFile(wb, '제품입고.xlsx');
+		}
     
 	//권한 없을 시
 	function accessError() {
