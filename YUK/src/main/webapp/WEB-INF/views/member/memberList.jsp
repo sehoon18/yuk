@@ -233,21 +233,26 @@ window.onload = function() {
                 input = document.createElement("input");
                 input.type = "text";
                 input.className = "form-control";
+                input.id = "id";
+                
             }
             else if(field === 'name'){
                 input = document.createElement("input");
                 input.type = "text";
                 input.className = "form-control";
+                input.id = "name";
             }
             else if(field === 'pass'){
                 input = document.createElement("input");
                 input.type = "text";
                 input.className = "form-control";
+                input.id = "pass";
             }
             else if(field === 'phone'){
                 input = document.createElement("input");
                 input.type = "text";
                 input.className = "form-control";
+                input.id = "phone";
             }
             else if(field === '${_csrf.parameterName}'){
                 input = document.createElement("input");
@@ -546,38 +551,81 @@ function canMod2() {
 document.addEventListener('DOMContentLoaded', function() {
     var form = document.getElementById('dataForm');
 
-    if (form) { 
+    if (form) { // 폼이 존재하는지 확인
         form.addEventListener('submit', function(e) {
-            if (isEditMode || isDelMode) {
-                return;
-            }
+            // "inputField" 클래스를 가진 모든 입력 필드 선택
+            var inputFields = document.querySelectorAll('.inputField'); 
+            var isFieldEmpty = false; // 비어있는 필드가 있는지 여부를 추적하는 플래그
 
-            if (!isAddingRow) {
-                var inputFields = document.querySelectorAll('.form-control');
-                var isEmptyFieldPresent = Array.from(inputFields).some(function(input) {
-                    return input.value.trim() === ''; 
-                });
-
-                if (isEmptyFieldPresent) {
-                    Swal.fire({
-                        title: "빈칸을 채워주세요.",
-                        width: 600,
-                        padding: "3em",
-                        color: "#00ff0000",
-                        background: "#fff",
-                        backdrop: `
-                            rgba(ff,ff,ff,0)
-                            left top
-                            no-repeat
-                        `
-                    });
-                    e.preventDefault();
+            // 각 입력 필드를 반복하면서 비어 있는지 확인
+            inputFields.forEach(function(field) {
+                if (field.value.trim() === '') {
+                    isFieldEmpty = true;
                 }
+            });
+
+            if (isFieldEmpty) { // 비어있는 입력 필드가 하나라도 있는 경우
+                Swal.fire({
+                    title: "빈칸을 채워주세요.",
+                    width: 600,
+                    padding: "3em",
+                    color: "#000", // 색상 값 수정
+                    background: "#fff",
+                    backdrop: `
+                        rgba(255, 255, 255, 0.4) // backdrop 색상 값 수정
+                        center
+                        no-repeat
+                    `
+                });
+                e.preventDefault(); // 폼 제출 중단
             }
         });
     }
 });
 </script>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var form = document.getElementById('dataForm');
+
+    if (form) { // 폼이 존재하는지 확인
+        form.addEventListener('submit', function(e) {
+            // 모든 입력 필드에 대한 참조를 배열로 생성
+            var inputFields = [
+                document.querySelector('#id'),
+                document.querySelector('#pass'),
+                document.querySelector('#name'),
+                document.querySelector('#phone')
+            ];
+            
+            // 비어 있는 입력 필드가 있는지 순회하면서 확인
+            var isEmptyFieldFound = inputFields.some(function(field) {
+                return !field.value.trim(); // 공백만 있는 경우도 비어 있는 것으로 간주
+            });
+
+            if (isEmptyFieldFound) { // 비어 있는 입력 필드가 하나라도 있는 경우
+                Swal.fire({
+                    title: "빈칸을 채워주세요.",
+                    width: 600,
+                    padding: "3em",
+                    color: "#00ff0000",
+                    background: "#fff", // background 예시, 실제 경로로 수정 필요
+                    backdrop: `
+                    	 rgba(ff,ff,ff,0)
+                        url("/images/nyan-cat.gif")
+                        left top
+                        no-repeat
+                    `
+                });
+                e.preventDefault(); // 폼 제출 중단
+            }
+        });
+    }
+});
+</script>
+
+
     
     
     

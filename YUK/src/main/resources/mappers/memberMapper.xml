@@ -82,6 +82,8 @@ and USER_NAME like concat('%',#{name},'%')
 order by USER_ID
 </select>
 
+
+
 <resultMap type="com.itwillbs.domain.MemberDTO" id="memberMap">
 	<id property="user_id" column="user_id"/>
 	<result property="user_id" column="user_id"/>

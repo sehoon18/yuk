@@ -22,10 +22,10 @@
 	    <b>관리자</b>
 	</sec:authorize>
 	<sec:authorize access="hasRole('ROLE_BOUND')">
-	    <b>입출고</b>
+	    <b>입고/출고/재고/창고</b>
 	</sec:authorize>
 	<sec:authorize access="hasRole('ROLE_PRODUCT')">
-	    <b>품목/거래처</b>
+	    <b>품목/거래처/소요량</b>
 	</sec:authorize>
 	<sec:authorize access="hasRole('ROLE_OC')">
 	    <b>수주/발주</b>
@@ -164,13 +164,15 @@
                     
                 </li>
 <%-- 			<c:if test="${sessionScope.permission == 0}"> --%>
+<sec:authorize access="hasRole('ROLE_ADMIN')">
              <li>
                     <a href="${pageContext.request.contextPath}/member/memberList" class='sidebar-link'>
                      <i data-feather="user"></i> 
                         <span>사용자 리스트</span>
                         </a>
-                        
             </li>
+                      </sec:authorize>
+                        
 <%--             </c:if> --%>
         </ul>
        
@@ -185,7 +187,6 @@
                 <a class="sidebar-toggler" href="#"><span class="navbar-toggler-icon"></span></a>
             </nav>
      
-    
     
     
     
