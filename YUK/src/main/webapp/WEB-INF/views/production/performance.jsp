@@ -36,6 +36,9 @@
 		tbody tr:hover {
 		    background-color:#e4e8ff;
 		}
+		tfoot tr:hover {
+		    background-color:#e4e8ff;
+		}
 	</style>
 </head>
 <body>
@@ -214,16 +217,16 @@
     </section>
 </div>
 
-            <footer>
-                <div class="footer clearfix mb-0 text-muted">
-                    <div class="float-left">
-                        <p>2020 &copy; Voler</p>
-                    </div>
-                    <div class="float-right">
-                        <p>Crafted with <span class='text-danger'><i data-feather="heart"></i></span> by <a href="http://ahmadsaugi.com">Ahmad Saugi</a></p>
-                    </div>
-                </div>
-            </footer>
+<!--             <footer> -->
+<!--                 <div class="footer clearfix mb-0 text-muted"> -->
+<!--                     <div class="float-left"> -->
+<!--                         <p>2020 &copy; Voler</p> -->
+<!--                     </div> -->
+<!--                     <div class="float-right"> -->
+<!--                         <p>Crafted with <span class='text-danger'><i data-feather="heart"></i></span> by <a href="http://ahmadsaugi.com">Ahmad Saugi</a></p> -->
+<!--                     </div> -->
+<!--                 </div> -->
+<!--             </footer> -->
         </div>
     <script src="${pageContext.request.contextPath}/resources/assets/js/feather-icons/feather.min.js"></script>
     <script src="${pageContext.request.contextPath}/resources/assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
@@ -615,8 +618,8 @@
 	        if (isDelMode) {
 	            let target = e.target;
 	            Swal.fire({
-	                title: "Are you sure?",
-	                text: "You won't be able to revert this!",
+	                title: "수정 확인",
+	                text: "생산 실적을 수정하시겠습니까?",
 	                icon: "warning",
 	                showCancelButton: true,
 	                confirmButtonColor: "#3085d6",
@@ -647,8 +650,8 @@
 	                            if(response.ok) {
 	                                tbody.removeChild(target); // 서버에서 성공적으로 처리되면 행 삭제
 	                                Swal.fire(
-	                                    "Deleted!",
-	                                    "Your file has been deleted.",
+	                                    "삭제 완료",
+	                                    "실적이 삭제되었습니다.",
 	                                    "success"
 	                                );
 	                                isDelMode = true; // 삭제 모드 비활성화

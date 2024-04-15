@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -127,13 +128,15 @@ public class OrdercontractController {
 		return "ordercontract/contract";
 	}
 	@PostMapping("/insertOrder")
-	public ResponseEntity<String> insertOrder(@RequestBody OrdercontractDTO ordercontractDTO ) {
+	public ResponseEntity<String> insertOrder(@RequestBody OrdercontractDTO ordercontractDTO, Authentication authentication) {
 		System.out.println("OrdercontractController insertContract()");
 		System.out.println(ordercontractDTO);
 		
 		Timestamp today = new Timestamp(System.currentTimeMillis());
 		ordercontractDTO.setOrd_date(today);
-		ordercontractDTO.setUser_id("hong123");
+//		ordercontractDTO.setUser_id("hong123");
+		String username = authentication.getName();
+		ordercontractDTO.setUser_id(username);	
 		ordercontractService.insertOrder(ordercontractDTO);
 		ordercontractService.insertMib(ordercontractDTO);
 		System.out.println(ordercontractDTO);
@@ -142,13 +145,15 @@ public class OrdercontractController {
 	}
 	
 	@PostMapping("/insertContract")
-	public ResponseEntity<String> insertContract(@RequestBody OrdercontractDTO ordercontractDTO ) {
+	public ResponseEntity<String> insertContract(@RequestBody OrdercontractDTO ordercontractDTO, Authentication authentication) {
 		System.out.println("OrdercontractController insertContract()");
 		System.out.println(ordercontractDTO);
 		
 		Timestamp today = new Timestamp(System.currentTimeMillis());
 		ordercontractDTO.setCon_date(today);
-		ordercontractDTO.setUser_id("hong123");
+//		ordercontractDTO.setUser_id("hong123");
+		String username = authentication.getName();
+		ordercontractDTO.setUser_id(username);
 		ordercontractService.insertContract(ordercontractDTO);
 		ordercontractService.insertOb(ordercontractDTO);
 		System.out.println(ordercontractDTO);
@@ -157,13 +162,15 @@ public class OrdercontractController {
 	}
 		
 	@PostMapping("/updateOrder")
-	public ResponseEntity<String> updateOrder(@RequestBody OrdercontractDTO ordercontractDTO ) {
+	public ResponseEntity<String> updateOrder(@RequestBody OrdercontractDTO ordercontractDTO,Authentication authentication) {
 		System.out.println("OrdercontractController updateOrder()");
 		System.out.println(ordercontractDTO);	
 		
 		Timestamp today = new Timestamp(System.currentTimeMillis());
 		ordercontractDTO.setOrd_date(today);
-		ordercontractDTO.setUser_id("hong123");
+//		ordercontractDTO.setUser_id("hong123");
+		String username = authentication.getName();
+		ordercontractDTO.setUser_id(username);
 		ordercontractDTO.getOrd_cd();
 		ordercontractService.updateOrder(ordercontractDTO);
 		System.out.println(ordercontractDTO);
@@ -172,13 +179,15 @@ public class OrdercontractController {
 	}
 	
 	@PostMapping("/updateContract")
-	public ResponseEntity<String> updateContract(@RequestBody OrdercontractDTO ordercontractDTO ) {
+	public ResponseEntity<String> updateContract(@RequestBody OrdercontractDTO ordercontractDTO,Authentication authentication ) {
 		System.out.println("OrdercontractController updateContract()");
 		System.out.println(ordercontractDTO);
 		
 		Timestamp today = new Timestamp(System.currentTimeMillis());
 		ordercontractDTO.setCon_date(today);
-		ordercontractDTO.setUser_id("hong123");
+//		ordercontractDTO.setUser_id("hong123");
+		String username = authentication.getName();
+		ordercontractDTO.setUser_id(username);
 		ordercontractService.updateContract(ordercontractDTO);
 		System.out.println(ordercontractDTO);
 		

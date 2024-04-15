@@ -252,11 +252,11 @@
                     deleteOrd(ord_cd);
                     
                     // SweetAlert로 삭제 성공 메시지 표시
-//                     Swal.fire({
-//                         title: "Deleted!",
-//                         text: "Your file has been deleted.",
-//                         icon: "success"
-//                     });
+                   Swal.fire({
+                    title: "삭제완료!",
+                    text: "삭제가 완료되었습니다.",
+                    icon: "success"
+                });
                 }
             });
         });

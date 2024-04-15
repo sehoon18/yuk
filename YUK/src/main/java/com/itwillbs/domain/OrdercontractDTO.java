@@ -9,6 +9,7 @@ public class OrdercontractDTO {
 	private String con_cd;
 	private String pro_cd;
 	private String user_id;
+	private String user_name;
 	private String mib_cd;
 	private String ob_cd;
 	private int ord_vol;
@@ -33,19 +34,20 @@ public class OrdercontractDTO {
 	private int cli_tel_number;
 	private int cli_fax_number;
     
-   @Override
+   
+   
+	@Override
 	public String toString() {
 		return "OrdercontractDTO [ord_cd=" + ord_cd + ", cli_cd=" + cli_cd + ", con_cd=" + con_cd + ", pro_cd=" + pro_cd
-				+ ", user_id=" + user_id + ", mib_cd=" + mib_cd + ", ob_cd=" + ob_cd + ", ord_vol=" + ord_vol
-				+ ", cli_name=" + cli_name + ", pro_name=" + pro_name + ", pro_vol=" + pro_vol + ", pro_price="
-				+ pro_price + ", con_vol=" + con_vol + ", ord_date=" + ord_date + ", ord_due_date=" + ord_due_date
-				+ ", ord_pay_date=" + ord_pay_date + ", con_date=" + con_date + ", con_due_date=" + con_due_date
-				+ ", con_pay_date=" + con_pay_date + ", ord_info_status=" + ord_info_status + ", con_info_status="
-				+ con_info_status + ", pro_type=" + pro_type + ", cli_ceo=" + cli_ceo + ", cli_business_type="
-				+ cli_business_type + ", cli_category=" + cli_category + ", cli_basic_address=" + cli_basic_address
-				+ ", cli_tel_number=" + cli_tel_number + ", cli_fax_number=" + cli_fax_number + "]";
+				+ ", user_id=" + user_id + ", user_name=" + user_name + ", mib_cd=" + mib_cd + ", ob_cd=" + ob_cd
+				+ ", ord_vol=" + ord_vol + ", cli_name=" + cli_name + ", pro_name=" + pro_name + ", pro_vol=" + pro_vol
+				+ ", pro_price=" + pro_price + ", con_vol=" + con_vol + ", ord_date=" + ord_date + ", ord_due_date="
+				+ ord_due_date + ", ord_pay_date=" + ord_pay_date + ", con_date=" + con_date + ", con_due_date="
+				+ con_due_date + ", con_pay_date=" + con_pay_date + ", ord_info_status=" + ord_info_status
+				+ ", con_info_status=" + con_info_status + ", pro_type=" + pro_type + ", cli_ceo=" + cli_ceo
+				+ ", cli_business_type=" + cli_business_type + ", cli_category=" + cli_category + ", cli_basic_address="
+				+ cli_basic_address + ", cli_tel_number=" + cli_tel_number + ", cli_fax_number=" + cli_fax_number + "]";
 	}
-   
 	public String getMib_cd() {
 		return mib_cd;
 	}
@@ -97,6 +99,14 @@ public class OrdercontractDTO {
 
 	public void setUser_id(String user_id) {
 		this.user_id = user_id;
+	}
+	
+	public String getUser_name() {
+		return user_name;
+	}
+
+	public void setUser_name(String user_name) {
+		this.user_name = user_name;
 	}
 
 	public int getOrd_vol() {
