@@ -29,7 +29,7 @@ public class ProductController {
 	// --------  품목 관리 -----------
 	
 	@GetMapping("/productMain")
-	public String productMain(Model model,HttpServletRequest request,HttpSession session,PageDTO pageDTO) {
+	public String productMain(Model model,HttpServletRequest request,PageDTO pageDTO) {
 		System.out.println("ProductController productMain()");
 		
 		ProductDTO productDTO = new ProductDTO();
@@ -58,13 +58,13 @@ public class ProductController {
 				// 검색 기능
 				pageDTO.setSearch1(request.getParameter("search1"));
 				pageDTO.setSearch2(request.getParameter("search2"));
-				String productType = (String)request.getParameter("search5");
+				String productType = (String)request.getParameter("select1");
 				System.out.println(pageDTO);
 				int productType1 = 100;
-				if(productType == null) {
+				if(productType == null || productType == "") {
 					productType1 = 100;
 				} else {
-					productType1 = Integer.parseInt(request.getParameter("search5"));
+					productType1 = Integer.parseInt(request.getParameter("select1"));
 				}
 				pageDTO.setSearch0(productType1);
 
@@ -93,7 +93,7 @@ public class ProductController {
 					endPage = pageCount;
 				}
 				
-				pageDTO.setCount(pageCount);
+				pageDTO.setCount(count);
 				pageDTO.setPageBlock(pageBlock);
 				pageDTO.setStartPage(startPage);
 				pageDTO.setEndPage(endPage);
@@ -113,13 +113,13 @@ public class ProductController {
 		// 검색 기능
 		pageDTO.setSearch1(request.getParameter("search1"));
 		pageDTO.setSearch2(request.getParameter("search2"));
-		String productType = (String)request.getParameter("search5");
+		String productType = (String)request.getParameter("select1");
 		System.out.println(pageDTO);
 		int productType1 = 100;
 		if(productType == null) {
 			productType1 = 100;
 		} else {
-			productType1 = Integer.parseInt(request.getParameter("search5"));
+			productType1 = Integer.parseInt(request.getParameter("select1"));
 		}
 		pageDTO.setSearch0(productType1);
 
@@ -148,7 +148,7 @@ public class ProductController {
 			endPage = pageCount;
 		}
 		
-		pageDTO.setCount(pageCount);
+		pageDTO.setCount(count);
 		pageDTO.setPageBlock(pageBlock);
 		pageDTO.setStartPage(startPage);
 		pageDTO.setEndPage(endPage);
@@ -233,13 +233,13 @@ public class ProductController {
 				// 검색 기능
 				pageDTO.setSearch1(request.getParameter("search1"));
 				pageDTO.setSearch2(request.getParameter("search2"));
-				String productType = (String)request.getParameter("search5");
+				String productType = (String)request.getParameter("select1");
 				System.out.println(pageDTO);
 				int productType1 = 100;
-				if(productType == null) {
+				if(productType == null || productType == "") {
 					productType1 = 100;
 				} else {
-					productType1 = Integer.parseInt(request.getParameter("search5"));
+					productType1 = Integer.parseInt(request.getParameter("select1"));
 				}
 				pageDTO.setSearch0(productType1);
 
@@ -268,7 +268,7 @@ public class ProductController {
 					endPage = pageCount;
 				}
 				
-				pageDTO.setCount(pageCount);
+				pageDTO.setCount(count);
 				pageDTO.setPageBlock(pageBlock);
 				pageDTO.setStartPage(startPage);
 				pageDTO.setEndPage(endPage);
@@ -287,13 +287,13 @@ public class ProductController {
 		// 검색 기능
 		pageDTO.setSearch1(request.getParameter("search1"));
 		pageDTO.setSearch2(request.getParameter("search2"));
-		String productType = (String)request.getParameter("search5");
+		String productType = (String)request.getParameter("select1");
 		System.out.println(pageDTO);
 		int productType1 = 100;
-		if(productType == null) {
+		if(productType == null || productType == "") {
 			productType1 = 100;
 		} else {
-			productType1 = Integer.parseInt(request.getParameter("search5"));
+			productType1 = Integer.parseInt(request.getParameter("select1"));
 		}
 		pageDTO.setSearch0(productType1);
 
@@ -322,7 +322,7 @@ public class ProductController {
 			endPage = pageCount;
 		}
 		
-		pageDTO.setCount(pageCount);
+		pageDTO.setCount(count);
 		pageDTO.setPageBlock(pageBlock);
 		pageDTO.setStartPage(startPage);
 		pageDTO.setEndPage(endPage);
@@ -371,13 +371,13 @@ public class ProductController {
 		// 검색 기능
 				pageDTO.setSearch1(request.getParameter("search1"));
 				pageDTO.setSearch2(request.getParameter("search2"));
-				String productType = (String)request.getParameter("search5");
+				String productType = (String)request.getParameter("select1");
 				System.out.println(pageDTO);
 				int productType1 = 100;
-				if(productType == null) {
+				if(productType == null || productType == "") {
 					productType1 = 100;
 				} else {
-					productType1 = Integer.parseInt(request.getParameter("search5"));
+					productType1 = Integer.parseInt(request.getParameter("select1"));
 				}
 				pageDTO.setSearch0(productType1);
 
@@ -406,11 +406,12 @@ public class ProductController {
 					endPage = pageCount;
 				}
 				
-				pageDTO.setCount(pageCount);
+				pageDTO.setCount(count);
 				pageDTO.setPageBlock(pageBlock);
 				pageDTO.setStartPage(startPage);
 				pageDTO.setEndPage(endPage);
 				pageDTO.setPageCount(pageCount);
+				
 				
 				model.addAttribute("productList", productList);
 				model.addAttribute("pageDTO", pageDTO);
@@ -425,13 +426,13 @@ public class ProductController {
 			// 검색 기능
 			pageDTO.setSearch1(request.getParameter("search1"));
 			pageDTO.setSearch2(request.getParameter("search2"));
-			String productType = (String)request.getParameter("search5");
+			String productType = (String)request.getParameter("select1");
 			System.out.println(pageDTO);
 			int productType1 = 100;
 			if(productType == null) {
 				productType1 = 100;
 			} else {
-				productType1 = Integer.parseInt(request.getParameter("search5"));
+				productType1 = Integer.parseInt(request.getParameter("select1"));
 			}
 			pageDTO.setSearch0(productType1);
 
@@ -460,7 +461,7 @@ public class ProductController {
 				endPage = pageCount;
 			}
 			
-			pageDTO.setCount(pageCount);
+			pageDTO.setCount(count);
 			pageDTO.setPageBlock(pageBlock);
 			pageDTO.setStartPage(startPage);
 			pageDTO.setEndPage(endPage);
