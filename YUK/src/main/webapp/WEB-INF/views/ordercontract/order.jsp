@@ -94,7 +94,7 @@
      	<td ><fmt:formatNumber value="${OrdercontractDTO.pro_price * OrdercontractDTO.ord_vol}" groupingUsed="true" maxFractionDigits="0"/></td> 
      	<td ><fmt:formatDate value="${OrdercontractDTO.ord_date}" pattern="yyyy.MM.dd"/></td> 
      	<td ><fmt:formatDate value="${OrdercontractDTO.ord_due_date}" pattern="yyyy.MM.dd"/></td> 
-    	<td >${OrdercontractDTO.user_id}</td>
+    	<td >${OrdercontractDTO.user_name}</td>
     	<c:if test="${OrdercontractDTO.ord_info_status  == 0 }">
             <td><button class="btn icon icon-left  btn-outline-danger" disabled>발주진행</button></td>
 		</c:if>

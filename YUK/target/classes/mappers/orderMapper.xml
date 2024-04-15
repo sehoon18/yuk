@@ -8,7 +8,7 @@
 
 <insert id="insertOrder">
 insert into ORDERS(ORD_CD, CLI_CD, USER_ID, PRO_CD, ORD_VOL, ORD_DATE, ORD_DUE_DATE, ORD_INFO_STATUS, ORD_PAY_DATE)
-values(#{ord_cd}, #{cli_cd}, #{user_id}, #{pro_cd},#{ord_vol}, #{ord_date}, #{ord_due_date}, #{ord_info_status},#{ord_pay_date})
+values(#{ord_cd}, #{cli_cd}, #{user_name}, #{pro_cd},#{ord_vol}, #{ord_date}, #{ord_due_date}, #{ord_info_status},#{ord_pay_date})
 </insert>
 
 <insert id="insertContract">
@@ -37,12 +37,14 @@ values(#{con_cd}, #{cli_cd}, #{pro_cd},#{con_vol}, #{con_date}, #{con_due_date},
 </select>
 
 <select id="getOrderList" resultType="com.itwillbs.domain.OrdercontractDTO">
-select o.*, c.*, p.*
+select o.*, c.*, p.*,u.*
 	from ORDERS o
 	left join PRODUCT p
 	on o.pro_cd = p.pro_cd
 	left join CLIENT c
 	on c.cli_cd = o.cli_cd
+	left join USER u
+	on o.user_id = u.user_id
 <where>
 <if test="search1 != '' and search1 != null"  >
 o.ORD_CD like concat('%', #{search1}, '%')
@@ -102,9 +104,11 @@ select c.*, cl.*, p.*
 
 <update id="updateOrder">
 	update ORDERS
-	SET ORD_CD = #{ord_cd}, PRO_CD = #{pro_cd},  CLI_CD= #{cli_cd},ORD_VOL= #{ord_vol},  USER_ID= #{user_id},ORD_DATE= #{ord_date},
+	SET ORD_CD = #{ord_cd}, PRO_CD = #{pro_cd},  CLI_CD= #{cli_cd},ORD_VOL= #{ord_vol},  USER_ID= #{user_name},ORD_DATE= #{ord_date},
 	ORD_DUE_DATE= #{ord_due_date},ORD_PAY_DATE= #{ord_pay_date}
 	where ORD_CD = #{ord_cd}
+	
+
 </update>
 
 <update id="updateContract">
@@ -165,10 +169,26 @@ limit #{startRow},#{pageSize}
      order by pro_cd desc 
 limit #{startRow},#{pageSize}
 </select>
-<select id="getClientList" resultType="com.itwillbs.domain.OrdercontractDTO">
-    select CLI_CD "cli_cd", CLI_NAME "cli_name" 
+<select id="getClientList1" resultType="com.itwillbs.domain.OrdercontractDTO">
+    select CLI_CD "cli_cd", CLI_NAME "cli_name" ,CLI_TYPE "cli_type"
     from CLIENT 
     <where>
+    cli_type = "납입처"
+	<if test="search1 != '' and search1 != null"  >
+		and CLI_CD like concat('%', #{search1}, '%')
+	</if>
+	<if test="search2 != '' and search2 != null ">
+		and CLI_NAME like concat('%', #{search2}, '%')
+	</if>
+     </where>
+     order by cli_cd desc 
+limit #{startRow},#{pageSize}
+</select>
+<select id="getClientList2" resultType="com.itwillbs.domain.OrdercontractDTO">
+    select CLI_CD "cli_cd", CLI_NAME "cli_name" ,CLI_TYPE "cli_type"
+    from CLIENT 
+    <where>
+    cli_type = "납품처"
 	<if test="search1 != '' and search1 != null"  >
 		and CLI_CD like concat('%', #{search1}, '%')
 	</if>
@@ -306,10 +326,25 @@ order by CON_CD desc
    order by pro_cd desc 
 </select>
 
-<select id="getClientCount" resultType="java.lang.Integer">
+<select id="getClientCount1" resultType="java.lang.Integer">
      select count(*)    
     from CLIENT
   	<where>
+  		 cli_type = "납입처"
+      <if test="search1 != '' and search1 != null"  >
+		and CLI_CD like concat('%', #{search1}, '%')
+	</if>
+	<if test="search2 != '' and search2 != null ">
+		and CLI_NAME like concat('%', #{search2}, '%')
+	</if>
+	</where>
+  order by cli_cd desc 
+</select>
+<select id="getClientCount2" resultType="java.lang.Integer">
+     select count(*)    
+    from CLIENT
+  	<where>
+  		 cli_type = "납품처"
       <if test="search1 != '' and search1 != null"  >
 		and CLI_CD like concat('%', #{search1}, '%')
 	</if>

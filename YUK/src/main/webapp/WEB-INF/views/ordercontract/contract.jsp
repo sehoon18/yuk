@@ -98,7 +98,7 @@
             <td><button class="btn icon icon-left  btn-outline-danger" disabled>수주진행</button></td>
 		</c:if>
 		<c:if test="${OrdercontractDTO.con_info_status  == 2 }">
-            <td><button class="btn icon icon-left  btn-outline-success " disabled>입고완료</button></td>
+            <td><button class="btn icon icon-left  btn-outline-success " disabled>출고완료</button></td>
             </c:if>
 		<td ><input type="button" class="btn btn-info" value="상세" onclick="popup(event,'${OrdercontractDTO.con_cd}')" /></td>
 	</tr> 

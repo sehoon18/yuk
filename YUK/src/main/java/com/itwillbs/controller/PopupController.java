@@ -222,9 +222,9 @@ public class PopupController {
 		model.addAttribute("pageDTO", pageDTO);
 		return "popup/contractpop";
 	}
-	@GetMapping("/clientpop")
+	@GetMapping("/ordclientpop")
 	public String clientpop(Model model,OrdercontractDTO ordercontractDTO ,PageDTO pageDTO,HttpServletRequest request) {
-		System.out.println("PopupController clientpop()");
+		System.out.println("PopupController ordclientpop()");
 		int pageSize = 10;
 		String pageNum = request.getParameter("pageNum");
 		if(pageNum == null) {
@@ -237,9 +237,9 @@ public class PopupController {
 		pageDTO.setPageNum(pageNum);
 		pageDTO.setCurrentPage(currentPage);
 		
-		List<OrdercontractDTO> clientList = ordercontractService.getClientList(pageDTO);
+		List<OrdercontractDTO> clientList1 = ordercontractService.getClientList1(pageDTO);
 		
-		int count =  ordercontractService.getClientCount(pageDTO);
+		int count =  ordercontractService.getClientCount1(pageDTO);
 		int pageBlock = 10;
 		int startPage = (currentPage - 1) / pageBlock * pageBlock + 1;
 		int endPage = startPage + pageBlock -1;
@@ -255,11 +255,50 @@ public class PopupController {
 		pageDTO.setEndPage(endPage);
 		pageDTO.setPageCount(pageCount);
 		
-		model.addAttribute("clientList", clientList);
+		model.addAttribute("clientList1", clientList1);
 		model.addAttribute("pageDTO", pageDTO);
 		
-		return "popup/clientpop";
+		return "popup/ordclientpop";
 	}
+	@GetMapping("/conclientpop")
+	public String conclientpop(Model model,OrdercontractDTO ordercontractDTO ,PageDTO pageDTO,HttpServletRequest request) {
+		System.out.println("PopupController clientpop()");
+		int pageSize = 10;
+		String pageNum = request.getParameter("pageNum");
+		if(pageNum == null) {
+			pageNum="1";
+		}
+		
+		int currentPage = Integer.parseInt(pageNum);
+		
+		pageDTO.setPageSize(pageSize);
+		pageDTO.setPageNum(pageNum);
+		pageDTO.setCurrentPage(currentPage);
+		
+		List<OrdercontractDTO> clientList2 = ordercontractService.getClientList2(pageDTO);
+		
+		int count =  ordercontractService.getClientCount2(pageDTO);
+		int pageBlock = 10;
+		int startPage = (currentPage - 1) / pageBlock * pageBlock + 1;
+		int endPage = startPage + pageBlock -1;
+		int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);
+		
+		if(endPage > pageCount) {
+			endPage = pageCount;
+		}
+		
+		pageDTO.setCount(pageCount);
+		pageDTO.setPageBlock(pageBlock);
+		pageDTO.setStartPage(startPage);
+		pageDTO.setEndPage(endPage);
+		pageDTO.setPageCount(pageCount);
+		
+		model.addAttribute("clientList2", clientList2);
+		model.addAttribute("pageDTO", pageDTO);
+		
+		return "popup/conclientpop";
+	}
+	
 	
 	@GetMapping("/whpop")
 	public String whpop(HttpServletRequest request, ProductionDTO productionDTO, Model model, PageDTO pageDTO) {

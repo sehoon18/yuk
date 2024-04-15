@@ -27,7 +27,7 @@
 	      <hr>
 	      <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
             <div>
-                <form action="${pageContext.request.contextPath}/popup/clientpop" method="get" style="display: flex;">
+                <form action="${pageContext.request.contextPath}/popup/conclientpop" method="get" style="display: flex;">
                     <div style="margin-right: 10px;">
                         <b>거래처코드</b>
                         <input type="text" id="first-name" class="form-control" name="search1" style="width: auto;">
@@ -58,7 +58,7 @@
 	                </tr>
 	              </thead>
 	              <tbody>
-					<c:forEach var="OrdercontractDTO" items="${clientList }">
+					<c:forEach var="OrdercontractDTO" items="${clientList2 }">
 					<tr>
 						<td>${OrdercontractDTO.cli_name }</td>
 						<td>${OrdercontractDTO.cli_cd }</td>

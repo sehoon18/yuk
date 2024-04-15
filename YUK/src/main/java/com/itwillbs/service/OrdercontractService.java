@@ -56,7 +56,7 @@ import com.itwillbs.domain.PageDTO;
 				
 				return ordercontractDAO.getOrderList2(pageDTO);
 			}
-			public List<OrdercontractDTO> getClientList(PageDTO pageDTO) {
+			public List<OrdercontractDTO> getClientList1(PageDTO pageDTO) {
 //				int currentPage = pageDTO.getCurrentPage();
 				int startRow = (pageDTO.getCurrentPage() - 1) * pageDTO.getPageSize() + 1;
 				int EndRow = startRow + pageDTO.getPageSize() - 1;
@@ -64,7 +64,17 @@ import com.itwillbs.domain.PageDTO;
 				pageDTO.setStartRow(startRow -1);
 				pageDTO.setEndRow(EndRow);
 				
-				return ordercontractDAO.getClientList(pageDTO);
+				return ordercontractDAO.getClientList1(pageDTO);
+			}
+			public List<OrdercontractDTO> getClientList2(PageDTO pageDTO) {
+//				int currentPage = pageDTO.getCurrentPage();
+				int startRow = (pageDTO.getCurrentPage() - 1) * pageDTO.getPageSize() + 1;
+				int EndRow = startRow + pageDTO.getPageSize() - 1;
+				
+				pageDTO.setStartRow(startRow -1);
+				pageDTO.setEndRow(EndRow);
+				
+				return ordercontractDAO.getClientList2(pageDTO);
 			}
 		public void insertOrder(OrdercontractDTO ordercontractDTO) {
 			
@@ -208,10 +218,12 @@ import com.itwillbs.domain.PageDTO;
 			return ordercontractDAO.getContractCount2(pageDTO);
 		}
 
-		public int getClientCount(PageDTO pageDTO) {
-			return ordercontractDAO.getClientCount(pageDTO);
+		public int getClientCount1(PageDTO pageDTO) {
+			return ordercontractDAO.getClientCount1(pageDTO);
 		}
-		
+		public int getClientCount2(PageDTO pageDTO) {
+			return ordercontractDAO.getClientCount2(pageDTO);
+		}
 		public OrdercontractDTO getOrderform(OrdercontractDTO ordercontractDTO) {
 			
 			return ordercontractDAO.getOrderform(ordercontractDTO);
@@ -220,6 +232,10 @@ import com.itwillbs.domain.PageDTO;
 			
 			return ordercontractDAO.getContractform(ordercontractDTO);
 		}
+
+		
+
+		
 		
 		
 			

@@ -39,25 +39,25 @@
                                     <div class="col-md-15 col-2">	
                                         <div class="form-group">
                                             <label for="first-name-column">품목코드</label>
-                                            <input type="text" id="pro_cd" class="form-control" placeholder="품목코드를 선택해주세요." name="pro_cd">
+                                            <input type="text" id="pro_cd" class="form-control" placeholder="품목코드를 선택해주세요."  onclick="openPopup()" name="pro_cd">
                                         </div>
                                     </div>
                                     <div class="col-md-15 col-2">
                                         <div class="form-group">
                                             <label for="last-name-column">품목이름</label>
-                                            <input type="text" id="pro_name" class="form-control" onclick="openPopup()" placeholder="품목이름을 입력해주세요." name="pro_name">
+                                            <input type="text" id="pro_name" class="form-control"  placeholder="품목이름을 입력해주세요." name="pro_name">
                                         </div>
                                     </div>
                                     <div class="col-md-15 col-2">
                                         <div class="form-group">
                                             <label for="city-column">거래처코드</label>
-                                            <input type="text" id="cli_cd" class="form-control" placeholder="거래처코드를 선택해주세요." name="cli_cd">
+                                            <input type="text" id="cli_cd" class="form-control" placeholder="거래처코드를 선택해주세요." onclick="openPopup2()" name="cli_cd">
                                         </div>
                                     </div>
                                    <div class="col-md-15 col-2">
                                         <div class="form-group">
                                             <label for="country-floating">거래처명</label>
-                                            <input type="text" id="cli_name" class="form-control" name="cli_name"  onclick="openPopup2()" placeholder="거래처이름을 입력해주세요.">
+                                            <input type="text" id="cli_name" class="form-control" name="cli_name"   placeholder="거래처이름을 입력해주세요.">
                                         </div>
                                     </div>
                                     <div class="col-md-15 col-2">
@@ -128,7 +128,7 @@
 	<script>
 	  // 인풋 창을 클릭하면 팝업을 엽니다.
 	  function openPopup2() {
-	    var popup = window.open("${pageContext.request.contextPath}/popup/clientpop", "popup2", "width=800,height=600");
+	    var popup = window.open("${pageContext.request.contextPath}/popup/ordclientpop", "popup2", "width=800,height=600");
 	    
 	    if (popup === null || typeof(popup) === 'undefined') {
 	      alert('팝업이 차단되었습니다. 팝업 차단을 해제하고 다시 시도해주세요.');

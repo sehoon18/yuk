@@ -145,7 +145,7 @@
 	<script>
 	  // 인풋 창을 클릭하면 팝업을 엽니다.
 	  function openPopup2() {
-	    var popup = window.open("${pageContext.request.contextPath}/popup/clientpop", "popup2", "width=800,height=600");
+	    var popup = window.open("${pageContext.request.contextPath}/popup/conclientpop", "popup2", "width=800,height=600");
 	    
 	    if (popup === null || typeof(popup) === 'undefined') {
 	      alert('팝업이 차단되었습니다. 팝업 차단을 해제하고 다시 시도해주세요.');
