@@ -18,8 +18,11 @@
     <link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/assets/images/favicon.svg" type="image/x-icon">
 
 <!--    처리 버튼 Swal css  -->
-	<link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
-	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+<!-- 	<link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet"> -->
+<!-- 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script> -->
+ 
+  <!-- sweetalert2 -->
+	<script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script> 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
@@ -303,6 +306,7 @@ function statusSwitch(event, productCode) {
         showCancelButton: true,
         confirmButtonColor: "#3085D6",
         cancelButtonColor: "#d33",
+        background: "#fff",
         confirmButtonText: "수정완료",
         cancelButtonText: "취소"
     }).then((result) => {
@@ -321,7 +325,9 @@ function statusSwitch(event, productCode) {
 //                    alert("성공");
                     Swal.fire({
                         title: "수정 완료!",
-                        icon: "success"
+                        background: "#fff",
+                        icon: "success",
+    	                confirmButtonText: '확인'
                     }).then(() =>{
                         location.reload(); // 수정이 성공적으로 완료되면 페이지를 새로고침합니다.
                     });
@@ -330,8 +336,10 @@ function statusSwitch(event, productCode) {
 //                    alert("에러");
                     Swal.fire({
                         title: "처리 불가!",
+                        background: "#fff",
                         text: "창고 최대 보유량 초과 또는 잘못된 조작",
-                        icon: "error"
+                        icon: "error",
+    	                confirmButtonText: '확인'
                     })
                 }
             });
