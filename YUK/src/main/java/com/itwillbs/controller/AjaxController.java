@@ -66,19 +66,29 @@ public class AjaxController {
 	@PostMapping("/production/updatePer")
 	public ResponseEntity<?> updatePer(@RequestBody ProductionDTO productionDTO, Authentication authentication) {
 	    System.out.println("ProductionController updatePer()");
+	    System.out.println(productionDTO);
 	    
 		String username = authentication.getName();
 		productionDTO.setName(username);	
 		
 		ProductionDTO productionDTO2 = productionService.getPib(productionDTO);
-		if(productionDTO2.getPibStatus() == 0) {
-			productionService.updatePer(productionDTO);
-			// 성공 응답 보내기
-			// 단순 문자열 "success"를 JSON 형식으로 반환하는 예시
-			return ResponseEntity.ok().body("{\"message\":\"success\"}");
-		} else {
-			return ResponseEntity.badRequest().body("{\"message\":\"Operation not allowed\"}");
-		}
+	    System.out.println(productionDTO2);
+
+	    if(productionDTO2 != null) {
+	    	if(productionDTO2.getPibStatus() == 0) {
+	    		productionService.updatePer(productionDTO);
+	    		// 성공 응답 보내기
+	    		// 단순 문자열 "success"를 JSON 형식으로 반환하는 예시
+	    		return ResponseEntity.ok().body("{\"message\":\"success\"}");
+	    	} else {
+	    		return ResponseEntity.badRequest().body("{\"message\":\"Operation not allowed\"}");
+	    	}
+	    }else {
+    		productionService.updatePer(productionDTO);
+    		// 성공 응답 보내기
+    		// 단순 문자열 "success"를 JSON 형식으로 반환하는 예시
+    		return ResponseEntity.ok().body("{\"message\":\"success\"}");
+	    }
 		
 	}
 	
