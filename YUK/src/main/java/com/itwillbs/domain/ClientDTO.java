@@ -10,13 +10,16 @@ public class ClientDTO {
 	private int clientZipNumber;             //거래처 우편번호
 	private String clientBasicAddress;       //거래처 기본주소
 	private String clientDetailAddress;      //거래처 상세주소
-	private int clientTelNumber;             //거래처 전화번호
-	private int clientFaxNumber;             //거래처 팩스번호
+	private String clientTelNumber;             //거래처 전화번호
+	private String clientFaxNumber;             //거래처 팩스번호
 	private String clientBusinessType;       //거래처 업태
 	private String clientCategory;           //거래처 종목
 	private String clientNote;               //거래처 참고
 	private String clientEmail;              //거래처 이메일
 	private String name;
+	
+	
+	
 	
 	@Override
 	public String toString() {
@@ -27,7 +30,6 @@ public class ClientDTO {
 				+ ", clientBusinessType=" + clientBusinessType + ", clientCategory=" + clientCategory + ", clientNote="
 				+ clientNote + ", clientEmail=" + clientEmail + ", name=" + name + "]";
 	}
-	
 	public String getClientCode() {
 		return clientCode;
 	}
@@ -76,16 +78,16 @@ public class ClientDTO {
 	public void setClientDetailAddress(String clientDetailAddress) {
 		this.clientDetailAddress = clientDetailAddress;
 	}
-	public int getClientTelNumber() {
+	public String getClientTelNumber() {
 		return clientTelNumber;
 	}
-	public void setClientTelNumber(int clientTelNumber) {
+	public void setClientTelNumber(String clientTelNumber) {
 		this.clientTelNumber = clientTelNumber;
 	}
-	public int getClientFaxNumber() {
+	public String getClientFaxNumber() {
 		return clientFaxNumber;
 	}
-	public void setClientFaxNumber(int clientFaxNumber) {
+	public void setClientFaxNumber(String clientFaxNumber) {
 		this.clientFaxNumber = clientFaxNumber;
 	}
 	public String getClientBusinessType() {
@@ -118,5 +120,9 @@ public class ClientDTO {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	
+	
+	
 	
 }

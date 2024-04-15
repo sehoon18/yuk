@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/assets/images/favicon.svg" type="image/x-icon">
 <style>
 .color:hover {
-	background-color: lightgray;
+	background-color: #e4e8ff;
 }
 
 .table-container {
