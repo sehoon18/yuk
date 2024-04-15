@@ -297,6 +297,13 @@ public class ProductionController {
 		String username = authentication.getName();
 		productionDTO.setName(username);
 		
+//		List<ProductDTO> reqList = productionService.getReq(productionDTO);
+//		int insVol = productionDTO.getInsVol();
+		
+//		for(int i = 0; i < reqList.size(); i++) {
+//			reqList[i].getReq();
+//		}
+		
 		// 작업지시 입력
 		productionService.insertInstruction(productionDTO);
 		

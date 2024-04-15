@@ -76,7 +76,7 @@
                                    <div class="col-md-14 col-13">
                                         <div class="form-group">
                                             <label for="email-id-column">단가</label>
-                                            <input type="text" id="pro_price" class="form-control" name="pro_price"  placeholder="PRO_PRICE" value="${ordercontractDTO.pro_price}">
+                                            <input type="text" id="pro_price" class="form-control" name="pro_price"  disabled placeholder="PRO_PRICE" value="${ordercontractDTO.pro_price}">
                                         </div>
                                     </div>
                                  

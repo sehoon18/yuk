@@ -202,7 +202,7 @@
 	
 	<script>
 	function requiredInsertPopUp1(){
-		window.open("${pageContext.request.contextPath}/product/requiredInsertPopUp1" , "이름1" , "width=1300px, height=700px , left=100px; , top=100px;");
+		window.open("${pageContext.request.contextPath}/popup/contractpop2" , "이름1" , "width=1300px, height=700px , left=100px; , top=100px;");
 	}
 	function receiveReq1(productCode,productName){
 		document.getElementById("productCode").value = productCode;
@@ -212,7 +212,7 @@
 	
 	<script>
 	function requiredInsertPopUp2(){
-		window.open("${pageContext.request.contextPath}/product/requiredInsertPopUp2" , "이름2" , "width=1300px, height=700px , left=100px; , top=100px;");
+		window.open("${pageContext.request.contextPath}/popup/orderpop2" , "이름2" , "width=1300px, height=700px , left=100px; , top=100px;");
 	}
 	function receiveReq2(productCode,productName,productType){
 		document.getElementById("productCode1").value = productCode;
