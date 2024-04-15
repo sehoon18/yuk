@@ -19,8 +19,10 @@
     <link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/assets/images/favicon.svg" type="image/x-icon">
     
 <!--    처리 버튼 Swal css  -->
-	<link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
-	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+<!-- 	<link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet"> -->
+<!-- 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script> -->
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
     
 <!--    DatePicker를 위한 css -->
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />  
@@ -434,7 +436,9 @@
         success: function(response) {
         	Swal.fire({
 				title: "입고처리 완료!",
-				icon: "success" 
+				background: "#fff",
+				confirmButtonText: '확인',
+				icon: "success"
 			}).then(() => {
                 location.reload(); // 페이지 새로고침
             });
@@ -443,6 +447,8 @@
         	Swal.fire({
    				title: "입고처리 불가!",
    				text: "　창고 최대 보유량 초과",
+				background: "#fff",
+				confirmButtonText: '확인',
    				icon: "error"
    			})
         }
@@ -480,7 +486,9 @@
     success: function(response) {
     	Swal.fire({
 				title: "입고처리 완료!",
-				icon: "success" 
+				icon: "success", 
+				confirmButtonText: '확인',
+				background: "#fff"
 		}).then(() => {
             location.reload(); // 페이지 새로고침
         });
@@ -489,7 +497,9 @@
     	Swal.fire({
 				title: "입고처리 불가!",
    				text: "　창고 최대 보유량 초과",
-   				icon: "error"
+   				icon: "error",
+   				confirmButtonText: '확인',
+   				background: "#fff"
 			})
     }
   });
