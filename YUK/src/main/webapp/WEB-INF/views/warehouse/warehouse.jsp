@@ -25,8 +25,6 @@
 	.color:hover{
 		background-color: #e4e8ff;
 	}
-	
-	
 </style>    
 </head>
 <body>
@@ -101,7 +99,7 @@
               </c:forEach>
             </tbody>
           </table>
-          
+           </form>
           
           <!-- 			페이징 시작 -->
 <nav aria-label="Page navigation example" style="padding: 10px 0px;">
@@ -134,104 +132,13 @@
     </ul>
 </nav>
 <!-- 			페이징 끝 -->
-          
-          
-          
-          
-           <!-- 			페이징 시작 -->
-<!-- <nav aria-label="Page navigation example"> -->
-
-<!-- 	<ul class="pagination pagination-primary justify-content-end"> -->
-	
-<%-- 	<c:if test="${pageDTO.startPage > 1}"> --%>
-<!-- 		<li class="page-tiem"> -->
-<%-- 			<a class="page-link" href="${pageContext.request.contextPath}/warehouse/warehouse?pageNum=${pageDTO.startPage - 1} --%>
-<%-- 			&warehouseCode=${pageDTO.warehouseCode}&warehouseName=${pageDTO.warehouseName}&warehouseLocal=${pageDTO.warehouseLocal}"> --%>
-<!-- 			<span aria-hidden="true"> -->
-<!-- 				<i data-feather="chevron-left"></i></span></a> -->
-<!-- 		</li> -->
-<%-- 	</c:if> --%>
-	
-<%-- 	<c:if test="${pageDTO.startPage <= 1}"> --%>
-<!-- 		<li class="page-item disabled"> -->
-<!-- 			<a class="page-link" href="#" tabindex="-1" aria-disabled="true"> -->
-<!-- 			<span aria-hidden="true"> -->
-<!-- 				<i data-feather="chevron-left"></i></span></a> -->
-<!--         </li> -->
-<%--     </c:if> --%>
-
-<%-- 	<c:forEach var="i" begin="${pageDTO.startPage}" end="${pageDTO.endPage}" step="1"> --%>
-<%-- 		<li class="page-item ${pageDTO.currentPage == i ? 'active' : ''}"> --%>
-<%-- 			<a class="page-link" href="${pageContext.request.contextPath}/warehouse/warehouse?pageNum=${i} --%>
-<%-- 			&warehouseCode=${pageDTO.warehouseCode}&warehouseName=${pageDTO.warehouseName}&warehouseLocal=${pageDTO.warehouseLocal}">${i}</a> --%>
-<!-- 		</li> -->
-<%-- 	</c:forEach> --%>
-
-<%-- 	<c:if test="${pageDTO.endPage < pageDTO.pageCount}"> --%>
-<!-- 		<li class="page-item"> -->
-<%-- 			<a class="page-link" href="${pageContext.request.contextPath}/warehouse/warehouse?pageNum=${pageDTO.endPage + 1} --%>
-<%-- 			&warehouseCode=${pageDTO.warehouseCode}&warehouseName=${pageDTO.warehouseName}&warehouseLocal=${pageDTO.warehouseLocal}"> --%>
-<!-- 			<span aria-hidden="true"> -->
-<!-- 				<i data-feather="chevron-right"></i></span></a> -->
-<!-- 		</li> -->
-<%-- 	</c:if> --%>
-	
-<%--     <c:if test="${pageDTO.endPage >= pageDTO.pageCount}"> --%>
-<!-- 		<li class="page-item disabled"> -->
-<!-- 			<a class="page-link" href="#"> -->
-<!-- 			<span aria-hidden="true"> -->
-<!-- 				<i data-feather="chevron-right"></i></span></a> -->
-<!-- 		</li> -->
-<%--     </c:if> --%>
-	
-<!-- 	</ul> -->
-
-<!-- </nav> -->
-<!-- 			페이징 끝 -->  
-          
-          </form>
+   
         </div>
       </div>
     </div>
   </div>
 </div>
-<!-- Bordered table end -->
-    
-</div>    
 
-<!-- <nav aria-label="Page navigation example"> -->
-<!-- 	<ul class="pagination pagination-primary" style="justify-content:center;"> -->
-<!-- 		<li class="page-item"> -->
-<!-- 			<a class="page-link" href="#"> -->
-<!-- 		<span aria-hidden="true"><i data-feather="chevron-left"></i></span> -->
-<!-- 			</a> -->
-<!-- 		</li> -->
-<!-- 			<li class="page-item"><a class="page-link" href="">1</a></li> -->
-<!-- 			<li class="page-item active"><a class="page-link" href="">2</a></li> -->
-<!-- 			<li class="page-item"><a class="page-link" href="">3</a></li> -->
-<!-- 			<li class="page-item"><a class="page-link" href=""> -->
-<!-- 		<span aria-hidden="true"><i data-feather="chevron-right"></i></span> -->
-<!-- 			</a> -->
-<!-- 		</li> -->
-<!-- 	</ul> -->
-<!-- </nav> -->
-
-
-<!-- <nav aria-label="Page navigation example" style="margin-bottom:50px;" > -->
-<!--   <ul class="pagination justify-content-center"> -->
-<%--   <c:if test="${pageDTO.startPage > pageDTO.pageBlock }"> --%>
-<%--     <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/admin/qna?pageNum=${pageDTO.startPage - pageDTO.pageBlock}">Previous</a></li> --%>
-<%--   </c:if> --%>
-  
-<%--   <c:forEach var="i" begin="${pageDTO.startPage }" end="${pageDTO.endPage }" step="1"> --%>
-<%--     <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/admin/qna?pageNum=${i}">${i }</a></li> --%>
-<%--   </c:forEach> --%>
-  
-<%--   <c:if test="${pageDTO.endPage < pageDTO.pageCount }"> --%>
-<%--     <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/admin/qna?pageNum=${pageDTO.startPage + pageDTO.pageBlock}">Next</a></li> --%>
-<%--   </c:if>   --%>
-<!--   </ul> -->
-<!-- </nav> -->
     <script src="${pageContext.request.contextPath}/resources/assets/js/feather-icons/feather.min.js"></script>
     <script src="${pageContext.request.contextPath}/resources/assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
     <script src="${pageContext.request.contextPath}/resources/assets/js/app.js"></script>
@@ -318,6 +225,7 @@
                 input = document.createElement("input");
                 input.type = "text";
                 input.className = "form-control";
+                
             } else if(field === '${_csrf.parameterName}'){
                 input = document.createElement("input");
                 input.type = "hidden";
@@ -553,6 +461,7 @@
                 input.name = '${_csrf.parameterName}';
                 input.className = 'form-control';
                 input.value = '${_csrf.token}';
+                cell.appendChild(input);
                 cell.style.display='none';
             }
         });

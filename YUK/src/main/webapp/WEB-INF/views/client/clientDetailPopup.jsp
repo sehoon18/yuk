@@ -101,7 +101,7 @@
                                     <div class="col-md-6 col-12">
                                         <div class="form-group">
                                             <label for="email-id-column">주소*</label>
-                                            <input type="text" id="clientBasicAddress" class="form-control" name="clientBasicAddress" value="${clientDList[0].clientBasicAddress }" disabled>
+                                            <input type="text" id="clientBasicAddress" class="form-control" name="clientBasicAddress" value="${clientDList[0].clientBasicAddress }" disabled onclick="sample5_execDaumPostcode()">
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-12">
@@ -125,18 +125,18 @@
                             
                              
 							<div class="col-12 d-flex justify-content-center">
-							    <sec:authorize access="hasAnyRole('ROLE_BOUND', 'ROLE_ADMIN')">
+							    <sec:authorize access="hasAnyRole('ROLE_ADMIN')">
 							    <button type="button"class="btn btn-primary mr-1 mb-1" onclick="enableInputs()">수정</button>&nbsp;&nbsp;&nbsp;&nbsp;
 							    </sec:authorize>
-							    <sec:authorize access="hasAnyRole('ROLE_PRODUCT', 'ROLE_PRODUCTION', 'ROLE_OC', 'ROLE_NONE')">
+							    <sec:authorize access="hasAnyRole('ROLE_BOUND', 'ROLE_PRODUCT', 'ROLE_PRODUCTION', 'ROLE_OC', 'ROLE_NONE')">
 								<button type="button"class="btn btn-primary mr-1 mb-1" onclick="accessError()">수정</button>
 								</sec:authorize>
 							    &nbsp;&nbsp;&nbsp;&nbsp;
 							    
-							    <sec:authorize access="hasAnyRole('ROLE_BOUND', 'ROLE_ADMIN')">
+							    <sec:authorize access="hasAnyRole('ROLE_ADMIN')">
 							    <button type="button"class="btn btn-primary mr-1 mb-1" onclick="deleteClient()">삭제</button>        
 								</sec:authorize>
-								<sec:authorize access="hasAnyRole('ROLE_PRODUCT', 'ROLE_PRODUCTION', 'ROLE_OC', 'ROLE_NONE')">
+								<sec:authorize access="hasAnyRole('ROLE_BOUND', 'ROLE_PRODUCT', 'ROLE_PRODUCTION', 'ROLE_OC', 'ROLE_NONE')">
 								<button type="button"class="btn btn-primary mr-1 mb-1" onclick="accessError()">삭제</button>
 								</sec:authorize>
 							    &nbsp;&nbsp;&nbsp;&nbsp;
@@ -155,6 +155,36 @@
     <script src="${pageContext.request.contextPath}/resources/assets/js/app.js"></script>
     
     <script src="${pageContext.request.contextPath}/resources/assets/js/main.js"></script>
+
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+
+function sample5_execDaumPostcode() {
+ new daum.Postcode({
+     oncomplete: function(data) {
+         var addr = data.address; // 최종 주소 변수
+
+         // 주소 정보를 해당 필드에 넣는다.
+         document.getElementById("clientBasicAddress").value = addr;
+     }
+ }).open();
+}
+
+//주소 입력 여부 확인 함수
+function checkAddressInput(address) {
+ // 예시: 주소가 비어있는지 확인
+ if (address.trim() === "") {
+     // 주소가 비어있으면 에러 메시지 표시 및 가입 불가능하도록 설정
+     $('#addressError').css('color', 'red');
+     $('#addressError').text('주소를 입력해주세요.');
+     $('#signUpButton').prop('disabled', true);
+ } else {
+     // 주소가 입력되었으면 에러 메시지 초기화 및 가입 가능하도록 설정
+     $('#addressError').text('');
+     $('#signUpButton').prop('disabled', false);
+ }
+}
+</script>
 	
 	<script>
     //권한 없을 시
@@ -333,7 +363,7 @@ function deleteClient() {
 
 
 <script>
-<script>
+
 function toggleInputs() {
     var selectedClientType = document.querySelector('input[name="clientType"]:checked').value;
 
@@ -351,7 +381,6 @@ function toggleInputs() {
 }
 // 페이지 로딩 시 호출하여 초기 상태 설정
 toggleInputs();
-</script>
-</script>		
+</script>	
 </body>
 </html>

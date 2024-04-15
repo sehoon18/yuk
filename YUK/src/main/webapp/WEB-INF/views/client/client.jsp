@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -61,10 +62,10 @@
         <!-- table bordered -->
         <div class="table-responsive">
         <div style="text-align: right; margin-right:30px;">
-<sec:authorize access="hasAnyRole('ROLE_BOUND', 'ROLE_ADMIN')">        
+<sec:authorize access="hasAnyRole('ROLE_ADMIN')">        
 <button class="btn btn-primary btn-sm" type="button" onclick="clientAddPopup()">등록</button>
 </sec:authorize>
-<sec:authorize access="hasAnyRole('ROLE_PRODUCT', 'ROLE_PRODUCTION', 'ROLE_OC', 'ROLE_NONE')">
+<sec:authorize access="hasAnyRole('ROLE_BOUND', 'ROLE_PRODUCT', 'ROLE_PRODUCTION', 'ROLE_OC', 'ROLE_NONE')">
 <button class="btn btn-primary btn-sm" type="button" onclick="accessError()">등록</button>
 </sec:authorize>       					
 </div>
