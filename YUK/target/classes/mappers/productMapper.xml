@@ -63,9 +63,9 @@
 
 <select id="getRequiredCount" resultType="java.lang.Integer">
 	select count(*)
-	from PRODUCT p1 join REQUIRED r 
+	from REQUIRED r LefT join PRODUCT p1 
 	on p1.PRO_CD = r.PP_CD 
-	join PRODUCT p2
+	LefT join PRODUCT p2
 	on r.MP_CD = p2.PRO_CD
 	<where>
 	<if test="search1 != '' and search1 != null"  >
@@ -83,9 +83,9 @@
 
 <select id="getRequiredList" resultType="com.itwillbs.domain.ProductDTO">
 	select r.REQ_CD "requiredCode",p1.PRO_CD "productCode",p1.PRO_NAME "productName",r.MP_CD "materialProductCode",p2.PRO_NAME "productPName",p2.PRO_TYPE "productType",r.REQ_VOL "requiredVol"
-	from PRODUCT p1 join REQUIRED r 
+	from REQUIRED r  LefT join PRODUCT p1 
 	on p1.PRO_CD = r.PP_CD 
-	join PRODUCT p2
+	LefT join PRODUCT p2
 	on r.MP_CD = p2.PRO_CD
 	<where>
 	<if test="search1 != '' and search1 != null"  >

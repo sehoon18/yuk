@@ -267,7 +267,7 @@ public class PopupController {
 	public String contractpop2(Model model,OrdercontractDTO ordercontractDTO ,PageDTO pageDTO,HttpServletRequest request) {
 		System.out.println("PopupController contractpop2()");
 		
-		int pageSize = 10;
+		int pageSize = 5;
 		String pageNum = request.getParameter("pageNum");
 		if(pageNum == null) {
 			pageNum="1";
@@ -299,6 +299,8 @@ public class PopupController {
 		
 		model.addAttribute("contractList2", contractList2);
 		model.addAttribute("pageDTO", pageDTO);
+		System.out.println(contractList2);
+		System.out.println(pageDTO);
 		return "popup/contractpop2";
 	}
 	@GetMapping("/ordclientpop")
