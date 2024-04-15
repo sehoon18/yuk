@@ -71,4 +71,5 @@ public class MemberService {
 		return memberDAO.getMemberCount(pageDTO);
 	}
 
+
 }

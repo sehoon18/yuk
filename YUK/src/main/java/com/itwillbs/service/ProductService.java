@@ -17,10 +17,24 @@ public class ProductService {
 	ProductDAO productDAO;
 
 	public List<ProductDTO> getProductList(PageDTO pageDTO) {
+		
+		int startRow = (pageDTO.getCurrentPage() - 1) * pageDTO.getPageSize() + 1;
+		int endRow = startRow + pageDTO.getPageSize() - 1;
+		
+		pageDTO.setStartRow(startRow -1);
+		pageDTO.setEndRow(endRow);
+		
 		return productDAO.getProductList(pageDTO);
 	}
 
 	public List<ProductDTO> getRequiredList(PageDTO pageDTO) {
+		
+		int startRow = (pageDTO.getCurrentPage() - 1) * pageDTO.getPageSize() + 1;
+		int EndRow = startRow + pageDTO.getPageSize() - 1;
+		
+		pageDTO.setStartRow(startRow -1);
+		pageDTO.setEndRow(EndRow);
+		
 		return productDAO.getRequiredList(pageDTO);
 	}
 

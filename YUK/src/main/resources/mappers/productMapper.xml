@@ -16,9 +16,11 @@
 	<if test="search2 != '' and search2 != null ">
 	and PRO_NAME like concat('%', #{search2}, '%')
 	</if>
+	<if test="select1 != 100 and select1 != '' and select1 != null">
 	<if test="select1 == 0">and PRO_TYPE = 0</if>
 	<if test="select1 == 1">and PRO_TYPE = 1</if>
 	<if test="select1 == 2">and PRO_TYPE = 2</if>
+	</if>
 	</where>
 	order by p.PRO_CD desc
     limit #{startRow}, #{pageSize}
@@ -33,6 +35,11 @@
 	</if>
 	<if test="search2 != '' and search2 != null ">
 	and PRO_NAME like concat('%', #{search2}, '%')
+	</if>
+	<if test="select1 != 100 and select1 != '' and select1 != null">
+	<if test="select1 == 0">and PRO_TYPE = 0</if>
+	<if test="select1 == 1">and PRO_TYPE = 1</if>
+	<if test="select1 == 2">and PRO_TYPE = 2</if>
 	</if>
 	</where>
 </select>
@@ -67,6 +74,10 @@
 	<if test="search2 != '' and search2 != null ">
 	and p1.PRO_NAME like concat('%', #{search2}, '%')
 	</if>
+	<if test="select1 != 100 and select1 != '' and select1 != null">
+	<if test="select1 == 1">and p2.PRO_TYPE = 1</if>
+	<if test="select1 == 2">and p2.PRO_TYPE = 2</if>
+	</if>
 	</where>
 </select>
 
@@ -83,8 +94,10 @@
 	<if test="search2 != '' and search2 != null ">
 	and p1.PRO_NAME like concat('%', #{search2}, '%')
 	</if>
+	<if test="select1 != 100 and select1 != '' and select1 != null">
 	<if test="select1 == 1">and p2.PRO_TYPE = 1</if>
 	<if test="select1 == 2">and p2.PRO_TYPE = 2</if>
+	</if>
 	</where>
 	order by REQ_CD desc
     limit #{startRow}, #{pageSize}
