@@ -136,7 +136,7 @@ public class OrdercontractController {
 		ordercontractDTO.setOrd_date(today);
 //		ordercontractDTO.setUser_id("hong123");
 		String username = authentication.getName();
-		ordercontractDTO.setUser_id(username);	
+		ordercontractDTO.setUser_name(username);	
 		ordercontractService.insertOrder(ordercontractDTO);
 		ordercontractService.insertMib(ordercontractDTO);
 		System.out.println(ordercontractDTO);
@@ -153,7 +153,7 @@ public class OrdercontractController {
 		ordercontractDTO.setCon_date(today);
 //		ordercontractDTO.setUser_id("hong123");
 		String username = authentication.getName();
-		ordercontractDTO.setUser_id(username);
+		ordercontractDTO.setUser_name(username);
 		ordercontractService.insertContract(ordercontractDTO);
 		ordercontractService.insertOb(ordercontractDTO);
 		System.out.println(ordercontractDTO);
@@ -170,7 +170,7 @@ public class OrdercontractController {
 		ordercontractDTO.setOrd_date(today);
 //		ordercontractDTO.setUser_id("hong123");
 		String username = authentication.getName();
-		ordercontractDTO.setUser_id(username);
+		ordercontractDTO.setUser_name(username);
 		ordercontractDTO.getOrd_cd();
 		ordercontractService.updateOrder(ordercontractDTO);
 		System.out.println(ordercontractDTO);
@@ -187,7 +187,7 @@ public class OrdercontractController {
 		ordercontractDTO.setCon_date(today);
 //		ordercontractDTO.setUser_id("hong123");
 		String username = authentication.getName();
-		ordercontractDTO.setUser_id(username);
+		ordercontractDTO.setUser_name(username);
 		ordercontractService.updateContract(ordercontractDTO);
 		System.out.println(ordercontractDTO);
 		
