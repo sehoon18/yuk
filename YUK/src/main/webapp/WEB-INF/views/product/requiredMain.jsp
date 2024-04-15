@@ -285,7 +285,7 @@ function addTableRow() {
            input.id = "productType";
            input.name = "productType";
       	   input.className = "form-control";
-           input.readOnly = true; // 입력 필드를 읽기 전용으로 설정
+           input.disabled = true; // 입력 필드를 읽기 전용으로 설정
        }else if(field === 'requiredVol'){
            input = document.createElement("input");
             input.type = "text";
@@ -613,5 +613,23 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 	
+<script>
+function accessError() {
+ Swal.fire({
+	  title: "권한이 없습니다.",
+	  icon:"error",
+	  width: 600,
+	  padding: "3em",
+	  color: "#ff0000",
+	  background: "#fff",
+	  backdrop: `
+	    rgba(ff,ff,ff,0)
+	    left top
+	    no-repeat
+	  `
+	});
+}
+</script>
+
 </body>
 </html>

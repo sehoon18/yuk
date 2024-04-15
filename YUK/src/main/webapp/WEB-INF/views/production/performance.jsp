@@ -618,8 +618,8 @@
 	        if (isDelMode) {
 	            let target = e.target;
 	            Swal.fire({
-	                title: "수정 확인",
-	                text: "생산 실적을 수정하시겠습니까?",
+	                title: "삭제 확인",
+	                text: "생산 실적을 삭제하시겠습니까?",
 	                icon: "warning",
 	                showCancelButton: true,
 	                confirmButtonColor: "#3085d6",

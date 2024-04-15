@@ -58,15 +58,27 @@
 </div>
 
 <script>
-	function sendInsReq2(productCode,productName,productType){
+	function sendInsReq2(productCode, productName, productType){
+		// productType 값에 따라 다른 문자열 설정
+		var productTypeName;
+		if(productType == 1){
+			productTypeName = "식자재";
+		}else if(productType == 2){
+			productTypeName = "포장자재";
+		}else{
+			// 기타 경우의 기본값 설정 (선택적)
+			productTypeName = "기타";
+		}
 		
+		// 설정된 문자열을 해당 필드에 할당
 		window.opener.document.getElementById("productCode1").value = productCode;
 		window.opener.document.getElementById("productName2").value = productName;
-		window.opener.document.getElementById("productType").value = productType;
+		window.opener.document.getElementById("productType").value = productTypeName;
 		
 		window.close();
 	}
 </script>
+
 
 
 
