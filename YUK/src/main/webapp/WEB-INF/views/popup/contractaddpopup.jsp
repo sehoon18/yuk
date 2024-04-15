@@ -69,7 +69,7 @@
                                    <div class="col-md-15 col-1">
                                         <div class="form-group">
                                             <label for="email-id-column">단가</label>
-                                            <input type="text" id="pro_price" class="form-control" name="pro_price"  placeholder="PRO_PRICE">
+                                            <input type="text" id="pro_price" class="form-control" name="pro_price"  placeholder="PRO_PRICE" readonly>
                                         </div>
                                     </div>
                                    <div class="col-md-15 col-1">
@@ -90,7 +90,7 @@
                             
 								<input type="hidden" id="csrf" class="form-control" name="${_csrf.parameterName}" value="${_csrf.token}" ><div class="col-12 d-flex justify-content-end">
 							    <button type="submit" class="btn btn-primary mr-1 mb-1" >등록</button>
-							    <button type="reset" class="btn btn-light-secondary mr-1 mb-1">초기화</button>
+							    <button type="reset" class="btn btn-primary mr-1 mb-1">초기화</button>
 							</div>
 						</form>
                         </div>

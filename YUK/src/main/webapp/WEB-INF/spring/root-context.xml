@@ -9,13 +9,13 @@
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 	<property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
 	<!--       											홈페이지	      db 선택 				   -->
-	<property name="url" value="jdbc:mysql://itwillbs.com/c1d2310t1_2?serverTimezone=Asia/Seoul"/>
-<!-- 	<property name="url" value="jdbc:mysql://itwillbs-rds-class1-team1.cwyqfeylunq5.ap-northeast-2.rds.amazonaws.com/c1d2310t1_2"/> -->
+<!-- 	<property name="url" value="jdbc:mysql://itwillbs.com/c1d2310t1_2?serverTimezone=Asia/Seoul"/> -->
+	<property name="url" value="jdbc:mysql://itwillbs-rds-class1-team1.cwyqfeylunq5.ap-northeast-2.rds.amazonaws.com/c1d2310t1_2"/>
 	<!--       									이름 변경  -->
-	<property name="username" value="c1d2310t1"/>
-	<property name="password" value="1234"/>
-<!-- 	<property name="username" value="root"/> -->
-<!-- 	<property name="password" value="class11025"/> -->
+<!-- 	<property name="username" value="c1d2310t1"/> -->
+<!-- 	<property name="password" value="1234"/> -->
+	<property name="username" value="root"/>
+	<property name="password" value="class11025"/>
 	</bean>
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 	<property name="dataSource" ref="dataSource"/>
