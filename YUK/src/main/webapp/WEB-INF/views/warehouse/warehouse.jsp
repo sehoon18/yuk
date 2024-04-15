@@ -507,9 +507,10 @@ document.addEventListener('DOMContentLoaded', function() {
                         .then(response => {
                             if(response.ok) {
                                 tbody.removeChild(target); // 서버에서 성공적으로 처리되면 행 삭제
-                                Swal.fire(
-                                    "삭제완료!"
-                                );
+                                Swal.fire({
+                                    title:"삭제완료!",
+                	                confirmButtonText: '확인'
+                                });
                                 isDelMode = true; // 삭제 모드 비활성화
                             } else {
                                 // 서버 처리 실패 시
@@ -517,7 +518,8 @@ document.addEventListener('DOMContentLoaded', function() {
                                     icon:"error",
                                     width: 520,
                                      title:"에러발생!",
-                                     text:"현재 보유량이 존재하는 창고는 삭제가 불가능합니다."
+                                     text:"현재 보유량이 존재하는 창고는 삭제가 불가능합니다.",
+                 	                confirmButtonText: '확인'
                                  });
                             }
                         })
@@ -538,6 +540,7 @@ function delTableRow() {
     Swal.fire({
   	  title: "삭제할 행을 선택해주세요.",
   	  width: 600,
+      confirmButtonText: '확인',
   	  padding: "3em",
   	  color: "#00ff0000",
   	  background: "#fff",
