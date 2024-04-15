@@ -192,10 +192,17 @@
 	                xhr.setRequestHeader(header, token);
 	            },
 	            success: function(response) {
-	                alert("등록 성공!");
-	                console.log(response);
-	                window.opener.location.reload();
-	                window.close();
+	                Swal.fire({
+	                    icon: 'success',
+	                    title: '수정 성공!',
+	                    text: '데이터가 성공적으로 수정되었습니다.',
+	                    confirmButtonText: '확인'
+	                }).then((result) => {
+	                    if (result.value) {
+	                        window.opener.location.reload(); // 부모 창 새로고침
+	                        window.close(); // 팝업 창 닫기
+	                    }
+	                });
 	            },
 	            error: function(xhr, status, error) {
 	                alert("등록 실패: " + error); // 에러 처리 부분
